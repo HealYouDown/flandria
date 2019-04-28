@@ -4,7 +4,7 @@ Flandria is a fansite for the Fantasy MMORPG Florensia.
 
 ### Stack
 
-Flandria uses Flask as backend and the build in render engine Jinja2.
+Flandria uses Flask as backend and the build-in render engine Jinja2.
 Jquery and Boostrap is also used.
 
 ### Installation
@@ -20,8 +20,9 @@ $ pip install -r requirements.txt
 
 ### Todos
 
- - TESTS!
+ - TESTS! (Really, I fucking need tests)
 
 ### Development
 
-For reasons, the databases are not included in the repo. If you want to test the site locally, you can copy the databases from ```flandria/demo/``` in the root directory.
+If you want to contribute, you can copy the databases from ```flandria/demo/``` in the root directory. The databases include all items, however, no drops and obviously no user data. :)
+Feel free to create pull requests. 
