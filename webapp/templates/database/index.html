@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/card.css')}}">
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <div class="card">
+            <h5 class="card-header">{{_("Weapons")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./cariad" class="list-group-item list-group-item-action">
+                    {{_("Cariads")}}
+                </a>
+                <a href="./rapier" class="list-group-item list-group-item-action">
+                    {{_("Rapiers")}}
+                </a>
+                <a href="./dagger" class="list-group-item list-group-item-action">
+                    {{_("Daggers")}}
+                </a>
+                <a href="./one_handed_sword" class="list-group-item list-group-item-action">
+                    {{_("One-handed Swords")}}
+                </a>
+                <a href="./two_handed_sword" class="list-group-item list-group-item-action">
+                    {{_("Two-handed Swords")}}
+                </a>
+                <a href="./shield" class="list-group-item list-group-item-action">
+                    {{_("Shields")}}
+                </a>
+                <a href="./rifle" class="list-group-item list-group-item-action">
+                    {{_("Rifles")}}
+                </a>
+                <a href="./duals" class="list-group-item list-group-item-action">
+                    {{_("Dual Guns")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Armor")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./coat" class="list-group-item list-group-item-action">
+                    {{_("Coats")}}
+                </a>
+                <a href="./pants" class="list-group-item list-group-item-action">
+                    {{_("Pants")}}
+                </a>
+                <a href="./gauntlet" class="list-group-item list-group-item-action">
+                    {{_("Gauntlets")}}
+                </a>
+                <a href="./shoes" class="list-group-item list-group-item-action">
+                    {{_("Shoes")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Quests")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./quest_scroll" class="list-group-item list-group-item-action">
+                    {{_("Quest scrolls")}}
+                </a>
+                <a href="./quest_item" class="list-group-item list-group-item-action">
+                    {{_("Quest items")}}
+                </a>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card">
+            <h5 class="card-header">{{_("Extra Equipment")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./hat" class="list-group-item list-group-item-action">
+                    {{_("Hats")}}
+                </a>
+                <a href="./dress" class="list-group-item list-group-item-action">
+                    {{_("Dresses")}}
+                </a>
+                <a href="./accessory" class="list-group-item list-group-item-action">
+                    {{_("Accessories")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Crafting")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./recipe" class="list-group-item list-group-item-action">
+                    {{_("Recipes")}}
+                </a>
+                <a href="./material" class="list-group-item list-group-item-action">
+                    {{_("Materials")}}
+                </a>
+                <a href="./product_book" class="list-group-item list-group-item-action">
+                    {{_("Second Job")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Ship")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./shell" class="list-group-item list-group-item-action">
+                    {{_("Shells")}}
+                </a>
+                <a href="./ship_anchor" class="list-group-item list-group-item-action">
+                    {{_("Anchors")}}
+                </a>
+                <a href="./ship_body" class="list-group-item list-group-item-action">
+                    {{_("Bodies")}}
+                </a>
+                <a href="./ship_figure" class="list-group-item list-group-item-action">
+                    {{_("Figures")}}
+                </a>
+                <a href="./ship_head_mast" class="list-group-item list-group-item-action">
+                    {{_("Head Masts")}}
+                </a>
+                <a href="./ship_main_mast" class="list-group-item list-group-item-action">
+                    {{_("Main Masts")}}
+                </a>
+                <a href="./ship_magic_stone" class="list-group-item list-group-item-action">
+                    {{_(" Magic Stones")}}
+                </a>
+                <a href="./ship_front" class="list-group-item list-group-item-action">
+                    {{_("Fronts")}}
+                </a>
+                <a href="./ship_normal_weapon" class="list-group-item list-group-item-action">
+                    {{_("Normal weapons")}}
+                </a>
+                <a href="./ship_special_weapon" class="list-group-item list-group-item-action">
+                    {{_("Special weapons")}}
+                </a>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card">
+            <h5 class="card-header">{{_("Pets")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./pet_combine_help" class="list-group-item list-group-item-action">
+                    {{_("Combine Help Item")}}
+                </a>
+                <a href="./pet_combine_stone" class="list-group-item list-group-item-action">
+                    {{_("Combine Stone Item")}}
+                </a>
+                <a href="./pet_skill_stone" class="list-group-item list-group-item-action">
+                    {{_("Pet skills")}}
+                </a>
+                <a href="./pet" class="list-group-item list-group-item-action">
+                    {{_("Pets")}}
+                </a>
+                <a href="./riding_pet" class="list-group-item list-group-item-action">
+                    {{_("Riding Pets")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Enhancing")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./seal_break_help" class="list-group-item list-group-item-action">
+                    {{_("Seal Break Items")}}
+                </a>
+                <a href="./upgrade_help" class="list-group-item list-group-item-action">
+                    {{_("Upgrade Help Items")}}
+                </a>
+                <a href="./upgrade_crystal" class="list-group-item list-group-item-action">
+                    {{_("Upgrade Crystals")}}
+                </a>
+                <a href="./upgrade_stone" class="list-group-item list-group-item-action">
+                    {{_("Upgrade Stones")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Fishing")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./fishing_rod" class="list-group-item list-group-item-action">
+                    {{_("Fishing Rods")}}
+                </a>
+                <a href="./fishing_material" class="list-group-item list-group-item-action">
+                    {{_("Fishing Items")}}
+                </a>
+                <a href="./fishing_bait" class="list-group-item list-group-item-action">
+                    {{_("Fishing Baits")}}
+                </a>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header">{{_("Others")}}</h5>
+            <ul class="list-group list-group-flush">
+                <a href="./random_box" class="list-group-item list-group-item-action">
+                    {{_("Random Boxes")}}
+                </a>
+                <a href="./consumable" class="list-group-item list-group-item-action">
+                    {{_("Consumables")}}
+                </a>
+                <a href="./bullet" class="list-group-item list-group-item-action">
+                    {{_("Bullets")}}
+                </a>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

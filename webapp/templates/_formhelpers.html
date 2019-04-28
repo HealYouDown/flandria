@@ -1,0 +1,22 @@
+{% macro render_field(field, extra_text="") %}
+<dt>{{ field.label }} <span>{{ extra_text }}</span></dt>
+
+<dd>{{ field(**kwargs)|safe }}
+
+    {% if field.errors %}
+    <ul>
+        {% for error in field.errors %}
+        <li class="text-danger">{{ error }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+</dd>
+{% endmacro %}
+
+{% macro render_checkbox(field, id) %}
+<div class="form-group form-check">
+    <dt>{{ field(class="form-check-input", id=id, **kwargs)|safe }}</dt>
+    <dd>{{ field.label(class="form-check-label", for=id) }}</dd>
+</div>
+{% endmacro %}

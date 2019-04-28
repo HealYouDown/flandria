@@ -1,0 +1,19 @@
+{% extends "database/single_pages/base.html" %}
+
+{% from "database/_helpers.html" import render_basic_infos, render_dropped_by %}
+
+{% block content %}
+<div class="row">
+    
+    <div class="col-md-4">
+        {{render_basic_infos(data, quest_scroll=True)}}
+    </div>
+
+    {% if dropped_by %}
+    <div class="col-md">
+        {{render_dropped_by(dropped_by)}}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+<link rel="stylesheet" href="{{url_for('static', filename='css/namecolors.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/arrows.css')}}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/stats_upgrade.css')}}">
+
+{% extends "base.html" %}
+
+{% block meta %}
+<meta property="og:title" content="{{data.name}}">
+<meta property="og:description" content="Flandria - Your Florensia Fansite all around Florensia">
+{% if data.experience %} {# monster #}
+    <meta property="og:image" content="{{url_for('static', filename='img/monster_icons/' + data.icon)}}">
+{% elif data.icon is defined %}
+    <meta property="og:image" content="{{url_for('static', filename='img/item_icons/' + data.icon)}}">
+{% endif %}
+{% endblock %}

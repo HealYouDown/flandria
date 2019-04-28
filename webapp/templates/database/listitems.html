@@ -1,0 +1,122 @@
+{% from "_namehelpers.html" import render_item_name, render_monster_name %}
+
+<div class="list">
+
+    {% for item in data %}
+    <a class="flex-item" href="{{'/database/{0}/{1}'.format(table, item.code)}}">
+        <div class="item-inner">
+
+            {% set filters = options["filter_options"] %}
+
+            {% if filters %}
+                {% if filters.values()|any_item_contains("location") %}
+                <input hidden type="text" name="location" value="{{item.location}}">
+                {% endif %}
+
+                {% if filters.values()|any_item_contains("rating_type") %}
+                <input hidden type="text" name="rating_type" value="{{item.rating_type}}">
+                {% endif %}
+
+                {% if filters.values()|any_item_contains("class_land") %}
+                <input hidden type="text" name="class_land" value="{{item.class_land}}">
+                {% endif %}
+
+                {% if filters.values()|any_item_contains("class_sea") %}
+                <input hidden type="text" name="class_sea" value="{{item.class_sea}}">
+                {% endif %}
+            {% endif %}
+            
+            {% for sort_name, sort_value in options["sort_options"].items() %}
+                <input hidden type="text" name="{{sort_value}}" value="{{item[sort_value]}}">
+            {% endfor %}
+
+            {% if item.icon is defined %}
+                <div class="item-icon align-self-center">
+                    {% if item.location is defined %} {# only monsters have that attribute #}
+                    <img class="lozad" onerror="this.style.display='none'"
+                        data-src="{{url_for('static', filename='img/monster_icons/{0}'.format(item.icon))}}">
+                    {% elif item.target_code is defined %}
+                    <img class="lozad" onerror="this.style.display='none'"
+                        data-src="{{url_for('static', filename='img/item_icons/{0}'.format(item.target.result_item.icon))}}">
+                    {% else %}
+                    <img class="lozad" onerror="this.style.display='none'"
+                        data-src="{{url_for('static', filename='img/item_icons/{0}'.format(item.icon))}}">
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            <div class="item-info">
+                {# Name #}
+                {% if item.rating_type is defined %}
+                    {{ render_monster_name(item) }}
+                {% else %}
+                    {{ render_item_name(item) }}
+                {% endif %}
+
+                {# Subs #}
+                <div class="sub">
+                    {% for label, key in subs.items() %}
+                    {% if loop.index >= 2 %}
+                    <br>
+                    {% endif %}
+                    {% if not key|is_list %} {# probably not that good for speed if every item is tested #}
+                    {% if item[key] is defined %}
+                    <span>{{label}} <span class="key">{{item[key]}}</span></span>
+                    {% endif %}
+                    {% else %}
+                    {# only used for land_level (key-1) and sea_level (key-2) #}
+                    <span>{{label}} <span class="key-1">{{item[key[0]]}}</span>/<span
+                            class="key-2">{{item[key[1]]}}</span></span>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                {# Bonus stats #}
+                {% if item.bonus_code_1 is defined and item.bonus_code_1 != 4294967295 %}
+                <div class="bonus-stats" style="column-count: 2">
+                    {% for i in range(1, 6) %}
+
+                        {% set code = item["bonus_code_{0}".format(i)] %}
+
+                        {% if code != 4294967295 %}
+
+                            {# ship weapons have bonus stats == none #}
+                            {# not in first if statements because of speed! #}
+                            {% if BONUSCODES[code|string] == none %}
+                                {% continue %}
+                            {% endif %}
+
+                            {# linebreak #}
+                            {% if i != 1 %}
+                                <br>
+                            {% endif %}
+
+                            {% set operator = item["bonus_operator_{0}".format(i)] %}
+                            {% set value = item["bonus_{0}".format(i)] %}
+
+                            {% if operator == "+" %}
+                                {% if value < 0 %}
+                                    {{BONUSCODES[code|string]}}: {{value|int}}
+                                {% else %}
+                                    {{BONUSCODES[code|string]}}: +{{value|int}}
+                                {% endif %}
+                            {% elif operator == "*" %}
+                                {{BONUSCODES[code|string]}}: {{(value*100)|int}}%
+                            {% endif %}
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+            </div>
+
+            <div class="arrow-box">
+                <i class="arrow arrow-right"></i>
+            </div>
+    
+        </div>
+    </a>
+    {% endfor %}
+
+</div>

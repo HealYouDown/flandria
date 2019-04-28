@@ -1,0 +1,162 @@
+{% extends "database/single_pages/base.html" %}
+
+{% from "database/_helpers.html" import render_basic_infos, render_dropped_by, render_needed_for, render_produced_by %}
+
+{% block content %}
+
+{% if table == "ship_anchor" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Ship deceleration"), "ship_deceleration"),
+        (_("Ship turnpower "), "ship_turnpower"),
+        (_("Ship balance"), "balance"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ] 
+    %}
+
+{% elif table == "ship_body" %}
+    {# 
+    (_("Ship guns front"), "ship_guns_front"),
+    (_("Ship guns side"), "ship_guns_side"),
+    #}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Physical defense"), "physical_defense"),
+        (_("Protection"), "protection"),
+        (_("DP"), "ability_hp"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning")]
+    %}
+
+{% elif table == "ship_figure" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Protection"), "protection"),
+        (_("Balance"), "balance"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %}
+
+{% elif table == "ship_head_mast" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Ship wind favorable"), "ship_wind_favorable"),
+        (_("Ship wind adverse"), "ship_wind_adverse"),
+        (_("Ship turnpower"), "ship_turnpower"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %} 
+
+{% elif table == "ship_main_mast" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Ship wind favorable"), "ship_wind_favorable"),
+        (_("Ship wind adverse"), "ship_wind_adverse"),
+        (_("Ship acceleration"), "ship_acceleration"),
+        (_("Ship deceleration"), "ship_deceleration"),
+        (_("Ship turnpower"), "ship_turnpower"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %} 
+
+{% elif table == "ship_magic_stone" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("EN"), "ability_en"),
+        (_("EN recovery"), "ability_en_recovery"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %} 
+
+{% elif table == "ship_front" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Physical defense"), "physical_defense"),
+        (_("Protection"), "protection"),
+        (_("DP"), "ability_hp"),
+        (_("Balance"), "balance"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %} 
+
+{% elif table == "ship_normal_weapon" %} {# fucking disgusting table names.. TODO: Change #}
+    {# 
+        (_("Ship guns front"), "ship_guns_front"),
+        (_("Ship guns side"), "ship_guns_side"),
+        (_("Ship guns speed"), "ship_guns_speed"),
+    #}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Damage"), "ship_defense"),
+        (_("Critical"), "critical"),
+        (_("Canon range"), "str:{0}m".format(data.ship_range / 10)),
+        (_("Reloadspeed"), "ship_reloadspeed"),
+        (_("Guns range"), "str:{0}m".format(data.ship_hitrange / 10)),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %} 
+
+{% elif table == "ship_special_weapon" %}
+    {% set kws = [
+        (_("Class"), "class_sea"),
+        (_("Level"), "level_sea"),
+        (_("Damage"), "ship_defense"),
+        (_("Critical"), "critical"),
+        (_("Range"), "str:{0}m".format(data.ship_range / 10)),
+        (_("Reloadspeed"), "ship_reloadspeed"),
+        (_("EN usage"), "ability_en_usage"),
+        (_("Buy price"), "npc_price"),
+        (_("Sell price"), "npc_price_disposal"),
+        (_("Tuning price"), "npc_price_tuning"),
+        ]
+    %} 
+
+{% endif %}
+
+<div class="row">
+
+    <div class="col-md-4">
+        {{render_basic_infos(data, kws)}}
+    </div>
+
+    {% if dropped_by or needed_for_recipe_data or needed_for_second_job_data or produced_by_recipe_data or produced_by_second_job_data %}
+    <div class="col-md">
+        {% if dropped_by %}
+            {{render_dropped_by(dropped_by)}}
+        {% endif %}
+                
+        {% if needed_for_recipe_data or needed_for_second_job_data %}
+            {{render_needed_for(needed_for_recipe_data, needed_for_second_job_data)}}
+        {% endif %}
+
+        {% if produced_by_recipe_data or produced_by_second_job_data %}
+            {{render_produced_by(produced_by_recipe_data, produced_by_second_job_data)}}
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

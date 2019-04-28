@@ -1,0 +1,17 @@
+{% extends "database/single_pages/base.html" %}
+
+{% from "database/_helpers.html" import render_basic_infos %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md-4">
+        {{render_basic_infos(data, [
+            (_("Buy price"), "npc_price"),
+            ]
+            )}}
+    </div>
+
+</div>
+{% endblock %}

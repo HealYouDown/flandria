@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{{title}}</title>
+
+    <link rel="icon" href="{{url_for('static', filename='img/favicon.png')}}">
+
+    <meta name="description" content="Flandria - Your Florensia Fansite all around Florensia" />
+    <meta name="keywords" content="Florensia, Flandria, Florensia Droplist, Florensia Skillplanner, Skillplanner, Projekt Droplist, Flostats, Flandria Info, Florensia Fanseite, Florensia Fansite">
+    <meta name="google" content="notranslate"/>
+
+    {% block meta %}
+    <meta property="og:title" content="Flandria">
+    <meta property="og:description" content="Flandria - Your Florensia Fansite all around Florensia">
+    <meta property="og:image" content="{{url_for('static', filename='img/logo.png')}}">
+    {% endblock %}
+    
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <!--Base CSS-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/base.css')}}">
+    <!--Global CSS-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/global.css')}}">
+    <!--Overwritten Card CSS-->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/card.css')}}">
+    <!--Jquery-->
+    <script src="{{url_for('static', filename='js/jquery-3.4.0.min.js')}}"></script>
+    <!--Popper JS-->
+    <script src="{{url_for('static', filename='js/popper.js')}}"></script>
+    <!--Bootstrap JS-->
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <!--Font Awesome Icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+    <!--Cookies-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
+    <script>
+    window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+    "palette": {
+        "popup": {
+        "background": "#252e39"
+        },
+        "button": {
+        "background": "#14a7d0"
+        }
+    }
+    })});
+    </script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131501670-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-131501670-1');
+    </script>
+</head>
+<body>
+
+    <!--Navigation-->
+    <nav class="nav">
+
+        <div class="nav-icon">
+            <a href="{{url_for('home.index')}}">
+                 <img src="{{url_for('static', filename='img/logo.png')}}">
+            </a>
+        </div>
+
+        <div class="nav-right">
+
+            <ul class="nav-list">
+                {#<li class="nav-list-item">
+                    <a class="nav-list-item-link {{'active' if active_header == 'news' else ''}}" href="/news">{{_("News")}}</a>
+                </li>#}
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link {{'active' if active_header == 'monsters' else ''}}" href="/database/monster">{{_("Monsters")}}</a>
+                </li>
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link {{'active' if active_header == 'items' else ''}}" href="/database">{{_("Items")}}</a>
+                </li>
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link {{'active' if active_header == 'quests' else ''}}" href="/database/quest">{{_("Quest")}}</a>
+                </li>
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link nav-list-item-link-dropdown {{'active' if active_header == 'planner' else ''}}" href="#" onclick="return false;">{{_("Planner")}}</a>
+                    <div class="nav-dropdown-content">
+                        <ul>
+                            <li><a href="/planner/explorer">Explorer</a></li>
+                            <li><a href="/planner/saint">Saint</a></li>
+                            <li><a href="/planner/noble">Noble</a></li>
+                            <li><a href="/planner/mercenary">Mercenary</a></li>
+                            {#<li><a href="/planner/ship">Ship</a></li>#}
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link nav-list-item-link-dropdown {{'active' if active_header == 'social' else ''}}" href="#" onclick="return false;">{{_("Social")}}</a>
+                    <div class="nav-dropdown-content">
+                        <ul>
+                            <li><a target="_blank" href="https://discord.gg/G28TubX">{{_("Flandria Discord")}}</a></li>
+                            <li><a target="_blank" href="https://www.discord.gg/florensia">{{_("Florensia Discord")}}</a></li>
+                        </ul>
+                    </div>
+                </li>
+                {% if not current_user.is_authenticated %}
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link {{'active' if active_header == 'login' else ''}}" href="/auth/signin">{{_("Login")}}</a>
+                </li>
+                {% else %}
+                <li class="nav-list-item">
+                    <a class="nav-list-item-link nav-list-item-link-dropdown" href="#" onclick="return false;">{{current_user.username}}</a>
+                    <div class="nav-dropdown-content">
+                        <ul>
+                            <li><a href="/auth/my-builds">{{_("My builds")}}</a></li>
+                            <li><a href="/auth/logout">{{_("Logout")}}</a></li>
+                        </ul>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+
+            <span class="nav-overlay-toggler">
+                <button class="navbar-toggler navbar-button" type="button">
+                    <div class="animated-icon"><span></span><span></span><span></span><span></span></div>
+                </button>
+            </span>
+
+        </div>
+
+        <div class="nav-overlay-menu">
+            <ul class="nav-list-overlay">
+                {#<li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link {{'active' if active_header == 'news' else ''}}" href="/news">{{_("News")}}</a>
+                </li>#}
+                <li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link {{'active' if active_header == 'monsters' else ''}}" href="/database/monster">{{_("Monsters")}}</a>
+                </li>
+                <li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link {{'active' if active_header == 'items' else ''}}" href="/database">{{_("Items")}}</a>
+                </li>
+                <li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link {{'active' if active_header == 'quests' else ''}}" href="/database/quest">{{_("Quest")}}</a>
+                </li>
+                <li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link nav-list-overlay-item-link-dropdown {{'active' if active_header == 'planner' else ''}}" href="#" onclick="return false;">{{_("Planner")}}</a>
+                    <div class="nav-overlay-dropdown-content">
+                        <ul>
+                            <li><a href="/planner/explorer">Explorer</a></li>
+                            <li><a href="/planner/saint">Saint</a></li>
+                            <li><a href="/planner/noble">Noble</a></li>
+                            <li><a href="/planner/mercenary">Mercenary</a></li>
+                            {#<li><a href="/planner/ship">Ship</a></li>#}
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link nav-list-overlay-item-link-dropdown {{'active' if active_header == 'social' else ''}}" href="#" onclick="return false;">{{_("Social")}}</a>
+                    <div class="nav-overlay-dropdown-content">
+                        <ul>
+                            <li><a target="_blank" href="https://discord.gg/G28TubX">{{_("Flandria Discord")}}</a></li>
+                            <li><a target="_blank" href="https://discord.gg/florensia">{{_("Florensia Discord")}}</a></li>
+                        </ul>
+                    </div>
+                </li>
+                {% if not current_user.is_authenticated %}
+                <li class="nav-list-overlay-item">
+                    <a class="nav-list-overlay-item-link {{'active' if active_header == 'login' else ''}}" href="/auth/signin">{{_("Login")}}</a>
+                </li>
+                {% else %}
+                <li class="nav-list-item">
+                    <a class="nav-list-overlay-item-link nav-list-overlay-item-link-dropdown" href="#" onclick="return false;">{{current_user.username}}</a>
+                    <div class="nav-overlay-dropdown-content">
+                        <ul>
+                            <li><a href="/auth/my-builds">{{_("My builds")}}</a></li>
+                            <li><a href="/auth/logout">{{_("Logout")}}</a></li>
+                        </ul>
+                    </div>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="nav-dropdown-background"></div>
+        <div class="nav-dropdown-background-reset"></div>
+
+    </nav>
+
+    <!--Main content-->
+    <div class="container-fluid">{% block content %}{% endblock %}</div>
+
+    <!--Footer-->
+    <footer class="footer">
+        <div class="footer-copyright text-center text-white-50 py-3">© 2019 Copyright:
+            <a href="https://www.flandria.info"> Flandria.info</a>
+        </div>
+    </footer>
+
+    <!--Background-->
+    <div class="background"style="
+        {% if background is defined %}
+            background-image: url({{url_for('static', filename='img/backgrounds/{0}'.format(background))}})
+        {% else %}
+            background-image: url({{url_for('static', filename='img/backgrounds/background-image.jpeg')}})
+        {% endif %}
+        ">
+        <div class="background-cover"></div>
+    </div>
+
+    <script src="{{url_for('static', filename='js/base.js')}}"></script>
+
+</body>
+</html>

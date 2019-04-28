@@ -1,0 +1,79 @@
+{% extends "database/single_pages/base.html" %}
+
+{% from "database/_helpers.html" import render_basic_infos, render_quest_link, render_quest_mission, render_quest_rewards, render_text_only %}
+{% from "_namehelpers.html" import render_item_name, render_monster_name %}
+
+{% block content %}
+
+{% set location = "str:{0}".format(_("Land") if data.location == 0 else _("Sea")) %}
+
+<div class="row">
+
+    <div class="col-md-4">
+        {{render_basic_infos(data, [
+            (_("Class"), "player_class"),
+            (_("Level"), "level"),
+            (_("Location"), location),
+            (_("EXP reward"), "exp_reward"),
+            (_("Money reward"), "money_reward"),
+            (_("Start Map"), "source_area.name"),
+            (_("Start NPC"), "source_object.name"),
+            (_("Finish NPC"), "supplier.name"),
+            ]
+        )}}
+
+        {# Before Quest #}
+        {% if data.before_quest_code %}
+            {{render_quest_link(data.before_quest, _("Before Quest"))}}
+        {% endif %}
+
+        {% if after_quest %}
+            {{render_quest_link(after_quest, _("After Quest"))}}
+        {% endif %}
+        
+        {% if quest_scroll %}
+            {{render_quest_link(quest_scroll, _("Quest Scroll"), scroll=True)}}
+        {% endif %}
+
+    </div>
+
+    {% if data.missions or data.selectable_items %}
+    <div class="col-md">
+        {% if data.missions %}
+            {% for mission in data.missions %}
+                {{render_quest_mission(mission, data.give_descriptions, description, loop.index)}}
+            {% endfor %}
+        {% endif %}
+
+        {% if data.selectable_items %}
+            {{render_quest_rewards(data.selectable_items)}}
+        {% endif %}
+    
+    </div>
+    {% endif %}
+
+    <div class="col-md">
+
+        {% if description.desc|length > 2 %}
+            {{render_text_only(_("Description"), description.desc.replace("\\n", "</br>")|safe)}}
+        {% endif %}
+
+        {% if description.pre_dialog|length > 2 %}
+            {{render_text_only(_("Pre Dialog"), description.pre_dialog.replace("\\n", "</br>")|safe)}}
+        {% endif %}
+
+        {% if description.start_dialog|length > 2 %}
+            {{render_text_only(_("Start Dialog"), description.start_dialog.replace("\\n", "</br>")|safe)}}
+        {% endif %}
+
+        {% if description.run_dialog|length > 2 %}
+            {{render_text_only(_("Run Dialog"), description.run_dialog.replace("\\n", "</br>")|safe)}}
+        {% endif %}
+
+        {% if description.finish_dialog|length > 2 %}
+            {{render_text_only(_("Finish Dialog"), description.finish_dialog.replace("\\n", "</br>")|safe)}}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

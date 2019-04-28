@@ -1,0 +1,30 @@
+{% extends "database/single_pages/base.html" %}
+
+{% from "database/_helpers.html" import render_basic_infos, render_random_boxes, render_bonus_stats with context %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md-4">
+        {{render_basic_infos(data, [
+            (_("Class"), "class_land"),
+            (_("Level"), ["level_land", "/", "level_sea"]),
+            (_("Tradable"), "tradable"),
+            ]
+            )}}
+
+    </div>
+
+    <div class="col-md">
+        {% if data.bonus_code_1 != 4294967295 %}
+            {{render_bonus_stats(data)}}
+        {% endif %}
+
+        {% if random_boxes %}
+            {{render_random_boxes(random_boxes)}}
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}
