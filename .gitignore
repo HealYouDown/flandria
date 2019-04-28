@@ -1,10 +1,10 @@
 env/
 create_databases.py
 
-logs.db
-static_florensia_data.db
-unstatic_florensia_data.db
-users.db
+/logs.db
+/static_florensia_data.db
+/unstatic_florensia_data.db
+/users.db
 
 test.log
 
