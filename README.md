@@ -5,7 +5,7 @@ Flandria is a fansite for the Fantasy MMORPG Florensia.
 ### Stack
 
 Flandria uses Flask as backend and the build-in render engine Jinja2.
-Jquery and Boostrap is also used.
+Jquery and Bootstrap 4 is also used.
 
 ### Installation
 
