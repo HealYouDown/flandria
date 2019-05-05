@@ -9,7 +9,7 @@ Jquery and Bootstrap 4 is also used.
 
 ### Installation
 
-Python requires [Python 3](https://www.python.org/) to run.
+Flandria requires [Python 3](https://www.python.org/) to run.
 
 Install all required python modules:
 
