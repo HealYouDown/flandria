@@ -202,7 +202,7 @@
             <div id="{{loop.index-1}}" class="list-group list-group-flush upgrade">
                 
                 {# pg #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Physical Damage")}}</span>
                     {% if table in ["rapier", "dagger", "one_handed_sword", "two_handed_sword", "rifle", "duals"] %} {# weapons that change their physical damage when upgraded #}
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{ph_min_dmg + upgrade_rule.value_0}} ~ {{ph_max_dmg + upgrade_rule.value_0}}</span>
