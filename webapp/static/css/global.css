@@ -62,7 +62,7 @@ label:focus,
     border-top: 1px solid #aaa;
 }
 
-textarea {
+textarea:not(.simplemde-textarea) {
     background: #000000 !important;
     border: none !important;
     border: 1px solid #aaa !important;
