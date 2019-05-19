@@ -78,3 +78,8 @@ ul {
     margin-left: 0 0 0 0;
     padding: 0 0 0 0;
 }
+
+/* CSS Overrides */
+.border-top-none {
+    border-top:0;
+}

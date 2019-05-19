@@ -202,7 +202,7 @@
             <div id="{{loop.index-1}}" class="list-group list-group-flush upgrade">
                 
                 {# pg #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Physical Damage")}}</span>
                     {% if table in ["rapier", "dagger", "one_handed_sword", "two_handed_sword", "rifle", "duals"] %} {# weapons that change their physical damage when upgraded #}
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{ph_min_dmg + upgrade_rule.value_0}} ~ {{ph_max_dmg + upgrade_rule.value_0}}</span>
@@ -212,7 +212,7 @@
                 </div>
 
                 {# mg #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Spell Damage")}}</span>
                     {% if table in ["cariad", "rapier", "dagger"] %} {# weapons that change their magical damage when upgraded #}
                         {% if table in ["rapier", "dagger"] %} {# has value_2 as magic damage instead of 1 #}
@@ -226,13 +226,13 @@
                 </div>
 
                 {# attack speed #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Attack Speed")}}</span>
                     <span>{{attack_speed/1000}}s</span>
                 </div>
 
                 {# range #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Range")}}</span>
                     <span>{{range_/100}}m</span>
                 </div>
@@ -247,10 +247,10 @@
             {% set mg_def = data.magic_defense %}
 
             {% for upgrade_rule in upgrade_data %}
-            <div id="{{loop.index-1}}" class="list-group list-group-flush upgrade">
+            <div id="{{loop.index-1}}" class="list-group list-group-flush upgrade border-top-none">
                     
                 {# ph #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Physical Defense")}}</span>
                     {% if table == "coat" %}
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{ph_def + upgrade_rule.value_0}}</span>
@@ -260,7 +260,7 @@
                 </div>
 
                 {# mg #}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                     <span>{{_("Magical Defense")}}</span>
                     {% if table == "pants" %}
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{mg_def + upgrade_rule.value_0}}</span>
@@ -271,7 +271,7 @@
 
                 {# hitrate #}
                 {% if table == "gauntlet" %}
-                    <div class="list-group-item no-bg d-flex justify-content-between">
+                    <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                         <span>{{_("Hitrate")}}</span>
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{0 + upgrade_rule.value_0}}</span>
                     </div>
@@ -279,7 +279,7 @@
 
                 {# attack speed #}
                 {% if table == "gauntlet" %}
-                    <div class="list-group-item no-bg d-flex justify-content-between">
+                    <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                         <span>{{_("Attack Speed")}}</span>
                         <span class="float-right {{'upgrade-color' if loop.index > 1 else ''}}">{{0 + loop.index-1}}%</span>
                     </div>
@@ -287,7 +287,7 @@
                 
                 {# avoidance rate #}
                 {% if table == "shoes" %}
-                    <div class="list-group-item no-bg d-flex justify-content-between">
+                    <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                         <span>{{_("Physical avoidance rate")}}</span>
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{0 + upgrade_rule.value_0}}</span>
                     </div>
@@ -295,7 +295,7 @@
 
                 {# moving speed #}
                 {% if table == "shoes" %}
-                <div class="list-group-item no-bg d-flex justify-content-between">
+                <div class="list-group-item no-bg d-flex justify-content-between border-top-none">
                         <span>{{_("Moving speed")}}</span>
                         <span class="{{'upgrade-color' if loop.index > 1 else ''}}">{{0 + loop.index-1}}%</span>
                     </div>
