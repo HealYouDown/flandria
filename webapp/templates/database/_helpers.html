@@ -41,15 +41,15 @@
                 {% elif "." in value %}
                     <span>{{obj|getattr(value)}}</span>
 
-                {% else %}
+                {% elif obj[value]|type(bool) %}
                     {% if obj[value] == False %}
                         <span>{{_("No")}}</span>
                     {% elif obj[value] == True %}
                         <span>{{_("Yes")}}</span>
-                    {% else %}
-                        <span>{{obj[value]}}</span>
                     {% endif %}
 
+                {% else %}
+                    <span>{{obj[value]}}</span>
                 {% endif %}
             </li>
             {% endfor %}

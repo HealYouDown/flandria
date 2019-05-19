@@ -37,6 +37,11 @@ def getattr_filter(obj, name):
     except AttributeError:
         return gettext("None")
 
+@app.template_filter("type")
+def check_type(obj, type_to_check):
+    print(obj, type_to_check)
+    return type(obj) == type_to_check
+
 @app.context_processor
 def stat_bonus_codes():
     return { 
@@ -119,5 +124,8 @@ def create_app(production=False):
 
     from webapp.planner.controllers import planner as planner_blueprint
     app.register_blueprint(planner_blueprint)
+
+    from webapp.wiki.controllers import wiki as wiki_blueprint
+    app.register_blueprint(wiki_blueprint)
 
     return app
