@@ -309,7 +309,7 @@ SKILLS = {
             "relies_on": ["ck003900"], #Spiral Slash
         },
         "ck004800": { #Two Hand Sword Mastery
-            "max_level": 15,
+            "max_level": 11,
             "relies_on": ["ck004100"], #Deep Slash
         },
         "ck000500": { #Tornado Slash
