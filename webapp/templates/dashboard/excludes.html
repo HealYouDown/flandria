@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% from "_namehelpers.html" import render_item_name %}
+
+{% block content %}
+
+<div class="row">
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <span class="header">{{_("Excludes")}}</span>
+            </div>
+            <ul class="list-group list-group-flush">
+                {% for exclude in excludes %}
+                <li>
+                    <a href="/database/{{exclude.item.table}}/{{exclude.item_code}}" class="list-group-item list-group-item-action">
+                        <div class="d-flex align-items-center">
+                            <img class="flex-shrink-1" src="{{url_for('static', filename='img/item_icons/' + exclude.item.icon)}}">
+                            <span class="flex-grow-1 ml-1">{{render_item_name(exclude.item)}}</span>
+                            <input type="hidden" name="item_code" value="{{exclude.item_code}}">
+                            <i class="delete-icon fas fa-trash"></i>
+                        </div>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    $(".delete-icon").on("click", function(event) {
+        event.preventDefault();
+
+        let element = $(this).parent().parent().parent();
+
+        let item_code = $(this).siblings("input[name=item_code]")[0].value;
+
+        $.ajax({
+            type: "DELETE",
+            url: baseUrl + "/dashboard/excludes/delete",
+            data: JSON.stringify({"item_code": item_code}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+                if (data["success"]) {
+                    element.remove();
+                }
+            },
+            error: function(data) {
+                alert("Error");
+            }
+        });
+    });
+</script>
+
+{% endblock %}

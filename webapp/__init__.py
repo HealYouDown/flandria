@@ -125,7 +125,7 @@ def create_app(production=False):
     from webapp.planner.controllers import planner as planner_blueprint
     app.register_blueprint(planner_blueprint)
 
-    from webapp.wiki.controllers import wiki as wiki_blueprint
-    app.register_blueprint(wiki_blueprint)
+    from webapp.dashboard.controllers import dashboard as dashboard_blueprint
+    app.register_blueprint(dashboard_blueprint)
 
     return app
