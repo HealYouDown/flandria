@@ -422,9 +422,11 @@ function onClassChange() {
     let newIndex = $("#classSelect").prop('selectedIndex');
 
     if (newIndex != 0) {
-        if (!(g_Level >= 40)) {
-            $('#classSelect option').eq(0).prop('selected', true);
-            return;
+        if (!isShipSkilltree) {
+            if (!(g_Level >= 40)) {
+                $('#classSelect option').eq(0).prop('selected', true);
+                return;
+            }
         }
     }
 
