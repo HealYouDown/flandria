@@ -486,7 +486,7 @@ SKILLS = {
 
 "ship": {
         "sksinso00": { #Quick Cannonace
-            "max_level": 13,
+            "max_level": 8,
             "relies_on": None,
         },
         "skpogye00": { #Cannonade Mastery
