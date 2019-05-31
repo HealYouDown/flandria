@@ -482,5 +482,184 @@ SKILLS = {
             "max_level": 7,
             "relies_on": ["cp007500"], #Door Of Darkness
         },
-    }
+    },
+
+"ship": {
+        "sksinso00": { #Quick Cannonace
+            "max_level": 13,
+            "relies_on": None,
+        },
+        "skpogye00": { #Cannonade Mastery
+            "max_level": 5,
+            "relies_on": ["sksinso00"],
+        },
+        "skjojun00": { #Order of Aiming Shot
+            "max_level": 5,
+            "relies_on": ["skpogye00"], #Cannonade Mastery
+        },
+        "skwehyu00": { #Threatening Cannonade
+            "max_level": 7,
+            "relies_on": ["skjojun00"], #Order of Aiming Shot
+        },
+        "skpokba00": { #Charge Explosive Shot
+            "max_level": 5,
+            "relies_on": ["skwehyu00"], #Threatening Cannonade
+        },
+        "skchain00": { #Chain
+            "max_level": 3,
+            "relies_on": ["skpokba00"], #Charge Explosive Shot
+        },
+        "skadomi00": { #Area Domination
+            "max_level": 3,
+            "relies_on": ["skchain00"], #Chain
+        },
+        "skhwaks00": { #Order of Diffuse Shooting
+            "max_level": 5,
+            "relies_on": ["skpogye00"], #Cannonade Mastery
+        },
+        "skstst000": { #Charge Stop Shot
+            "max_level": 5,
+            "relies_on": ["skhwaks00"], #Order of Diffuse Shooting
+        },
+        "skgwant00": { #Charge Piercing Shot
+            "max_level": 5,
+            "relies_on": ["skstst000"], #Charge Stop Shot
+        },
+        "skrange00": { #Range Up
+            "max_level": 3,
+            "relies_on": ["skgwant00"], #Charge Piercing Shot
+        },
+        "skunpro00": { #Unbeatable Protect
+            "max_level": 3,
+            "relies_on": ["skrange00"], #Range Up
+        },
+        "skgyeon00": { #Checked Shooting
+            "max_level": 5,
+            "relies_on": None,
+        },
+        "skjilju00": { #Order of Speeding
+            "max_level": 3,
+            "relies_on": ["skgyeon00"], #Checked Shooting
+        },
+        "skwinds00": { #Charge Wind Shot
+            "max_level": 3,
+            "relies_on": ["skjilju00"], #Order of Speeding
+        },
+        "skpagoe00": { #Charge Destructive Shot
+            "max_level": 5,
+            "relies_on": ["skwinds00"], #Charge Wind Shot
+        },
+        "skransh00": { #Randomly Shooting
+            "max_level": 3,
+            "relies_on": ["skpagoe00"], #Charge Destructive Shot
+        },
+        "skadest00": { #Area Destroy
+            "max_level": 3,
+            "relies_on": ["skransh00"], #Randomly Shooting
+        },
+        "skyeonb00": { #Repeated Shooting
+            "max_level": 8,
+            "relies_on": None,
+        },
+        "skgeunj00": { #Shooting Mastery
+            "max_level": 5,
+            "relies_on": ["skyeonb00"], #Repeated Shooting
+        },
+        "skangae00": { #Fog of Darkness
+            "max_level": 5,
+            "relies_on": None,
+        },
+        "skhide000": { #Hide
+            "max_level": 3,
+            "relies_on": ["skangae00"], #Fog of Darkness
+        },
+        "skdarks00": { #Charge Darkness Shot
+            "max_level": 3,
+            "relies_on": ["skangae00"], #Hide
+        },
+        "skchung00": { #Charge Impact Shot
+            "max_level": 5,
+            "relies_on": ["skdarks00"], #Charge Darkness Shot
+        },
+        "skload000": { #Reload Mastery
+            "max_level": 5,
+            "relies_on": ["skchung00"], #Charge Impact Shot
+        },
+        "skflash00": { #Charge Flash Bang
+            "max_level": 3,
+            "relies_on": ["skload000"], #Reload Mastery
+        },
+        "skavoid00": { #Auto Avoid
+            "max_level": 3,
+            "relies_on": None,
+        },
+        "skjaesa00": { #Charge Recovery Shot
+            "max_level": 5,
+            "relies_on": ["skavoid00"], #Auto Avoid
+        },
+        "skhambo00": { #Ship Recovery
+            "max_level": 5,
+            "relies_on": ["skjaesa00"], #Charge Recovery Shot
+        },
+        "sksiles00": { #Charge Silence Shot
+            "max_level": 3,
+            "relies_on": ["skhambo00"], #Ship Recovery
+        },
+        "skchiyu00": { #Song of Recovery
+            "max_level": 5,
+            "relies_on": ["sksiles00"], #Charge Silence Shot
+        },
+        "skshipr00": { #Ship Revival
+            "max_level": 3,
+            "relies_on": ["skchiyu00"], #Song of Recovery
+        },
+        "skchund00": { #Collision Mastery
+            "max_level": 5,
+            "relies_on": None,
+        },
+        "skendur00": { #Endure
+            "max_level": 3,
+            "relies_on": ["skchund00"], #Collision Mastery
+        },
+        "sksick000": { #Charge Sickness Shot
+            "max_level": 3,
+            "relies_on": ["skendur00"], #Endure
+        },
+        "skspecs00": { #Charge Spectre Shot
+            "max_level": 5,
+            "relies_on": ["sksick000"], #Charge Sickness Shot
+        },
+        "skturn000": { #Turning Power Mastery
+            "max_level": 3,
+            "relies_on": None,
+        },
+        "skyuck000": { #Headwind Resist
+            "max_level": 3,
+            "relies_on": ["skturn000"], #Turning Power Mastery
+        },
+        "skjunja00": { #Song of War
+            "max_level": 5,
+            "relies_on": ["skyuck000"], #Headwind Resist
+        },
+        "skgyeol00": { #Song of Union
+            "max_level": 5,
+            "relies_on": ["skjunja00"], #Song of War
+        },
+        "skjunso00": { #Crazy Speeding
+            "max_level": 5,
+            "relies_on": ["skgyeol00"], #Song of Union
+        },
+        "skshotm00": { #Shot Speed Mastery
+            "max_level": 3,
+            "relies_on": ["skjunso00"], #Crazy Speeding
+        },
+        "skdouca00": { #Double Cannon
+            "max_level": 3,
+            "relies_on": ["skshotm00"], #Shot Speed Mastery
+        },
+        "sklimit00": { #Limit
+            "max_level": 2,
+            "relies_on": ["skdouca00"], #Double Cannon
+        },
+    },
 }

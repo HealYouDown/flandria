@@ -2,7 +2,7 @@ from flask import Blueprint, abort, jsonify, render_template, request
 from flask_login import current_user, login_required
 
 from webapp import db
-from webapp.planner.models import PlayerSkill, UserBuild, UserBuildStar
+from webapp.planner.models import PlayerSkill, ShipSkill, UserBuild, UserBuildStar
 from webapp.auth.models import User
 from webapp.planner.skills import SKILLS
 import operator
@@ -14,8 +14,13 @@ def skillplanner(class_):
     assert class_ in ["explorer", "saint", "noble", "mercenary", "ship"], abort(404)
     skills = SKILLS[class_]
 
+    model = ShipSkill 
+    if class_ == "ship":
+        model = ShipSkill
+    else: model = PlayerSkill
+
     skill_data = {}
-    for obj in db.session.query(PlayerSkill).filter(PlayerSkill.skill_code.in_(skills.keys())).all():
+    for obj in db.session.query(model).filter(model.skill_code.in_(skills.keys())).all():
         skill_data[obj.code] = {k: v for k, v in obj.__dict__.items() if not str(k).startswith("_")}
 
     return render_template("planner/{0}.html".format(class_),

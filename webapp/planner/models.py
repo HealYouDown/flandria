@@ -15,6 +15,20 @@ class PlayerSkill(db.Model):
     cooldown = db.Column(db.Integer)
     description = db.Column(db.String)
 
+class ShipSkill(db.Model):
+    __tablename__ = "ship_skill"
+    __bind_key__ = "static_florensia_data"
+    code = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+    skill_code = db.Column(db.String)
+    skill_level = db.Column(db.Integer)
+    class_land = db.Column(db.String)
+    required_level = db.Column(db.Integer)
+    required_weapon = db.Column(db.String)
+    mana_consumption = db.Column(db.Integer)
+    cooldown = db.Column(db.Integer)
+    description = db.Column(db.String)
+
 class UserBuild(db.Model):
     __tablename__ = "user_build"
     __bind_key__ = "user_data"

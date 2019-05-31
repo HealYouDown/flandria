@@ -1,0 +1,86 @@
+{% set class = "No Class" %}
+
+{% set classes = {
+    "No Class": "No Class",
+    "assault ship": "Assault Ship",
+    "armored ship": "Armored Ship",
+    "torpedo ship": "Torpedo Ship",
+    "big gun ship": "Big Gun Ship",
+    "maintenance ship": "Maintenance Ship",
+}
+%}
+
+{% set max_level = 69 %}
+
+{% extends "planner/base.html" %}
+
+{% block skilltree_background %}
+<div class="skilltree-background">
+    <img src="{{url_for('static', filename='img/skilltree_backgrounds/ship.png')}}">
+</div>
+{% endblock %}
+
+{% block skill_icons %}
+<!--Col 1-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn000.png')}}" id="sksinso00" style="top: 20px; left: 26px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn012.png')}}" id="skpogye00" style="top: 63px; left: 26px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn010.png')}}" id="skjojun00" style="top: 106px; left: 26px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn002.png')}}" id="skwehyu00" style="top: 149px; left: 26px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn004.png')}}" id="skpokba00" style="top: 235px; left: 26px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn045.png')}}" id="skchain00" style="top: 279px; left: 26px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn035.png')}}" id="skadomi00" style="top: 365px; left: 26px;"></div>
+
+<!--Col 2-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn009.png')}}" id="skhwaks00" style="top: 106px; left: 85px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn027.png')}}" id="skstst000" style="top: 192px; left: 85px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn003.png')}}" id="skgwant00" style="top: 235px; left: 85px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn030.png')}}" id="skrange00" style="top: 322px; left: 85px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn033.png')}}" id="skunpro00" style="top: 365px; left: 85px;"></div>
+
+<!--Col 3-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn008.png')}}" id="skgyeon00" style="top: 20px; left: 144px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn011.png')}}" id="skjilju00" style="top: 63px; left: 144px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn039.png')}}" id="skwinds00" style="top: 149px; left: 144px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn006.png')}}" id="skpagoe00" style="top: 235px; left: 144px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn038.png')}}" id="skransh00" style="top: 279px; left: 144px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn036.png')}}" id="skadest00" style="top: 365px; left: 144px;"></div>
+
+<!--Col 4-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn007.png')}}" id="skyeonb00" style="top: 20px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn013.png')}}" id="skgeunj00" style="top: 63px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn001.png')}}" id="skangae00" style="top: 106px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn026.png')}}" id="skhide000" style="top: 149px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn032.png')}}" id="skdarks00" style="top: 192px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn003.png')}}" id="skchung00" style="top: 235px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn025.png')}}" id="skload000" style="top: 322px; left: 203px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn044.png')}}" id="skflash00" style="top: 365px; left: 203px;"></div>
+
+<!--Col 5-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn029.png')}}" id="skavoid00" style="top: 63px; left: 262px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn021.png')}}" id="skjaesa00" style="top: 106px; left: 262px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn022.png')}}" id="skhambo00" style="top: 192px; left: 262px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn037.png')}}" id="sksiles00" style="top: 235px; left: 262px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn023.png')}}" id="skchiyu00" style="top: 279px; left: 262px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn015.png')}}" id="skshipr00" style="top: 365px; left: 262px;"></div>
+
+<!--Col 6-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn014.png')}}" id="skchund00" style="top: 63px; left: 321px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn043.png')}}" id="skendur00" style="top: 149px; left: 321px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn024.png')}}" id="sksick000" style="top: 192px; left: 321px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn040.png')}}" id="skspecs00" style="top: 322px; left: 321px;"></div>
+
+<!--Col 7-->
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn020.png')}}" id="skturn000" style="top: 20px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn019.png')}}" id="skyuck000" style="top: 63px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn017.png')}}" id="skjunja00" style="top: 106px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn018.png')}}" id="skgyeol00" style="top: 149px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn016.png')}}" id="skjunso00" style="top: 192px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn028.png')}}" id="skshotm00" style="top: 235px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn042.png')}}" id="skdouca00" style="top: 279px; left: 380px;"></div>
+<div class="skill" icon-src="{{url_for('static', filename='img/skill_icons/sea/ssn031.png')}}" id="sklimit00" style="top: 365px; left: 380px;"></div>
+
+<script>
+    var isShipSkilltree = true;
+</script>
+
+{% endblock %} 
