@@ -9,7 +9,7 @@ if (/Mobi|Android/i.test(navigator.userAgent)) {
     isMobile = true;
 }
 
-const debug = false;
+const debug = true;
 
 function updateNextLevelColorWithInstace(instance) {
     // Hacky way to change color of level if level is not reached
@@ -51,7 +51,7 @@ class Skill {
             hideOnClick: false,
             interactive: true,
             placement: "right",
-            delay: 150,
+            delay: 250,
             boundary: 'window',
             onShow: updateNextLevelColorWithInstace,
           })
@@ -179,6 +179,10 @@ class Skill {
             return parseInt(this.nextSkillDescription["required_level"]);
         return -1;
     }
+
+    get currentRequiredLevel() {
+        return parseInt(this.currentSkillDescription["required_level"]);
+    }
     
     get name() {
         return this.currentSkillDescription["name"];
@@ -202,15 +206,14 @@ class Skill {
 
         let selectedClass = $('#classSelect option').eq(g_ClassIndex).val();
 
-        if ( !(this.requiredClass == "No Class") ) {
-            if (!["Noble", "Mercenary", "Explorer", "Saint"].includes(this.requiredClass)) {
-                if (this.requiredClass.toLowerCase().indexOf(selectedClass) == -1) {
-                    if (debug) 
-                        console.log("Does not have needed Class -> not allowed:", this.name)
-                    return;
-                }
+        if (!["Noble", "Mercenary", "Explorer", "Saint", "No Class", "Base Ship"].includes(this.requiredClass)) {
+            if (this.requiredClass.toLowerCase().indexOf(selectedClass) == -1) {
+                if (debug) 
+                    console.log("Does not have needed Class -> not allowed:", this.name)
+                return;
             }
         }
+
 
         if (this.reliesOn != null) {
             if (this.reliesOn.length == 1) {
@@ -238,7 +241,7 @@ class Skill {
             }
         }
 
-        if (this.requiredLevel > g_Level) {
+        if (this.currentRequiredLevel > g_Level) {
             if (debug)
                 console.log("Skill:", this.name, "-> required level is wrong:", this.requiredLevel);
             return;

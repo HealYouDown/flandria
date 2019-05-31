@@ -30,6 +30,8 @@ def skillplanner(class_):
 
 @planner.route("<class_>/builds") # TODO: Do stars ordering in query
 def builds(class_):
+    assert class_ in ["explorer", "saint", "noble", "mercenary", "ship"], abort(404)
+
     builds = db.session.query(UserBuild).filter(UserBuild.class_ == class_, UserBuild.public == True).order_by(UserBuild.stars_count.desc()).all()
 
     return render_template("planner/builds.html", 

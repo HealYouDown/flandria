@@ -4,6 +4,9 @@ function addBuild() {
     let public = $("input[name=public_checkbox]").is(":checked");
     let hash = location.hash.replace("#", "");
     let class_ = $('#classSelect option').eq(0).val(); // base class
+    if (class_ == "base ship") {
+        class_ = "ship";
+    }
     let selectedClass = $("#classSelect").val();
     let selectedLevel = $("#levelSelect").val();
 
