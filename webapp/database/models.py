@@ -1,628 +1,246 @@
 from webapp import db
-from webapp.utils import get_current_time
+
+class _Base:
+    code = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+    icon = db.Column(db.String)
+
+    tradable = db.Column(db.Boolean)
+
+    rare_grade = db.Column(db.Integer, default=0)
+
+    npc_price = db.Column(db.Integer)
+    npc_price_disposal = db.Column(db.Integer)
+
+
+class _Bonus:
+    bonus_code_1 = db.Column(db.Integer)
+    bonus_operator_1 = db.Column(db.String)
+    bonus_1 = db.Column(db.Float)
+
+    bonus_code_2 = db.Column(db.Integer)
+    bonus_operator_2 = db.Column(db.String)
+    bonus_2 = db.Column(db.Float)
+
+    bonus_code_3 = db.Column(db.Integer)
+    bonus_operator_3 = db.Column(db.String)
+    bonus_3 = db.Column(db.Float)
+
+    bonus_code_4 = db.Column(db.Integer)
+    bonus_operator_4 = db.Column(db.String)
+    bonus_4 = db.Column(db.Float)
+
+    bonus_code_5 = db.Column(db.Integer)
+    bonus_operator_5 = db.Column(db.String)
+    bonus_5 = db.Column(db.Float)
+
+
+# Item list #
 
 class ItemList(db.Model):
     __tablename__ = "item_list"
     __bind_key__ = "static_florensia_data"
+
     code = db.Column(db.String, primary_key=True)
-    table = db.Column(db.String)
     name = db.Column(db.String)
     icon = db.Column(db.String)
+
+    table = db.Column(db.String)
     rare_grade = db.Column(db.Integer, default=None)
 
-# Monsters
+
+# Monster #
 
 class Monster(db.Model):
     __tablename__ = "monster"
     __bind_key__ = "static_florensia_data"
+
     code = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
     icon = db.Column(db.String)
+    rating_type = db.Column(db.Integer)
+
     level = db.Column(db.Integer)
+    hp = db.Column(db.Integer)
+
     range = db.Column(db.String)
     location = db.Column(db.Integer)
-    rating_type = db.Column(db.Integer)
     required_hitrate = db.Column(db.Integer)
     experience = db.Column(db.Integer)
-    hp = db.Column(db.Integer)
+
     min_dmg = db.Column(db.Integer)
     max_dmg = db.Column(db.Integer)
+
     physical_defense = db.Column(db.Integer)
     magical_defense = db.Column(db.Integer)
 
-# Equipment stuff
 
-class Accessory(db.Model):
+# Extra Equipment #
+
+class _ExtraEquipment(_Base, _Bonus):
+    gender = db.Column(db.String)
+
+    class_land = db.Column(db.String)
+    level_land = db.Column(db.Integer)
+
+    duration = db.Column(db.Integer)
+
+
+class Accessory(_ExtraEquipment, db.Model):
     __tablename__ = "accessory"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    gender = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    duration = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
-class Dress(db.Model):
+
+class Dress(_ExtraEquipment, db.Model):
     __tablename__ = "dress"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    gender = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    duration = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
     included_in_filtered_view = db.Column(db.Boolean, default=False)
 
-class Hat(db.Model):
+
+class Hat(_ExtraEquipment, db.Model):
     __tablename__ = "hat"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    gender = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    duration = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
     included_in_filtered_view = db.Column(db.Boolean, default=False)
 
-# Weapons
 
-class Cariad(db.Model):
+# Weapons #
+
+class _Weapon(_Base, _Bonus):  # TODO: Relationship UpgradeData
+    itemtype = db.Column(db.String)
+
+    class_land = db.Column(db.String)
+    level_land = db.Column(db.Integer)
+    level_sea = db.Column(db.Integer)
+
+    physical_attack_min = db.Column(db.Integer)
+    magical_attack_min = db.Column(db.Integer)
+    physical_attack_max = db.Column(db.Integer)
+    magical_attack_max = db.Column(db.Integer)
+
+    range = db.Column(db.Integer)
+    attack_speed = db.Column(db.Integer)
+
+    upgrade_code = db.Column(db.String)
+
+
+class Cariad(_Weapon, db.Model):
     __tablename__ = "cariad"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    itemtype = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
-class Dagger(db.Model):
+
+class Dagger(_Weapon, db.Model):
     __tablename__ = "dagger"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    itemtype = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)  
 
-class Duals(db.Model):
+
+class Duals(_Weapon, db.Model):
     __tablename__ = "duals"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    itemtype = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float) 
 
-class Rifle(db.Model):
+
+class Rifle(_Weapon, db.Model):
     __tablename__ = "rifle"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    itemtype = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float) 
 
-class OneHandedSword(db.Model):
+
+class OneHandedSword(_Weapon, db.Model):
     __tablename__ = "one_handed_sword"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    itemtype = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
-class TwoHandedSword(db.Model):
+
+class TwoHandedSword(_Weapon, db.Model):
     __tablename__ = "two_handed_sword"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    itemtype = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
-class Rapier(db.Model):
+
+class Rapier(_Weapon, db.Model):
     __tablename__ = "rapier"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
+
+
+# Armor #
+
+class _Armor(_Base, _Bonus):  # TODO: Relation UpgradeData
     itemtype = db.Column(db.String)
+
+    physical_defense = db.Column(db.Integer)
+    magic_defense = db.Column(db.Integer)
+
     class_land = db.Column(db.String)
     level_land = db.Column(db.Integer)
     level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    physical_attack_min = db.Column(db.Integer)
-    magical_attack_min = db.Column(db.Integer)
-    physical_attack_max = db.Column(db.Integer)
-    magical_attack_max = db.Column(db.Integer)
-    range = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    attack_speed = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)   
 
-class Shield(db.Model):
+
+class Shield(_Armor, db.Model):
     __tablename__ = "shield"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    itemtype = db.Column(db.String)
-    physical_defense = db.Column(db.Integer)
-    class_land = db.Column(db.String)
-    magic_defense = db.Column(db.Integer)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)   
 
-# Armor
 
-class Gauntlet(db.Model):
+class Gauntlet(_Armor, db.Model):
     __tablename__ = "gauntlet"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
     upgrade_code = db.Column(db.Integer)
-    physical_defense = db.Column(db.Integer)
-    magic_defense = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)   
 
-class Coat(db.Model):
+
+class Coat(_Armor, db.Model):
     __tablename__ = "coat"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
     upgrade_code = db.Column(db.Integer)
-    physical_defense = db.Column(db.Integer)
-    magic_defense = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)   
 
-class Pants(db.Model):
+
+class Pants(_Armor, db.Model):
     __tablename__ = "pants"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
     upgrade_code = db.Column(db.Integer)
-    physical_defense = db.Column(db.Integer)
-    magic_defense = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)   
 
-class Shoes(db.Model):
+
+class Shoes(_Armor, db.Model):
     __tablename__ = "shoes"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    class_land = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
-    upgrade_code = db.Column(db.String)
-    physical_defense = db.Column(db.Integer)
-    magic_defense = db.Column(db.Integer)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)   
+    upgrade_code = db.Column(db.Integer)
 
-# Fishing stuff
 
-class FishingBait(db.Model):
+# Fishing stuff #
+
+class FishingBait(_Base, db.Model):
     __tablename__ = "fishing_bait"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
 
-class FishingMaterial(db.Model):
+
+class FishingMaterial(_Base, db.Model):
     __tablename__ = "fishing_material"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
 
-class FishingRod(db.Model):
+
+class FishingRod(_Base, _Bonus, db.Model):
     __tablename__ = "fishing_rod"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
+
+    itemtype = db.Column(db.String)
+
     class_land = db.Column(db.String)
     level_land = db.Column(db.Integer)
     level_sea = db.Column(db.Integer)
-    itemtype = db.Column(db.String)
-    tradable = db.Column(db.Boolean)
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_operator_1 = db.Column(db.String)
-    bonus_1 = db.Column(db.Float)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_operator_2 = db.Column(db.String)
-    bonus_2 = db.Column(db.Float)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_operator_3 = db.Column(db.String)
-    bonus_3 = db.Column(db.Float)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_operator_4 = db.Column(db.String)
-    bonus_4 = db.Column(db.Float)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_operator_5 = db.Column(db.String)
-    bonus_5 = db.Column(db.Float)
 
-# Materials and Recipes
 
-class Material(db.Model):
+# Material #
+
+class Material(_Base, db.Model):
     __tablename__ = "material"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
+
     produced_by_code = db.Column(db.String, db.ForeignKey('recipe.code'))
     produced_by = db.relationship("Recipe")
 
-class Recipe(db.Model):
+
+class Recipe(_Base, db.Model):
     __tablename__ = "recipe"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
-    rare_grade = db.Column(db.Integer)
 
     result_code = db.Column(db.String, db.ForeignKey("item_list.code"))
+    result_quantity = db.Column(db.Integer)
     result_item = db.relationship("ItemList", foreign_keys=[result_code])
 
     material_1_code = db.Column(db.String, db.ForeignKey("item_list.code"))
@@ -649,17 +267,14 @@ class Recipe(db.Model):
     material_6_quantity = db.Column(db.Integer)
     material_6 = db.relationship("ItemList", foreign_keys=[material_6_code])
 
-class ProductBook(db.Model):
+
+class ProductBook(_Base, db.Model):
     __tablename__ = "product_book"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
 
     target_code = db.Column(db.String, db.ForeignKey("production.code"))
-    target = db.relationship("Production", foreign_keys=[target_code], lazy="joined")
+    target = db.relationship("Production", foreign_keys=[target_code])
+
 
 class Production(db.Model):
     __tablename__ = "production"
@@ -669,10 +284,10 @@ class Production(db.Model):
     type = db.Column(db.Integer)
     points_needed = db.Column(db.Integer)
     division = db.Column(db.Integer)
-    
+
     result_code = db.Column(db.String, db.ForeignKey("item_list.code"))
     result_quantity = db.Column(db.Integer)
-    result_item = db.relationship("ItemList", foreign_keys=[result_code], lazy="joined")
+    result_item = db.relationship("ItemList", foreign_keys=[result_code])
 
     material_1_code = db.Column(db.String, db.ForeignKey("item_list.code"))
     material_1_quantity = db.Column(db.Integer)
@@ -698,110 +313,78 @@ class Production(db.Model):
     material_6_quantity = db.Column(db.Integer)
     material_6 = db.relationship("ItemList", foreign_keys=[material_6_code])
 
-# Pet stuff
 
-class PetCombineHelp(db.Model):
+# Pets #
+
+class PetCombineHelp(_Base, db.Model):
     __tablename__ = "pet_combine_help"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
+
     efficiency = db.Column(db.Integer)
 
-class PetCombineStone(db.Model):
+
+class PetCombineStone(_Base, db.Model):
     __tablename__ = "pet_combine_stone"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
+
     increment_min = db.Column(db.Integer)
     increment_max = db.Column(db.Integer)
 
-class PetSkillStone(db.Model):
+
+class PetSkillStone(_Base, db.Model):
     __tablename__ = "pet_skill_stone"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
+
     cooldown = db.Column(db.Integer)
     casttime = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
     level = db.Column(db.Integer)
-    description = db.Column(db.String)
+    description = db.Column(db.Text)
 
-class Pet(db.Model): # TODO: Stats
+
+class Pet(_Base, db.Model):  # TODO: Stats
     __tablename__ = "pet"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    duration = db.Column(db.Integer)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
 
-class RidingPet(db.Model):
+    duration = db.Column(db.Integer)
+
+
+class RidingPet(_Base, db.Model):
     __tablename__ = "riding_pet"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
+
     duration = db.Column(db.Integer)
-    description = db.Column(db.String)
-    tradable = db.Column(db.Boolean)
+    description = db.Column(db.Text)
 
-# Ship stuff
 
-class Shell(db.Model):
+# Ship stuff #
+
+class _ShipBase(_Base):
+    npc_price_tuning = db.Column(db.Integer)
+
+    class_sea = db.Column(db.String)
+    level_sea = db.Column(db.Integer)
+
+
+class Shell(_Base, db.Model):
     __tablename__ = "shell"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
+
     level_sea = db.Column(db.Integer)
     damage = db.Column(db.Integer)
 
-class ShipAnchor(db.Model):
+
+class ShipAnchor(_ShipBase, db.Model):
     __tablename__ = "ship_anchor"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    rare_grade = db.Column(db.Integer)
 
     ship_deceleration = db.Column(db.Integer)
     ship_turnpower = db.Column(db.Integer)
     balance = db.Column(db.Integer)
 
-class ShipBody(db.Model):
+
+class ShipBody(_ShipBase, db.Model):
     __tablename__ = "ship_body"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    rare_grade = db.Column(db.Integer)
 
     ship_defense = db.Column(db.Integer)
     ship_guns_front = db.Column(db.Integer)
@@ -812,102 +395,33 @@ class ShipBody(db.Model):
     protection = db.Column(db.Integer)
     ability_hp = db.Column(db.Integer)
 
-class ShipFigure(db.Model):
+
+class ShipFigure(_ShipBase, db.Model):
     __tablename__ = "ship_figure"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    rare_grade = db.Column(db.Integer)
 
     balance = db.Column(db.Integer)
     protection = db.Column(db.Integer)
 
-class ShipFlag(db.Model):
+
+class ShipFlag(_ShipBase, db.Model):
     __tablename__ = "ship_flag"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
 
-class ShipFront(db.Model):
+
+class ShipFront(_ShipBase, db.Model):
     __tablename__ = "ship_front"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    rare_grade = db.Column(db.Integer)
 
     physical_defense = db.Column(db.Integer)
     protection = db.Column(db.Integer)
     ability_hp = db.Column(db.Integer)
-    balance = db.Column(db.Integer)
+    balance = db.Column(db.Integer, default=-1)  # for some reasons, every front has -1 as balance
 
-class ShipHeadMast(db.Model):
+
+class ShipHeadMast(_ShipBase, db.Model):
     __tablename__ = "ship_head_mast"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-
-    ship_wind_favorable = db.Column(db.Integer)
-    ship_wind_adverse = db.Column(db.Integer)
-    ship_acceleration = db.Column(db.Integer)
-    ship_turnpower = db.Column(db.Integer)
-    balance = db.Column(db.Integer)
-
-class ShipMagicStone(db.Model):
-    __tablename__ = "ship_magic_stone"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-
-    ability_en = db.Column(db.Integer)
-    ability_en_recovery = db.Column(db.Integer)
-
-class ShipMainMast(db.Model):
-    __tablename__ = "ship_main_mast"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
 
     ship_wind_favorable = db.Column(db.Integer)
     ship_wind_adverse = db.Column(db.Integer)
@@ -916,18 +430,30 @@ class ShipMainMast(db.Model):
     ship_turnpower = db.Column(db.Integer)
     balance = db.Column(db.Integer)
 
-class ShipNormalWeapon(db.Model):
+
+class ShipMagicStone(_ShipBase, db.Model):
+    __tablename__ = "ship_magic_stone"
+    __bind_key__ = "static_florensia_data"
+
+    ability_en = db.Column(db.Integer)
+    ability_en_recovery = db.Column(db.Integer)
+
+
+class ShipMainMast(_ShipBase, db.Model):
+    __tablename__ = "ship_main_mast"
+    __bind_key__ = "static_florensia_data"
+
+    ship_wind_favorable = db.Column(db.Integer)
+    ship_wind_adverse = db.Column(db.Integer)
+    ship_acceleration = db.Column(db.Integer)
+    ship_deceleration = db.Column(db.Integer)
+    ship_turnpower = db.Column(db.Integer)
+    balance = db.Column(db.Integer)
+
+
+class ShipNormalWeapon(_ShipBase, db.Model):
     __tablename__ = "ship_normal_weapon"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
 
     ship_defense = db.Column(db.Integer)
     ship_range = db.Column(db.Integer)
@@ -937,32 +463,12 @@ class ShipNormalWeapon(db.Model):
     ship_guns_side = db.Column(db.Integer)
     ship_guns_speed = db.Column(db.Integer)
     ship_hitrange = db.Column(db.Integer)
-    balance = db.Column(db.Integer)
+    balance = db.Column(db.Integer, default=-2)
 
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_1 = db.Column(db.Integer)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_2 = db.Column(db.Integer)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_3 = db.Column(db.Integer)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_4 = db.Column(db.Integer)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_5 = db.Column(db.Integer)
 
-class ShipSpecialWeapon(db.Model):
+class ShipSpecialWeapon(_ShipBase, db.Model):
     __tablename__ = "ship_special_weapon"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    npc_price_tuning = db.Column(db.Integer)
-    class_sea = db.Column(db.String)
-    level_land = db.Column(db.Integer)
-    level_sea = db.Column(db.Integer)
-    rare_grade = db.Column(db.Integer)
 
     ship_defense = db.Column(db.Integer)
     ship_range = db.Column(db.Integer)
@@ -972,232 +478,71 @@ class ShipSpecialWeapon(db.Model):
     ship_hitrange = db.Column(db.Integer)
     ability_en_usage = db.Column(db.Integer)
 
-    bonus_code_1 = db.Column(db.Integer)
-    bonus_1 = db.Column(db.Integer)
-    bonus_code_2 = db.Column(db.Integer)
-    bonus_2 = db.Column(db.Integer)
-    bonus_code_3 = db.Column(db.Integer)
-    bonus_3 = db.Column(db.Integer)
-    bonus_code_4 = db.Column(db.Integer)
-    bonus_4 = db.Column(db.Integer)
-    bonus_code_5 = db.Column(db.Integer)
-    bonus_5 = db.Column(db.Integer)
 
-# Maps and NPC
+# Enhancing stuff #
 
-class Map(db.Model):
-    __tablename__ = "map"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
+class _Enhancing(_Base):
+    description = db.Column(db.Text)
 
-class NPC(db.Model):
-    __tablename__ = "npc"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
 
-# Quest stuff
-
-class QuestMission(db.Model):
-    __tablename__ = "quest_mission"
-    __bind_key__ = "static_florensia_data"
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
-
-    work_type = db.Column(db.Integer)
-    work_value = db.Column(db.String)
-    count = db.Column(db.Integer)
-
-    # 0
-    item_code = db.Column(db.String, db.ForeignKey("item_list.code"))
-    item = db.relationship("ItemList", foreign_keys=[item_code])
-
-    # 1, 4, 17
-    npc_code = db.Column(db.String, db.ForeignKey("npc.code"))
-    npc = db.relationship("NPC", foreign_keys=[npc_code])
-
-    # 2
-    monster_code = db.Column(db.String, db.ForeignKey("monster.code"))
-    monster = db.relationship("Monster", foreign_keys=[monster_code])
-
-    # 3
-    quest_item_code = db.Column(db.String, db.ForeignKey("quest_item.code"))
-    quest_item = db.relationship("QuestItem", foreign_keys=[quest_item_code])
-
-class QuestGiveDescription(db.Model):
-    __tablename__ = "quest_give_description"
-    __bind_key__ = "static_florensia_data"
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
-
-    item_code = db.Column(db.String, db.ForeignKey("quest_item.code"))
-    item = db.relationship("QuestItem", foreign_keys=[item_code])
-
-    amount = db.Column(db.Integer)
-
-class QuestLootDescription(db.Model):
-    __tablename__ = "quest_loot_description"
-    __bind_key__ = "static_florensia_data"
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
-
-    monster_code = db.Column(db.String, db.ForeignKey("monster.code"))
-    monster = db.relationship("Monster", foreign_keys=[monster_code])
-
-    item_code = db.Column(db.String, db.ForeignKey("quest_item.code"))
-    item = db.relationship("QuestItem", foreign_keys=[item_code])
-
-    rate = db.Column(db.Integer)
-
-class QuestSelectableItem(db.Model):
-    __tablename__ = "quest_selectable_item"
-    __bind_key__ = "static_florensia_data"
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
-
-    item_code = db.Column(db.String, db.ForeignKey("item_list.code"))
-    item = db.relationship("ItemList", foreign_keys=[item_code])
-
-    amount = db.Column(db.Integer)
-
-class QuestDescription(db.Model):
-    __tablename__ = "quest_description"
-    __bind_key__ = "static_florensia_data"
-    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    
-    quest_code = db.Column(db.String, db.ForeignKey("quest.code"))
-    language_code = db.Column(db.String)
-
-    title = db.Column(db.String)
-    mission_1 = db.Column(db.Text)
-    mission_2 = db.Column(db.Text)
-    mission_3 = db.Column(db.Text)
-    desc = db.Column(db.Text)
-    pre_dialog = db.Column(db.Text)
-    start_dialog = db.Column(db.Text)
-    run_dialog = db.Column(db.Text)
-    finish_dialog = db.Column(db.Text)
-
-class Quest(db.Model):
-    __tablename__ = "quest"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    level = db.Column(db.Integer)
-    must_party = db.Column(db.Boolean)
-    player_class = db.Column(db.String)
-    exp_reward = db.Column(db.String)
-    money_reward = db.Column(db.String)
-    location = db.Column(db.Integer)
-
-    before_quest_code = db.Column(db.String, db.ForeignKey("quest.code"))
-    before_quest = db.relation("Quest", remote_side=[code])
-
-    source_object_code = db.Column(db.String, db.ForeignKey("npc.code"))
-    source_object = db.relationship("NPC", foreign_keys=[source_object_code])
-
-    source_area_code = db.Column(db.String, db.ForeignKey("map.code"))
-    source_area = db.relationship("Map", foreign_keys=[source_area_code])
-
-    supplier_code = db.Column(db.String, db.ForeignKey("npc.code"))
-    supplier = db.relationship("NPC", foreign_keys=[supplier_code])
-
-    give_descriptions = db.relationship("QuestGiveDescription")
-    loot_descriptions = db.relationship("QuestLootDescription")
-    selectable_items = db.relationship("QuestSelectableItem")
-    missions = db.relationship("QuestMission")
-    descriptions = db.relationship("QuestDescription")
-
-class QuestItem(db.Model):
-    __tablename__ = "quest_item"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-
-class QuestScroll(db.Model): 
-    __tablename__ = "quest_scroll"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    quest_code = db.Column(db.String, db.ForeignKey("quest.code"))
-    quest = db.relationship("Quest", foreign_keys=[quest_code])
-
-# Enhancing stuff
-
-class UpgradeCrystal(db.Model): # TODO Description languages
+class UpgradeCrystal(_Enhancing, db.Model):
     __tablename__ = "upgrade_crystal"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    description = db.Column(db.String)
-    tradable = db.Column(db.Boolean)
 
-class UpgradeHelp(db.Model):
+
+class UpgradeHelp(_Enhancing, db.Model):
     __tablename__ = "upgrade_help"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    description = db.Column(db.String)
-    tradable = db.Column(db.Boolean)
+
+    description = db.Column(db.Text)
+
+
+class UpgradeStone(_Enhancing, db.Model):
+    __tablename__ = "upgrade_stone"
+    __bind_key__ = "static_florensia_data"
+
+    description = db.Column(db.Text)
+
+
+class SealBreakHelp(_Enhancing, db.Model):
+    __tablename__ = "seal_break_help"
+    __bind_key__ = "static_florensia_data"
+
+    description = db.Column(db.Text)
+
 
 class UpgradeRule(db.Model):
     __tablename__ = "upgrade_rule"
     __bind_key__ = "static_florensia_data"
+
     index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
     upgrade_code = db.Column(db.String)
     upgrade_level = db.Column(db.Integer)
+    gelt = db.Column(db.Integer)
+
     code_0 = db.Column(db.Integer)
     operator_0 = db.Column(db.String)
     value_0 = db.Column(db.Integer)
+
     code_1 = db.Column(db.Integer)
     operator_1 = db.Column(db.String)
     value_1 = db.Column(db.Integer)
+
     code_2 = db.Column(db.Integer)
     operator_2 = db.Column(db.String)
     value_2 = db.Column(db.Integer)
+
     code_3 = db.Column(db.Integer)
     operator_3 = db.Column(db.String)
     value_3 = db.Column(db.Integer)
-    gelt = db.Column(db.Integer)
 
-class UpgradeStone(db.Model): # TODO Description languages
-    __tablename__ = "upgrade_stone"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    description = db.Column(db.String)
-    tradable = db.Column(db.Boolean)
 
-class SealBreakHelp(db.Model):
-    __tablename__ = "seal_break_help"
-    __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    description = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
+# Other stuff #
 
-# other stuff
-
-class RandomBox(db.Model):
+class RandomBox(_Base, db.Model):
     __tablename__ = "random_box"
     __bind_key__ = "static_florensia_data"
-
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
 
     item_0_code = db.Column(db.String, db.ForeignKey("item_list.code"))
     item_0_quantity = db.Column(db.Integer)
@@ -1248,8 +593,8 @@ class RandomBox(db.Model):
     item_11_probability = db.Column(db.Float)
     item_11 = db.relationship("ItemList", foreign_keys=[item_11_code])
     item_12_code = db.Column(db.String, db.ForeignKey("item_list.code"))
-    item_12_quantity = db.Column(db.Float)
-    item_12_probability = db.Column(db.Integer)
+    item_12_quantity = db.Column(db.Integer)
+    item_12_probability = db.Column(db.Float)
     item_12 = db.relationship("ItemList", foreign_keys=[item_12_code])
     item_13_code = db.Column(db.String, db.ForeignKey("item_list.code"))
     item_13_quantity = db.Column(db.Integer)
@@ -1444,62 +789,176 @@ class RandomBox(db.Model):
     item_60_probability = db.Column(db.Float)
     item_60 = db.relationship("ItemList", foreign_keys=[item_60_code])
 
-class Consumable(db.Model):
+
+class Consumable(_Base, db.Model):
     __tablename__ = "consumable"
     __bind_key__ = "static_florensia_data"
-    code = db.Column(db.String, primary_key=True)
-    name = db.Column(db.String)
-    icon = db.Column(db.String)
+
     class_land = db.Column(db.Integer)
     cooltime = db.Column(db.Integer)
     efficiency = db.Column(db.Integer)
-    description = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
-    tradable = db.Column(db.Boolean)
+    description = db.Column(db.Text)
 
-class Bullet(db.Model):
+
+class Bullet(_Base, db.Model):
     __tablename__ = "bullet"
     __bind_key__ = "static_florensia_data"
+
+
+# Maps & NPCs #
+
+class Map(db.Model):
+    __tablename__ = "map"
+    __bind_key__ = "static_florensia_data"
+
+    code = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+
+
+class NPC(db.Model):
+    __tablename__ = "npc"
+    __bind_key__ = "static_florensia_data"
+
     code = db.Column(db.String, primary_key=True)
     name = db.Column(db.String)
     icon = db.Column(db.String)
-    npc_price = db.Column(db.Integer)
-    npc_price_disposal = db.Column(db.Integer)
 
-# Other stuff
 
-class ExcludeFromView(db.Model):
-    __tablename__ = "exclude_from_view"
-    __bind_key__ = "unstatic_florensia_data"
-    item_code = db.Column(db.String, db.ForeignKey("item_list.code"), primary_key=True)
+# Quest #
+
+class QuestItem(db.Model):
+    __tablename__ = "quest_item"
+    __bind_key__ = "static_florensia_data"
+
+    code = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+    icon = db.Column(db.String)
+    rare_grade = db.Column(db.Integer, default=0)
+
+
+class QuestScroll(db.Model):  # TODO Description
+    __tablename__ = "quest_scroll"
+    __bind_key__ = "static_florensia_data"
+
+    code = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+    icon = db.Column(db.String)
+    rare_grade = db.Column(db.Integer, default=0)
+    quest_code = db.Column(db.String, db.ForeignKey("quest.code"))
+    quest = db.relationship("Quest", foreign_keys=[quest_code])
+
+
+class QuestMission(db.Model):
+    __tablename__ = "quest_mission"
+    __bind_key__ = "static_florensia_data"
+
+    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
+
+    work_type = db.Column(db.Integer)
+    work_value = db.Column(db.String)
+    count = db.Column(db.Integer)
+
+    # 0
+    item_code = db.Column(db.String, db.ForeignKey("item_list.code"))
     item = db.relationship("ItemList", foreign_keys=[item_code])
 
-class Drop(db.Model):
-    __tablename__ = "drop"
-    __bind_key__ = "unstatic_florensia_data"
+    # 1, 4, 17
+    npc_code = db.Column(db.String, db.ForeignKey("npc.code"))
+    npc = db.relationship("NPC", foreign_keys=[npc_code])
+
+    # 2
+    monster_code = db.Column(db.String, db.ForeignKey("monster.code"))
+    monster = db.relationship("Monster", foreign_keys=[monster_code])
+
+    # 3
+    quest_item_code = db.Column(db.String, db.ForeignKey("quest_item.code"))
+    quest_item = db.relationship("QuestItem", foreign_keys=[quest_item_code])
+
+
+class QuestGiveDescription(db.Model):
+    __tablename__ = "quest_give_description"
+    __bind_key__ = "static_florensia_data"
     index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
+
+    item_code = db.Column(db.String, db.ForeignKey("quest_item.code"))
+    item = db.relationship("QuestItem", foreign_keys=[item_code])
+
+    amount = db.Column(db.Integer)
+
+
+class QuestLootDescription(db.Model):
+    __tablename__ = "quest_loot_description"
+    __bind_key__ = "static_florensia_data"
+    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
 
     monster_code = db.Column(db.String, db.ForeignKey("monster.code"))
     monster = db.relationship("Monster", foreign_keys=[monster_code])
 
+    item_code = db.Column(db.String, db.ForeignKey("quest_item.code"))
+    item = db.relationship("QuestItem", foreign_keys=[item_code])
+
+    rate = db.Column(db.Integer)
+
+
+class QuestSelectableItem(db.Model):
+    __tablename__ = "quest_selectable_item"
+    __bind_key__ = "static_florensia_data"
+    index = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    quest_code = db.Column(db.String, db.ForeignKey('quest.code'))
+
     item_code = db.Column(db.String, db.ForeignKey("item_list.code"))
     item = db.relationship("ItemList", foreign_keys=[item_code])
 
-class DropMessage(db.Model):
-    __tablename__ = "drop_message"
-    __bind_key__ = "unstatic_florensia_data"
+    amount = db.Column(db.Integer)
 
+
+class QuestDescription(db.Model):
+    __tablename__ = "quest_description"
+    __bind_key__ = "static_florensia_data"
     index = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    created_time = db.Column(db.DateTime, default=get_current_time)
 
-    declined = db.Column(db.Boolean, default=False)
-    accepted = db.Column(db.Boolean, default=False)
+    quest_code = db.Column(db.String, db.ForeignKey("quest.code"))
+    language_code = db.Column(db.String)
 
-    monster_code = db.Column(db.String, db.ForeignKey("monster.code"), nullable=False)
-    monster = db.relationship("Monster", foreign_keys=[monster_code])
+    title = db.Column(db.String)
+    mission_1 = db.Column(db.Text)
+    mission_2 = db.Column(db.Text)
+    mission_3 = db.Column(db.Text)
+    desc = db.Column(db.Text)
+    pre_dialog = db.Column(db.Text)
+    start_dialog = db.Column(db.Text)
+    run_dialog = db.Column(db.Text)
+    finish_dialog = db.Column(db.Text)
 
-    message = db.Column(db.String, nullable=False)
 
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
-    user = db.relationship("User", foreign_keys=[user_id])
+class Quest(db.Model):
+    __tablename__ = "quest"
+    __bind_key__ = "static_florensia_data"
+    code = db.Column(db.String, primary_key=True)
+    name = db.Column(db.String)
+    level = db.Column(db.Integer)
+    player_class = db.Column(db.String)
+    exp_reward = db.Column(db.String)
+    money_reward = db.Column(db.String)
+    location = db.Column(db.Integer)
+
+    before_quest_code = db.Column(db.String, db.ForeignKey("quest.code"))
+    before_quest = db.relation("Quest", remote_side=[code])
+
+    source_object_code = db.Column(db.String, db.ForeignKey("npc.code"))
+    source_object = db.relationship("NPC", foreign_keys=[source_object_code])
+
+    source_area_code = db.Column(db.String, db.ForeignKey("map.code"))
+    source_area = db.relationship("Map", foreign_keys=[source_area_code])
+
+    supplier_code = db.Column(db.String, db.ForeignKey("npc.code"))
+    supplier = db.relationship("NPC", foreign_keys=[supplier_code])
+
+    give_descriptions = db.relationship("QuestGiveDescription")
+    loot_descriptions = db.relationship("QuestLootDescription")
+    selectable_items = db.relationship("QuestSelectableItem")
+    missions = db.relationship("QuestMission")
+    descriptions = db.relationship("QuestDescription")

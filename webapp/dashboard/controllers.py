@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, jsonify
-from webapp.database.models import ExcludeFromView
+from webapp.database.models_2 import ExcludeFromView
 from webapp import db
 from flask_login import login_required
 from webapp.decorators import admin_required

@@ -3,6 +3,7 @@ from flask_login import current_user
 from sqlalchemy.sql.expression import or_
 from flask import abort
 import webapp.database.models as models
+import webapp.database.models_2 as models_2
 from webapp import db
 from webapp.auth.models import DropLog
 from webapp.database.options import OPTIONS
@@ -105,7 +106,7 @@ def get_options(table: str):
 def get_exclude_item_codes():
     if current_user.is_authenticated and current_user.can_see_excludes:
         return []
-    return [item.item_code for item in models.ExcludeFromView.query.all()]
+    return [item.item_code for item in models_2.ExcludeFromView.query.all()]
 
 
 def search_itemlist(string):
@@ -133,11 +134,11 @@ def get_data(table, code):
 
 
 def get_drops(code):
-    return db.session.query(models.Drop).filter(models.Drop.monster_code == code).all()
+    return db.session.query(models_2.Drop).filter(models_2.Drop.monster_code == code).all()
 
 
 def get_dropped_by(code):
-    return db.session.query(models.Drop).filter(models.Drop.item_code == code).all()
+    return db.session.query(models_2.Drop).filter(models_2.Drop.item_code == code).all()
 
 
 def get_quests(code):
@@ -216,7 +217,7 @@ def delete_drop(monster_code, item_code):
         return False, 404, "Item or Monster does not exist"
 
     # delete drop
-    db.session.query(models.Drop).filter(models.Drop.item_code == item_code, models.Drop.monster_code == monster_code).delete()
+    db.session.query(models_2.Drop).filter(models_2.Drop.item_code == item_code, models_2.Drop.monster_code == monster_code).delete()
     
     log = DropLog(action="del", user_id=current_user.id, item_code=item_code, monster_code=monster_code)
     db.session.add(log)
@@ -235,13 +236,13 @@ def add_drop(monster_code, item_code):
         return False, 404, "Item or Monster does not exist"
 
     # check if drop does not exist
-    _drop = db.session.query(models.Drop).filter(models.Drop.item_code == item_code, models.Drop.monster_code == monster_code).first()
+    _drop = db.session.query(models_2.Drop).filter(models_2.Drop.item_code == item_code, models_2.Drop.monster_code == monster_code).first()
     
     if _drop is not None:
         return False, 404, "Drop does already exist"
     
     # add drop
-    drop = models.Drop(item_code=item_code, monster_code=monster_code)
+    drop = models_2.Drop(item_code=item_code, monster_code=monster_code)
     db.session.add(drop)
 
     log = DropLog(action="add", user_id=current_user.id, item_code=item_code, monster_code=monster_code)
@@ -261,9 +262,9 @@ def add_drop_message(monster_code, message):
 
     # include user if user is logged in
     if current_user.is_authenticated:
-        message = models.DropMessage(monster_code=monster_code, message=message, user_id=current_user.id)
+        message = models_2.DropMessage(monster_code=monster_code, message=message, user_id=current_user.id)
     else:
-        message = models.DropMessage(monster_code=monster_code, message=message)
+        message = models_2.DropMessage(monster_code=monster_code, message=message)
     
     db.session.add(message)
     db.session.commit()
