@@ -111,6 +111,8 @@ def create_app(production=False):
 
     # Extensions
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
 
     # Blueprints
     from webapp.home.controllers import home as home_blueprint
