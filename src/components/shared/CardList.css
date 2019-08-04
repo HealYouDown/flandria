@@ -1,0 +1,70 @@
+.card {
+    margin-top: 15px;
+}
+
+.card-header {
+    padding: 12px 20px;
+    line-height: 24px;
+    background: rgba(0, 0, 0, 0.7);
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.card-body {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.card-body li:last-child > * {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.card-title {
+    font-size: 20px;
+}
+
+.card-title.card-title-center {
+    display: block;
+    text-align: center;
+}
+
+/* Clickable List Item */
+
+.clickable-list-item {
+    padding: 12px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+.clickable-list-item:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.clickable-list-item:hover:not(.no-hover) * {
+    transition: color 0.3s;
+    color: white;
+}
+
+.clickable-list-item:hover .arrow-box * {
+    transition: color 0.3s;
+    color: white;
+}
+
+.clickable-list-item-link {
+    display: flex;
+}
+
+.clickable-list-item-link > div.center {
+    flex-grow: 1;
+    display: flex;
+}
+
+.clickable-list-item-link > div * {
+    align-self: center;
+}
+
+.label-value-list-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid #000;
+}

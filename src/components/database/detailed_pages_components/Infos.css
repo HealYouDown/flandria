@@ -1,0 +1,11 @@
+.info-header {
+    display: flex;
+}
+
+.info-header * {
+    align-self: center;
+}
+
+.info-header > span {
+    font-size: 20px;
+}

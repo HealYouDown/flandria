@@ -1,0 +1,42 @@
+.search-wrapper {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.filter-button {
+    border-radius: 10px;
+    padding: 5px 10px;
+    border: none;
+    background: rgba(0, 0, 0, 0.5);
+    margin-left: 3px;
+    display: flex;
+}
+
+.filter-button * {
+    align-self: center;
+}
+
+.filter-button span {
+    margin-left: 3px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #aaa;
+}
+
+.filter-button:hover {
+    background: rgba(0, 0, 0, 0.7);
+    color: #5695d4;
+}
+
+.filter-button:hover * {
+    color: #5695d4;
+}
+
+.filter-menu {
+    margin-bottom: 15px;
+}

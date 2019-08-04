@@ -1,0 +1,41 @@
+.modal {
+    position: absolute;
+    z-index: 999;
+    left: 10%;
+    right: 10%;
+    top: 10%;
+    bottom: 10%;
+    background: #525252;
+    border-radius: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.modal-overlay {
+    position: fixed;
+    z-index: 998;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.save-build-modal {
+    position: absolute;
+    z-index: 999;
+    left: 20%;
+    right: 20%;
+    top: 20%;
+    bottom: 20%;
+    background: #313131;
+    border-radius: 5px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+}
+
+.ReactModal__Body--open {
+    overflow-y: hidden;
+}

@@ -1,0 +1,77 @@
+.list-wrapper > div {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.table-overview-list-item {
+    flex-basis: 30%;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 576px) {
+    .table-overview-list-item {
+        flex-basis: 95%;
+    }
+}
+
+@media only screen and (min-width: 577px) {
+    .table-overview-list-item {
+        flex-basis: 45%;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .table-overview-list-item {
+        flex-basis: 30%;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    .table-overview-list-item {
+        flex-basis: 23%;
+    }
+}
+
+.table-overview-list-item-inner {
+    box-sizing : border-box;
+    width: 100%;
+    display: flex;
+    background: linear-gradient(90deg,rgba(0,0,0,.5) 70%, transparent 110%);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+}
+
+.table-overview-list-item-inner:hover {
+    background: linear-gradient(90deg,rgba(0,0,0,.7) 70%, transparent 110%);
+}
+
+.table-overview-list-item-inner:hover .arrow-box * {
+    transition: 0.3s;
+    color: white;
+}
+
+.table-overview-list-item-inner > .left {
+    flex-grow: 0;
+    align-self: center;
+}
+
+.table-overview-list-item-inner > .center {
+    flex-grow: 1;
+    align-self: center;
+}
+
+.table-overview-list-item-inner > .center:not(:first-child) {
+    padding-left: 5px;
+}
+
+.bonus-subs {
+    font-size: 9px;
+    column-count: 2;
+    color: #5695d4;
+}

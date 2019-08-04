@@ -1,0 +1,63 @@
+.skilltree {
+    position: relative;
+    width: 525px;
+    height: 525px;
+    background-attachment: scroll;
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.skilltree * {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
+.skilltree-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.skilltree-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.skilltree-header-inner {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.skilltree-header-inner:not(:first-child) {
+    margin-top: 7px;
+}
+
+.skilltree-header-inner > .react-container {
+    flex-basis: 45%;
+}
+
+.skilltree-header-points-wrapper {
+    display: flex;
+    justify-content: space-around;
+    flex-basis: 75%;
+}
+
+.button-style-1 {
+    text-align: center;
+    padding: 3px 5px;
+    cursor: pointer;
+    border: none;
+    border-radius: 3px;
+    background-color: #414141;
+    color: #fff;
+    transition: background-color 0.15s;
+}
+
+.button-style-1:hover {
+    background-color: #313131;
+}

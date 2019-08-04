@@ -1,0 +1,43 @@
+.monster-rating {
+    align-self: center;
+}
+
+.item-rare-grade {
+    align-self: center;
+}
+
+.monster-rating, .item-rare-grade {
+    letter-spacing: 1.1px;
+}
+
+.monster-rating.rating-0 {
+    color: white;
+}
+
+.monster-rating.rating-1 {
+    color: #7fce2e
+}
+
+.monster-rating.rating-2 {
+    color: #cf304e
+}
+
+.monster-rating.rating-3 {
+    color: #e7b23f
+}
+
+.item-rare-grade.rare-grade-0 {
+    color: #99ccff;
+}
+
+.item-rare-grade.rare-grade-1 {
+    color: #99e680;
+}
+
+.item-rare-grade.rare-grade-2, .item-rare-grade.rare-grade-3 {
+    color: #ffbd8f;
+}
+
+.item-rare-grade.rare-grade-undefined {
+    color: #fff;
+}

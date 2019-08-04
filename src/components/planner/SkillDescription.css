@@ -1,0 +1,47 @@
+.skill-description {
+    max-width: 250px;
+    min-width: 200px;
+}
+
+.skill-name {
+    color: lime;
+    font-size: 16px;
+}
+
+.skill-level {
+    margin-left: 4px;
+    background-color: #5695d4;
+    border-radius: 7px;
+    padding-left: 5px;
+    padding-right: 5px;
+    color: #fff;
+}
+
+.skill-description-header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.skill-description-divider {
+    border-top: 1px solid black;
+}
+
+.skill-description-stats > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+.next-level {
+    display: block;
+    color: #fff;
+    text-align: center;
+}
+
+.skill-description-text {
+    margin-top: 3px;
+    text-align: center;
+}
+
+.not-allowed {
+    color: red;
+}
