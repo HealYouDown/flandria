@@ -14,7 +14,7 @@ class Home extends React.Component {
           <ItemSearch 
             searchInputStyle={{fontSize: "24px"}}
             searchInputWrapperStyle={{padding: "0px 40px"}}
-            clickAction={item => this.props.history.push(`/database/${item.table}/${item.code}`)}
+            clickAction={item => {this.props.history.push(`/database/${item.table}/${item.code}`)} }
           />
         </div>
       </div>
