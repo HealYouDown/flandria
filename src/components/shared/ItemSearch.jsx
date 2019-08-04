@@ -71,7 +71,7 @@ export default class ItemSearch extends React.Component {
         <ul style={{height: `${searchResultsHeight}px`}} className="search-results reset">
           {results.map((item, i) => {
             return (
-              <li key={i} onClick={() => clickAction(item)} className="search-list-item">
+              <li key={i} onMouseDown={() => clickAction(item)} className="search-list-item">
                 <div style={{display: "flex"}}>
                   <Icon normalProductBookIcon={true} table={item.table} data={item} />
                   <Name normalProductBookColor={true} table={item.table} data={item} />
