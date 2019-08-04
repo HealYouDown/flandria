@@ -50,7 +50,6 @@ def bundle():
         rv = app.response_class(
             data, mimetype="text/javascript", headers=headers, direct_passthrough=True
         )
-        file.close()
 
         return rv
     else:
