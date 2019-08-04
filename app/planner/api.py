@@ -112,7 +112,19 @@ class PlannerBuild(Resource):
         description = data.get("description", None)
         hash_ = data.get("hash", None)
         selected_level = data.get("selected_level", None)
-        selected_class = data.get("selected_class", None)
+        selected_class = data.get("selected_class", "")
+
+        if not title or title is None:
+            return abort(422, "Title is missing")
+
+        if not description or description is None:
+            return abort(422, "Description is missing")
+
+        if not hash or hash is None:
+            return abort(422, "Hash is missing")
+
+        if not selected_level or selected_level is None:
+            return abort(422, "Selected level is missing")
 
         build = UserBuild(
             user_id=user.id,
