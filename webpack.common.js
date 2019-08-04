@@ -4,7 +4,7 @@ module.exports = {
   },
   output: {
     path: __dirname + "/app/static",
-    filename: "bundle.js",
+    filename: "[hash].bundle.js",
   },
   module: {
     rules: [

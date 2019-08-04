@@ -16,9 +16,6 @@ fs.readdirSync(outputDir).forEach(filename => {
 module.exports = merge(common, {
   mode: "production",
   devtool: "(none)",
-  output: {
-    filename: 'bundle.js'
-  },
   plugins: [
     new CompressionPlugin({
       filename: '[path].gz',

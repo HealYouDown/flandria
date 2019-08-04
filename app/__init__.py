@@ -24,7 +24,10 @@ app = Flask(__name__)
 @app.route('/<path:path>')
 def index(path):
     icon, name = get_icon_and_name(path)
-    return render_template("index.html", icon=icon, name=name)
+    bundle_filename = list(filter(lambda f: f.endswith("bundle.js"), os.listdir(app.static_folder)))[0]
+    hash = bundle_filename.split(".")[0]
+
+    return render_template("index.html", icon=icon, name=name, hash=hash)
 
 
 @app.route("/static/bundle.js")
