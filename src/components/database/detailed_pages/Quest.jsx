@@ -48,6 +48,13 @@ export default class Quest extends React.Component {
     fetchDetailedPageData(this.table, this.code, this.setState.bind(this));
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.match.params.code != this.code) {
+      this.code = nextProps.match.params.code
+      fetchDetailedPageData(this.table, this.code, this.setState.bind(this));
+    }
+  }
+
   render() {
     const {
       loading,
