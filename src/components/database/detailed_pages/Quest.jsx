@@ -242,7 +242,7 @@ export default class Quest extends React.Component {
                 <span className="card-title">Rewards</span>
                 {data.selectable_items.map((reward, i) => {
                   return (
-                    <ClickableListItem key={i} hover={false} link={`/database/${reward.item.table}/${reward.item}`}>
+                    <ClickableListItem key={i} hover={false} link={`/database/${reward.item.table}/${reward.item.code}`}>
                       <Icon table={reward.item.table} data={reward.item} />
                       <div>
                         <Name table={reward.item.table} data={reward.item} />
