@@ -31,7 +31,7 @@ def update_server():
 
     pull_info = origin.pull()
 
-    # reload server via pythonanywhere api
+    # reload server via pythonanywhere api TEST
     my_domain = 'www.flandria.info'
     username = 'HealYouDown'
     token = os.environ.get("PYTHONANYWHERE_API_TOKEN", default="")
