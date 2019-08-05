@@ -72,7 +72,7 @@ def create_app(development=True):
 
     # Register normal endpoints
     from app.update_server import update_server
-    app.add_url_rule("/update-server", "update_server", view_func=update_server)
+    app.add_url_rule("/update-server", "update_server", view_func=update_server, methods=["POST"])
 
     # Blueprints
     app.register_blueprint(api_bp)
