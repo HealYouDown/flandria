@@ -33,11 +33,15 @@ import Monster from "./database/detailed_pages/Monser";
 import Quest from "./database/detailed_pages/Quest";
 import Planner from "./planner/Planner";
 import PlannerBuilds from "./planner/PlannerBuilds";
+import PrivacyPolicy from "./home/PrivacyPolicy";
+import About from "./home/About";
 
 const routes = (
   <Switch>
     
     <Route exact path="/" component={Home} />
+    <Route path="/privacy-policy" component={PrivacyPolicy} />
+    <Route path="/about" component={About} />
 
     <Route path="/auth/login" component={Login} />
     <Route path="/auth/register" component={Register} />

@@ -37,9 +37,10 @@ main {
 footer {
     background: rgba(0, 0, 0, 0.6);
     padding: 16px 0px;
-    text-align: center;
     position: relative;
     z-index: 5;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .nav-list {
