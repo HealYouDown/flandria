@@ -24,7 +24,7 @@ def update_server():
     github_webhook_secret = current_app.config["GITHUB_WEBHOOK_SECRET"]
 
     if not is_valid_signature(x_hub_signature, request.data, github_webhook_secret):
-        return "Unvalid"
+        return "Invalid"
 
     repo = git.Repo("flandria-website/flandria")
     origin = repo.remotes.origin
@@ -43,4 +43,4 @@ def update_server():
         headers={'Authorization': 'Token {token}'.format(token=token)}
     )
 
-    return "Updated server"
+    return "Updated server", 200
