@@ -35,12 +35,12 @@ def update_server():
     my_domain = 'www.flandria.info'
     username = 'HealYouDown'
     token = os.environ.get("PYTHONANYWHERE_API_TOKEN", default="")
-
+    """
     response = requests.post(
         'https://www.pythonanywhere.com/api/v0/user/{username}/webapps/{domain}/reload/'.format(
             username=username, domain=my_domain
         ),
         headers={'Authorization': 'Token {token}'.format(token=token)}
     )
-
+    """
     return "Updated server", 200
