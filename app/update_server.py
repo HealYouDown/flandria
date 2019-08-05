@@ -26,7 +26,7 @@ def update_server():
     if not is_valid_signature(x_hub_signature, request.data, github_webhook_secret):
         return "Unvalid"
 
-    repo = git.Repo("https://github.com/HealYouDown/flandria")
+    repo = git.Repo("flandria-website/flandria")
     origin = repo.remotes.origin
 
     pull_info = origin.pull()
