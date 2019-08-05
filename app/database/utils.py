@@ -203,7 +203,7 @@ def search_itemlist(string: str, user):
             get_hidden_codes(user=None)))
 
     includes = ["code", "table", "name", "icon", "rare_grade"]
-    return [i.to_dict(includes=includes) for i in query.limit(50).all()]
+    return [i.to_dict(includes=includes) for i in query.limit(5).all()]
 
 
 @catch_errors
