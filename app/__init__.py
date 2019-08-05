@@ -70,6 +70,10 @@ def create_app(development=True):
     register_auth_endpoints(api)
     register_planner_endpoints(api)
 
+    # Register normal endpoints
+    from app.update_server import update_server
+    app.add_url_rule("/update-server", "update_server", view_func=update_server)
+
     # Blueprints
     app.register_blueprint(api_bp)
 

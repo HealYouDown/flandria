@@ -21,6 +21,7 @@ class CustomJSONEncoder(JSONEncoder):
 class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", default="secret_key")
     SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT", default="secret_password_salt")
+    GITHUB_WEBHOOK_SECRET = os.environ.get("GITHUB_WEBHOOK_SECRET", default="")
 
     JWT_ACCESS_LIFESPAN = {"days": 15}
     JWT_REFRESH_LIFESPAN = {"days": 15}
