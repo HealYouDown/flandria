@@ -2,6 +2,8 @@ import hmac
 import hashlib
 from flask import current_app, request
 import git
+import requests
+import os
 
 
 def is_valid_signature(x_hub_signature, data, private_key):
@@ -28,5 +30,17 @@ def update_server():
     origin = repo.remotes.origin
 
     pull_info = origin.pull()
+
+    # reload server via pythonanywhere api
+    my_domain = 'www.flandria.info'
+    username = 'HealYouDown'
+    token = os.environ.get("PYTHONANYWHERE_API_TOKEN", default="")
+
+    response = requests.post(
+        'https://www.pythonanywhere.com/api/v0/user/{username}/webapps/{domain}/reload/'.format(
+            username=username, domain=my_domain
+        ),
+        headers={'Authorization': 'Token {token}'.format(token=token)}
+    )
 
     return "Updated server"
