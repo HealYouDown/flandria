@@ -1,5 +1,5 @@
 from flask import abort, request
-from flask_praetorian import roles_accepted
+from flask_praetorian import roles_accepted, current_user
 from flask_restful import Resource
 
 import app.database.models as db_models
@@ -7,6 +7,8 @@ import app.database.utils as db_utils
 from app.decorators import auth_optional
 from app.extensions import db
 from app.utils import tablename_to_class_name
+
+from app.webhooks import send_add_drop_webhook, send_delete_drop_webhook, send_edit_drop_webhook
 
 
 class Database(Resource):
@@ -111,6 +113,13 @@ class Drop(Resource):
         if drop is None:
             return abort(409, "Drop does not exist.")
 
+        # webhook
+        monster = db_models.Monster.query.get(monster_code)
+        item = db_models.ItemList.query.get(item_code)
+        user = current_user()
+
+        send_edit_drop_webhook(monster, item, quantity, user)
+
         drop.quantity = quantity
         db.session.commit()
 
@@ -140,6 +149,14 @@ class Drop(Resource):
         if drop is not None:
             return abort(409, "Drop already exists.")
 
+        # Sending a webhook
+        monster = db_models.Monster.query.get(monster_code)
+        item = db_models.ItemList.query.get(item_code)
+        user = current_user()
+
+        send_add_drop_webhook(monster, item, user)
+
+        # Actually adding drop to database
         drop = db_models.Drop(monster_code=monster_code, item_code=item_code, quantity=quantity)
         db.session.add(drop)
         db.session.commit()
@@ -169,6 +186,14 @@ class Drop(Resource):
         if drop is None:
             return abort(404, "Drop was not found.")
 
+        # Sending a webhook
+        monster = db_models.Monster.query.get(monster_code)
+        item = db_models.ItemList.query.get(item_code)
+        user = current_user()
+
+        send_delete_drop_webhook(monster, item, user)
+
+        # Actually deleting drop
         db.session.delete(drop)
         db.session.commit()
 
