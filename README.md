@@ -1,7 +1,6 @@
 # Flandria
 
 Flandria is a Fanpage for the MMORPG [Florensia](https://www.florensia-online.com).
-It can be found under https://www.flandria.info
 
 ## Description
 
