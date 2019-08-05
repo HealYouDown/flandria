@@ -153,7 +153,7 @@ export default class PlannerBuilds extends React.Component {
                         </div>
                         {(this.auth.loggedIn() && build.user.id == this.auth.getId()) && (
                           <div>
-                            <FaTrash onClick={e => this._deleteBuild(e, build.index)} />
+                            <FaTrash className="fa-icon" onClick={e => this._deleteBuild(e, build.index)} />
                           </div>
                         )}
                       </div>
