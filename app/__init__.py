@@ -28,7 +28,7 @@ def index(path):
 def bundle(bundle_filename):
     accept_encoding = request.headers.get('Accept-Encoding', '')
 
-    if "gzip" in accept_encoding:
+    if "gzip" in accept_encoding and app.config.get("ENV") == "production":
         # modifys the response so that it supports gzipped content and caching
         # 3 hours of my life.. wasted. Send help
         bundle_filename += ".gz"
