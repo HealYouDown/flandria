@@ -1,22 +1,17 @@
 import gzip
-from datetime import datetime
-
-from flask import (Blueprint, Flask, after_this_request, render_template,
-                   request, send_from_directory, abort)
-from flask.json import JSONEncoder
 import os
+from zlib import adler32
+
+from flask import Flask, render_template, request, send_from_directory
+from werkzeug.wsgi import wrap_file
 
 from app.auth.api import register_auth_endpoints
-from app.regex_converter import RegexConverter
 from app.database.api import register_database_endpoints
 from app.extensions import api, api_bp, db, guard
 from app.planner.api import register_planner_endpoints
+from app.regex_converter import RegexConverter
 from app.utils import get_icon_and_name
 from config import DevelopmentConfig, ProductionConfig
-from werkzeug import Response
-from werkzeug.wsgi import wrap_file
-
-import gzip
 
 app = Flask(__name__)
 
@@ -33,28 +28,40 @@ def index(path):
 def bundle(bundle_filename):
     accept_encoding = request.headers.get('Accept-Encoding', '')
 
-    if "gzip" in accept_encoding and app.config.get("ENV") == "production":
-        # if browser supports, return gzipped file
-        gziped_filename = bundle_filename + ".gz"
+    if "gzip" in accept_encoding:
+        bundle_filename += ".gz"
 
-        # this shit took me 3 hours to figure out :))
-        # I hate my life.
         headers = {}
-        filename = os.path.join(app.static_folder, gziped_filename)
-        fsize = os.path.getsize(filename)
+        filepath = os.path.join(app.static_folder, bundle_filename)
+        fsize = os.path.getsize(filepath)
 
         headers["Content-Length"] = fsize
         headers["Content-Encoding"] = "gzip"
+        headers["Cache-Control"] = "public, max-age=43200"
 
-        file = open(filename, "rb")
+        file = open(filepath, "rb")
         data = wrap_file(request.environ, file)
         rv = app.response_class(
             data, mimetype="text/javascript", headers=headers, direct_passthrough=True
         )
 
-        return rv
+        rv.set_etag(
+            "%s-%s-%s"
+            % (
+                os.path.getmtime(filepath),
+                os.path.getsize(filepath),
+                adler32(
+                    filepath.encode("utf-8")
+                    if isinstance(filepath, str)
+                    else filepath
+                ) & 0xFFFFFFFF,
+            )
+        )
+
     else:
-        return send_from_directory(app.static_folder, bundle_filename)
+        rv = send_from_directory(app.static_folder, bundle_filename, mimetype="text/javascript")
+
+    return rv
 
 
 def create_app(development=True):
@@ -86,7 +93,6 @@ def create_app(development=True):
         view_func=bundle,
         methods=["GET"]
     )
-
     # Blueprints
     app.register_blueprint(api_bp)
 
