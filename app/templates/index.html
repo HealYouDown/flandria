@@ -11,6 +11,6 @@
 </head>
 <body style="background: black;">
     <div id="root"></div>
-    <script type="text/javascript" src="/static/bundle.js?{{hash}}"></script>
+    <script type="text/javascript" src="{{url_for('static', filename=bundle_filename)}}"></script>
 </body>
 </html>

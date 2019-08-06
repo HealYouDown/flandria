@@ -7,6 +7,7 @@ from flask.json import JSONEncoder
 import os
 
 from app.auth.api import register_auth_endpoints
+from app.regex_converter import RegexConverter
 from app.database.api import register_database_endpoints
 from app.extensions import api, api_bp, db, guard
 from app.planner.api import register_planner_endpoints
@@ -25,15 +26,12 @@ app = Flask(__name__)
 def index(path):
     icon, name = get_icon_and_name(path)
     bundle_filename = list(filter(lambda f: f.endswith("bundle.js"), os.listdir(app.static_folder)))[0]
-    hash = bundle_filename.split(".")[0]
 
-    return render_template("index.html", icon=icon, name=name, hash=hash)
+    return render_template("index.html", icon=icon, name=name, bundle_filename=bundle_filename)
 
 
-@app.route("/static/bundle.js")
-def bundle():
+def bundle(bundle_filename):
     accept_encoding = request.headers.get('Accept-Encoding', '')
-    bundle_filename = list(filter(lambda f: f.endswith("bundle.js"), os.listdir(app.static_folder)))[0]
 
     if "gzip" in accept_encoding and app.config.get("ENV") == "production":
         # if browser supports, return gzipped file
@@ -60,10 +58,14 @@ def bundle():
 
 
 def create_app(development=True):
+    # Settings
     if development:
         app.config.from_object(DevelopmentConfig)
     else:
         app.config.from_object(ProductionConfig)
+
+    # Regex Converter
+    app.url_map.converters['regex'] = RegexConverter
 
     # Register API Endpoints
     register_database_endpoints(api)
@@ -72,7 +74,18 @@ def create_app(development=True):
 
     # Register normal endpoints
     from app.update_server import update_server
-    app.add_url_rule("/update-server", "update_server", view_func=update_server, methods=["POST"])
+    app.add_url_rule(
+        "/update-server",
+        "update_server",
+        view_func=update_server,
+        methods=["POST"]
+    )
+    app.add_url_rule(
+        "/static/<regex('[a-z0-9_]{20}\.bundle\.js'):bundle_filename>",
+        "bundle",
+        view_func=bundle,
+        methods=["GET"]
+    )
 
     # Blueprints
     app.register_blueprint(api_bp)
