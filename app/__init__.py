@@ -26,44 +26,17 @@ def index(path):
 
 
 def bundle(bundle_filename):
+    # returns [hash].bundle.js.gz if gzip is supported, else the normal bundle
     accept_encoding = request.headers.get('Accept-Encoding', '')
+    gzip_supported = "gzip" in accept_encoding and app.config.get("ENV") == "production"
 
-    if "gzip" in accept_encoding and app.config.get("ENV") == "production":
-        # modifys the response so that it supports gzipped content and caching
-        # 3 hours of my life.. wasted. Send help
+    if gzip_supported:
         bundle_filename += ".gz"
 
-        headers = {}
-        filepath = os.path.join(app.static_folder, bundle_filename)
-        fsize = os.path.getsize(filepath)
+    rv = send_from_directory(app.static_folder, bundle_filename, mimetype="text/javascript")
 
-        headers["Content-Length"] = fsize
-        headers["Content-Encoding"] = "gzip"
-        headers["Cache-Control"] = "public, max-age=43200"  # required for caching
-
-        file = open(filepath, "rb")
-        data = wrap_file(request.environ, file)
-        rv = app.response_class(
-            data, mimetype="text/javascript", headers=headers, direct_passthrough=True
-        )
-
-        # required for checking if cache is the same
-        rv.set_etag(
-            "%s-%s-%s"
-            % (
-                os.path.getmtime(filepath),
-                os.path.getsize(filepath),
-                adler32(
-                    filepath.encode("utf-8")
-                    if isinstance(filepath, str)
-                    else filepath
-                ) & 0xFFFFFFFF,
-            )
-        )
-
-    else:
-        # if gzip is not supported, send the normal bundle.js
-        rv = send_from_directory(app.static_folder, bundle_filename, mimetype="text/javascript")
+    if gzip_supported:
+        rv.headers.set("Content-Encoding", "gzip")
 
     return rv
 
