@@ -29,6 +29,8 @@ def bundle(bundle_filename):
     accept_encoding = request.headers.get('Accept-Encoding', '')
 
     if "gzip" in accept_encoding:
+        # modifys the response so that it supports gzipped content and caching
+        # 3 hours of my life.. wasted. Send help
         bundle_filename += ".gz"
 
         headers = {}
@@ -37,7 +39,7 @@ def bundle(bundle_filename):
 
         headers["Content-Length"] = fsize
         headers["Content-Encoding"] = "gzip"
-        headers["Cache-Control"] = "public, max-age=43200"
+        headers["Cache-Control"] = "public, max-age=43200"  # required for caching
 
         file = open(filepath, "rb")
         data = wrap_file(request.environ, file)
@@ -45,6 +47,7 @@ def bundle(bundle_filename):
             data, mimetype="text/javascript", headers=headers, direct_passthrough=True
         )
 
+        # required for checking if cache is the same
         rv.set_etag(
             "%s-%s-%s"
             % (
@@ -59,6 +62,7 @@ def bundle(bundle_filename):
         )
 
     else:
+        # if gzip is not supported, send the normal bundle.js
         rv = send_from_directory(app.static_folder, bundle_filename, mimetype="text/javascript")
 
     return rv
