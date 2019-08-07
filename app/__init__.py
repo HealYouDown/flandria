@@ -25,6 +25,36 @@ def index(path):
     return render_template("index.html", icon=icon, name=name, bundle_filename=bundle_filename)
 
 
+@app.route("/sitemap.txt")
+def sitemap():
+    from app.database.models import ItemList, Monster, Quest
+
+    urls = [
+        "https://www.flandria.info",
+        "https://www.flandria.info/planner/mercenary",
+        "https://www.flandria.info/planner/saint",
+        "https://www.flandria.info/planner/noble",
+        "https://www.flandria.info/planner/explorer",
+        "https://www.flandria.info/about",
+        "https://www.flandria.info/privacy-policy",
+    ]
+    for monster in Monster.query.all():
+        urls.append("https://www.flandria.info/database/monster/{code}".format(code=monster.code))
+    for quest in Quest.query.all():
+        urls.append("https://www.flandria.info/database/quest/{code}".format(code=quest.code))
+    for item in ItemList.query.all():
+        urls.append("https://www.flandria.info/database/{table}/{code}".format(table=item.table, code=item.code))
+
+    result = "\n".join(urls)
+
+    return result
+
+
+@app.route("/robots.txt")
+def robots_txt():
+    return "Sitemap: https://www.flandria.info/sitemap.txt"
+
+
 def bundle(bundle_filename):
     # returns [hash].bundle.js.gz if gzip is supported, else the normal bundle
     accept_encoding = request.headers.get('Accept-Encoding', '')
