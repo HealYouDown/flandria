@@ -5,6 +5,7 @@ import { fetchDetailedPageData } from "../../api";
 import CardList, { ClickableListItem } from "../../shared/CardList";
 import Icon from "../Icon";
 import Name from "../Name";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 import "../detailed_pages_components/Infos.css";
 
@@ -39,7 +40,7 @@ export default class QuestScroll extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

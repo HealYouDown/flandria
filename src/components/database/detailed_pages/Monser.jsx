@@ -9,6 +9,7 @@ import EditMonsterModal from "./MonsterEdit";
 import Icon from "../Icon";
 import Infos from "../detailed_pages_components/Infos";
 import Name from "../Name";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 import "../../../styles/fa-icon.css";
 
@@ -46,7 +47,7 @@ export default class Monster extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
 
     document.title = data.name;

@@ -10,6 +10,7 @@ import ProducedBy from "../detailed_pages_components/ProducedBy";
 import CardList, { ClickableListItem } from "../../shared/CardList";
 import Icon from "../Icon";
 import Name from "../Name";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class RandomBox extends React.Component {
   constructor(props) {
@@ -42,7 +43,7 @@ export default class RandomBox extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

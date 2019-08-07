@@ -6,6 +6,7 @@ import CardList, { ClickableListItem } from "../../shared/CardList";
 import DroppedBy from "../detailed_pages_components/DroppedBy";
 import Icon from "../Icon";
 import Name from "../Name";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 import "../detailed_pages_components/Infos.css";
 
@@ -40,7 +41,7 @@ export default class QuestItem extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

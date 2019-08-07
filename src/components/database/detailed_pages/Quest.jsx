@@ -1,11 +1,12 @@
-import React from "react";
 import { Row, Col } from "react-grid-system";
+import React from "react";
+
 import { fetchDetailedPageData } from "../../api";
-import Infos from "../detailed_pages_components/Infos";
 import CardList, { ClickableListItem } from "../../shared/CardList";
 import Icon from "../Icon";
+import Infos from "../detailed_pages_components/Infos";
+import LoadingScreen from "../../layout/LoadingScreen";
 import Name from "../Name";
-
 
 const QuestDescription = ({title, description}) => {
   if (description.length <= 2) {
@@ -68,7 +69,7 @@ export default class Quest extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

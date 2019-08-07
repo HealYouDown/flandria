@@ -4,6 +4,7 @@ import React from "react";
 import { fetchDetailedPageData } from "../../api";
 import DroppedBy from "../detailed_pages_components/DroppedBy";
 import Infos from "../detailed_pages_components/Infos";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class Bullet extends React.Component {
   constructor(props) {
@@ -36,7 +37,7 @@ export default class Bullet extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

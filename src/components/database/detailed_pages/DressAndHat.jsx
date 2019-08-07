@@ -6,6 +6,7 @@ import AvailableIn from "../detailed_pages_components/AvailableIn";
 import BonusStats from "../detailed_pages_components/BonusStats";
 import DroppedBy from "../detailed_pages_components/DroppedBy";
 import Infos from "../detailed_pages_components/Infos";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class DressAndHat extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ export default class DressAndHat extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

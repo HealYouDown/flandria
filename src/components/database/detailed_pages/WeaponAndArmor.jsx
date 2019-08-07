@@ -8,6 +8,7 @@ import DroppedBy from "../detailed_pages_components/DroppedBy";
 import ProducedBy from "../detailed_pages_components/ProducedBy";
 import NeededFor from "../detailed_pages_components/NeededFor";
 import Upgrade from "../detailed_pages_components/Upgrade";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class WeaponAndArmor extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ export default class WeaponAndArmor extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

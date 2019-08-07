@@ -8,6 +8,7 @@ import DroppedBy from "../detailed_pages_components/DroppedBy";
 import Icon from "../Icon";
 import Infos from "../detailed_pages_components/Infos";
 import Name from "../Name";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class Recipe extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ export default class Recipe extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

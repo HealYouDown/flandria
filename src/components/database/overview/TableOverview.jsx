@@ -11,6 +11,7 @@ import RightArrow from "../../shared/RightArrow";
 
 import "./TableOverview.css";
 import FilterMenu from "./FilterMenu";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 const tablesInitDesc = ["dress", "hat", "recipe", "material", "random_box", "consumable"]
 
@@ -265,7 +266,7 @@ export default class TableOverview extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />;
     }
 
     const items = this._getFilteredItems();

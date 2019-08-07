@@ -8,6 +8,7 @@ import Infos from "../detailed_pages_components/Infos";
 import NeededFor from "../detailed_pages_components/NeededFor";
 import ProducedBy from "../detailed_pages_components/ProducedBy";
 import Description from "../detailed_pages_components/Description";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class Consumable extends React.Component {
   constructor(props) {
@@ -40,7 +41,7 @@ export default class Consumable extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;

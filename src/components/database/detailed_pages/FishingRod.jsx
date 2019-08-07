@@ -5,6 +5,7 @@ import { fetchDetailedPageData } from "../../api";
 import AvailableIn from "../detailed_pages_components/AvailableIn";
 import Infos from "../detailed_pages_components/Infos";
 import BonusStats from "../detailed_pages_components/BonusStats";
+import LoadingScreen from "../../layout/LoadingScreen";
 
 export default class FishingRod extends React.Component {
   constructor(props) {
@@ -37,7 +38,7 @@ export default class FishingRod extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />
     }
   
     document.title = data.name;
