@@ -11,6 +11,7 @@ import "../../styles/react-select-override.css";
 import "./Planner.css";
 import { hasHash, setDefaultHash, getLevelFromCode, getHashObject, updateHashSkillLevel, updateHashInfoPart, getHash } from "./hash_functions";
 import SaveBuildModal from "./SaveBuildModa";
+import LoadingScreen from "../layout/LoadingScreen";
 
 export default class Planner extends React.Component {
   constructor(props) {
@@ -458,7 +459,7 @@ export default class Planner extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />;
     }
 
     const skilltreeBackground = `/static/img/skilltree_backgrounds/${this.plannerClass}.png`;

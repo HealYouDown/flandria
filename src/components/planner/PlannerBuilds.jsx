@@ -5,6 +5,7 @@ import RightArrow from "../shared/RightArrow";
 
 import "./PlannerBuild.css";
 import { FaStar, FaTrash } from "react-icons/fa";
+import LoadingScreen from "../layout/LoadingScreen";
 
 export default class PlannerBuilds extends React.Component {
   constructor(props) {
@@ -106,7 +107,7 @@ export default class PlannerBuilds extends React.Component {
     }
 
     if (loading) {
-      return null;
+      return <LoadingScreen />;
     }
 
     let sortedBuilds = Object.assign([], data);

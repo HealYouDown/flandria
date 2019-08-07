@@ -37,8 +37,7 @@ import PrivacyPolicy from "./home/PrivacyPolicy";
 import About from "./home/About";
 
 const routes = (
-  <Switch>
-    
+  <Switch> 
     <Route exact path="/" component={Home} />
     <Route path="/privacy-policy" component={PrivacyPolicy} />
     <Route path="/about" component={About} />

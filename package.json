@@ -31,6 +31,7 @@
     "react-router-dom": "^5.0.1",
     "react-select": "^3.0.4",
     "react-tooltip": "^3.10.0",
+    "react-topbar-progress-indicator": "^2.0.0",
     "style-loader": "^0.23.1",
     "superagent": "^5.1.0",
     "webpack": "^4.35.0",
