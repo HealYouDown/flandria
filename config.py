@@ -31,6 +31,9 @@ class Config:
 
     RESTFUL_JSON = {'cls': CustomJSONEncoder}
 
+    CACHE_TYPE = "simple"
+    CACHE_DEFAULT_TIMEOUT = 900
+
 
 class ProductionConfig(Config):
     DEBUG = False

@@ -5,7 +5,7 @@ from flask_restful import Resource
 import app.database.models as db_models
 import app.database.utils as db_utils
 from app.decorators import auth_optional
-from app.extensions import db
+from app.extensions import db, cache
 from app.utils import tablename_to_class_name
 
 from app.webhooks import send_add_drop_webhook, send_delete_drop_webhook, send_edit_drop_webhook
@@ -14,13 +14,14 @@ from app.webhooks import send_add_drop_webhook, send_delete_drop_webhook, send_e
 class Database(Resource):
     def get(self, table=None, code=None):
         if table is not None and code is None:
-            return self._table_overview(table)
+            return Database._table_overview(table)
 
         elif table is not None and code is not None:
-            return self._detailed_overview(table, code)
+            return Database._detailed_overview(table, code)
 
     @auth_optional
-    def _table_overview(self, table, user=None):
+    @cache.memoize()
+    def _table_overview(table, user=None):
         assert table in db_utils.tables.keys(), abort(404, "Table was not found.")
 
         table_cls_name = tablename_to_class_name(table)
@@ -31,13 +32,14 @@ class Database(Resource):
 
         if user is None or not user.can_see_hidden:
             query = query.filter(table_cls.code.notin_(
-                db_utils.get_hidden_codes(user=None)))
+                db_utils.get_hidden_codes()))
 
         items = [item.to_dict(overview=True) for item in query.all()]
         return items, 200
 
     @auth_optional
-    def _detailed_overview(self, table, code, user=None):
+    @cache.memoize()
+    def _detailed_overview(table, code, user=None):
         table_data = db_utils.tables.get(table, None)
         if table_data is None:
             return abort(404, "Table was not found.")
@@ -52,7 +54,7 @@ class Database(Resource):
 
         if user is None or not user.can_see_hidden:
             query = query.filter(table_cls.code.notin_(
-                db_utils.get_hidden_codes(user=None)))
+                db_utils.get_hidden_codes()))
 
         item = query.first()
         if item is None:

@@ -176,13 +176,7 @@ tables = {
 
 
 @catch_errors
-def get_hidden_codes(user, return_always=False):
-    if not return_always:
-        # return_always indicates that the codes should even be returned if
-        # the user has the needed right to normally see them.
-        if user is not None and user.can_see_hidden:
-            return []
-
+def get_hidden_codes():
     return [o.code for o in db.session.query(db_models.HiddenItem).all()]
 
 

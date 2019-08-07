@@ -3,11 +3,10 @@ import os
 from zlib import adler32
 
 from flask import Flask, render_template, request, send_from_directory
-from werkzeug.wsgi import wrap_file
 
 from app.auth.api import register_auth_endpoints
 from app.database.api import register_database_endpoints
-from app.extensions import api, api_bp, db, guard
+from app.extensions import api, api_bp, db, guard, cache
 from app.planner.api import register_planner_endpoints
 from app.regex_converter import RegexConverter
 from app.utils import get_icon_and_name
@@ -105,6 +104,7 @@ def create_app(development=True):
 
     # Inits Extensions
     db.init_app(app)
+    cache.init_app(app)
     from app.auth.models import User
     guard.init_app(app, User)
 
