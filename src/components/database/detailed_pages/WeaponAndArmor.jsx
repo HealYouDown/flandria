@@ -46,11 +46,16 @@ export default class WeaponAndArmor extends React.Component {
   
     document.title = data.name;
 
-    const itemInfos = [
+    let itemInfos = [
       { label: "Class", value: data.class_land },
       { label: "Level", value: `${data.level_land}/${data.level_sea}` },
       { label: "Tradable", value: `${data.tradable ? "True" : "False"}` },
     ]
+
+    if (this.table == "shield") {
+      itemInfos.push({label: "Physical Defense", value: data.physical_defense})
+      itemInfos.push({label: "Magical Defense", value: data.magic_defense})
+    }
 
     return (
       <Row>
