@@ -3,6 +3,7 @@
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-around;
+    flex-grow: 1;
 }
 
 .table-overview-list-item {
