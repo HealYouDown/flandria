@@ -180,7 +180,6 @@ export default class TableOverview extends React.Component {
 
     var items = []
     if (searchString.length >= 1) {
-      console.log(data);
       items = data.filter(o => o.name.toLowerCase().includes(searchString.toLowerCase()));
     }
     else {
