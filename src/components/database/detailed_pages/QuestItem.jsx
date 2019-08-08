@@ -57,7 +57,7 @@ export default class QuestItem extends React.Component {
             </div>
             {data.quests_by_item.map((quest, i) => {
               return (
-                <ClickableListItem hover={false} link={`/databases/quest/${quest.code}`}>
+                <ClickableListItem hover={false} link={`/database/quest/${quest.code}`}>
                   <Name table="quest" data={quest} />
                 </ClickableListItem>
               )
