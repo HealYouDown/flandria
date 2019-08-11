@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import React from "react";
-import ReactList from "react-list";
 
 import { tableToSubs } from "../../../constants/subs";
 import AuthService from "../../AuthService";
@@ -12,8 +11,14 @@ import RightArrow from "../../shared/RightArrow";
 import "./TableOverview.css";
 import FilterMenu from "./FilterMenu";
 import LoadingScreen from "../../layout/LoadingScreen";
+import ReactPaginate from "react-paginate";
+import "../../../styles/react-paginate.css";
+import { isMobile } from "react-device-detect";
 
-const tablesInitDesc = ["dress", "hat", "recipe", "material", "random_box", "consumable"]
+const tablesInitDesc = [
+  "dress", "hat", "recipe", "material", "random_box", "consumable",
+  "coat", "gauntlets", "pants", "shoes",
+]
 
 
 class BonusSubs extends React.Component {
@@ -131,6 +136,10 @@ export default class TableOverview extends React.Component {
     this.state = this._getDefaultState();
 
     this._getFilteredItems = this._getFilteredItems.bind(this);
+    this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.updateUrlParameters = this.updateUrlParameters.bind(this);
+    this.setStateBasedOnUrlParameter = this.setStateBasedOnUrlParameter.bind(this);
   }
 
   _getDefaultState() {
@@ -146,6 +155,7 @@ export default class TableOverview extends React.Component {
       filterBy: "all",
       location: "location:-1",
       selectedBonusCodes: [],
+      currentPage: 0,
     }
   }
 
@@ -178,7 +188,7 @@ export default class TableOverview extends React.Component {
       selectedBonusCodes,
     } = this.state;
 
-    var items = []
+    let items = []
     if (searchString.length >= 1) {
       items = data.filter(o => o.name.toLowerCase().includes(searchString.toLowerCase()));
     }
@@ -230,6 +240,7 @@ export default class TableOverview extends React.Component {
 
   componentDidMount() {
     this._fetchItemData();
+    this.setStateBasedOnUrlParameter();
     
     let tableNameSplits = this.table.split("_");
     let title = "";
@@ -247,6 +258,96 @@ export default class TableOverview extends React.Component {
     }
   }
 
+  handlePageChange(event) {
+    this.setState({currentPage: event.selected}, () => {
+      this.updateUrlParameters();
+    })
+  }
+
+  setStateBasedOnUrlParameter() {
+    let urlParams = new URLSearchParams(this.props.location.search);
+
+    let newState = {};
+
+    if (urlParams.has("page")) {
+      newState.currentPage = parseInt(urlParams.get("page"));
+    }
+
+    if (urlParams.has("search")) {
+      newState.searchString = urlParams.get("search");
+    }
+
+    if (urlParams.has("order")) {
+      newState.order = urlParams.get("order");
+    }
+
+    if (urlParams.has("sort")) {
+      newState.sortBy = urlParams.get("sort");
+    }
+
+    if (urlParams.has("filter")) {
+      newState.filterBy = urlParams.get("filter");
+    }
+
+    if (urlParams.has("loc")) {
+      newState.location = urlParams.get("loc");
+    }
+
+    if (urlParams.has("bonuses")) {
+      newState.selectedBonusCodes = urlParams.get("bonuses").split(",").map(s => parseInt(s));
+    }
+
+    console.log(newState);
+    this.setState(newState);
+
+  }
+
+  updateUrlParameters() {
+    const {
+      currentPage,
+      searchString,
+      order,
+      sortBy,
+      filterBy,
+      location,
+      selectedBonusCodes
+    } = this.state;
+
+    let urlParams = new URLSearchParams("");
+
+    urlParams.append("page", currentPage);
+
+    if (searchString.length >= 1) {
+      urlParams.append("search", searchString);
+    }
+    else {
+      urlParams.append("order", order);
+      urlParams.append("sort", sortBy);
+
+      if (filterBy != "all") {
+        urlParams.append("filter", filterBy);
+      }
+
+      if (location != "location:-1") {
+        urlParams.append("loc", location);
+      }
+
+      if (selectedBonusCodes.length >= 1) {
+        urlParams.append("bonuses", selectedBonusCodes.toString());
+      }
+    }
+
+    this.props.history.push({
+      search: urlParams.toString()
+    })
+  }
+
+  handleFilterChange(newState) {
+    this.setState(newState, () => {
+      this.updateUrlParameters();
+    });
+  }
+
   render() {
     const {
       error,
@@ -257,7 +358,9 @@ export default class TableOverview extends React.Component {
       order,
       sortBy,
       filterBy,
-      location
+      location,
+      currentPage,
+      selectedBonusCodes,
     } = this.state;
 
     if (error) {
@@ -268,12 +371,19 @@ export default class TableOverview extends React.Component {
       return <LoadingScreen />;
     }
 
+    const itemsPerPage = 50;
     const items = this._getFilteredItems();
+    const startOffset = currentPage * itemsPerPage
+    const pageItems = items.slice(startOffset, startOffset + itemsPerPage);
+    const pageCount = Math.ceil(items.length / itemsPerPage);
+
+    const pageRangeDisplayed = isMobile ? 3: 7;
+    const marginPagesDisplayed = isMobile ? 1 : 3;
 
     return (
       <>
         <FilterMenu
-          changeState={this.setState.bind(this)}
+          changeState={this.handleFilterChange}
           table={this.table}
           filterVisible={filterVisible}
           searchString={searchString}
@@ -281,17 +391,50 @@ export default class TableOverview extends React.Component {
           sortBy={sortBy}
           filterBy={filterBy}
           location={location}
+          selectedBonusCodes={selectedBonusCodes}
         />
 
+        <div className="react-paginate-wrapper">
+          <ReactPaginate
+            forcePage={currentPage}
+            pageCount={pageCount}
+            pageRangeDisplayed={pageRangeDisplayed}
+            marginPagesDisplayed={marginPagesDisplayed}
+            onPageChange={this.handlePageChange}
+            containerClassName="react-paginate-container"
+            pageClassName="react-paginate-button"
+            pageLinkClassName="react-paginate-button-inner"
+            previousClassName="react-paginate-button"
+            previousLinkClassName="react-paginate-button-inner"
+            nextClassName="react-paginate-button"
+            nextLinkClassName="react-paginate-button-inner"
+            breakClassName="react-paginate-button"
+            breakLinkClassName="react-paginate-button-inner"
+          />
+        </div>
+
         <div className="list-wrapper">
-          <ReactList 
-            pageSize={15}
-            threshold={500}
-            length={items.length}
-            type="simple"
-            itemRenderer={(index, key) => (
-              <ListItem key={index} table={this.table} data={items[index]} />
-            )}
+          <div>
+            {pageItems.map((item, index) => <ListItem key={index} table={this.table} data={item} />)}
+          </div>
+        </div>
+
+        <div className="react-paginate-wrapper">
+          <ReactPaginate 
+            forcePage={currentPage}
+            pageCount={pageCount}
+            pageRangeDisplayed={pageRangeDisplayed}
+            marginPagesDisplayed={marginPagesDisplayed}
+            onPageChange={this.handlePageChange}
+            containerClassName="react-paginate-container"
+            pageClassName="react-paginate-button"
+            pageLinkClassName="react-paginate-button-inner"
+            previousClassName="react-paginate-button"
+            previousLinkClassName="react-paginate-button-inner"
+            nextClassName="react-paginate-button"
+            nextLinkClassName="react-paginate-button-inner"
+            breakClassName="react-paginate-button"
+            breakLinkClassName="react-paginate-button-inner"
           />
         </div>
       </>

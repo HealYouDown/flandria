@@ -19,6 +19,7 @@ export default class FilterMenu extends React.Component {
       sortBy,
       filterBy,
       location,
+      selectedBonusCodes,
     } = this.props;
 
     // Filter data
@@ -83,7 +84,7 @@ export default class FilterMenu extends React.Component {
     // Bonus Options
     const bonusOptions = [];
     Object.keys(bonusCodes).map(c => {
-      bonusOptions.push({ label: bonusCodes[c], value: c });
+      bonusOptions.push({ label: bonusCodes[c], value: parseInt(c) });
     })
 
     return (
@@ -163,6 +164,7 @@ export default class FilterMenu extends React.Component {
               <Col md={bonusColWidth}>
                 <label className="react-container-label">Bonus stats</label>
                 <Select
+                  value={bonusOptions.filter(b => selectedBonusCodes.includes(b.value))}
                   options={bonusOptions}
                   onChange={selected => {
                     let selectedBonusCodes = [];
