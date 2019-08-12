@@ -41,9 +41,9 @@ export default class Upgrade extends React.Component {
                 label="Physical Damage" 
                 value={
                   `
-                  ${Math.round(this.phMin + upgradeData[this.state.upgradeLevel].value_0)} 
+                  ${Math.floor(this.phMin + upgradeData[this.state.upgradeLevel].value_0)} 
                   ~
-                  ${Math.round(this.phMax + upgradeData[this.state.upgradeLevel].value_0)}
+                  ${Math.floor(this.phMax + upgradeData[this.state.upgradeLevel].value_0)}
                   `
                 }
                 valueClassName={`upgrade-${this.state.upgradeLevel}`}
@@ -60,9 +60,9 @@ export default class Upgrade extends React.Component {
                   label="Magical Damage" 
                   value={
                     `
-                    ${Math.round(this.mgMin + upgradeData[this.state.upgradeLevel].value_2)} 
+                    ${Math.floor(this.mgMin + upgradeData[this.state.upgradeLevel].value_2)} 
                     ~
-                    ${Math.round(this.mgMax + upgradeData[this.state.upgradeLevel].value_2)}
+                    ${Math.floor(this.mgMax + upgradeData[this.state.upgradeLevel].value_2)}
                     `
                   }
                   valueClassName={`upgrade-${this.state.upgradeLevel}`}
@@ -71,9 +71,9 @@ export default class Upgrade extends React.Component {
                   label="Magical Damage" 
                   value={
                     `
-                    ${Math.round(this.mgMin + upgradeData[this.state.upgradeLevel].value_1)} 
+                    ${Math.floor(this.mgMin + upgradeData[this.state.upgradeLevel].value_1)} 
                     ~
-                    ${Math.round(this.mgMax + upgradeData[this.state.upgradeLevel].value_1)}
+                    ${Math.floor(this.mgMax + upgradeData[this.state.upgradeLevel].value_1)}
                     `
                   }
                   valueClassName={`upgrade-${this.state.upgradeLevel}`}
@@ -106,7 +106,7 @@ export default class Upgrade extends React.Component {
           {table == "coat"
             ? <LabelValueListItem 
                 label="Physical Defense"
-                value={Math.round(this.phDef + upgradeData[this.state.upgradeLevel].value_0).toString()}
+                value={Math.floor(this.phDef + upgradeData[this.state.upgradeLevel].value_0).toString()}
                 valueClassName={`upgrade-${this.state.upgradeLevel}`}
               />
             : <LabelValueListItem 
@@ -118,7 +118,7 @@ export default class Upgrade extends React.Component {
           {table == "pants"
             ? <LabelValueListItem
                 label="Magical Defense"
-                value={Math.round(this.mgDef + upgradeData[this.state.upgradeLevel].value_0).toString()}
+                value={Math.floor(this.mgDef + upgradeData[this.state.upgradeLevel].value_0).toString()}
                 valueClassName={`upgrade-${this.state.upgradeLevel}`}
               />
             : <LabelValueListItem 
@@ -131,7 +131,7 @@ export default class Upgrade extends React.Component {
             <>
               <LabelValueListItem 
                 label="Hitrate"
-                value={Math.round(0 + upgradeData[this.state.upgradeLevel].value_0).toString()}
+                value={Math.floor(0 + upgradeData[this.state.upgradeLevel].value_0).toString()}
                 valueClassName={`upgrade-${this.state.upgradeLevel}`}
               />
 
@@ -147,7 +147,7 @@ export default class Upgrade extends React.Component {
             <>
               <LabelValueListItem 
                 label="Avoidance Rate"
-                value={Math.round(0 + upgradeData[this.state.upgradeLevel].value_0).toString()}
+                value={Math.floor(0 + upgradeData[this.state.upgradeLevel].value_0).toString()}
                 valueClassName={`upgrade-${this.state.upgradeLevel}`}
               />
 
