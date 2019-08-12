@@ -12,16 +12,18 @@ from app.webhooks import send_add_drop_webhook, send_delete_drop_webhook, send_e
 
 
 class Database(Resource):
-    def get(self, table=None, code=None):
+    @auth_optional
+    def get(self, table=None, code=None, user=None):
+        can_see_hidden = True if (user is not None and user.can_see_hidden) else False
+
         if table is not None and code is None:
-            return Database._table_overview(table)
+            return Database._table_overview(table, can_see_hidden)
 
         elif table is not None and code is not None:
-            return Database._detailed_overview(table, code)
+            return Database._detailed_overview(table, code, can_see_hidden)
 
-    @auth_optional
     @cache.memoize()
-    def _table_overview(table, user=None):
+    def _table_overview(table, can_see_hidden=None):
         assert table in db_utils.tables.keys(), abort(404, "Table was not found.")
 
         table_cls_name = tablename_to_class_name(table)
@@ -30,16 +32,15 @@ class Database(Resource):
         query = db.session.query(table_cls)\
             .filter(table_cls.code.notin_(db_utils.get_excluded_codes()))
 
-        if user is None or not user.can_see_hidden:
+        if not can_see_hidden:
             query = query.filter(table_cls.code.notin_(
                 db_utils.get_hidden_codes()))
 
         items = [item.to_dict(overview=True) for item in query.all()]
         return items, 200
 
-    @auth_optional
     @cache.memoize()
-    def _detailed_overview(table, code, user=None):
+    def _detailed_overview(table, code, can_see_hidden):
         table_data = db_utils.tables.get(table, None)
         if table_data is None:
             return abort(404, "Table was not found.")
@@ -52,7 +53,7 @@ class Database(Resource):
                     table_cls.code.notin_(db_utils.get_excluded_codes())
                     )
 
-        if user is None or not user.can_see_hidden:
+        if not can_see_hidden:
             query = query.filter(table_cls.code.notin_(
                 db_utils.get_hidden_codes()))
 
