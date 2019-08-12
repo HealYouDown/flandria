@@ -17,7 +17,7 @@ import { isMobile } from "react-device-detect";
 
 const tablesInitDesc = [
   "dress", "hat", "recipe", "material", "random_box", "consumable",
-  "coat", "gauntlets", "pants", "shoes",
+  "coat", "gauntlet", "pants", "shoes",
 ]
 
 
