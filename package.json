@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "react": "^16.8.6",
+    "react-adsense": "^0.1.0",
     "react-dom": "^16.8.6"
   }
 }
