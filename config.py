@@ -23,8 +23,8 @@ class Config:
     SECURITY_PASSWORD_SALT = os.environ.get("SECURITY_PASSWORD_SALT", default="secret_password_salt")
     GITHUB_WEBHOOK_SECRET = os.environ.get("GITHUB_WEBHOOK_SECRET", default="")
 
-    JWT_ACCESS_LIFESPAN = {"days": 15}
-    JWT_REFRESH_LIFESPAN = {"days": 15}
+    JWT_ACCESS_LIFESPAN = {"days": 9999}
+    JWT_REFRESH_LIFESPAN = {"days": 9999}
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = False
