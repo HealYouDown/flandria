@@ -128,7 +128,10 @@ export default class Header extends React.Component {
                       <a onClick={this.closeDropdown} className="nav-list-item-sub-link" target="_blank" href="https://github.com/HealYouDown/flandria">Github</a>
                     </li>
                     <li>
-                      <a onClick={this.closeDropdown} className="nav-list-item-sub-link" target="_blank" href="https://discord.gg/7S683k">Discord</a>
+                      <a onClick={this.closeDropdown} className="nav-list-item-sub-link" target="_blank" href="https://discord.gg/cg3Zxu2">Discord</a>
+                    </li>
+                    <li>
+                      <a onClick={this.closeDropdown} className="nav-list-item-sub-link" target="_blank" href="https://www.patreon.com/flandria">Patreon</a>
                     </li>
                   </ul>
                 }

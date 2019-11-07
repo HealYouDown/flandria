@@ -96,6 +96,12 @@ export default class NavOverlay extends React.Component {
                   <li>
                     <a onClick={this._close} className="nav-overlay-list-item-sub-link" target="_blank" href="https://github.com/HealYouDown/flandria">Github</a>
                   </li>
+                  <li>
+                    <a onClick={this._close} className="nav-overlay-list-item-sub-link" target="_blank" href="https://discord.gg/cg3Zxu2">Discord</a>
+                  </li>
+                  <li>
+                    <a onClick={this._close} className="nav-overlay-list-item-sub-link" target="_blank" href="https://www.patreon.com/flandria">Patreon</a>
+                  </li>
                 </ul>
               )}
             </li>
