@@ -188,7 +188,9 @@ def get_excluded_codes():
 @catch_errors
 def search_itemlist(string: str, user):
     query = db.session.query(db_models.ItemList)\
-        .filter(db_models.ItemList.name.contains(string),
+        .filter(or_(db_models.ItemList.name.contains(string),
+                    db_models.ItemList.code.contains(string)
+                    ),
                 db_models.ItemList.code.notin_(get_excluded_codes())
                 )
 
