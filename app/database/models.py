@@ -147,7 +147,7 @@ class _Weapon(_Base, _Bonus):  # TODO: Relationship UpgradeData
     physical_attack_max = db.Column(db.Integer)
     magical_attack_max = db.Column(db.Integer)
 
-    range = db.Column(db.Integer)
+    attack_range = db.Column(db.Integer)
     attack_speed = db.Column(db.Integer)
 
     upgrade_code = db.Column(db.String)
@@ -501,7 +501,7 @@ class ShipFront(_ShipBase, BaseModel):
     physical_defense = db.Column(db.Integer)
     protection = db.Column(db.Integer)
     ability_hp = db.Column(db.Integer)
-    balance = db.Column(db.Integer, default=-1)  # for some reasons, every front has -1 as balance
+    balance = db.Column(db.Integer)
 
 
 class ShipHeadMast(_ShipBase, BaseModel):
@@ -548,7 +548,6 @@ class ShipNormalWeapon(_ShipBase, BaseModel):
     ship_guns_side = db.Column(db.Integer)
     ship_guns_speed = db.Column(db.Integer)
     ship_hitrange = db.Column(db.Integer)
-    balance = db.Column(db.Integer, default=-2)
 
 
 class ShipSpecialWeapon(_ShipBase, BaseModel):

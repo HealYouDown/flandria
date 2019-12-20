@@ -115,9 +115,9 @@ export default class ShipStuff extends React.Component {
       itemInfos.unshift(
         { label: "Class", value: data.class_sea },
         { label: "Level", value: data.level_sea },
-        { label: "Phyiscal defence", value: data.physical_defence },
+        { label: "Physical defence", value: data.physical_defense },
         { label: "Protection", value: data.protection },
-        { label: "DP", value: data.ability_dp },
+        { label: "DP", value: data.ability_hp },
         { label: "Balance", value: data.balance },
       )
     }

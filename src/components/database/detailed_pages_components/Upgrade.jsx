@@ -32,7 +32,7 @@ export default class Upgrade extends React.Component {
       this.mgMin = data.magical_attack_min;
       this.mgMax = data.magical_attack_max;
       this.attackSpeed = data.attack_speed;
-      this.range = data.range;
+      this.range = data.attack_range;
 
       var stats = (
         <>
