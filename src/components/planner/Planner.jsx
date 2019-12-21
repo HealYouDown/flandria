@@ -69,7 +69,7 @@ export default class Planner extends React.Component {
     else if (this.plannerClass == "noble") {
       this.classOptions = [
         { label: "Noble", value: "noble" },
-        { label: "Court Magican", value: "court magican" },
+        { label: "Court Magician", value: "court magician" },
         { label: "Magic Knight", value: "magic knight" },
       ]
     }
@@ -84,7 +84,7 @@ export default class Planner extends React.Component {
       this.classOptions = [
         { label: "Mercenary", value: "mercenary" },
         { label: "Gladiator", value: "gladiator" },
-        { label: "Guardian Swordman", value: "guardian swordman" },
+        { label: "Guardian Swordsman", value: "guardian swordsman" },
       ]
     }
     else {
