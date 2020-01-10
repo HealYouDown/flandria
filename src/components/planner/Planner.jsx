@@ -330,12 +330,13 @@ export default class Planner extends React.Component {
 
     if (skillObj.level == 0) {
       this._disableChildSkills(code);
-      updateHashSkillLevel(code, 0, this.plannerClass);
     }
     else {
       this.setState({ skills });
       this._updatePoints();
     }
+
+    updateHashSkillLevel(code, skillObj.level, this.plannerClass);
   }
 
   _getCurrentClassIndex() {
