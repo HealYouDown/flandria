@@ -165,10 +165,12 @@ class Planner extends React.Component {
 
       // if level is now smaller than 40, reset class
       if (value < 40) {
-        this.setState({selectedClass: this.classOptions[0].value}, () => {
-          // reset class index in hash
-          this.hash.setClassIndex(0);
-        })
+        if (!this.plannerClass == "ship") {
+          this.setState({selectedClass: this.classOptions[0].value}, () => {
+            // reset class index in hash
+            this.hash.setClassIndex(0);
+          })
+        }
       }
     }
 
