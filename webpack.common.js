@@ -1,42 +1,29 @@
-var WebpackBeforeBuildPlugin = require('before-build-webpack');
-const path = require('path');
-const fs = require('fs')
+const path = require("path");
+
+const staticPath = __dirname + "/app/static"
+const bundlePath = path.join(staticPath, "bundles")
 
 module.exports = {
-  entry: {
-    app: "./src/index.js"
-  },
-  plugins: [
-    new WebpackBeforeBuildPlugin(function(stats, callback) {
-      // Clears output folder from all previous things except folders
-      const outputDir = __dirname + "/app/static";
-      fs.readdirSync(outputDir).forEach(filename => {
-        const filenamePath = path.join(outputDir, filename)
-        if (!fs.lstatSync(filenamePath).isDirectory()) {
-          fs.unlinkSync(filenamePath);
-        }
-      });
-      callback();
-    }),
-  ],
+  entry: "./src/index.js",
   output: {
-    path: __dirname + "/app/static",
-    filename: "[hash].bundle.js",
+    path: bundlePath,
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        use: ['babel-loader']
+        use: {
+          loader: "babel-loader"
+        }
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
       }
     ]
   },
   resolve: {
-    extensions: ['*', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
 }

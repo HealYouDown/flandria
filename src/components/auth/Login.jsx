@@ -1,102 +1,87 @@
-import React from "react";
-import AuthService from "../AuthService";
-import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
-import CardList from "../shared/CardList";
+import React, {useState} from "react";
+import Card, { CardHeader, CardBody } from "../common/Card";
 import { Row, Col } from "react-grid-system";
+import { TextInput, InputWrapper, InputLabel, ConfirmButton } from "../common/Inputs";
+import { toast } from 'react-toastify';
+import history from "../history";
+import { loginUser, isLoggedIn } from "./auth";
+import { Link } from "react-router-dom";
 
-import "../../styles/forms.css";
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
+const Login = () => {
+  document.title = "Login";
 
-    this.auth = new AuthService();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    this.state = {
-      username: "",
-      password: "",
-      error: false,
-      errorMessage: "",
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  if (isLoggedIn()) {
+    history.push("/");
+  };
 
-  componentDidMount() {
-    document.title = "Login";
-  }
-
-  handleSubmit(event) {
+  const login = (event) => {
     event.preventDefault();
-    const {
-      username,
-      password
-    } = this.state;
 
-    this.auth.login(username, password)
-    .then(res => {
-      if (res["error"]) {
-        this.setState({
-          error: true,
-          errorMessage: res.errorMessage
-        })
+    let res;
+    fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username, password})
+    })
+    .then(fetchResponse => {
+      res = fetchResponse;
+      return fetchResponse.json();
+    })
+    .then(json => {
+      if (!res.ok) {
+        toast.error(json.msg);
       }
       else {
-        this.setState({
-          error: false, errorMessage: ""
-        })
+        loginUser(json.access_token);
+        history.push("/");
       }
     })
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  render() {
-    const {
-      username,
-      password,
-      error,
-      errorMessage
-    } = this.state;
-
-    if (this.auth.loggedIn()) {
-      return <Redirect to="/" />
-    }
-
-    return (
-      <Row justify="center">
-        <Col md={4}>
-          <CardList header={true}>
-            <span className="card-title card-title-center">Login</span>
-            <form onSubmit={this.handleSubmit}>
-              {error && (
-                <div className="form-input-group">
-                  <span style={{color: "red"}}>{errorMessage}</span>
-                </div>
-              )}
-              <div className="form-input-group">
-                <label className="form-input-label">Username</label>
-                <input className="form-input input-style" type="text" name="username" value={username} onChange={this.handleChange} />
-              </div>
-              <div className="form-input-group">
-                <label className="form-input-label">Password</label>
-                <input className="form-input input-style" type="password" name="password" value={password} onChange={this.handleChange} />
-              </div>
-              <div className="form-input-group align-right">
-                <button type="submit">Log in</button>
-              </div>
+  return (
+    <Row justify="center">
+      <Col md={4}>
+        <Card>
+          <CardHeader>
+            <span className="card-title">Login</span>
+          </CardHeader>
+          <CardBody>
+            <form onSubmit={login}>
+              <InputWrapper>
+                <InputLabel>Username</InputLabel>
+                <TextInput
+                  fontsize={16}
+                  type="text"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <InputLabel>Password</InputLabel>
+                <TextInput
+                  fontsize={16}
+                  type="password"
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <ConfirmButton type="submit">Login</ConfirmButton>
+              </InputWrapper>
             </form>
-            <div style={{paddingBottom: "25px", marginLeft: "15px"}}>
-              <span>New User? <Link style={{color: "white"}} to="/auth/register">Register here!</Link></span>
-            </div>
-          </CardList>
-        </Col>
-      </Row>
-    )
-  }
+            <br />
+            <span>New User? <Link to="/auth/register">Register here!</Link></span>
+          </CardBody>
+        </Card>
+      </Col>
+    </Row>
+  )
 }
+
+export default Login;

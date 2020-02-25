@@ -1,8 +1,12 @@
-const merge = require('webpack-merge');
-const common = require('./webpack.common.js');
-
+const merge = require("webpack-merge");
+const common = require("./webpack.common");
 
 module.exports = merge(common, {
+  output: {
+    filename: "bundle.js"
+  },
   mode: "development",
-  devtool: "inline-source-map",
+  optimization: {
+    minimize: false,
+  }
 })

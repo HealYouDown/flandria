@@ -1,32 +1,34 @@
 import React from "react";
-import CardList from "../shared/CardList";
 import { Row, Col } from "react-grid-system";
+import Card, { CardHeader, CardBody } from "../common/Card";
 
 const About = () => {
+  document.title = "About";
+
   return (
     <Row justify="center">
-      <Col md={7}>
-        <CardList header={true} padding={20}>
-          <span className="card-title card-title-center">About</span>
-          <span>
-            Flandria is a fan project and is in no way related to the publisher of Florensia (GiikuGames).
-          </span>
+      <Col md={6}>
+        <Card>
+          <CardHeader>
+            <span className="card-title">About</span>
+          </CardHeader>
+          <CardBody>
+            <p>Hi. My name is Jeremy and I'm the developer of Flandria! :)</p>
 
-          <br />
-          <br />
-          
-          <span>
-            <b>Contact Details</b>
-            <br />
-            <span>E-Mail: healyoudown[at]gmail.com</span>
-            <br />
-            <span>Discord: Jeremy#8813</span>
-            <br />
-            <span>Bergruen: Shadow</span>
-            <br />
-            <span>LuxPlena: HealYouDown</span>
-          </span>
-        </CardList>
+            <p>
+              Flandria is a project that started late in 2018 and was launched starting in the new year 2019.
+              Even today, Flandria is still in active development and changes very frequently.
+            </p>
+
+            <p>If you've got any questions, feel free to concact me.</p>
+
+            <p>
+              E-Mail: healyoudown[at]gmail.com
+              <br/>
+              Discord: Jeremy#8813
+            </p>
+          </CardBody>
+        </Card>
       </Col>
     </Row>
   )

@@ -1,123 +1,104 @@
-import React from "react";
-import AuthService from "../AuthService";
-import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
-import CardList from "../shared/CardList";
+import React, {useState} from "react";
+import Card, { CardHeader, CardBody } from "../common/Card";
 import { Row, Col } from "react-grid-system";
+import { TextInput, InputWrapper, InputLabel, ConfirmButton } from "../common/Inputs";
+import { toast } from 'react-toastify';
+import history from "../history";
 
-import "../../styles/forms.css";
 
-export default class Register extends React.Component {
-  constructor(props) {
-    super(props);
+const Register = () => {
+  document.title = "Register";
 
-    this.auth = new AuthService();
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [password2, setPassword2] = useState("");
 
-    this.state = {
-      username: "",
-      email: "",
-      password: "",
-      password2: "",
-      accountCreated: false,
-      error: false,
-      errorMessage: "",
-    }
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    document.title = "Register";
-  }
-
-  handleSubmit(event) {
+  const register = (event) => {
     event.preventDefault();
-    const {
-      username,
-      email,
-      password,
-      password2,
-    } = this.state;
-
-    if (password != password2) {
-      this.setState({
-        error: true,
-        errorMessage: "Passwords do not match."
-      })
+  
+    if (password1 != password2) {
+      toast.error("Passwords do not match.");
       return;
     }
 
-    this.auth.register(username, email, password)
-    .then(res => {
-      if (res["error"]) {
-        this.setState({
-          error: true,
-          errorMessage: res.errorMessage
-        })
+    let res;
+    fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({username, email, password: password1})
+    })
+    .then(fetchResponse => {
+      res = fetchResponse;
+      return fetchResponse.json()
+    })
+    .then(json => {
+      if (!res.ok) {
+        toast.error(json.msg);
       }
       else {
-        this.setState({
-          error: false, errorMessage: "", accountCreated: true
-        })
+        toast.success(json.msg);
+        history.push("/auth/login");
       }
     })
   }
 
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
-  render() {
-    const {
-      username,
-      password,
-      password2,
-      email,
-      accountCreated,
-      error,
-      errorMessage
-    } = this.state;
-
-    if (accountCreated) {
-      return <Redirect to="/auth/login" />
-    }
-
-    return (
-      <Row justify="center">
-        <Col md={4}>
-          <CardList header={true}>
-            <span className="card-title card-title-center">Register</span>
-            <form onSubmit={this.handleSubmit}>
-              {error && (
-                <div className="form-input-group">
-                  <span style={{color: "red"}}>{errorMessage}</span>
-                </div>
-              )}
-              <div className="form-input-group">
-                <label className="form-input-label">Username</label>
-                <input className="form-input input-style" type="text" name="username" value={username} onChange={this.handleChange} />
-              </div>
-              <div className="form-input-group">
-                <label className="form-input-label">E-Mail</label>
-                <input className="form-input input-style" type="email" name="email" value={email} onChange={this.handleChange} />
-              </div>
-              <div className="form-input-group">
-                <label className="form-input-label">Password</label>
-                <input className="form-input input-style" type="password" name="password" value={password} onChange={this.handleChange} />
-              </div>
-              <div className="form-input-group">
-                <label className="form-input-label">Password confirm</label>
-                <input className="form-input input-style" type="password" name="password2" value={password2} onChange={this.handleChange} />
-              </div>
-              <div className="form-input-group align-right">
-                <button type="submit">Register</button>
-              </div>
+  return (
+    <Row justify="center">
+      <Col md={4}>
+        <Card>
+          <CardHeader>
+            <span className="card-title">Register</span>
+          </CardHeader>
+          <CardBody>
+            <form onSubmit={register}>
+              <InputWrapper>
+                <InputLabel>Username</InputLabel>
+                <TextInput
+                  fontsize={16}
+                  type="text"
+                  value={username}
+                  onChange={e => setUsername(e.target.value)}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <InputLabel>E-Mail</InputLabel>
+                <TextInput
+                  fontsize={16}
+                  type="email"
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <InputLabel>Password</InputLabel>
+                <TextInput
+                  fontsize={16}
+                  type="password"
+                  value={password1}
+                  onChange={e => setPassword1(e.target.value)}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <InputLabel>Password confirmation</InputLabel>
+                <TextInput
+                  fontsize={16}
+                  type="password"
+                  value={password2}
+                  onChange={e => setPassword2(e.target.value)}
+                />
+              </InputWrapper>
+              <InputWrapper>
+                <ConfirmButton type="submit">Register</ConfirmButton>
+              </InputWrapper>
             </form>
-          </CardList>
-        </Col>
-      </Row>
-    )
-  }
+          </CardBody>
+        </Card>
+      </Col>
+    </Row>
+  )
 }
+
+export default Register;

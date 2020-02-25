@@ -1,24 +1,91 @@
-import { BrowserRouter } from "react-router-dom";
-import { ScreenClassProvider } from "react-grid-system";
 import React from "react";
-
-import { routes } from "./Routes";
+import { Route, Router, Switch } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import TopBarProgress from "react-topbar-progress-indicator";
+import { createGlobalStyle } from "styled-components";
+import history from "./history";
 import Layout from "./layout/Layout";
-import GaListener from "./GaListener";
+import Login from "./auth/Login";
+import Register from "./auth/Register";
+import DetailedView from "./database/DetailedView";
+import TableOverview from "./database/TableOverview";
+import Overview from "./database/Overview";
+import Main from "./home/Main";
+import About from "./home/About";
+import PrivacyPolicy from "./home/PrivacyPolicy";
+import MonsterEdit from "./database/pages/MonsterEdit";
+import Planner from "./planner/Planner";
+import { BLUE } from "./colors";
 
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <ScreenClassProvider>
-        <BrowserRouter>
-          <GaListener trackingId="UA-131501670-1">
-            <Layout>
-              {routes}
-            </Layout>
-          </GaListener>
-        </BrowserRouter>
-      </ScreenClassProvider>
-    )
-  }
+// Global style
+const GlobalStyle = createGlobalStyle`
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: black;
+}
+
+#root {
+  display: flex;
+  flex-flow: column;
+  height: inherit;
+}
+
+main {
+  flex-grow: 1;
+}
+
+main * {
+  color: #aaa;
+}
+
+`
+
+// Loadingbar Config
+TopBarProgress.config({
+  barColors: {
+    "0": BLUE,
+    "1.0": BLUE,
+  },
+  shadowBlur: 5
+});
+
+const App = () => {
+  return (
+    <Router history={history}>
+      <Layout>
+        <Switch>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/privacy" component={PrivacyPolicy} />
+
+          <Route exact path="/database" component={TableOverview} />
+          <Route exact path="/database/:tablename" component={Overview} />
+          <Route exact path="/database/:tablename/:code" component={DetailedView} />
+          <Route exact path="/database/monster/:code/edit" component={MonsterEdit} />
+
+          <Route exact path="/planner/:plannerClass" component={Planner} />
+
+          <Route exact path="/auth/register" component={Register} />
+          <Route exact path="/auth/login" component={Login} />
+        </Switch>
+      </Layout>
+      <ToastContainer
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick={true}
+        pauseOnHover={false}
+      />
+      <GlobalStyle />
+    </Router>
+  )
+}
+
+export default App;

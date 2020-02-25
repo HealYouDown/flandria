@@ -1,9 +1,8 @@
-import hmac
 import hashlib
-from flask import current_app, request
+import hmac
+
 import git
-import requests
-import os
+from flask import current_app, request
 
 
 def is_valid_signature(x_hub_signature, data, private_key):
@@ -23,12 +22,14 @@ def update_server():
 
     github_webhook_secret = current_app.config["GITHUB_WEBHOOK_SECRET"]
 
-    if not is_valid_signature(x_hub_signature, request.data, github_webhook_secret):
+    if not is_valid_signature(x_hub_signature,
+                              request.data,
+                              github_webhook_secret):
         return "Invalid"
 
     repo = git.Repo("flandria-website/flandria")
     origin = repo.remotes.origin
 
-    pull_info = origin.pull()
+    _ = origin.pull()
 
     return "Updated server", 200
