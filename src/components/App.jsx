@@ -4,20 +4,21 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import TopBarProgress from "react-topbar-progress-indicator";
 import { createGlobalStyle } from "styled-components";
-import history from "./history";
-import Layout from "./layout/Layout";
 import Login from "./auth/Login";
 import Register from "./auth/Register";
-import DetailedView from "./database/DetailedView";
-import TableOverview from "./database/TableOverview";
-import Overview from "./database/Overview";
-import Main from "./home/Main";
-import About from "./home/About";
-import PrivacyPolicy from "./home/PrivacyPolicy";
-import MonsterEdit from "./database/pages/MonsterEdit";
-import Planner from "./planner/Planner";
 import { BLUE } from "./colors";
-
+import DetailedView from "./database/DetailedView";
+import Overview from "./database/Overview";
+import MonsterEdit from "./database/pages/MonsterEdit";
+import TableOverview from "./database/TableOverview";
+import history from "./history";
+import About from "./home/About";
+import Main from "./home/Main";
+import PrivacyPolicy from "./home/PrivacyPolicy";
+import Layout from "./layout/Layout";
+import Planner from "./planner/Planner";
+import { ScreenClassProvider } from "react-grid-system";
+import GAListener from "./GAListener";
 
 // Global style
 const GlobalStyle = createGlobalStyle`
@@ -59,32 +60,36 @@ TopBarProgress.config({
 
 const App = () => {
   return (
-    <Router history={history}>
-      <Layout>
-        <Switch>
-          <Route exact path="/" component={Main} />
-          <Route exact path="/about" component={About} />
-          <Route exact path="/privacy" component={PrivacyPolicy} />
+    <ScreenClassProvider>
+      <Router history={history}>
+        <GAListener trackingId="UA-131501670-1">
+          <Layout>
+            <Switch>
+              <Route exact path="/" component={Main} />
+              <Route exact path="/about" component={About} />
+              <Route exact path="/privacy" component={PrivacyPolicy} />
 
-          <Route exact path="/database" component={TableOverview} />
-          <Route exact path="/database/:tablename" component={Overview} />
-          <Route exact path="/database/:tablename/:code" component={DetailedView} />
-          <Route exact path="/database/monster/:code/edit" component={MonsterEdit} />
+              <Route exact path="/database" component={TableOverview} />
+              <Route exact path="/database/:tablename" component={Overview} />
+              <Route exact path="/database/:tablename/:code" component={DetailedView} />
+              <Route exact path="/database/monster/:code/edit" component={MonsterEdit} />
 
-          <Route exact path="/planner/:plannerClass" component={Planner} />
+              <Route exact path="/planner/:plannerClass" component={Planner} />
 
-          <Route exact path="/auth/register" component={Register} />
-          <Route exact path="/auth/login" component={Login} />
-        </Switch>
-      </Layout>
-      <ToastContainer
-        autoClose={5000}
-        hideProgressBar={false}
-        closeOnClick={true}
-        pauseOnHover={false}
-      />
-      <GlobalStyle />
-    </Router>
+              <Route exact path="/auth/register" component={Register} />
+              <Route exact path="/auth/login" component={Login} />
+            </Switch>
+          </Layout>
+        </GAListener>
+        <ToastContainer
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick={true}
+          pauseOnHover={false}
+        />
+        <GlobalStyle />
+      </Router>
+    </ScreenClassProvider>
   )
 }
 

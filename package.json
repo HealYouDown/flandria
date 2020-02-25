@@ -22,6 +22,7 @@
     "jwt-decode": "^2.2.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-ga": "^2.7.0",
     "react-grid-system": "^6.2.1",
     "react-hamburger-menu": "^1.1.1",
     "react-modal": "^3.11.1",
