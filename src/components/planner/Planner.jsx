@@ -184,6 +184,8 @@ class Planner extends React.Component {
       this.hash.setClassIndex(this.classOptions.indexOf(option));
       // update allowed skills
       this.updateAllowedSkills();
+      // update points
+      this.updatePoints();
     });
   }
 
