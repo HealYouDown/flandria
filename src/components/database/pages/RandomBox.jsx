@@ -11,8 +11,6 @@ const RandomBox = ({tablename, data}) => {
     { label: "Tradable", value: `${obj.tradable ? "True" : "False"}` },
   ]
 
-  console.log(obj);
-
   return (
     <Row>
       <Col md={4}>
