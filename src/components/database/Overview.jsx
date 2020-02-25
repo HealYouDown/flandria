@@ -17,22 +17,23 @@ import { fetchTabledata } from "../fetch";
 
 const Grid = styled.div`
   display: grid;
+  grid-column-gap: 30px;
+  grid-row-gap: 20px;
+  margin-top: 20px;
+  padding: 0px 0px;
   ${breakpoint("sm")`
     grid-template-columns: 1fr;
   `}
   ${breakpoint("md")`
     grid-template-columns: 1fr 1fr;
-  `}
+    padding: 0px 15px;
+    `}
   ${breakpoint("lg")`
     grid-template-columns: 1fr 1fr 1fr;
   `}
   ${breakpoint("xl")`
     grid-template-columns: 1fr 1fr 1fr 1fr;
   `}
-  grid-column-gap: 30px;
-  grid-row-gap: 20px;
-  padding: 0px 15px;
-  margin-top: 20px;
 `
 
 const GridItem = styled(Link)`
