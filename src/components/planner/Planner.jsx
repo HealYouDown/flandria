@@ -563,7 +563,7 @@ class Planner extends React.Component {
 
     return (
       <Row justify="center">
-        <Col md={6}>
+        <Col xl={6}>
 
           <Card>
             <CardHeader>
