@@ -128,7 +128,7 @@ const Skill = ({baseSkillCode, plannerClass, pos, skills, skillData, currentLeve
               src={`/static/assets/skill_icons/${plannerClass}/${currentData.icon}`}
             />
           </SkillIconEffectWrapper>
-          <SkillLevel>{skillLevel}</SkillLevel>
+          <SkillLevel onClick={levelUpSkill} onContextMenu={levelDownSkill}>{skillLevel}</SkillLevel>
         </SkillIconWrapper>
         <LevelButton right onClick={levelUpSkill}>+</LevelButton>
       </SkillWrapper>
