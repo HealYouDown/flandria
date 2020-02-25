@@ -153,7 +153,15 @@ class Planner extends React.Component {
     let value = option.value;
     if (value < this.state.currentLevel) {
       // reset because level was changed to a lower value
-      // ...
+      let skills = Object.assign({}, this.state.skills);
+      Object.keys(skills).forEach(baseSkillCode => {
+        let skill = skills[baseSkillCode];
+        skill.allowed = false;
+        skill.level = 0;
+        
+        this.hash.setSkillLevel(baseSkillCode, 0);
+        this.setState({skills});
+      })
 
       // if level is now smaller than 40, reset class
       if (value < 40) {
