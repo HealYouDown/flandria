@@ -23,10 +23,16 @@ const PageButton = styled.button`
   }
 `
 
+const PageButtonWrapper = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+`
+
 const Pagination = ({page, setPage, hasNext, hasPrevious, labels}) => {
   return (
     <PaginationWrapper>
-      <div>
+      <PageButtonWrapper>
         <PageButton
           disabled={!hasPrevious}
           onClick={e => {
@@ -65,7 +71,7 @@ const Pagination = ({page, setPage, hasNext, hasPrevious, labels}) => {
         >
           »
         </PageButton>
-      </div>
+      </PageButtonWrapper>
     </PaginationWrapper>
   )
 }
