@@ -125,18 +125,7 @@ class Overview extends React.Component {
   constructor(props) {
     super(props);
 
-    const initalOrderDesc = ["dress", "hat", "accessory", "recipe", "material", "random_box",
-      "consumable"];
-
-    this.initalFilterState = {
-      page: 1,
-      order: (initalOrderDesc.includes(props.match.params.tablename) ? "desc" : "asc"),
-      sort: "added",
-      filter: "all",
-      location: "location:-1",
-      search: "",
-      bonuses: [],
-    }
+    this.initalFilterState = this.getInitalFilterState(props.match.params.tablename);
 
     const searchParams = new URLSearchParams(location.search);
 
@@ -166,6 +155,21 @@ class Overview extends React.Component {
       title += `${s.charAt(0).toUpperCase() + s.slice(1)} `;
     });
     document.title = title;
+  }
+
+  getInitalFilterState(tablename) {
+    const initalOrderDesc = ["dress", "hat", "accessory", "recipe", "material", "random_box",
+      "consumable"];
+
+    return {
+      page: 1,
+      order: (initalOrderDesc.includes(tablename) ? "desc" : "asc"),
+      sort: "added",
+      filter: "all",
+      location: "location:-1",
+      search: "",
+      bonuses: [],
+    }
   }
 
   fetchData() {
@@ -229,7 +233,7 @@ class Overview extends React.Component {
   componentWillReceiveProps(nextProps) {
     // Resets filters and fetches new data when table was changed
     if (this.state.tablename != nextProps.match.params.tablename) {
-      const newState = Object.assign({}, this.initalFilterState);
+      const newState = Object.assign({}, this.getInitalFilterState(nextProps.match.params.tablename));
       newState.tablename = nextProps.match.params.tablename;
 
       this.setState(newState, () => {
