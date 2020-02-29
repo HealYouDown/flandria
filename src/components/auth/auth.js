@@ -1,6 +1,6 @@
 import decode from 'jwt-decode';
 
-const KEY = "access_token"
+const KEY = "access_token_1"
 
 const getToken = () => {
   return localStorage.getItem(KEY) || null;
@@ -28,6 +28,13 @@ const getDecodedToken = () => {
   return decode(getToken());
 }
 
+const getId = () => {
+  if (isLoggedIn()) {
+    return getDecodedToken().identity.id;
+  }
+  return null;
+}
+
 const getName = () => {
   if (isLoggedIn()) {
     return getDecodedToken().identity.username;
@@ -47,6 +54,7 @@ export {
   isLoggedIn,
   loginUser,
   logoutUser,
+  getId,
   getName,
   getCanEditDrops,
 }

@@ -1,7 +1,9 @@
-from flask import abort, jsonify
+from flask import abort, jsonify, request
 
 from app.api.blueprint import api_bp
-from app.models import PlayerSkill, ShipSkill
+from app.models import PlayerSkill, ShipSkill, PlannerBuild, PlannerBuildStar
+from flask_jwt_extended import jwt_required, get_current_user
+from app.extensions import db
 
 CLASS_TO_SKILLS = {
     "noble": [
@@ -67,3 +69,70 @@ def planner(class_: str):
         "skill_data": [obj.to_dict() for obj in query.all()],
         "skill_codes": sorted(skill_codes),
     }), 200
+
+
+@api_bp.route("/planner/<string:planner_class>/builds", methods=["GET"])
+def get_builds(planner_class: str):
+    builds = PlannerBuild.query.filter(PlannerBuild.planner_class == planner_class)
+    return jsonify([build.to_dict() for build in builds.all()])
+
+
+@api_bp.route("/planner/<string:planner_class>/builds", methods=["PUT"])
+@jwt_required
+def add_build(planner_class: str):
+    user = get_current_user()
+    json = request.json
+
+    build_name = json.get("build_name")
+    build_description = json.get("build_description")[:300]  # first 300 characters only
+    selected_level = json.get("selected_level")
+    selected_class = json.get("selected_class", None)
+    hash_ = json.get("hash")
+
+    build = PlannerBuild(build_name=build_name,
+                         build_description=build_description,
+                         user_id=user.id,
+                         selected_level=selected_level,
+                         selected_class=selected_class,
+                         planner_class=planner_class,
+                         hash=hash_)
+
+    db.session.add(build)
+    db.session.commit()
+
+    return jsonify({"msg": "Build was added successfully."}), 201
+
+
+@api_bp.route("/planner/stars", methods=["PUT"])
+@jwt_required
+def add_star():
+    json = request.json
+
+    build_id = json.get("build_id")
+    user_id = json.get("user_id")
+
+    star = PlannerBuildStar(build_id=build_id,
+                            user_id=user_id)
+    db.session.add(star)
+    db.session.commit()
+
+    return jsonify({"msg": "ok"}), 201
+
+
+@api_bp.route("/planner/stars", methods=["DELETE"])
+@jwt_required
+def delete_star():
+    json = request.json
+
+    build_id = json.get("build_id")
+    user_id = json.get("user_id")
+
+    star = (PlannerBuildStar.query
+            .filter(PlannerBuildStar.build_id == build_id,
+                    PlannerBuildStar.user_id == user_id)
+            .first())
+
+    db.session.delete(star)
+    db.session.commit()
+
+    return jsonify({"msg": "ok"}), 200

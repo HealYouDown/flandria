@@ -49,23 +49,5 @@ def create_app(development: False) -> Flask:
     # Clear cache on startup
     with app.app_context():
         cache.clear()
-        """
-        db.create_all()
 
-        import json
-        from app.models import User
-        import datetime
-        with open("user.json", "r") as f:
-            userd = json.load(f)
-
-        for user in userd:
-            user = User(username=user["username"], password=user["password"],
-                        email=user["email"],
-                        register_date=datetime.datetime.strptime(
-                            user["register_date"],
-                            "%Y-%m-%d %H:%M:%S.%f"),
-                        can_edit_drops=bool(int(user["_can_edit_drops"])))
-            db.session.add(user)
-        db.session.commit()
-        """
     return app

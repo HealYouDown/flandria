@@ -39,6 +39,7 @@ def login():
 
     # Create access token
     token = create_access_token({
+        "id": user.id,
         "username": user.username,
         "admin": user.is_admin,
         "can_see_hidden": user.is_able_to_see_hidden,

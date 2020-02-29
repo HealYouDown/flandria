@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPlannerData } from "../fetch";
+import { getPlannerData, savePlannerBuild } from "../fetch";
 import TopBarProgress from "react-topbar-progress-indicator";
 import { Row, Col } from "react-grid-system";
 import Card, { CardHeader, CardBody } from "../common/Card";
@@ -9,11 +9,61 @@ import "../../styles/react-select.css";
 import classSelectOptions from "./classSelectOptions";
 import Hash from "./hash";
 import Skill, { getNextCode } from "./Skill";
+import { Link } from "react-router-dom";
+import { TextInput, InputWrapper, InputLabel, TextArea, ConfirmButton } from "../common/Inputs";
+import { toast } from "react-toastify";
+import { isLoggedIn } from "../auth/auth";
+
+const SkilltreeWrapperWrapper = styled.div`
+  display: flex;
+  flex-flow: row;
+
+  div:first-child {
+    flex-grow: 1;
+  }
+
+  div:not(:first-child) {
+    margin-left: 5px;
+  }
+`
+
+const SaveBuildButton = styled.button`
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  padding: 4px 8px;
+  background-color: #28a745;
+  color: white;
+  transition: background-color 0.15s;
+  font-size: 14px;
+
+  &:hover {
+    background-color: #218838;
+  }
+`
+
+const ShowBuildsButton = styled(Link)`
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  text-align: center;
+  padding: 4px 8px;
+  background-color: darkcyan;
+  color: white;
+  transition: background-color 0.15s;
+  font-size: 14px;
+  text-decoration: none;
+
+  &:hover {
+    background-color: teal;
+  }
+`
 
 const SkilltreeHeaderWrapper = styled.div`
   display: flex;
   flex-flow: column;
-
+  justify-content: space-between;
 `;
 
 const SkilltreeHeaderSelectWrapper = styled.div`
@@ -67,10 +117,27 @@ class Planner extends React.Component {
     this.onClassChange = this.onClassChange.bind(this);
     this.levelUpSkill = this.levelUpSkill.bind(this);
     this.levelDownSkill = this.levelDownSkill.bind(this);
+    this.saveBuild = this.saveBuild.bind(this);
 
     // State
     this.init(props);
     this.state = this.getDefaultState();
+  }
+
+  saveBuild() {
+    let currentClassName = null;
+    if (this.plannerClass != "ship") {
+      currentClassName = this.classOptions.filter(opt => opt.value == this.state.selectedClass)[0].label;
+    }
+  
+    savePlannerBuild(this.plannerClass, this.state.buildName,
+                     this.state.buildDescription, this.state.currentLevel,
+                     currentClassName, this.hash.hash)
+    .then(res => res.json())
+    .then(json => {
+      toast.info(json.msg);
+    })
+
   }
 
   init(props) {
@@ -139,6 +206,10 @@ class Planner extends React.Component {
       pointsLeft: 1,
 
       skills: {},
+
+      saveMenuOpen: false,
+      buildName: "",
+      buildDescription: "",
     }
   }
 
@@ -569,32 +640,48 @@ class Planner extends React.Component {
 
           <Card>
             <CardHeader>
-              <SkilltreeHeaderWrapper>
-                <SkilltreeHeaderSelectWrapper>
-                  <Select
-                    isSearchable={true}
-                    options={this.levelOptions}
-                    value={this.levelOptions.filter(opt => opt.value == this.state.currentLevel)}
-                    className="react-container"
-                    classNamePrefix="react-select"
-                    onChange={this.onLevelChange}
-                  />
-                  {this.plannerClass != "ship" && (
+              <SkilltreeWrapperWrapper>
+                <SkilltreeHeaderWrapper>
+                  <SkilltreeHeaderSelectWrapper>
                     <Select
                       isSearchable={true}
-                      options={this.classOptions}
-                      value={this.classOptions.filter(opt => opt.value == this.state.selectedClass)}
+                      options={this.levelOptions}
+                      value={this.levelOptions.filter(opt => opt.value == this.state.currentLevel)}
                       className="react-container"
                       classNamePrefix="react-select"
-                      onChange={this.onClassChange}
+                      onChange={this.onLevelChange}
                     />
+                    {this.plannerClass != "ship" && (
+                      <Select
+                        isSearchable={true}
+                        options={this.classOptions}
+                        value={this.classOptions.filter(opt => opt.value == this.state.selectedClass)}
+                        className="react-container"
+                        classNamePrefix="react-select"
+                        onChange={this.onClassChange}
+                      />
+                    )}
+                  </SkilltreeHeaderSelectWrapper>
+                  <SkilltreeHeaderLabelsWrapper>
+                    <span>Points used: {this.state.pointsUsed}</span>
+                    <span>Points left: {this.state.pointsLeft}</span>
+                  </SkilltreeHeaderLabelsWrapper>
+                </SkilltreeHeaderWrapper>
+                <SkilltreeHeaderWrapper>
+                  {isLoggedIn() && (
+                    <SaveBuildButton
+                      onClick={() => this.setState({saveMenuOpen: !this.state.saveMenuOpen})}
+                    >
+                      Save
+                    </SaveBuildButton>
                   )}
-                </SkilltreeHeaderSelectWrapper>
-                <SkilltreeHeaderLabelsWrapper>
-                  <span>Points used: {this.state.pointsUsed}</span>
-                  <span>Points left: {this.state.pointsLeft}</span>
-                </SkilltreeHeaderLabelsWrapper>
-              </SkilltreeHeaderWrapper>
+                  <ShowBuildsButton
+                    to={`/planner/${this.plannerClass}/builds`}
+                  >
+                    Builds
+                  </ShowBuildsButton>
+                </SkilltreeHeaderWrapper>
+              </SkilltreeWrapperWrapper>
             </CardHeader>
 
             <CardBody>
@@ -608,6 +695,42 @@ class Planner extends React.Component {
           </Card>
 
         </Col>
+
+        {this.state.saveMenuOpen && (
+          <Col xl={6}>
+            <Card>
+              <CardHeader>
+                <span className="card-title">Save Build</span>
+              </CardHeader>
+              <CardBody>
+                <form onSubmit={this.saveBuild}>
+                  <InputWrapper>
+                    <InputLabel>Build Name</InputLabel>
+                    <TextInput
+                      fontsize={16}
+                      type="text"
+                      value={this.state.buildName}
+                      onChange={e => this.setState({buildName: e.target.value})}
+                    />
+                  </InputWrapper>
+                  <InputWrapper>
+                    <InputLabel>Description (Max. 300 characters)</InputLabel>
+                    <TextArea
+                      fontsize={16}
+                      type="text"
+                      maxlength="300"
+                      value={this.state.buildDescription}
+                      onChange={e => this.setState({buildDescription: e.target.value})}
+                    />
+                  </InputWrapper>
+                  <InputWrapper>
+                    <ConfirmButton>Save Build</ConfirmButton>
+                  </InputWrapper>
+                </form>
+              </CardBody>
+            </Card>
+          </Col>
+        )}
       </Row>
     )
   }

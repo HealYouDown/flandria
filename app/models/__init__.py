@@ -89,3 +89,6 @@ from .tables.hidden_item import HiddenItem
 
 # User stuff
 from .tables.user import User
+
+# Builds
+from .tables.planner_build import PlannerBuild, PlannerBuildStar

@@ -43,6 +43,27 @@ const TextInput = styled.input`
   }
 `;
 
+const TextArea = styled.textarea`
+  border: none;
+  border-bottom: 2px solid #aaa;
+  color: #aaa;
+  background: transparent;
+  font-size: ${props => props.fontsize}px;
+  outline: none;
+  box-shadow: none;
+  font-family: inherit;
+
+  &:focus {
+    color: ${BLUE};
+    border-bottom-color: ${BLUE};
+  }
+
+  &:invalid {
+    border: none;
+    border-bottom: 2px solid red;
+  }
+`
+
 
 const ConfirmButton = styled.button`
   border: none;
@@ -65,4 +86,5 @@ export {
   InputWrapper,
   TextInput,
   ConfirmButton,
+  TextArea,
 }

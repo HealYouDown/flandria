@@ -82,6 +82,53 @@ const getPlannerData = (class_) => {
   })
 }
 
+const savePlannerBuild = (plannerClass, buildName, buildDescription, selectedLevel, selectedClass, hash) => {
+  const url = `/api/planner/${plannerClass}/builds`;
+  return fetch(url, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      build_name: buildName,
+      build_description: buildDescription,
+      selected_level: selectedLevel,
+      selected_class: selectedClass,
+      hash: hash,
+    })
+  })
+}
+
+const getPlannerBuilds = (plannerClass) => {
+  const url = `/api/planner/${plannerClass}/builds`;
+  return fetch(url, {
+    method: "GET",
+    headers: getHeaders(),
+  })
+}
+
+const addStar = (buildId, userId) => {
+  const url = `/api/planner/stars`;
+  return fetch(url, {
+    method: "PUT",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      user_id: userId,
+      build_id: buildId,
+    })
+  })
+}
+
+const deleteStar = (buildId, userId) => {
+  const url = `/api/planner/stars`;
+  return fetch(url, {
+    method: "DELETE",
+    headers: getHeaders(),
+    body: JSON.stringify({
+      user_id: userId,
+      build_id: buildId,
+    })
+  })
+}
+
 export {
   fetchTabledata,
   fetchDetailedItemData,
@@ -90,4 +137,8 @@ export {
   deleteDrop,
   addDrop,
   getPlannerData,
+  savePlannerBuild,
+  getPlannerBuilds,
+  addStar,
+  deleteStar,
 }

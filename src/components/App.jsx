@@ -19,6 +19,7 @@ import Layout from "./layout/Layout";
 import Planner from "./planner/Planner";
 import { ScreenClassProvider } from "react-grid-system";
 import GAListener from "./GAListener";
+import Builds from "./planner/Builds";
 
 // Global style
 const GlobalStyle = createGlobalStyle`
@@ -75,6 +76,7 @@ const App = () => {
               <Route exact path="/database/monster/:code/edit" component={MonsterEdit} />
 
               <Route exact path="/planner/:plannerClass" component={Planner} />
+              <Route exact path="/planner/:plannerClass/builds" component={Builds} />
 
               <Route exact path="/auth/register" component={Register} />
               <Route exact path="/auth/login" component={Login} />
