@@ -720,7 +720,12 @@ class Planner extends React.Component {
                       type="text"
                       maxlength="300"
                       value={this.state.buildDescription}
-                      onChange={e => this.setState({buildDescription: e.target.value})}
+                      onChange={e => {
+                        let value = e.target.value;
+                        if (value.length <= 300) {
+                          this.setState({buildDescription: e.target.value});
+                        }
+                      }}
                     />
                   </InputWrapper>
                   <InputWrapper>
