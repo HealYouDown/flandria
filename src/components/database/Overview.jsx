@@ -62,7 +62,7 @@ const BonusSubsWrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(2, auto);
   * {
-    font-size: 10px;
+    font-size: 12px;
     color: ${BLUE};
   }
 `
