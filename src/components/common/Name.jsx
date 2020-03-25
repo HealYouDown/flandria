@@ -31,6 +31,31 @@ const NameWrapper = styled.span`
 `
 
 
+const Duration = styled.span`
+  margin-left: 5px;
+`
+
+
+function roundDuration(value, exp) {
+  if (typeof exp === 'undefined' || +exp === 0)
+    return Math.round(value);
+
+  value = +value;
+  exp = +exp;
+
+  if (isNaN(value) || !(typeof exp === 'number' && exp % 1 === 0))
+    return NaN;
+
+  // Shift
+  value = value.toString().split('e');
+  value = Math.round(+(value[0] + 'e' + (value[1] ? (+value[1] + exp) : exp)));
+
+  // Shift back
+  value = value.toString().split('e');
+  return +(value[0] + 'e' + (value[1] ? (+value[1] - exp) : -exp));
+}
+
+
 const Name = ({tablename, data, title = false}) => {
   let val = Object.is(data.rare_grade, undefined) ? data.rating_type : data.rare_grade;
 
@@ -39,9 +64,19 @@ const Name = ({tablename, data, title = false}) => {
     val = data.production.result_item.rare_grade;
   }
 
+  console.log(data.duration)
+
+  let hasDuration = false;
+  if (data.duration > 0) {
+    hasDuration = true;
+  }
+
   return (
     <NameWrapper title={title} tablename={tablename} val={val}>
       {data.name}
+      {hasDuration && (
+        <Duration>{roundDuration(data.duration, 2)}D</Duration>
+      )}
     </NameWrapper>
   )
 }

@@ -17,11 +17,11 @@ class BaseMixin:
 
     def to_dict(self, minimal: bool) -> dict:
         minimal_dict = {
-                "code": self.code,
-                "name": self.name,
-                "icon": self.icon,
-                "rare_grade": self.rare_grade,
-            }
+            "code": self.code,
+            "name": self.name,
+            "icon": self.icon,
+            "rare_grade": self.rare_grade,
+        }
 
         if minimal:
             return minimal_dict
@@ -112,6 +112,7 @@ class WeaponMixin(BaseMixin, BonusMixin):
     attack_speed = Column(Integer)
 
     upgrade_code = Column(String)
+    duration = Column(Float)
 
     def to_dict(self, minimal: bool) -> dict:
         minimal_dict = {
@@ -120,6 +121,7 @@ class WeaponMixin(BaseMixin, BonusMixin):
             "class_land": self.class_land,
             "level_land": self.level_land,
             "level_sea": self.level_sea,
+            "duration": self.duration,
         }
 
         if minimal:
@@ -147,6 +149,7 @@ class ArmorMixin(BaseMixin, BonusMixin):
     class_land = Column(String)
     level_land = Column(Integer)
     level_sea = Column(Integer)
+    duration = Column(Float)
 
     def to_dict(self, minimal: bool) -> dict:
         minimal_dict = {
@@ -155,6 +158,7 @@ class ArmorMixin(BaseMixin, BonusMixin):
             "class_land": self.class_land,
             "level_land": self.level_land,
             "level_sea": self.level_sea,
+            "duration": self.duration,
         }
 
         if minimal:

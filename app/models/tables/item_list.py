@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Float
 from ...extensions import db
 
 
@@ -12,6 +12,7 @@ class ItemList(db.Model):
 
     table = Column(String)
     rare_grade = Column(Integer, default=0)
+    duration = Column(Float, default=-1)
 
     def to_dict(self) -> dict:
         return {
@@ -19,5 +20,6 @@ class ItemList(db.Model):
             "name": self.name,
             "icon": self.icon,
             "table": self.table,
-            "rare_grade": self.rare_grade
+            "rare_grade": self.rare_grade,
+            "duration": self.duration,
         }
