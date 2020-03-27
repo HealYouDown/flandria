@@ -14,6 +14,7 @@ import { BLUE } from "../colors";
 import Pagination from "../common/Pagination";
 import OverviewFilter from "./OverviewFilter";
 import { fetchTabledata } from "../fetch";
+import Ad from "../common/Ad";
 
 const Grid = styled.div`
   display: grid;
@@ -93,7 +94,6 @@ const Subs = ({tablename, data}) => {
   )
 }
 
-
 const BonusSubs = ({data}) => {
   if (Object.is(data.bonus_code_1, undefined)) {
     return null;
@@ -119,7 +119,6 @@ const BonusSubs = ({data}) => {
     </BonusSubsWrapper>
   )
 }
-
 
 class Overview extends React.Component {
   constructor(props) {
@@ -302,6 +301,7 @@ class Overview extends React.Component {
             labels={response.pagination.labels}
           />
         )}
+        <Ad slot="9331756778" />
       </>
     )
   }

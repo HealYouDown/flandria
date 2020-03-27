@@ -34,10 +34,10 @@ body {
   background-color: black;
 }
 
-#root {
+#react-root-div {
   display: flex;
   flex-flow: column;
-  height: inherit;
+  height: 100% !important;
 }
 
 main {
