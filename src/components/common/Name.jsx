@@ -64,8 +64,6 @@ const Name = ({tablename, data, title = false}) => {
     val = data.production.result_item.rare_grade;
   }
 
-  console.log(data.duration)
-
   let hasDuration = false;
   if (data.duration > 0) {
     hasDuration = true;
