@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import { TextInput, InputWrapper, InputLabel, TextArea, ConfirmButton } from "../common/Inputs";
 import { toast } from "react-toastify";
 import { isLoggedIn } from "../auth/auth";
+import Ad from "../common/Ad";
 
 const SkilltreeWrapperWrapper = styled.div`
   display: flex;
@@ -635,108 +636,111 @@ class Planner extends React.Component {
     }
 
     return (
-      <Row justify="center">
-        <Col xl={6}>
-
-          <Card>
-            <CardHeader>
-              <SkilltreeWrapperWrapper>
-                <SkilltreeHeaderWrapper>
-                  <SkilltreeHeaderSelectWrapper>
-                    <Select
-                      isSearchable={true}
-                      options={this.levelOptions}
-                      value={this.levelOptions.filter(opt => opt.value == this.state.currentLevel)}
-                      className="react-container"
-                      classNamePrefix="react-select"
-                      onChange={this.onLevelChange}
-                    />
-                    {this.plannerClass != "ship" && (
-                      <Select
-                        isSearchable={true}
-                        options={this.classOptions}
-                        value={this.classOptions.filter(opt => opt.value == this.state.selectedClass)}
-                        className="react-container"
-                        classNamePrefix="react-select"
-                        onChange={this.onClassChange}
-                      />
-                    )}
-                  </SkilltreeHeaderSelectWrapper>
-                  <SkilltreeHeaderLabelsWrapper>
-                    <span>Points used: {this.state.pointsUsed}</span>
-                    <span>Points left: {this.state.pointsLeft}</span>
-                  </SkilltreeHeaderLabelsWrapper>
-                </SkilltreeHeaderWrapper>
-                <SkilltreeHeaderWrapper>
-                  {isLoggedIn() && (
-                    <SaveBuildButton
-                      onClick={() => this.setState({saveMenuOpen: !this.state.saveMenuOpen})}
-                    >
-                      Save
-                    </SaveBuildButton>
-                  )}
-                  <ShowBuildsButton
-                    to={`/planner/${this.plannerClass}/builds`}
-                  >
-                    Builds
-                  </ShowBuildsButton>
-                </SkilltreeHeaderWrapper>
-              </SkilltreeWrapperWrapper>
-            </CardHeader>
-
-            <CardBody>
-              <SkilltreeWrapper>
-                <Skilltree>
-                  <img src={`/static/assets/skilltree_backgrounds/${this.plannerClass}.png`} />
-                  {skills}
-                </Skilltree>
-              </SkilltreeWrapper>
-            </CardBody>
-          </Card>
-
-        </Col>
-
-        {this.state.saveMenuOpen && (
+      <>
+        <Row justify="center">
           <Col xl={6}>
+
             <Card>
               <CardHeader>
-                <span className="card-title">Save Build</span>
+                <SkilltreeWrapperWrapper>
+                  <SkilltreeHeaderWrapper>
+                    <SkilltreeHeaderSelectWrapper>
+                      <Select
+                        isSearchable={true}
+                        options={this.levelOptions}
+                        value={this.levelOptions.filter(opt => opt.value == this.state.currentLevel)}
+                        className="react-container"
+                        classNamePrefix="react-select"
+                        onChange={this.onLevelChange}
+                      />
+                      {this.plannerClass != "ship" && (
+                        <Select
+                          isSearchable={true}
+                          options={this.classOptions}
+                          value={this.classOptions.filter(opt => opt.value == this.state.selectedClass)}
+                          className="react-container"
+                          classNamePrefix="react-select"
+                          onChange={this.onClassChange}
+                        />
+                      )}
+                    </SkilltreeHeaderSelectWrapper>
+                    <SkilltreeHeaderLabelsWrapper>
+                      <span>Points used: {this.state.pointsUsed}</span>
+                      <span>Points left: {this.state.pointsLeft}</span>
+                    </SkilltreeHeaderLabelsWrapper>
+                  </SkilltreeHeaderWrapper>
+                  <SkilltreeHeaderWrapper>
+                    {isLoggedIn() && (
+                      <SaveBuildButton
+                        onClick={() => this.setState({saveMenuOpen: !this.state.saveMenuOpen})}
+                      >
+                        Save
+                      </SaveBuildButton>
+                    )}
+                    <ShowBuildsButton
+                      to={`/planner/${this.plannerClass}/builds`}
+                    >
+                      Builds
+                    </ShowBuildsButton>
+                  </SkilltreeHeaderWrapper>
+                </SkilltreeWrapperWrapper>
               </CardHeader>
+
               <CardBody>
-                <form onSubmit={this.saveBuild}>
-                  <InputWrapper>
-                    <InputLabel>Build Name</InputLabel>
-                    <TextInput
-                      fontsize={16}
-                      type="text"
-                      value={this.state.buildName}
-                      onChange={e => this.setState({buildName: e.target.value})}
-                    />
-                  </InputWrapper>
-                  <InputWrapper>
-                    <InputLabel>Description (Max. 300 characters)</InputLabel>
-                    <TextArea
-                      fontsize={16}
-                      type="text"
-                      maxlength="300"
-                      value={this.state.buildDescription}
-                      onChange={e => {
-                        let value = e.target.value;
-                        if (value.length <= 300) {
-                          this.setState({buildDescription: e.target.value});
-                        }
-                      }}
-                    />
-                  </InputWrapper>
-                  <InputWrapper>
-                    <ConfirmButton>Save Build</ConfirmButton>
-                  </InputWrapper>
-                </form>
+                <SkilltreeWrapper>
+                  <Skilltree>
+                    <img src={`/static/assets/skilltree_backgrounds/${this.plannerClass}.png`} />
+                    {skills}
+                  </Skilltree>
+                </SkilltreeWrapper>
               </CardBody>
             </Card>
+
           </Col>
-        )}
-      </Row>
+
+          {this.state.saveMenuOpen && (
+            <Col xl={6}>
+              <Card>
+                <CardHeader>
+                  <span className="card-title">Save Build</span>
+                </CardHeader>
+                <CardBody>
+                  <form onSubmit={this.saveBuild}>
+                    <InputWrapper>
+                      <InputLabel>Build Name</InputLabel>
+                      <TextInput
+                        fontsize={16}
+                        type="text"
+                        value={this.state.buildName}
+                        onChange={e => this.setState({buildName: e.target.value})}
+                      />
+                    </InputWrapper>
+                    <InputWrapper>
+                      <InputLabel>Description (Max. 300 characters)</InputLabel>
+                      <TextArea
+                        fontsize={16}
+                        type="text"
+                        maxlength="300"
+                        value={this.state.buildDescription}
+                        onChange={e => {
+                          let value = e.target.value;
+                          if (value.length <= 300) {
+                            this.setState({buildDescription: e.target.value});
+                          }
+                        }}
+                      />
+                    </InputWrapper>
+                    <InputWrapper>
+                      <ConfirmButton>Save Build</ConfirmButton>
+                    </InputWrapper>
+                  </form>
+                </CardBody>
+              </Card>
+            </Col>
+          )}
+        </Row>
+        <Ad slot="7369073889" />
+      </>
     )
   }
 }
