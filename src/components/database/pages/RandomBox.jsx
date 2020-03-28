@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
 import { Infos, DroppedBy, AvailableIn, ProducedBy, NeededFor, BoxContent } from "../DetailedViewComponents";
+import Ad from "../../common/Ad";
 
 const RandomBox = ({tablename, data}) => {
   const {
@@ -12,19 +13,22 @@ const RandomBox = ({tablename, data}) => {
   ]
 
   return (
-    <Row>
-      <Col md={4}>
-        <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
-        <AvailableIn boxes={random_boxes} />
-        <DroppedBy droppedBy={dropped_by} />
-        <ProducedBy producedBy={produced_by} />
-        <NeededFor neededFor={needed_for} />
-      </Col>
+    <>
+      <Row>
+        <Col md={4}>
+          <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
+          <AvailableIn boxes={random_boxes} />
+          <DroppedBy droppedBy={dropped_by} />
+          <ProducedBy producedBy={produced_by} />
+          <NeededFor neededFor={needed_for} />
+        </Col>
 
-      <Col md={8}>
-        <BoxContent content={obj.content} />
-      </Col>
-    </Row>
+        <Col md={8}>
+          <BoxContent content={obj.content} />
+        </Col>
+      </Row>
+      <Ad slot="1071258842" />
+    </>
   )
 }
 

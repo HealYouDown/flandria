@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
 import { Infos, DroppedBy, AvailableIn, ResultItem, MaterialList } from "../DetailedViewComponents";
+import Ad from "../../common/Ad";
 
 const Recipe = ({tablename, data}) => {
   const {
@@ -12,18 +13,21 @@ const Recipe = ({tablename, data}) => {
   ]
 
   return (
-    <Row>
-      <Col md={4}>
-        <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
-        <DroppedBy droppedBy={dropped_by} />
-        <AvailableIn boxes={random_boxes} />
-      </Col>
+    <>
+      <Row>
+        <Col md={4}>
+          <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
+          <DroppedBy droppedBy={dropped_by} />
+          <AvailableIn boxes={random_boxes} />
+        </Col>
 
-      <Col md={8}>
-        <ResultItem resultItem={obj.result_item} />
-        <MaterialList materials={obj.materials} />
-      </Col>
-    </Row>
+        <Col md={8}>
+          <ResultItem resultItem={obj.result_item} />
+          <MaterialList materials={obj.materials} />
+        </Col>
+      </Row>
+      <Ad slot="1071258842" />
+    </>
   )
 }
 

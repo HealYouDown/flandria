@@ -5,6 +5,7 @@ import styled from "styled-components";
 import Icon from "../../common/Icon";
 import Name from "../../common/Name";
 import { DroppedBy } from "../DetailedViewComponents";
+import Ad from "../../common/Ad";
 
 const InfosHeaderWrapper = styled.div`
   display: flex;
@@ -18,35 +19,38 @@ const QuestScroll = ({tablename, data}) => {
   } = data;
 
   return (
-    <Row>
-      <Col md={4}>
-        <Card>
-          <CardHeader>
-            <InfosHeaderWrapper>
-              <Icon tablename={tablename} icon={obj.icon} />
-              <Name tablename={tablename} data={obj} title />
-            </InfosHeaderWrapper>
-          </CardHeader>
-          <CardListBody>
-            <ul>
-              {quests_by_scroll.map(quest => {
-                return (
-                  <ClickableCardListItem
-                    link={"/database/quest/" + quest.code}
-                  >
-                    <span className="hover-white">{quest.name}</span>
-                  </ClickableCardListItem>
-                )
-              })}
-            </ul>
-          </CardListBody>
-        </Card>
-      </Col>
-    
-      <Col md={8}>
-        <DroppedBy droppedBy={dropped_by} />
-      </Col>
-    </Row>
+    <>
+      <Row>
+        <Col md={4}>
+          <Card>
+            <CardHeader>
+              <InfosHeaderWrapper>
+                <Icon tablename={tablename} icon={obj.icon} />
+                <Name tablename={tablename} data={obj} title />
+              </InfosHeaderWrapper>
+            </CardHeader>
+            <CardListBody>
+              <ul>
+                {quests_by_scroll.map(quest => {
+                  return (
+                    <ClickableCardListItem
+                      link={"/database/quest/" + quest.code}
+                    >
+                      <span className="hover-white">{quest.name}</span>
+                    </ClickableCardListItem>
+                  )
+                })}
+              </ul>
+            </CardListBody>
+          </Card>
+        </Col>
+      
+        <Col md={8}>
+          <DroppedBy droppedBy={dropped_by} />
+        </Col>
+      </Row>
+      <Ad slot="1071258842" />
+    </>
   )
 }
 

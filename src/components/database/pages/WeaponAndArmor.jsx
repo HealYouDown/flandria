@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
 import { Infos, BonusStats, ProducedBy, NeededFor, AvailableIn, Upgrade, DroppedBy } from "../DetailedViewComponents";
+import Ad from "../../common/Ad";
 
 const WeaponAndArmor = ({tablename, data}) => {
   const {
@@ -24,22 +25,25 @@ const WeaponAndArmor = ({tablename, data}) => {
   }  
 
   return (
-    <Row>
-      <Col md={4}>
-        <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
-        <BonusStats obj={obj} />
-        <ProducedBy producedBy={produced_by} />
-        <NeededFor neededFor={needed_for} />
-        <AvailableIn boxes={random_boxes} />
-      </Col>
+    <>
+      <Row>
+        <Col md={4}>
+          <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
+          <BonusStats obj={obj} />
+          <ProducedBy producedBy={produced_by} />
+          <NeededFor neededFor={needed_for} />
+          <AvailableIn boxes={random_boxes} />
+        </Col>
 
-      <Col md={8}>
-        {tablename != "shield" && (
-          <Upgrade tablename={tablename} obj={obj} upgradeData={upgrade_data} />
-        )}
-        <DroppedBy droppedBy={dropped_by} />
-      </Col>
-    </Row>
+        <Col md={8}>
+          {tablename != "shield" && (
+            <Upgrade tablename={tablename} obj={obj} upgradeData={upgrade_data} />
+          )}
+          <DroppedBy droppedBy={dropped_by} />
+        </Col>
+      </Row>
+      <Ad slot="1071258842" />
+    </>
   )
 }
 

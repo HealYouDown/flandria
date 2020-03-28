@@ -1,6 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
 import { Infos, Quests, Drops } from "../DetailedViewComponents";
+import Ad from "../../common/Ad";
 
 const Monster = ({tablename, data}) => {
   const {
@@ -21,21 +22,24 @@ const Monster = ({tablename, data}) => {
   const dropsColWidth = hasQuests ? 4 : 8;
 
   return (
-    <Row>
-      <Col md={4}>
-        <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
-      </Col>
-  
-      {hasQuests && (
+    <>
+      <Row>
         <Col md={4}>
-          <Quests quests={quests} />
+          <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
         </Col>
-      )}
+    
+        {hasQuests && (
+          <Col md={4}>
+            <Quests quests={quests} />
+          </Col>
+        )}
 
-      <Col md={dropsColWidth}>
-        <Drops drops={drops} />
-      </Col>
-    </Row>
+        <Col md={dropsColWidth}>
+          <Drops drops={drops} />
+        </Col>
+      </Row>
+      <Ad slot="1071258842" />
+    </>
   )
 }
 
