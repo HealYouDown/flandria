@@ -301,7 +301,9 @@ class Overview extends React.Component {
             labels={response.pagination.labels}
           />
         )}
-        <Ad slot="9331756778" />
+        {(!isLoading && !hasError) && (
+          <Ad slot="9331756778" />
+        )}
       </>
     )
   }
