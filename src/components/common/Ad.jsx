@@ -38,7 +38,6 @@ export default class Ad extends React.Component {
 
   render() {
     let adblockerEnabled = window.canRunAds === undefined;
-    console.log(adblockerEnabled);
 
     if (!adblockerEnabled) {
       return (
