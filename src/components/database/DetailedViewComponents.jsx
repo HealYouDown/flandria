@@ -132,6 +132,64 @@ const DropsHeaderWrapper = styled.div`
 `
 
 const Drops = ({drops}) => {
+  const dropTableValues = {
+    "material": 10000,
+
+    "upgrade_help": 9950,
+    "seal_break_help": 9949,
+
+    "pet_skill_stone": 9900,
+  
+    "random_box": 9800,
+
+    "cariad": 1000,
+    "rapier": 999,
+    "dagger": 998,
+    "one_handed_sword": 997,
+    "two_handed_sword": 996,
+    "rifle": 995,
+    "duals": 994,
+    "shield": 993,
+
+    "hat": 800,
+    "dress": 799,
+    "accessory": 798,
+
+    "coat": 550,
+    "pants": 549,
+    "shoes": 548,
+    "gauntlet": 547,
+
+    "consumable": 300,
+
+    "upgrade_stone": 250,
+
+    "pet_combine_help": 200,
+    "pet_combine_stone": 199,
+
+    "ship_normal_weapon": 152,
+    "ship_special_weapon": 151,
+    "ship_body": 150,
+    "ship_front": 149,
+    "ship_head_mast": 148,
+    "ship_main_mast": 147,
+    "ship_figure": 146,
+    "ship_magic_stone": 145,
+    "ship_anchor": 144,
+    "ship_flag": 143,
+
+    "recipe": 100,
+    "quest_scroll": 99,
+    "quest_item": 98,
+
+    "bullet": 2,
+    "shell": 1
+  }
+
+  drops.sort((a, b) => {
+    return dropTableValues[b.item.table] - dropTableValues[a.item.table];
+  })
+
   return (
     <Card>
       <CardHeader>
