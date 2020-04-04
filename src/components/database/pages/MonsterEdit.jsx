@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 import { useDebouncedCallback } from "use-debounce";
 import { toast } from "react-toastify";
 import ItemSearch from "../../common/ItemSearch";
+import { dropTableValues } from "../DetailedViewComponents";
 
 
 const DropItemWrapper = styled.li`
@@ -119,7 +120,10 @@ const MonsterEdit = (props) => {
     return <TopBarProgress />
   }
 
-  console.log(drops);
+  let dropsCopy = Object.assign([], drops);
+  dropsCopy.sort((a, b) => {
+    return dropTableValues[b.item.table] - dropTableValues[a.item.table];
+  })
 
   return (
     <Row>
@@ -130,7 +134,7 @@ const MonsterEdit = (props) => {
           </CardHeader>
           <CardListBody>
             <ul>
-              {drops.map(drop => {
+              {dropsCopy.map(drop => {
                 return (
                   <DropItemWrapper>
                     <Icon tablename={drop.item.table} icon={drop.item.icon} />
