@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, Float
 from ...extensions import db
 from ..mixins import BonusMixin, BaseMixin
 
@@ -11,11 +11,13 @@ class FishingRod(db.Model, BaseMixin, BonusMixin):
     itemtype = Column(String)
     level_land = Column(Integer)
     level_sea = Column(Integer)
+    duration = Column(Float)
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = {
             **BaseMixin.to_dict(self, minimal),
             **BonusMixin.to_dict(self),
+            "duration": self.duration,
         }
 
         if minimal:
