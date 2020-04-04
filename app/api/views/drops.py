@@ -27,9 +27,6 @@ def add_drop():
         return jsonify({"msg": "monster_code is missing"}), 422
 
     item = db.session.query(Drop).filter(Drop.monster_code == monster_code, Drop.item_code == item_code).first()
-
-    if item is not None:
-        return jsonify({"msg": "Drop already exists for this monster."}), 422
     
     # webhook
     monster = Monster.query.get(monster_code)
