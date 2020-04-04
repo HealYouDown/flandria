@@ -30,22 +30,32 @@ const AdblockBannerWrapper = styled.div`
 export default class Ad extends React.Component {
   constructor(props) {
     super(props);
+    this.adblockerEnabled = window.canRunAds === undefined;
   }
 
   componentDidMount() {
-    (window.adsbygoogle = window.adsbygoogle || []).push({});
+    if (!this.adblockerEnabled) {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    }
   }
 
   render() {
-    let adblockerEnabled = window.canRunAds === undefined;
 
-    if (!adblockerEnabled) {
+    if (!this.adblockerEnabled) {
       return (
-        <ins className='adsbygoogle'
-          style={{ display: 'inline-block', minWidth: "400px", width: "100%", height: "100px", marginTop: "15px" }}
-          data-ad-client='ca-pub-7852193310298972'
-          data-ad-slot={this.props.slot}
-        />
+        <div style={{marginTop: "15px"}}>
+          <ins className='adsbygoogle'
+            style={{ display: 'inline-block', width: "50%", height: "100px" }}
+            data-ad-client='ca-pub-7852193310298972'
+            data-ad-slot={this.props.slot}
+          />
+          <ins className='adsbygoogle'
+            style={{ display: 'inline-block', width: "50%", height: "100px" }}
+            data-ad-client='ca-pub-7852193310298972'
+            data-ad-slot={this.props.slot}
+          />
+        </div>
       );
     }
 
