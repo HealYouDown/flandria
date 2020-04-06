@@ -7,27 +7,27 @@ import breakpoint from "../breakpoint";
 
 const resizedWidth = 512 + 128;
 const resizedHeight = 512 + 128;
-const dotSize = 7;
+const dotSize = 4;
 
 
 const Grid = styled.div`
   display: grid;
   grid-column-gap: 30px;
   grid-row-gap: 20px;
-  margin-left: 20px;
   padding: 0px 0px;
-  flex-grow: 1;
+  width: 100%;
+
   ${breakpoint("sm")`
     grid-template-columns: 1fr;
   `}
   ${breakpoint("md")`
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     `}
   ${breakpoint("lg")`
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
   `}
   ${breakpoint("xl")`
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   `}
 `
 
@@ -35,11 +35,13 @@ const CanvasWrapper = styled.div`
   position: relative;
   height: ${resizedHeight}px;
   width: ${resizedWidth}px;
+  margin-bottom: 20px;
 `
 
 const Wrapper = styled.div`
   display: flex;
-  flex-flow: row;
+  flex-flow: column;
+  align-items: center;
 `
 
 const Canvas = styled.canvas`
@@ -126,12 +128,16 @@ const Maps = (props) => {
           let newX = (((point["x"] - left) / width) * resizedWidth) - dotSize/2; 
           let newY = (((top - point["y"]) / height) * resizedHeight) - dotSize/2;
     
-          ctx2.fillRect(newX, newY, dotSize, dotSize);
+          // ctx2.fillRect(newX - dotSize/2, newY - dotSize/2, dotSize, dotSize);
+          ctx2.beginPath();
+          ctx2.arc(newX, newY, dotSize, 0, 2*Math.PI, false);
+          ctx2.fill()
+
           dots.push({
-            "x": newX,
-            "y": newY,
-            "width": dotSize,
-            "height": dotSize,
+            "x": newX-dotSize,
+            "y": newY-dotSize,
+            "width": dotSize*2,
+            "height": dotSize*2,
             "name": data.values[monsterCode].monster.name,
           });
         })
@@ -197,7 +203,7 @@ const Maps = (props) => {
       </CanvasWrapper>
 
       <Grid>
-        {Object.keys(data.values).map(monsterCode => {
+        {Object.keys(data.values).sort((a, b) => data.values[a].monster.level - data.values[b].monster.level).map(monsterCode => {
           const monster = data.values[monsterCode].monster;
           const color = colorState[monsterCode];
           const cbState = checkboxState[monsterCode];
