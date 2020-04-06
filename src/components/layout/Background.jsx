@@ -34,6 +34,8 @@ const pathnameToImage = {
   "/planner/noble": "noble.jpg",
   "/planner/mercenary": "mercenary.jpg",
   "/planner/ship": "ship.jpg",
+  // Maps
+  "/map/AF2_000": "splash_images/wide_af2_Jp.png",
 }
 
 const defaultBackgroundImage = "background-image-2.jpeg";

@@ -83,6 +83,7 @@ from .tables.quest import (Quest, QuestDescription, QuestGiveDescription,
 
 # Others
 from .tables.map import Map
+from .tables.map_point import MapPoint
 from .tables.npc import NPC
 from .tables.drop import Drop
 from .tables.hidden_item import HiddenItem
