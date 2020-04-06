@@ -129,6 +129,14 @@ const deleteStar = (buildId, userId) => {
   })
 }
 
+const getMapPoints = (mapCode) => {
+  const url = `/api/map/${mapCode}`;
+  return fetch(url, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+}
+
 export {
   fetchTabledata,
   fetchDetailedItemData,
@@ -141,4 +149,5 @@ export {
   getPlannerBuilds,
   addStar,
   deleteStar,
+  getMapPoints,
 }

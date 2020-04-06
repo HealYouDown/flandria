@@ -20,6 +20,7 @@ import Planner from "./planner/Planner";
 import { ScreenClassProvider } from "react-grid-system";
 import GAListener from "./GAListener";
 import Builds from "./planner/Builds";
+import Maps from "./maps/Maps";
 
 // Global style
 const GlobalStyle = createGlobalStyle`
@@ -77,6 +78,8 @@ const App = () => {
 
               <Route exact path="/planner/:plannerClass" component={Planner} />
               <Route exact path="/planner/:plannerClass/builds" component={Builds} />
+
+              <Route exact path="/map/:mapCode" component={Maps} />
 
               <Route exact path="/auth/register" component={Register} />
               <Route exact path="/auth/login" component={Login} />
