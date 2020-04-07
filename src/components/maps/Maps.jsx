@@ -154,6 +154,8 @@ const Maps = (props) => {
       .then(json => {
         setData(json)
 
+        document.title = json.map.name;
+
         let _cbState = {}
         let _colorState = {}
         Object.keys(json.values).forEach((monsterCode, index) => {
