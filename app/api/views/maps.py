@@ -1,13 +1,14 @@
 from flask import jsonify, request
 
 from app.api.blueprint import api_bp
-from app.extensions import db
+from app.extensions import db, cache
 
 from app.models import Map, MapPoint
 from itertools import groupby
 
 
 @api_bp.route("/map/<code>")
+@cache.memoize(timeout=0)
 def map_points(code):
     map_ = Map.query.filter(Map.code == code).first()
     points = MapPoint.query.filter(MapPoint.map_code == code).order_by(MapPoint.monster_code.asc()).all()
