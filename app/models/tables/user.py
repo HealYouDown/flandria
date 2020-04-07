@@ -21,6 +21,7 @@ class User(db.Model):
     can_edit_drops = Column(Boolean, default=False)
     can_see_hidden = Column(Boolean, default=False)
     can_see_probability = Column(Boolean, default=False)
+    premium = Column(Boolean, default=False)
 
     def set_password(self, password) -> None:
         pw_hash = generate_password_hash(password)
@@ -38,6 +39,10 @@ class User(db.Model):
     @property
     def is_admin(self) -> bool:
         return self.admin
+
+    @property
+    def is_premium(self) -> bool:
+        return bool(self.premium)
 
     @property
     def is_able_to_edit_drops(self) -> bool:

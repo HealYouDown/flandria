@@ -42,6 +42,7 @@ def login():
         "id": user.id,
         "username": user.username,
         "admin": user.is_admin,
+        "premium": user.is_premium,
         "can_see_hidden": user.is_able_to_see_hidden,
         "can_edit_drops": user.is_able_to_edit_drops,
         "can_see_probability": user.is_able_to_see_probability

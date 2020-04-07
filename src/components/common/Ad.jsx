@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { isPremium } from "../auth/auth";
 
 const AdblockBannerWrapper = styled.div`
   width: auto;
@@ -31,9 +32,16 @@ export default class Ad extends React.Component {
   constructor(props) {
     super(props);
     this.adblockerEnabled = window.canRunAds === undefined;
+    
+    this.isPremium = isPremium();
+    console.log(this.isPremium);
   }
 
   componentDidMount() {
+    if (this.isPremium) {
+      return;
+    }
+
     if (!this.adblockerEnabled) {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
       (window.adsbygoogle = window.adsbygoogle || []).push({});
@@ -41,6 +49,9 @@ export default class Ad extends React.Component {
   }
 
   render() {
+    if (this.isPremium) {
+      return null;
+    }
 
     if (!this.adblockerEnabled) {
       return (

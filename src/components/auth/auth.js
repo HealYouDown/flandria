@@ -49,6 +49,17 @@ const getCanEditDrops = () => {
   return false;
 }
 
+const isPremium = () => {
+  if (isLoggedIn()) {
+    let val = getDecodedToken().identity.premium;
+    if (typeof(val) === 'undefined') {
+      return false;
+    }
+    return val;
+  }
+  return false;
+}
+
 export {
   getToken,
   isLoggedIn,
@@ -57,4 +68,5 @@ export {
   getId,
   getName,
   getCanEditDrops,
+  isPremium,
 }
