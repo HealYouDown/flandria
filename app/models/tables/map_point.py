@@ -10,6 +10,7 @@ class MapPoint(db.Model):
     index = Column(Integer, primary_key=True, autoincrement=True)
 
     map_code = Column(String, ForeignKey("map.code"))
+    map = relationship("Map", foreign_keys=[map_code])
 
     monster_code = Column(String, ForeignKey("monster.code"))
     monster = relationship("Monster", foreign_keys=[monster_code])
@@ -20,6 +21,7 @@ class MapPoint(db.Model):
 
     def to_dict(self) -> dict:
         return {
+            "id": self.index,
             "x": self.x,
             "y": self.y,
             "z": self.z,

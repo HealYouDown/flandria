@@ -173,6 +173,28 @@ const Quests = ({quests}) => {
   )
 }
 
+/* Maps */
+const Maps = ({maps, monsterCode}) => {
+  return (
+    <Card>
+      <CardHeader>
+        <span className="card-title">Maps</span>
+      </CardHeader>
+      <CardListBody>
+        <ul>
+          {maps.map(map => {
+            return (
+              <ClickableCardListItem link={`/map/${map.code}?show=${monsterCode}`}>
+                <span className="hover-white">{map.name}</span>
+              </ClickableCardListItem>
+            )
+          })}
+        </ul>
+      </CardListBody>
+    </Card>
+  )
+}
+
 /* Drops */
 
 const DropsHeaderWrapper = styled.div`
@@ -919,5 +941,6 @@ export {
   QuestMissions,
   Rewards,
   QuestDescription,
+  Maps,
   dropTableValues,
 }

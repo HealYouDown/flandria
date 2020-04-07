@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, Quests, Drops } from "../DetailedViewComponents";
+import { Infos, Quests, Drops, Maps } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const Monster = ({tablename, data}) => {
   const {
-    obj, drops, quests
+    obj, drops, quests, maps
   } = data;
 
   const itemInfos = [
@@ -19,6 +19,7 @@ const Monster = ({tablename, data}) => {
   ];
 
   const hasQuests = quests.length >= 1;
+  const hasMaps = maps.length >= 1;
   const dropsColWidth = hasQuests ? 4 : 8;
 
   return (
@@ -26,6 +27,9 @@ const Monster = ({tablename, data}) => {
       <Row>
         <Col md={4}>
           <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
+          {hasMaps && (
+            <Maps maps={maps} monsterCode={obj.code} />
+          )}
         </Col>
     
         {hasQuests && (

@@ -6,7 +6,7 @@ from app.api.helpers import get_table_cls_from_tablename
 from app.api.table_to_extras import (
     TABLE_TO_EXTRA, get_after_quest, get_dropped_by, get_drops, get_needed_for,
     get_produced_by, get_quest_scrolls, get_quests, get_quests_by_item,
-    get_quests_by_scroll, get_random_boxes, get_upgrade_data)
+    get_quests_by_scroll, get_random_boxes, get_upgrade_data, get_maps)
 from app.constants import DATABASE_TABLENAMES
 from app.extensions import cache
 
@@ -33,6 +33,9 @@ def get_response(
     for extra in extras:
         if extra == "drops":
             response[extra] = get_drops(obj.code)
+
+        elif extra == "maps":
+            response[extra] = get_maps(obj.code)
 
         elif extra == "quests":
             response[extra] = get_quests(obj.code)

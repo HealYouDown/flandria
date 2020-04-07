@@ -4,11 +4,81 @@ import TopBarProgress from "react-topbar-progress-indicator";
 import styled from "styled-components";
 import MonsterShowCheckbox from "./MonsterShowCheckbox";
 import breakpoint from "../breakpoint";
+import { BLUE } from "../colors";
+import history from "../history";
+import Ad from "../common/Ad";
 
-const resizedWidth = 512 + 128;
-const resizedHeight = 512 + 128;
-const dotSize = 4;
+var resizedWidth = 512 + 256;
+var resizedHeight = 512 + 256;
+var dotSize = 4;
 
+if (screen.width <= resizedWidth + 50) {
+  resizedWidth = screen.width - 50;
+  resizedHeight = screen.width - 50;
+  dotSize = 2;
+}
+
+const colorsList = [
+  "#ff0000",
+  "#a60000",
+  "#ff5757",
+  "#ff6600",
+  "#ff954f",
+  "#e3a300",
+  "#ffcb47",
+  "#ffe45e",
+  "#eeff00",
+  "#bfff00",
+  "#84ff00",
+  "#03ffc8",
+  "#73ffe1",
+  "#1fdaff",
+  "#0daaff",
+  "#7a7aff",
+  "#4e4eba",
+  "#0d0dd9",
+  "#c887fa",
+  "#7622b5",
+  "#f461ff",
+  "#ff17a6",
+  "#1b750d",
+  "#D4AF37",
+  "#71a6d2",
+  "#ff003f",
+  "#646e00",
+  "#00ffc0",
+  "#008080",
+  "#5f9ea0",
+  "#d0db61",
+  "#8b4513",
+  "#800000",
+  "#02075d",
+]
+
+const MapWrapper = styled.div`
+`
+
+const Button = styled.button`
+  border: none;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 5px 15px;
+  cursor: pointer;
+  transition: color 0.3s;
+  border-radius: 3px;
+  font-size: 13px;
+
+  margin-left: ${props => props.marginLeft}px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: ${BLUE};
+  }
+`
+
+const ButtonWrapper = styled.div`
+  margin-bottom: 2px;
+`
 
 const Grid = styled.div`
   display: grid;
@@ -69,6 +139,15 @@ const Maps = (props) => {
   const mapPointsRef = useRef(null);
   const tooltipRef = useRef(null);
 
+  const urlParams = new URLSearchParams(location.search);
+  var monsterToShow = null;
+  if (urlParams.has("show")) {
+    monsterToShow = urlParams.get("show");
+    history.replace({
+      search: "",
+    });
+  }
+
   useEffect(() => {
     getMapPoints(mapCode)
       .then(res => res.json())
@@ -77,11 +156,20 @@ const Maps = (props) => {
 
         let _cbState = {}
         let _colorState = {}
-        Object.keys(json.values).forEach(monsterCode => {
-          // ch 
-          _cbState[monsterCode] = true;
+        Object.keys(json.values).forEach((monsterCode, index) => {
+          // checkbox (show) state
+          if (monsterToShow === null) {
+            _cbState[monsterCode] = true;            
+          } else {
+            if (monsterToShow == monsterCode) {
+              _cbState[monsterCode] = true;            
+            } else {
+              _cbState[monsterCode] = false;            
+            }
+          }
           // color
-          _colorState[monsterCode] = '#' + Math.random().toString(16).substr(2, 6);
+          //_colorState[monsterCode] = colorsList[index];
+          _colorState[monsterCode] = "#" + Math.random().toString(16).slice(2, 8); 
         })
         setCheckboxState(_cbState);
         setColorState(_colorState);
@@ -111,11 +199,11 @@ const Maps = (props) => {
     */
     const ctx2 = mapPointsRef.current.getContext("2d");
     ctx2.clearRect(0, 0, resizedWidth, resizedHeight);
-
-    const left = -63875.937;
-    const top = 62559.402;
-    const width = 110000;
-    const height = 110000;
+  
+    const left = data.map.left;
+    const top = data.map.top;
+    const width = data.map.width;
+    const height = data.map.height;
 
     const dots = [];
 
@@ -124,21 +212,34 @@ const Maps = (props) => {
         ctx2.fillStyle = colorState[monsterCode];
 
         let points = data.values[monsterCode].points;
+        
+        const queryParams = new URLSearchParams(location.search);
+        const hasDebug = queryParams.has("debug");
+
         points.forEach(point => {
-          let newX = (((point["x"] - left) / width) * resizedWidth) - dotSize/2; 
-          let newY = (((top - point["y"]) / height) * resizedHeight) - dotSize/2;
+          let newX = (((point.x - left) / width) * resizedWidth); 
+          let newY = (((top - point.y) / height) * resizedHeight);
     
           // ctx2.fillRect(newX - dotSize/2, newY - dotSize/2, dotSize, dotSize);
           ctx2.beginPath();
           ctx2.arc(newX, newY, dotSize, 0, 2*Math.PI, false);
           ctx2.fill()
 
+          let name;
+          let monsterName = data.values[monsterCode].monster.name;
+
+          if (hasDebug) {
+            name = `${monsterName} (${point.id})`
+          } else {
+            name = monsterName;
+          }
+
           dots.push({
-            "x": newX-dotSize,
-            "y": newY-dotSize,
-            "width": dotSize*2,
-            "height": dotSize*2,
-            "name": data.values[monsterCode].monster.name,
+            x: newX-dotSize,
+            y: newY-dotSize,
+            width: dotSize*2,
+            height: dotSize*2,
+            name
           });
         })
       }
@@ -190,35 +291,52 @@ const Maps = (props) => {
     setCheckboxState({...checkboxState, [monsterCode]: !checkboxState[monsterCode]})
   }
 
+  const toggleAll = (state) => {
+    let s = Object.assign({}, checkboxState);
+    Object.keys(s).forEach(key => {
+      s[key] = state ? true : false;
+    })
+    setCheckboxState(s);
+  }
+
   if (loading) {
     return <TopBarProgress />
   }
 
   return (
-    <Wrapper>
-      <CanvasWrapper>
-        <Canvas ref={mapRef} width={resizedWidth} height={resizedHeight} zIndex={0} />
-        <Canvas ref={mapPointsRef} width={resizedWidth} height={resizedHeight} zIndex={100} />
-        <TooltipCanvas ref={tooltipRef} />
-      </CanvasWrapper>
+    <>
+      <Wrapper>
+        <MapWrapper>
+          <ButtonWrapper>
+            <Button onClick={() => toggleAll(true)}>Toggle all: On</Button>
+            <Button onClick={() => toggleAll(false)} marginLeft={5}>Toggle all: Off</Button>
+          </ButtonWrapper>
+          <CanvasWrapper>
+            <Canvas ref={mapRef} width={resizedWidth} height={resizedHeight} zIndex={0} />
+            <Canvas ref={mapPointsRef} width={resizedWidth} height={resizedHeight} zIndex={100} />
+            <TooltipCanvas ref={tooltipRef} />
+          </CanvasWrapper>
+        </MapWrapper>
 
-      <Grid>
-        {Object.keys(data.values).sort((a, b) => data.values[a].monster.level - data.values[b].monster.level).map(monsterCode => {
-          const monster = data.values[monsterCode].monster;
-          const color = colorState[monsterCode];
-          const cbState = checkboxState[monsterCode];
-    
-          return (
-            <MonsterShowCheckbox
-              monster={monster}
-              onChange={() => onCheckboxChange(monsterCode)}
-              active={cbState}
-              color={color}
-            />
-          )
-        })}
-      </Grid>
-    </Wrapper>
+        <Grid>
+          {Object.keys(data.values).sort((a, b) => data.values[a].monster.level - data.values[b].monster.level).map(monsterCode => {
+            const monster = data.values[monsterCode].monster;
+            const color = colorState[monsterCode];
+            const cbState = checkboxState[monsterCode];
+      
+            return (
+              <MonsterShowCheckbox
+                monster={monster}
+                onClick={() => onCheckboxChange(monsterCode)}
+                active={cbState}
+                color={color}
+              />
+            )
+          })}
+        </Grid>
+      </Wrapper>
+      <Ad slot="8700199360" />
+    </>
   )
 }
 
