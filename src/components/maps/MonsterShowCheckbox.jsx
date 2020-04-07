@@ -44,9 +44,9 @@ const IconWrapper = styled.div`
 
 `
 
-const MonsterShowCheckbox = ({monster, onChange, color, active}) => {
+const MonsterShowCheckbox = ({monster, onClick, color, active}) => {
   return (
-    <Wrapper active={active} onClick={onChange}>
+    <Wrapper active={active} onClick={onClick}>
       <IconWrapper active={active}>
         <Icon tablename="monster" icon={monster.icon} />
       </IconWrapper>

@@ -1,4 +1,6 @@
 from sqlalchemy import or_
+from sqlalchemy import func
+from app.extensions import db
 
 import app.models as models
 
@@ -6,6 +8,7 @@ TABLE_TO_EXTRA = {
     "monster": [
         "quests",
         "drops",
+        "maps",
     ],
     "cariad": [
         "upgrade_data",
@@ -248,6 +251,18 @@ TABLE_TO_EXTRA = {
     "product_book": [],
     "fishing_bait": [],
 }
+
+
+def get_maps(monster_code: str) -> list:
+    query = (db.session.query(models.MapPoint)
+             .filter(models.MapPoint.monster_code == monster_code))
+
+    objects = []
+    for point in query.all():
+        if point.map.to_dict() not in objects:
+            objects.append(point.map.to_dict())
+
+    return objects
 
 
 def get_drops(monster_code: str) -> list:

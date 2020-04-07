@@ -61,6 +61,13 @@ const Navigation = () => {
           >
             Items
           </S.NavLink>
+          <S.NavLink
+            onClick={unHover}
+            onMouseEnter={unHover}
+            to="/map"
+          >
+            Maps
+          </S.NavLink>
           <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/database/quest">Quests</S.NavLink>
 
           <S.NavLink to="/" onClick={preventRouting} onMouseEnter={() => hover("planner")}>
@@ -105,6 +112,7 @@ const Navigation = () => {
         <S.HamburgerMenuLinkWrapper visible={hamburgerOpen}>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database/monster">Monster</S.HamburgerMenuLink>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database">Items</S.HamburgerMenuLink>
+          <S.HamburgerMenuLink onClick={closeHamburger} to="/map">Maps</S.HamburgerMenuLink>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database/quest">Quests</S.HamburgerMenuLink>
           <S.HamburgerParentLink>
             Planner

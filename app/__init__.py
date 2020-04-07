@@ -8,7 +8,7 @@ from app.extensions import cache, db, jwt
 from app.home.blueprint import home_bp
 from app.models import User
 from app.update_server import update_server
-
+from app.models import MapPoint, Monster
 
 @jwt.user_loader_callback_loader
 def user_loader(jwt_identity: dict):

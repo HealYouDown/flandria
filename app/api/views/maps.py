@@ -20,7 +20,7 @@ def map_points(code):
             "monster": points_as_list[0].monster.to_dict(),
             "points": [p.to_dict() for p in points_as_list]
         }
-    
+
     data = {
         "map": map_.to_dict(),
         "values": values,
