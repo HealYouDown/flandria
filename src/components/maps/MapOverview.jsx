@@ -18,7 +18,6 @@ const MapOverview = () => {
           ["Secret Laboratory", "/AD3_000"],
           ["[Elite] Fox Den", "/AD4_000"],
           ["[Elite] Cardiff Abandoned Mine", "/AD5_000"],
-          ["Realm of Ruins", "/DF1_000"]
         ]
       },
       {
@@ -52,6 +51,7 @@ const MapOverview = () => {
           ["The 1st Ground of Tulach Dungeon", "/BD2_000"],
           ["The 2nd Basement of Tulach Dungeon", "/BD3_000"],
           ["Lava Plateau", "/BF2_000"],
+          ["Realm of Ruins", "/DF1_000"],
         ]
       },
       {
