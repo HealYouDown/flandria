@@ -1,10 +1,11 @@
-from flask import jsonify, request
+from flask import jsonify, request, abort
 
 from app.api.blueprint import api_bp
 from app.extensions import db, cache
 
 from app.models import Map, MapPoint
 from itertools import groupby
+from flask_jwt_extended import get_current_user, jwt_required
 
 
 @api_bp.route("/map/<code>")
@@ -28,3 +29,26 @@ def map_points(code):
     }
 
     return jsonify(data), 200
+
+
+@api_bp.route("/map/<code>", methods=["POST"])
+@jwt_required
+def add_point(code):
+    user = get_current_user()
+    if not user.is_admin:
+        return abort(401)
+
+    json = request.json
+
+    point = MapPoint(
+        x=json["x"],
+        y=json["y"],
+        z=json["z"],
+        monster_code=json["monster_code"],
+        map_code=code,
+    )
+
+    db.session.add(point)
+    db.session.commit()
+
+    return jsonify({"msg": "Point added"}), 201
