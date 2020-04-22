@@ -31,6 +31,7 @@ def map_points(code):
     return jsonify(data), 200
 
 
+
 @api_bp.route("/map/<code>", methods=["POST"])
 @jwt_required
 def add_point(code):
@@ -52,3 +53,20 @@ def add_point(code):
     db.session.commit()
 
     return jsonify({"msg": "Point added"}), 201
+
+
+@api_bp.route("/map/<code>", methods=["DELETE"])
+@jwt_required
+def delete_point(code):
+    user = get_current_user()
+    if not user.is_admin:
+        return abort(401)
+
+    json = request.json
+
+    point = db.session.query(MapPoint).filter(MapPoint.index == json["id"]).first()
+
+    db.session.delete(point)
+    db.session.commit()
+
+    return jsonify({"msg": "Point deleted"}), 200
