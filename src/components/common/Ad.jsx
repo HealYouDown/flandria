@@ -31,10 +31,9 @@ const AdblockBannerWrapper = styled.div`
 export default class Ad extends React.Component {
   constructor(props) {
     super(props);
-    this.adblockerEnabled = window.canRunAds === undefined;
+    this.adblockerEnabled = (window.canRunAds === undefined);
     
     this.isPremium = isPremium();
-    console.log(this.isPremium);
   }
 
   componentDidMount() {
