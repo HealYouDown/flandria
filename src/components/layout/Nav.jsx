@@ -120,6 +120,7 @@ const Navigation = () => {
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/planner/explorer">Explorer</S.HamburgerMenuChildLink>
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/planner/saint">Saint</S.HamburgerMenuChildLink>
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/planner/mercenary">Mercenary</S.HamburgerMenuChildLink>
+            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/planner/ship">Ship</S.HamburgerMenuChildLink>
           </S.HamburgerParentLink>
           {loggedIn ? (
             <S.HamburgerParentLink>
