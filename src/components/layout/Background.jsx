@@ -84,7 +84,7 @@ const pathnameToImage = {
   "/map/SR3_000": "maps/SR3_000.jpeg",
 }
 
-const defaultBackgroundImage = "background-image-2.jpeg";
+const defaultBackgroundImage = "background.jpg";
 
 /**
  * Background Component that listens to active url and applies
