@@ -19,7 +19,7 @@ def login():
 
     if not password:
         response = {"msg": "Password is required."}
-        response = 422
+        response_code = 422
         return jsonify(response), response_code
 
     # Get user object
