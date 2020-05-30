@@ -22,6 +22,8 @@ import GAListener from "./GAListener";
 import Builds from "./planner/Builds";
 import MapOverview from "./maps/MapOverview";
 import Maps from "./maps/Maps";
+import RankingOverview from "./ranking/RankingOverview";
+import RankingDetailedView from "./ranking/RankingDetailedView";
 
 // Global style
 const GlobalStyle = createGlobalStyle`
@@ -76,6 +78,9 @@ const App = () => {
               <Route exact path="/database/:tablename" component={Overview} />
               <Route exact path="/database/:tablename/:code" component={DetailedView} />
               <Route exact path="/database/monster/:code/edit" component={MonsterEdit} />
+
+              <Route exact path="/ranking/guild" component={RankingOverview} />
+              <Route exact path="/ranking/guild/:hash" component={RankingDetailedView} />
 
               <Route exact path="/planner/:plannerClass" component={Planner} />
               <Route exact path="/planner/:plannerClass/builds" component={Builds} />

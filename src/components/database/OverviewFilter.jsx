@@ -116,10 +116,18 @@ const OverviewFilter = ({
   ];
 
   // Sort Options
-  const sortOptions = [
-    { label: "Added", value: "added" },
-    { label: "Name", value: "name" },
-  ];
+  const sortOptions = [];
+  if (tablename == "guild") {
+    sortOptions.push(...[
+      { label: "Name", value: "name" },
+    ])
+  } else {
+    sortOptions.push(...[
+      { label: "Added", value: "added" },
+      { label: "Name", value: "name" },
+    ])
+  }
+
   if (tablename === "monster") {
     sortOptions.push(...[
       { label: "Level", value: "level" },
@@ -140,6 +148,11 @@ const OverviewFilter = ({
     sortOptions.push(...[
       { label: "Land Level", value: "level_land" },
       { label: "Sea Level", value: "level_sea" }
+    ])
+  } else if (tablename == "guild") {
+    sortOptions.push(...[
+      { label: "Average Rank", value: "avg_rank" },
+      { label: "Number of Members", value: "number_of_members" }
     ])
   }
 
@@ -168,6 +181,11 @@ const OverviewFilter = ({
       { label: "Explorer", value: "class_land:Explorer" },
       { label: "Excavator", value: "class_land:Excavator" },
       { label: "Sniper", value: "class_land:Sniper" },
+    ])
+  } else if (tablename == "guild") {
+    filterOptions.push(...[
+      { label: "Bergruen", value: "server:Bergruen" },
+      { label: "LuxPlena", value: "server:LuxPlena" },
     ])
   }
 

@@ -29,6 +29,8 @@ class DevelopmentConfig(Config):
             fp=os.path.join(basedir, "unstatic_data.db")),
         "user_data": "sqlite:///{fp}".format(
             fp=os.path.join(basedir, "user_data.db")),
+        "ranking": "sqlite:///{fp}".format(
+            fp=os.path.join(basedir, "ranking.db")),
     }
 
 
@@ -46,4 +48,6 @@ class ProductionConfig(Config):
             fp=os.path.join(parentdir, "unstatic_data.db")),
         "user_data": "sqlite:///{fp}".format(
             fp=os.path.join(parentdir, "user_data.db")),
+        "ranking": "sqlite:///{fp}".format(
+            fp=os.path.join(parentdir, "ranking.db")),
     }

@@ -69,6 +69,7 @@ const Navigation = () => {
             Maps
           </S.NavLink>
           <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/database/quest">Quests</S.NavLink>
+          <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/ranking/guild">Guilds</S.NavLink>
 
           <S.NavLink to="/" onClick={preventRouting} onMouseEnter={() => hover("planner")}>
             Planner
@@ -94,6 +95,7 @@ const Navigation = () => {
 
         </S.NavLinkWrapper>
       </Visible>
+
       <Hidden breakpoint="md">
         <S.HamburgerMenuWrapper>
           <HamburgerMenu
@@ -114,6 +116,7 @@ const Navigation = () => {
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database">Items</S.HamburgerMenuLink>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/map">Maps</S.HamburgerMenuLink>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database/quest">Quests</S.HamburgerMenuLink>
+          <S.HamburgerMenuLink onClick={closeHamburger} to="/ranking/guild">Guilds</S.HamburgerMenuLink>
           <S.HamburgerParentLink>
             Planner
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/planner/noble">Noble</S.HamburgerMenuChildLink>
@@ -131,9 +134,7 @@ const Navigation = () => {
             <S.HamburgerMenuLink onClick={closeHamburger} to="/auth/login">Login</S.HamburgerMenuLink>
           )}
         </S.HamburgerMenuLinkWrapper>
-
       </Hidden>
-
 
       <S.NavBackgroundDropdown
         open={hovered}

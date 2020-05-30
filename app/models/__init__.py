@@ -93,3 +93,6 @@ from .tables.user import User
 
 # Builds
 from .tables.planner_build import PlannerBuild, PlannerBuildStar
+
+# Ranking
+from .tables.ranking import Guild, Player

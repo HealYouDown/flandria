@@ -12,7 +12,7 @@ const Image = styled.img`
 `
 
 const Icon = ({tablename, icon}) => {
-  if (tablename == "quest") {
+  if (tablename == "quest" || tablename == "guild") {
     return null;
   }
 

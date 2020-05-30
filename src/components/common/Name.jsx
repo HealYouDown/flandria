@@ -24,6 +24,10 @@ const NameWrapper = styled.span`
         return monsterColors[props.val];
       case "quest":
         return "#fff";
+      case "guild":
+        return "#fff"
+      case "player":
+        return "#fff"
       default: // items
         return itemColors[props.val];
     }

@@ -78,7 +78,7 @@ def get_response(
 
     # 60 Items because we have cols of 1, 2, 3, 4 and 12 is a multiple of all
     # 4 numbers. (= Always have filled out rows) 60 Then seems like a good
-    # amount to display, doesn't it?
+    # amount to display
     items_per_page = 60
     pagination_obj = query.paginate(page=current_page, per_page=items_per_page)
 

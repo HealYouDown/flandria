@@ -137,6 +137,23 @@ const getMapPoints = (mapCode) => {
   });
 }
 
+const fetchRankingData = (searchParams) => {
+  const url = `/api/ranking/guild?${searchParams.toString()}`;
+  return fetch(url, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+}
+
+const fetchGuildData = (guildNameHash) => {
+  const url = `/api/ranking/guild/${guildNameHash}`;
+  return fetch(url, {
+    method: "GET",
+    headers: getHeaders(),
+  });
+}
+
+
 export {
   fetchTabledata,
   fetchDetailedItemData,
@@ -150,4 +167,6 @@ export {
   addStar,
   deleteStar,
   getMapPoints,
+  fetchRankingData,
+  fetchGuildData,
 }
