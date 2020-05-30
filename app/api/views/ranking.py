@@ -6,7 +6,6 @@ from app.models import Guild, Player
 
 
 @api_bp.route("/ranking/guild")
-@cache.memoize(0)
 def guilds_overview() -> dict:
     # Args
     current_page = int(request.args.get("page", 1))
