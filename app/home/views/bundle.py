@@ -14,7 +14,6 @@ def bundle(bundle_fname: str):
     gzip_supported = ("gzip" in accept_encoding and
                       current_app.config.get("ENV") == "production")
 
-    gzip_supported = False
     if gzip_supported:
         bundle_fname += ".gz"
 
