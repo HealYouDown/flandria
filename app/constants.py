@@ -8,5 +8,6 @@ DATABASE_TABLENAMES = [
     "ship_normal_weapon", "ship_special_weapon", "pet_combine_help",
     "pet_combine_stone", "pet_skill_stone", "pet", "seal_break_help",
     "upgrade_help", "upgrade_crystal", "upgrade_stone", "fishing_rod",
-    "riding_pet", "fishing_material", "quest", "product_book", "fishing_bait",
+    "riding_pet", "fishing_material", "quest", "production", "fishing_bait",
+    "essence", "essence_help_item"
 ]

@@ -8,6 +8,8 @@ class Production(db.Model):
     __tablename__ = "production"
     __bind_key__ = "static_data"
 
+    index = Column(Integer, nullable=False)
+
     code = Column(String, primary_key=True)
     type = Column(Integer)
     points_needed = Column(Integer)
@@ -57,7 +59,10 @@ class Production(db.Model):
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = {
+            "code": self.code,
             "result_item": self.result_item.to_dict(),
+            "type": self.type,
+            "division": self.division,
         }
 
         if minimal:
@@ -78,7 +83,6 @@ class Production(db.Model):
 
         return {
             **minimal_dict,
-            "type": self.type,
             "points_needed": self.points_needed,
             "result_quantity": self.result_quantity,
             "materials": materials,

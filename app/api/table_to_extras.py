@@ -1,4 +1,4 @@
-from sqlalchemy import or_
+from sqlalchemy import or_, not_, and_
 from sqlalchemy import func
 from app.extensions import db
 
@@ -248,8 +248,18 @@ TABLE_TO_EXTRA = {
         "after_quest",
         "quest_scrolls",
     ],
-    "product_book": [],
+    "production": [
+        "premium_essence_recipe",
+    ],
     "fishing_bait": [],
+    "essence": [
+        "dropped_by",
+        "produced_by",
+        "needed_for",
+    ],
+    "essence_help_item": [
+        "dropped_by"
+    ]
 }
 
 
@@ -339,15 +349,22 @@ def get_needed_for(item_code: str) -> dict:
         obj.to_dict(minimal=True) for obj in query.all()]
 
     # Second job
-    query = models.ProductBook.query\
-        .join(models.Production)\
-        .filter(or_(
-            getattr(models.Production, f"material_{i}_code") == item_code
-            for i in range(1, 7)
-        ))
+    query = (models.Production.query
+             .filter(
+                 or_(getattr(models.Production,
+                             f"material_{i}_code") == item_code
+                     for i in range(1, 7)
+                     ),
+                 not_(and_(
+                         models.Production.type == "Essence",
+                         models.Production.division == 1
+                         )
+                      )
+                 )
+             )
 
     result["second_job"] = [
-        obj.to_dict(as_needed_for=True) for obj in query.all()]
+        obj.to_dict(minimal=True) for obj in query.all()]
 
     return result
 
@@ -357,17 +374,21 @@ def get_produced_by(item_code: str) -> dict:
 
     # Recipe
     query = models.Recipe.query\
-        .filter_by(result_code=item_code)
+        .filter(models.Recipe.result_code == item_code)
 
     result["recipe"] = [obj.to_dict(minimal=True) for obj in query.all()]
 
     # Second Job
-    query = models.ProductBook.query\
-        .join(models.Production)\
-        .filter_by(result_code=item_code)
+    query = (models.Production.query
+             .filter(models.Production.result_code == item_code,
+                     not_(and_(
+                         models.Production.type == "Essence",
+                         models.Production.division == 1
+                         )
+                     )))
 
     result["second_job"] = [
-        obj.to_dict(as_needed_for=True) for obj in query.all()]
+        obj.to_dict(minimal=True) for obj in query.all()]
 
     return result
 
@@ -388,3 +409,16 @@ def get_quest_scrolls(quest_code: str) -> list:
         .filter_by(quest_code=quest_code)
 
     return [obj.to_dict(minimal=True) for obj in query.all()]
+
+
+def get_premium_essence_recipe(result_code: str) -> dict:
+    query = (models.Production.query
+             .filter(models.Production.division == 1,
+                     models.Production.result_code == result_code))
+
+    production = query.first()
+
+    if production is None:
+        return None
+
+    return production.to_dict()

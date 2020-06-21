@@ -10,7 +10,7 @@ import DressAndHat from "./pages/DressAndHat";
 import Accessory from "./pages/Accessory";
 import Recipe from "./pages/Recipe";
 import Material from "./pages/Material";
-import ProductBook from "./pages/ProductBook";
+import Production from "./pages/Production";
 import ShipStuff from "./pages/ShipStuff";
 import ShellAndShipFlag from "./pages/ShellAndShipFlag"
 import PetCombineHelpAndStone from "./pages/PetCombineHelpAndStone";
@@ -25,6 +25,8 @@ import RandomBox from "./pages/RandomBox";
 import Consumable from "./pages/Consumable";
 import Bullet from "./pages/Bullet";
 import Quest from "./pages/Quest";
+import Essence from "./pages/Essence";
+import EssenceHelpItem from "./pages/EssenceHelpItem"
 
 class DetailedView extends React.Component {
   constructor(props) {
@@ -83,7 +85,11 @@ class DetailedView extends React.Component {
     }
 
     // changes page title
-    document.title = response.obj.name;
+    if (tablename == "production") {
+      document.title = response.obj.result_item.name
+    } else {
+      document.title = response.obj.name;
+    }
 
     let detailedPage = null;
     const armorAndWeaponTables = ["cariad", "rapier", "dagger", "one_handed_sword", "two_handed_sword", "shield", "rifle", "duals", "coat", "pants", "gauntlet", "shoes"];
@@ -106,8 +112,8 @@ class DetailedView extends React.Component {
       detailedPage = <Recipe tablename={tablename} data={response} />
     } else if (tablename == "material") {
       detailedPage = <Material tablename={tablename} data={response} />
-    } else if (tablename == "product_book") {
-      detailedPage = <ProductBook tablename={tablename} data={response} />
+    } else if (tablename == "production") {
+      detailedPage = <Production tablename={tablename} data={response} />
     } else if (shipStuffTables.includes(tablename)) {
       detailedPage = <ShipStuff tablename={tablename} data={response} />
     } else if (["ship_flag", "shell"].includes(tablename)) {
@@ -136,6 +142,10 @@ class DetailedView extends React.Component {
       detailedPage = <Bullet tablename={tablename} data={response} />
     } else if (tablename == "quest") {
       detailedPage = <Quest tablename={tablename} data={response} />
+    } else if (tablename == "essence") {
+      detailedPage = <Essence tablename={tablename} data={response} />
+    } else if (tablename == "essence_help_item") {
+      detailedPage = <EssenceHelpItem tablename={tablename} data={response} />
     }
 
     return detailedPage;

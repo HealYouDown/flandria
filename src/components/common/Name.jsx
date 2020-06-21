@@ -60,12 +60,13 @@ function roundDuration(value, exp) {
 }
 
 
-const Name = ({tablename, data, title = false}) => {
+const Name = ({tablename, data, title = false, overview = false}) => {
   let val = Object.is(data.rare_grade, undefined) ? data.rating_type : data.rare_grade;
+  let name = data.name
 
-  if (tablename == "product_book" && !typeof data.production === "undefined") {
-    // In overview, the rare grade is taken from result item
-    val = data.production.result_item.rare_grade;
+  if (tablename == "production" && data.table != "essence") {
+    val = data.result_item.rare_grade;
+    name = data.result_item.name;
   }
 
   let hasDuration = false;
@@ -75,7 +76,7 @@ const Name = ({tablename, data, title = false}) => {
 
   return (
     <NameWrapper title={title} tablename={tablename} val={val}>
-      {data.name}
+      {name}
       {hasDuration && (
         <Duration>{roundDuration(data.duration, 2)}D</Duration>
       )}

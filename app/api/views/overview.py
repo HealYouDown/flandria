@@ -3,7 +3,7 @@ from typing import List
 
 from flask import abort, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_optional
-from sqlalchemy import or_
+from sqlalchemy import or_, and_, not_
 
 from app.api.blueprint import api_bp
 from app.api.helpers import get_hidden_item_codes, get_table_cls_from_tablename
@@ -13,6 +13,7 @@ from app.extensions import cache
 
 @cache.memoize(timeout=0)
 def get_response(
+    tablename: str,
     table_cls,
     order: str,
     sort: str,
@@ -33,6 +34,14 @@ def get_response(
             get_hidden_item_codes()
         ))
 
+    # Filter out premium recipes for production
+    if tablename == "production":
+        query = query.filter(not_(and_(
+            table_cls.type == "Essence",
+            table_cls.division == 1
+            ))
+        )
+
     # Order
     if order == "asc":
         query = query.order_by(getattr(table_cls, sort_column).asc())
@@ -45,11 +54,23 @@ def get_response(
         desired_rating: int = int(filter_.split(":")[-1])
         query = query.filter(
             getattr(table_cls, "rating_type") == desired_rating)
+
     elif filter_.startswith("class_land"):
+        # Class land
         requested_class = filter_.split(":")[-1]
         query = query.filter(
-            getattr(table_cls, "class_land").contains(requested_class)
-        )
+            getattr(table_cls, "class_land").contains(requested_class))
+
+    elif filter_.startswith("equip"):
+        # Essence equip type
+        equip_type = int(filter_.split(":")[-1])
+        query = query.filter(
+            getattr(table_cls, "equip") == equip_type)
+
+    elif filter_.startswith("prod_class"):
+        production_class = filter_.split(":")[-1]
+        query = query.filter(
+            getattr(table_cls, "type").contains(production_class))
 
     # Location
     location_val = int(location.split(":")[-1])
@@ -115,6 +136,7 @@ def overview(tablename: str):
 
     # Get response object
     response = get_response(
+        tablename=tablename,
         table_cls=table_cls,
         order=order,
         sort=sort,

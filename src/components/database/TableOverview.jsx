@@ -50,11 +50,19 @@ const TableOverview = () => {
         ]
       },
       {
+        name: "Essence",
+        urls: [
+          ["Essences", "/essence"],
+          ["Essence Help Items", "/essence_help_item"],
+          ["Essence Recipes", "/production?filter=prod_class:Essence"],
+        ]
+      },
+      {
         name: "Crafting",
         urls: [
           ["Recipes", "/recipe"],
           ["Materials", "/material"],
-          ["Second Job", "/product_book"],
+          ["Second Job", "/production"],
         ]
       },
       {

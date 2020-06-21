@@ -8,6 +8,9 @@ import { getCanEditDrops } from "../auth/auth";
 import { Link } from "react-router-dom";
 
 const dropTableValues = {
+  "essence": 11000,
+  "essence_help_item": 10500,
+
   "material": 10000,
 
   "upgrade_help": 9950,
@@ -126,11 +129,13 @@ const InfosHeaderWrapper = styled.div`
 `
 
 const Infos = ({tablename, data, itemInfos}) => {
+  let icon = tablename == "production" ? data.result_item.icon : data.icon;
+
   return (
     <Card>
       <CardHeader>
         <InfosHeaderWrapper>
-          <Icon tablename={tablename} icon={data.icon} />
+          <Icon tablename={tablename} icon={icon} />
           <Name tablename={tablename} data={data} title />
         </InfosHeaderWrapper>
       </CardHeader>
@@ -306,13 +311,16 @@ const ProducedBy = ({producedBy}) => {
               />
             )
           })}
-          {second_job.map(book => {
+          {second_job.map(obj => {
             return (
-              <ClickableItem
-                link={`/database/product_book/${book.code}`}
-                obj={book}
-                tablename="product_book"
-              />
+              <ClickableCardListItem link={`/database/production/${obj.code}`}>
+                <ClickableItemWrapper>
+                  <Icon tablename="production" icon={obj.result_item.icon} />
+                  <div>
+                    <Name tablename="production" data={obj} />
+                  </div>
+                </ClickableItemWrapper>
+              </ClickableCardListItem>
             )
           })}
         </ul>
@@ -348,13 +356,16 @@ const NeededFor = ({neededFor}) => {
               />
             )
           })}
-          {second_job.map(book => {
+          {second_job.map(obj => {
             return (
-              <ClickableItem
-                link={`/database/product_book/${book.code}`}
-                obj={book}
-                tablename="product_book"
-              />
+              <ClickableCardListItem link={`/database/production/${obj.code}`}>
+                <ClickableItemWrapper>
+                  <Icon tablename="production" icon={obj.result_item.icon} />
+                  <div>
+                    <Name tablename="production" data={obj} />
+                  </div>
+                </ClickableItemWrapper>
+              </ClickableCardListItem>
             )
           })}
         </ul>
@@ -602,6 +613,10 @@ const DroppedBy = ({droppedBy}) => {
     return null;
   }
 
+  // to filter out duplicated monsters,
+  // we added them to a list
+  const alreadyAdded = [];
+
   return (
     <Card>
       <CardHeader>
@@ -609,7 +624,13 @@ const DroppedBy = ({droppedBy}) => {
       </CardHeader>
       <CardListBody>
         <ul>
-          {droppedBy.map(obj => {
+          {droppedBy.sort((a, b) => b.monster.rating_type - a.monster.rating_type).map(obj => {
+            if (alreadyAdded.includes(obj.monster.code)) {
+              return null;
+            }
+
+            alreadyAdded.push(obj.monster.code);
+
             return (
               <ClickableItem
                 link={`/database/monster/${obj.monster.code}`}
@@ -659,11 +680,11 @@ const ResultItem = ({resultItem}) => {
   )
 }
 
-const MaterialList = ({materials}) => {
+const MaterialList = ({materials, title = "Materials"}) => {
   return (
     <Card>
       <CardHeader>
-        <span className="card-title">Materials</span>
+        <span className="card-title">{title}</span>
       </CardHeader>
       <CardListBody>
         <ul>

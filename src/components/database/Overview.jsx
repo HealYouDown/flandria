@@ -14,6 +14,7 @@ import { BLUE } from "../colors";
 import Pagination from "../common/Pagination";
 import OverviewFilter from "./OverviewFilter";
 import { fetchTabledata } from "../fetch";
+import { essenceEquipCodes } from "../essence_equip_codes";
 import Ad from "../common/Ad";
 
 const Grid = styled.div`
@@ -72,6 +73,15 @@ const Subs = ({tablename, data}) => {
   const subs = tableToSubs[tablename];
   if (!subs) {
     return null;
+  }
+
+  if (tablename == "essence") {
+    return (
+      <SubsWrapper>
+        <span>{data.core_essence ? "Core Essence" : "Meta Essence"}</span>
+        <span>Equip: {essenceEquipCodes[data.equip]}</span>
+      </SubsWrapper>
+    )
   }
 
   return (
@@ -276,13 +286,13 @@ class Overview extends React.Component {
             {response.items.map(item => {
               return (
                 <GridItem to={`/database/${tablename}/${item.code}`}>
-                  {tablename == "product_book" ? (
-                    <Icon tablename={tablename} icon={item.production.result_item.icon} />
+                  {tablename == "production" ? (
+                    <Icon tablename={tablename} icon={item.result_item.icon} />
                   ) : (
                     <Icon tablename={tablename} icon={item.icon} />
                   )}
                   <GridItemContent>
-                    <Name tablename={tablename} data={item} />
+                    <Name tablename={tablename} data={item} overview />
                     <Subs tablename={tablename} data={item} />
                     <BonusSubs data={item} />
                   </GridItemContent>

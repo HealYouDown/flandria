@@ -24,7 +24,9 @@ def get_icon_and_name(path: str) -> Tuple[str, str]:
             obj = table_cls.query.get(code)
 
             if obj is not None:
-                name = obj.name
+                if tablename == "production":
+                    obj = obj.result_item 
+
                 if tablename == "quest":
                     pass
                 elif tablename == "monster":

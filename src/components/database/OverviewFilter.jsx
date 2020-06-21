@@ -3,11 +3,11 @@ import { TextInput } from "../common/Inputs";
 import styled from "styled-components";
 import Select from "react-select";
 import "../../styles/react-select.css";
-import history from "../history";
 import breakpoint from "../breakpoint";
 import { bonusCodes } from "../bonus_codes";
 import { BLUE } from "../colors";
 import { useDebouncedCallback } from "use-debounce";
+import { essenceEquipCodes } from "../essence_equip_codes";
 
 
 const Wrapper = styled.div`
@@ -107,9 +107,9 @@ const OverviewFilter = ({
     "shield", "pants", "coat", "shoes", "gauntlet"
   ];
   const tablesWithLocationFilter = ["monster", "quest"];
-  const tablesWithBonusFilter = ["dress", "hat", "accessory"];
+  const tablesWithBonusFilter = ["dress", "hat", "accessory", "essence"];
 
-  // Filter Options
+  // Order Options
   const orderOptions = [
     { label: "Ascending", value: "asc" },
     { label: "Descending", value: "desc" }
@@ -186,6 +186,22 @@ const OverviewFilter = ({
     filterOptions.push(...[
       { label: "Bergruen", value: "server:Bergruen" },
       { label: "LuxPlena", value: "server:LuxPlena" },
+    ]);
+  } else if (tablename == "essence") {
+    filterOptions.push(...Object.keys(essenceEquipCodes).map(key => {
+        return {
+          label: `Equip: ${essenceEquipCodes[key]}`,
+          value: `equip:${key}`
+        }
+      })
+    )
+  } else if (tablename == "production") {
+    filterOptions.push(...[
+      { label: "Weapon Smith", value: "prod_class:Weapon Smith" },
+      { label: "Armor Smith", value: "prod_class:Armor Smith" },
+      { label: "Alchemist", value: "prod_class:Alchemist" },
+      { label: "Workmanship", value: "prod_class:Workmanship" },
+      { label: "Essence", value: "prod_class:Essence" },
     ])
   }
 
@@ -199,7 +215,12 @@ const OverviewFilter = ({
   // Bonus options
   const bonusOptions = [];
   Object.keys(bonusCodes).forEach(bonusId => {
-    bonusOptions.push({ label: bonusCodes[bonusId], value: bonusId });
+    if (bonusCodes[bonusId] != null) {
+      bonusOptions.push({
+        label: bonusCodes[bonusId],
+        value: bonusId
+      });
+    }
   })
 
   // Creates filter that are shown
@@ -261,7 +282,7 @@ const OverviewFilter = ({
           if (selected) {
             selected.forEach(bonusOption => selectedBonusCodes.push(parseInt(bonusOption.value)));
           }
-          changeState({bonuses: selectedBonusCodes})
+          changeState({bonuses: selectedBonusCodes, page: 1})
         }}
       />
     );

@@ -5,8 +5,6 @@ import { isPremium } from "../auth/auth";
 const AdblockBannerWrapper = styled.div`
   width: auto;
   margin-top: 15px;
-  margin-left: 30px;
-  margin-right: 30px;
   background: rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   padding: 15px 40px;
@@ -31,7 +29,7 @@ const AdblockBannerWrapper = styled.div`
 export default class Ad extends React.Component {
   constructor(props) {
     super(props);
-    this.adblockerEnabled = (window.canRunAds === undefined);
+    this.adblockerEnabled = !window.canRunAds;
     
     this.isPremium = isPremium();
   }

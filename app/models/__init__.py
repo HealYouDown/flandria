@@ -35,7 +35,6 @@ from .tables.shield import Shield
 # Crafting
 from .tables.material import Material
 from .tables.recipe import Recipe
-from .tables.product_book import ProductBook
 from .tables.production import Production
 
 # Fishing
@@ -96,3 +95,7 @@ from .tables.planner_build import PlannerBuild, PlannerBuildStar
 
 # Ranking
 from .tables.ranking import Guild, Player
+
+# Essences
+from .tables.essence import Essence
+from .tables.essence_help_item import EssenceHelpItem

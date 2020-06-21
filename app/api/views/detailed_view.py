@@ -6,7 +6,8 @@ from app.api.helpers import get_table_cls_from_tablename
 from app.api.table_to_extras import (
     TABLE_TO_EXTRA, get_after_quest, get_dropped_by, get_drops, get_needed_for,
     get_produced_by, get_quest_scrolls, get_quests, get_quests_by_item,
-    get_quests_by_scroll, get_random_boxes, get_upgrade_data, get_maps)
+    get_quests_by_scroll, get_random_boxes, get_upgrade_data, get_maps,
+    get_premium_essence_recipe)
 from app.constants import DATABASE_TABLENAMES
 from app.extensions import cache
 
@@ -67,13 +68,16 @@ def get_response(
         elif extra == "quest_scrolls":
             response[extra] = get_quest_scrolls(obj.code)
 
+        elif extra == "premium_essence_recipe":
+            response[extra] = get_premium_essence_recipe(obj.result_code)
+
     return response
 
 
 @api_bp.route("/database/<string:tablename>/<string:code>")
 @jwt_optional
 def detailed_view(tablename: str, code: str):
-    assert tablename in DATABASE_TABLENAMES, abort(404)
+    assert tablename in DATABASE_TABLENAMES or tablename == "guild", abort(404)
 
     user = get_jwt_identity()
     can_see_probability = (True if (user is not None and

@@ -173,13 +173,6 @@ function getBonuses(item) {
       let bonusOperator = item[`bonus_operator_${n}`];
       let bonusValue = item[`bonus_${n}`];
 
-      // Florensia has negative values, however, not the operator but the value
-      // is negative. Fixed with code below.
-      if (bonusValue < 0) {
-        bonusOperator = "-";
-        bonusValue = Math.abs(bonusValue);
-      }
-
       bonuses.push({
         name: bonusName,
         operator: bonusOperator,
