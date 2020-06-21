@@ -11,6 +11,7 @@ const Essence = ({tablename, data}) => {
 
   const itemInfos = [
     { label: "Type", value: obj.core_essence ? "Core Essence" : "Meta Essence" },
+    { label: "Level", value: obj.level.toString() },
     { label: "Equip", value: essenceEquipCodes[obj.equip] },
     { label: "Tradable", value: `${obj.tradable ? "True" : "False"}` },
   ]

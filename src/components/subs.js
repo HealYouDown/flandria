@@ -98,7 +98,8 @@ const tableToSubs = {
   "pet_skill_stone": {
     "Level": "level",
   },
-  "essence": {}  // done manually
+  "essence": {
+  }  // rest done manually
 }
 
 export {

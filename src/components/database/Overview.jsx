@@ -79,6 +79,7 @@ const Subs = ({tablename, data}) => {
     return (
       <SubsWrapper>
         <span>{data.core_essence ? "Core Essence" : "Meta Essence"}</span>
+        <span>Level: {data.level}</span>
         <span>Equip: {essenceEquipCodes[data.equip]}</span>
       </SubsWrapper>
     )
