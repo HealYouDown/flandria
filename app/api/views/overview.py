@@ -1,5 +1,6 @@
 import json
 from typing import List
+from app.models import ItemList, Production
 
 from flask import abort, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_optional
@@ -93,9 +94,14 @@ def get_response(
             )
 
     if search:
-        query = query.filter(
-            getattr(table_cls, "name").contains(search)
-        )
+        if tablename == "production":
+            query = (query.join(ItemList,
+                               ItemList.code == Production.result_code)
+                     .filter(ItemList.name.contains(search)))
+        else:
+            query = query.filter(
+                table_cls.name.contains(search)
+            )
 
     # 60 Items because we have cols of 1, 2, 3, 4 and 12 is a multiple of all
     # 4 numbers. (= Always have filled out rows) 60 Then seems like a good
