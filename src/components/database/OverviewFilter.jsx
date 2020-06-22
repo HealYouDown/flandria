@@ -136,6 +136,10 @@ const OverviewFilter = ({
       { label: "Min. Dmg", value: "min_dmg" },
       { label: "Max. Dmg", value: "max_dmg" },
     ])
+  } else if (tablename == "essence") {
+    sortOptions.push(...[
+      { label: "Itemlevel", value: "level" }
+    ])
   } else if (tablename === "quest") {
     sortOptions.push(...[
       { label: "Level", value: "level" }
