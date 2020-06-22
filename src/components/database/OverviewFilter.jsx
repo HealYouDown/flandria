@@ -138,7 +138,7 @@ const OverviewFilter = ({
     ])
   } else if (tablename == "essence") {
     sortOptions.push(...[
-      { label: "Itemlevel", value: "level" }
+      { label: "Itemlevel", value: "level_land" }
     ])
   } else if (tablename === "quest") {
     sortOptions.push(...[
