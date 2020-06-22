@@ -714,9 +714,15 @@ const BoxContent = ({content}) => {
       <CardListBody>
         <ul>
           {content.map(box => {
+            let link;
+            if (box.item.code == "money") {
+              link = "#";
+            } else {
+              link = `/database/${box.item.table}/${box.item.code}`;
+            }
             return (
               <ClickableItem
-                link={`/database/${box.item.table}/${box.item.code}`}
+                link={link}
                 obj={box.item}
                 tablename={box.item.table}
                 quantity={box.quantity}

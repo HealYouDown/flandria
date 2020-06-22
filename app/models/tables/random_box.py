@@ -448,15 +448,26 @@ class RandomBox(db.Model, BaseMixin):
 
         content = []
         for i in range(0, 61):
-            item = getattr(self, f"item_{i}")
-            if item is not None:
+            item_code = getattr(self, f"item_{i}_code")
+            if item_code != "#":
+                item = getattr(self, f"item_{i}")
                 probability = getattr(self, f"item_{i}_probability")
                 quantity = getattr(self, f"item_{i}_quantity")
 
-                d = {
-                    "quantity": quantity,
-                    "item": item.to_dict()
-                }
+                if item_code == "money":
+                    d = {
+                        "quantity": quantity,
+                        "item": {
+                            "code": "money",
+                            "name": "Gelt",
+                            "icon": "def004.png",
+                        }
+                    }
+                else:
+                    d = {
+                        "quantity": quantity,
+                        "item": item.to_dict()
+                    }
                 if can_see_probability:
                     d["probability"] = probability,
 
