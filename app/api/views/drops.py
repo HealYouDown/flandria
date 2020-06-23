@@ -28,7 +28,7 @@ def add_drop():
         return jsonify({"msg": "monster_code is missing"}), 422
 
     # Check if drop exists
-    if Drop.query(Drop.monster_code == monster_code,
+    if Drop.query.filter(Drop.monster_code == monster_code,
                   Drop.item_code == item_code).count() != 0:
         return jsonify({"msg": "Drop already exists"}), 422
 
