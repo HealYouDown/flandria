@@ -125,8 +125,9 @@ def overview(tablename: str):
     assert tablename in DATABASE_TABLENAMES, abort(404)
 
     user = get_jwt_identity()
-    can_see_hidden = (True if (user is not None and
-                               user["can_see_hidden"])
+    can_see_hidden = (True if (user is not None
+                               and user["can_see_hidden"]
+                               and tablename == "random_box")
                       else False)
 
     table_cls = get_table_cls_from_tablename(tablename)

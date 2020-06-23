@@ -2,10 +2,11 @@ from flask import abort, jsonify, request
 from flask_jwt_extended import get_current_user, jwt_required
 
 from app.api.blueprint import api_bp
-from app.extensions import db
+from app.extensions import db, cache
 from app.models import Drop, Monster, ItemList
 from app.webhook import (send_add_drop_webhook, send_delete_drop_webhook,
                          send_edit_drop_webhook)
+from .detailed_view import get_response
 
 
 @api_bp.route("/drops/add", methods=["POST"])
@@ -26,6 +27,11 @@ def add_drop():
     if monster_code is None:
         return jsonify({"msg": "monster_code is missing"}), 422
 
+    # Check if drop exists
+    if Drop.query(Drop.monster_code == monster_code,
+                  Drop.item_code == item_code).count() != 0:
+        return jsonify({"msg": "Drop already exists"}), 422
+
     # webhook
     monster = Monster.query.get(monster_code)
     item = ItemList.query.get(item_code)
@@ -37,6 +43,9 @@ def add_drop():
     drop = Drop(monster_code=monster_code, item_code=item_code, quantity=1)
     db.session.add(drop)
     db.session.commit()
+
+    # Clear cache
+    cache.delete_memoized(get_response)
 
     return jsonify({
         "msg": "Drop was added successfully",
@@ -74,6 +83,9 @@ def edit_drop():
 
     db.session.commit()
 
+    # Clear cache
+    cache.delete_memoized(get_response)
+
     # webhook
     monster = Monster.query.get(drop.monster_code)
     item = ItemList.query.get(drop.item_code)
@@ -104,6 +116,12 @@ def delete_drop():
     if drop is None:
         return jsonify({"msg": "Drop id does not exist"}), 404
 
+    db.session.delete(drop)
+    db.session.commit()
+
+    # Clear cache
+    cache.delete_memoized(get_response)
+
     # webhook
     monster = Monster.query.get(drop.monster_code)
     item = ItemList.query.get(drop.item_code)
@@ -111,8 +129,5 @@ def delete_drop():
         send_delete_drop_webhook(monster, item, user)
     except: # noqa E722
         pass
-
-    db.session.delete(drop)
-    db.session.commit()
 
     return jsonify({"msg": "Drop was deleted successfully"}), 200

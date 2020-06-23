@@ -12,7 +12,7 @@ from app.constants import DATABASE_TABLENAMES
 from app.extensions import cache
 
 
-@cache.memoize(timeout=0)
+@cache.memoize(timeout=30*60)  # cache 30min
 def get_response(
     tablename: str,
     code: str,
