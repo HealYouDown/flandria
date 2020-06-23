@@ -198,7 +198,11 @@ const OverviewFilter = ({
           value: `equip:${key}`
         }
       })
-    )
+    );
+    filterOptions.push(...[
+      { label: "Meta Essence", value: "mount:0" },
+      { label: "Core Essence", value: "mount:1" },
+    ])
   } else if (tablename == "production") {
     filterOptions.push(...[
       { label: "Weapon Smith", value: "prod_class:Weapon Smith" },

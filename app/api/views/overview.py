@@ -73,6 +73,12 @@ def get_response(
         query = query.filter(
             getattr(table_cls, "type").contains(production_class))
 
+    elif filter_.startswith("mount"):
+        mount_type = int(filter_.split(":")[-1])
+        query = query.filter(
+            table_cls.core_essence == mount_type
+        )
+
     # Location
     location_val = int(location.split(":")[-1])
     if location_val != -1:
