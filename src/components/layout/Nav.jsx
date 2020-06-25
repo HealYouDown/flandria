@@ -47,29 +47,18 @@ const Navigation = () => {
 
       <Visible breakpoint="md">
         <S.NavLinkWrapper>
-          <S.NavLink
-            onClick={unHover}
-            onMouseEnter={unHover}
-            to="/database/monster"
-          >
-            Monster
-          </S.NavLink>
-          <S.NavLink
-            onClick={unHover}
-            onMouseEnter={unHover}
-            to="/database"
-          >
-            Items
-          </S.NavLink>
-          <S.NavLink
-            onClick={unHover}
-            onMouseEnter={unHover}
-            to="/map"
-          >
-            Maps
-          </S.NavLink>
+          <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/database/monster">Monster</S.NavLink>
+          <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/database">Items</S.NavLink>
           <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/database/quest">Quests</S.NavLink>
-          <S.NavLink onClick={unHover} onMouseEnter={unHover} to="/ranking/guild">Guilds</S.NavLink>
+
+          <S.NavLink to="/" onClick={preventRouting} onMouseEnter={() => hover("misc")}>
+            Miscellaneous
+            <S.NavDropdownList visible={(hovered && activeHover == "misc")}>
+              <S.NavDropdownLink onClick={unHover} to="/ranking/guild">Guilds</S.NavDropdownLink>
+              <S.NavDropdownLink onClick={unHover} to="/map">Maps</S.NavDropdownLink>
+              <S.NavDropdownLink onClick={unHover} to="/essence-pdf">Essence System PDF</S.NavDropdownLink>
+            </S.NavDropdownList>
+          </S.NavLink>
 
           <S.NavLink to="/" onClick={preventRouting} onMouseEnter={() => hover("planner")}>
             Planner
@@ -114,9 +103,13 @@ const Navigation = () => {
         <S.HamburgerMenuLinkWrapper visible={hamburgerOpen}>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database/monster">Monster</S.HamburgerMenuLink>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database">Items</S.HamburgerMenuLink>
-          <S.HamburgerMenuLink onClick={closeHamburger} to="/map">Maps</S.HamburgerMenuLink>
           <S.HamburgerMenuLink onClick={closeHamburger} to="/database/quest">Quests</S.HamburgerMenuLink>
-          <S.HamburgerMenuLink onClick={closeHamburger} to="/ranking/guild">Guilds</S.HamburgerMenuLink>
+          <S.HamburgerParentLink>
+            Miscellaneous
+            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/ranking/guild">Guilds</S.HamburgerMenuChildLink>
+            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/map">Maps</S.HamburgerMenuChildLink>
+            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/essence-pdf">Essence System PDF</S.HamburgerMenuChildLink>
+          </S.HamburgerParentLink>
           <S.HamburgerParentLink>
             Planner
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/planner/noble">Noble</S.HamburgerMenuChildLink>

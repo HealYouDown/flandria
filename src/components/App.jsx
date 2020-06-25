@@ -24,6 +24,7 @@ import MapOverview from "./maps/MapOverview";
 import Maps from "./maps/Maps";
 import RankingOverview from "./ranking/RankingOverview";
 import RankingDetailedView from "./ranking/RankingDetailedView";
+import EssencePDF from "./home/EssencePDF";
 
 // Global style
 const GlobalStyle = createGlobalStyle`
@@ -73,6 +74,7 @@ const App = () => {
               <Route exact path="/" component={Main} />
               <Route exact path="/about" component={About} />
               <Route exact path="/privacy" component={PrivacyPolicy} />
+              <Route exact path="/essence-pdf" component={EssencePDF} />
 
               <Route exact path="/database" component={TableOverview} />
               <Route exact path="/database/:tablename" component={Overview} />
