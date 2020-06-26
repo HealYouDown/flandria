@@ -56,7 +56,8 @@ const Navigation = () => {
             <S.NavDropdownList visible={(hovered && activeHover == "misc")}>
               <S.NavDropdownLink onClick={unHover} to="/ranking/guild">Guilds</S.NavDropdownLink>
               <S.NavDropdownLink onClick={unHover} to="/map">Maps</S.NavDropdownLink>
-              <S.NavDropdownLink onClick={unHover} to="/essence-pdf">Essence System PDF</S.NavDropdownLink>
+              <S.NavDropdownLink onClick={unHover} to="/essence-pdf?lang=en">Essence PDF [EN]</S.NavDropdownLink>
+              <S.NavDropdownLink onClick={unHover} to="/essence-pdf?lang=de">Essence PDF [GER]</S.NavDropdownLink>
             </S.NavDropdownList>
           </S.NavLink>
 
@@ -108,7 +109,8 @@ const Navigation = () => {
             Miscellaneous
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/ranking/guild">Guilds</S.HamburgerMenuChildLink>
             <S.HamburgerMenuChildLink onClick={closeHamburger} to="/map">Maps</S.HamburgerMenuChildLink>
-            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/essence-pdf">Essence System PDF</S.HamburgerMenuChildLink>
+            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/essence-pdf?lang=en">Essence PDF [EN]</S.HamburgerMenuChildLink>
+            <S.HamburgerMenuChildLink onClick={closeHamburger} to="/essence-pdf?lang=de">Essence PDF [GER]</S.HamburgerMenuChildLink>
           </S.HamburgerParentLink>
           <S.HamburgerParentLink>
             Planner

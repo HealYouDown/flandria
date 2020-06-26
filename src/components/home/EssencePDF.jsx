@@ -3,7 +3,9 @@ import { Redirect } from "react-router-dom";
 
 export default class EssencePDF extends React.Component {
   componentDidMount() {
-    window.open("/static/files/FLORENSIA-EssenceSystem_Explaination.pdf");
+    const params = new URLSearchParams(location.search);
+    const lang = params.get("lang") || "en";
+    window.open(`/static/files/essence_system_${lang}.pdf`);
   }
 
   render() {
