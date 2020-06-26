@@ -2,10 +2,13 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 
 export default class EssencePDF extends React.Component {
+  constructor(props) {
+    super(props);
+    this.lang = props.match.params.lang;
+  }
+
   componentDidMount() {
-    const params = new URLSearchParams(location.search);
-    const lang = params.get("lang") || "en";
-    window.open(`/static/files/essence_system_${lang}.pdf`);
+    window.open(`/static/files/essence_system_${this.lang}.pdf`);
   }
 
   render() {
