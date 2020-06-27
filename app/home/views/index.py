@@ -25,7 +25,9 @@ def get_icon_and_name(path: str) -> Tuple[str, str]:
 
             if obj is not None:
                 if tablename == "production":
-                    obj = obj.result_item 
+                    obj = obj.result_item
+
+                name = obj.name
 
                 if tablename == "quest":
                     pass
