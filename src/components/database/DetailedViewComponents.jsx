@@ -212,6 +212,10 @@ const DropsHeaderWrapper = styled.div`
   }
 `
 
+const DropsHeaderSubText = styled.span`
+  font-size: 11px;
+`
+
 const Drops = ({drops}) => {
   drops.sort((a, b) => {
     return dropTableValues[b.item.table] - dropTableValues[a.item.table];
@@ -226,6 +230,7 @@ const Drops = ({drops}) => {
             <Link to={location.pathname + "/edit"}>Edit</Link>
           )}
         </DropsHeaderWrapper>
+        <DropsHeaderSubText>List may contain missing or wrong items.</DropsHeaderSubText>
       </CardHeader>
       {drops.length >= 1 ? (
         <CardListBody>
