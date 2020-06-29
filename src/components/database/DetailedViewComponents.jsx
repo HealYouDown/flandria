@@ -615,7 +615,12 @@ const Upgrade = ({tablename, obj, upgradeData}) => {
 
 const DroppedBy = ({droppedBy}) => {
   if (droppedBy.length == 0) {
-    return null;
+    return (
+      <TextCard
+        title="Dropped by"
+        text="We have not yet found a monster that drops this item. Help us by contributing to the droplist in our Discord Server!"
+      />
+    );
   }
 
   // to filter out duplicated monsters,
