@@ -121,7 +121,7 @@ const OverviewFilter = ({
     sortOptions.push(...[
       { label: "Name", value: "name" },
     ])
-  } else {
+  } else if (tablename !== "production") {
     sortOptions.push(...[
       { label: "Added", value: "added" },
       { label: "Name", value: "name" },
@@ -243,14 +243,16 @@ const OverviewFilter = ({
     />
   );
 
-  filterList.push(
-    <MySelect
-      options={sortOptions}
-      currentValue={sort}
-      changeState={changeState}
-      keyname="sort"
-    />
-  );
+  if (sortOptions.length > 0) {
+    filterList.push(
+      <MySelect
+        options={sortOptions}
+        currentValue={sort}
+        changeState={changeState}
+        keyname="sort"
+      />
+    );  
+  }
 
   // Check if filter has any items except all
   if (Object.keys(filterOptions).length >= 2) {
