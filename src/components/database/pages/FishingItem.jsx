@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, DroppedBy, AvailableIn, ProducedBy, NeededFor } from "../DetailedViewComponents";
+import { Infos, ProducedBy, NeededFor } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const FishingItem = ({tablename, data}) => {

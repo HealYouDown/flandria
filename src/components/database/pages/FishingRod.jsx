@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, BonusStats, AvailableIn } from "../DetailedViewComponents";
+import { Infos, BonusStats, AvailableIn, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const FishingRod = ({tablename, data}) => {
   const {
-    obj, random_boxes
+    obj, random_boxes, sold_by
   } = data;
 
   const itemInfos = [
@@ -24,6 +24,7 @@ const FishingRod = ({tablename, data}) => {
         <Col md={8}>
           <BonusStats obj={obj} />
           <AvailableIn boxes={random_boxes} />
+          <SoldBy soldBy={sold_by} />
         </Col>
       </Row>
       <Ad slot="1071258842" />

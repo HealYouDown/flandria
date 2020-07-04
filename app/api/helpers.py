@@ -12,6 +12,11 @@ def tablename_to_classname(tablename: str) -> str:
     Capitalizes a given tablename.
     E.g. quest_scroll -> QuestScroll
     """
+    if tablename == "npc":
+        return "NPC"
+    elif tablename == "npc_shop":
+        return "NPCShop"
+
     parts = [part.title() for part in tablename.split("_")]
     return "".join(part for part in parts)
 

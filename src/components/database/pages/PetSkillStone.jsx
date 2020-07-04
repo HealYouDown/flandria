@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, DroppedBy, AvailableIn, TextCard } from "../DetailedViewComponents";
+import { Infos, DroppedBy, AvailableIn, TextCard, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const PetSkillStone = ({tablename, data}) => {
   const {
-    obj, dropped_by, random_boxes
+    obj, dropped_by, random_boxes, sold_by,
   } = data;
 
   const itemInfos = [
@@ -26,6 +26,7 @@ const PetSkillStone = ({tablename, data}) => {
         <Col md={8}>
           <TextCard title="Description" text={obj.description} />
           <DroppedBy droppedBy={dropped_by} />
+          <SoldBy soldBy={sold_by} />
         </Col>
       </Row>
       <Ad slot="1071258842" />

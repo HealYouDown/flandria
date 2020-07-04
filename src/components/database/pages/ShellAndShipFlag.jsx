@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, DroppedBy, AvailableIn, ProducedBy, NeededFor } from "../DetailedViewComponents";
+import { Infos, DroppedBy, AvailableIn, ProducedBy, NeededFor, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const ShellAndShipFlag = ({tablename, data}) => {
   const {
-    obj, dropped_by
+    obj, dropped_by, sold_by,
   } = data;
 
   let itemInfos;
@@ -33,6 +33,7 @@ const ShellAndShipFlag = ({tablename, data}) => {
 
         <Col md={8}>
           <DroppedBy droppedBy={dropped_by} />
+          <SoldBy soldBy={sold_by} />
         </Col>
       </Row>
       <Ad slot="1071258842" />

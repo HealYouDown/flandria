@@ -1,6 +1,7 @@
 from sqlalchemy import or_, not_, and_
 from sqlalchemy import func
 from app.extensions import db
+from typing import List
 
 import app.models as models
 
@@ -16,6 +17,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "rapier": [
         "upgrade_data",
@@ -23,6 +25,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "dagger": [
         "upgrade_data",
@@ -30,6 +33,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "one_handed_sword": [
         "upgrade_data",
@@ -44,6 +48,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "rifle": [
         "upgrade_data",
@@ -51,6 +56,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "duals": [
         "upgrade_data",
@@ -58,12 +64,14 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "shield": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "coat": [
         "upgrade_data",
@@ -71,6 +79,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "pants": [
         "upgrade_data",
@@ -78,6 +87,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "gauntlet": [
         "upgrade_data",
@@ -85,6 +95,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "shoes": [
         "upgrade_data",
@@ -92,10 +103,12 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "quest_scroll": [
         "dropped_by",
         "quests_by_scroll",
+        "sold_by",
     ],
     "quest_item": [
         "dropped_by",
@@ -120,87 +133,103 @@ TABLE_TO_EXTRA = {
     "recipe": [
         "dropped_by",
         "random_boxes",
+        "sold_by",
     ],
     "material": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "bullet": [
         "dropped_by",
+        "sold_by",
     ],
     "ship_flag": [
         "dropped_by",
+        "sold_by",
     ],
     "shell": [
         "dropped_by",
+        "sold_by",
     ],
     "consumable": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "random_box": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_anchor": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_body": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_figure": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_head_mast": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_main_mast": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_magic_stone": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_front": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_normal_weapon": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "ship_special_weapon": [
         "random_boxes",
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "pet_combine_help": [
         "random_boxes",
@@ -213,6 +242,7 @@ TABLE_TO_EXTRA = {
     "pet_skill_stone": [
         "random_boxes",
         "dropped_by",
+        "sold_by",
     ],
     "pet": [
         "random_boxes",
@@ -221,21 +251,26 @@ TABLE_TO_EXTRA = {
     "seal_break_help": [
         "random_boxes",
         "dropped_by",
+        "sold_by",
     ],
     "upgrade_help": [
         "random_boxes",
         "dropped_by",
+        "sold_by",
     ],
     "upgrade_crystal": [
         "random_boxes",
         "dropped_by",
+        "sold_by",
     ],
     "upgrade_stone": [
         "random_boxes",
         "dropped_by",
+        "sold_by",
     ],
     "fishing_rod": [
         "random_boxes",
+        "sold_by",
     ],
     "riding_pet": [
         "random_boxes",
@@ -251,7 +286,9 @@ TABLE_TO_EXTRA = {
     "production": [
         "premium_essence_recipe",
     ],
-    "fishing_bait": [],
+    "fishing_bait": [
+        "sold_by",
+    ],
     "essence": [
         "dropped_by",
         "produced_by",
@@ -422,3 +459,13 @@ def get_premium_essence_recipe(result_code: str) -> dict:
         return None
 
     return production.to_dict()
+
+
+def get_sold_by(item_code: str) -> List[dict]:
+    query = (models.NPC.query
+             .join(models.NPCShop)
+             .filter(
+                 models.NPCShop.item_code == item_code
+             ))
+
+    return [npc.to_dict() for npc in query.all()]

@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, DroppedBy, AvailableIn, ProducedBy, NeededFor, TextCard } from "../DetailedViewComponents";
+import { Infos, DroppedBy, AvailableIn, ProducedBy, NeededFor, TextCard, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const Consumable = ({tablename, data}) => {
   const {
-    obj, dropped_by, random_boxes, produced_by, needed_for
+    obj, dropped_by, random_boxes, produced_by, needed_for, sold_by
   } = data;
 
   const itemInfos = [
@@ -18,6 +18,7 @@ const Consumable = ({tablename, data}) => {
       <Row>
         <Col md={4}>
           <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
+          <SoldBy soldBy={sold_by} />
           <ProducedBy producedBy={produced_by} />
           <NeededFor neededFor={needed_for} />
           <AvailableIn boxes={random_boxes} />

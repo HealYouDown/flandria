@@ -7,7 +7,7 @@ from app.api.table_to_extras import (
     TABLE_TO_EXTRA, get_after_quest, get_dropped_by, get_drops, get_needed_for,
     get_produced_by, get_quest_scrolls, get_quests, get_quests_by_item,
     get_quests_by_scroll, get_random_boxes, get_upgrade_data, get_maps,
-    get_premium_essence_recipe)
+    get_premium_essence_recipe, get_sold_by)
 from app.constants import DATABASE_TABLENAMES
 from app.extensions import cache
 
@@ -70,6 +70,9 @@ def get_response(
 
         elif extra == "premium_essence_recipe":
             response[extra] = get_premium_essence_recipe(obj.result_code)
+
+        elif extra == "sold_by":
+            response["sold_by"] = get_sold_by(obj.code)
 
     return response
 

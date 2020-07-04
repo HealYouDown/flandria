@@ -1,6 +1,6 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, BonusStats, ProducedBy, NeededFor, AvailableIn, Upgrade, DroppedBy } from "../DetailedViewComponents";
+import { Infos, BonusStats, ProducedBy, NeededFor, AvailableIn, Upgrade, DroppedBy, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const WeaponAndArmor = ({tablename, data}) => {
@@ -11,6 +11,7 @@ const WeaponAndArmor = ({tablename, data}) => {
     produced_by,
     random_boxes,
     upgrade_data,
+    sold_by,
   } = data;
 
   let itemInfos = [
@@ -30,6 +31,7 @@ const WeaponAndArmor = ({tablename, data}) => {
         <Col md={4}>
           <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
           <BonusStats obj={obj} />
+          <SoldBy soldBy={sold_by} />
           <ProducedBy producedBy={produced_by} />
           <NeededFor neededFor={needed_for} />
           <AvailableIn boxes={random_boxes} />

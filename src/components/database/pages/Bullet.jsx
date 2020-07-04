@@ -1,11 +1,11 @@
 import React from "react";
 import { Row, Col } from "react-grid-system";
-import { Infos, DroppedBy} from "../DetailedViewComponents";
+import { Infos, DroppedBy, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const Bullet = ({tablename, data}) => {
   const {
-    obj, dropped_by
+    obj, dropped_by, sold_by
   } = data;
 
   const itemInfos = [
@@ -18,6 +18,7 @@ const Bullet = ({tablename, data}) => {
       <Row>
         <Col md={4}>
           <Infos tablename={tablename} data={obj} itemInfos={itemInfos} />
+          <SoldBy soldBy={sold_by} />
         </Col>
 
         <Col md={8}>

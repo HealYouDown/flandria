@@ -959,6 +959,33 @@ const QuestDescription = ({title, description}) => {
   )
 }
 
+const SoldBy = ({soldBy}) => {
+  if (soldBy.length === 0) {
+    return null;
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <span className="card-title">Sold by</span>
+      </CardHeader>
+      <CardListBody>
+        <ul>
+          {soldBy.map(npc => {
+            return (
+              <ClickableItem
+                link="#" // link={`/database/npc/${npc.code}`}
+                obj={npc}
+                tablename="npc"
+              />
+            )
+          })}
+        </ul>
+      </CardListBody>
+    </Card>
+  )
+}
+
 export {
   Infos,
   Quests,
@@ -979,5 +1006,6 @@ export {
   Rewards,
   QuestDescription,
   Maps,
+  SoldBy,
   dropTableValues,
 }

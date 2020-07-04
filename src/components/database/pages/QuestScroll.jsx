@@ -4,7 +4,7 @@ import Card, { CardHeader, CardListBody, ClickableCardListItem } from "../../com
 import styled from "styled-components";
 import Icon from "../../common/Icon";
 import Name from "../../common/Name";
-import { DroppedBy } from "../DetailedViewComponents";
+import { DroppedBy, SoldBy } from "../DetailedViewComponents";
 import Ad from "../../common/Ad";
 
 const InfosHeaderWrapper = styled.div`
@@ -15,7 +15,7 @@ const InfosHeaderWrapper = styled.div`
 
 const QuestScroll = ({tablename, data}) => {
   const {
-    obj, dropped_by, quests_by_scroll,
+    obj, dropped_by, quests_by_scroll, sold_by,
   } = data;
 
   return (
@@ -47,6 +47,7 @@ const QuestScroll = ({tablename, data}) => {
       
         <Col md={8}>
           <DroppedBy droppedBy={dropped_by} />
+          <SoldBy soldBy={sold_by} />
         </Col>
       </Row>
       <Ad slot="1071258842" />
