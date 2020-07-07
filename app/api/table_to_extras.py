@@ -41,6 +41,7 @@ TABLE_TO_EXTRA = {
         "dropped_by",
         "produced_by",
         "needed_for",
+        "sold_by",
     ],
     "two_handed_sword": [
         "upgrade_data",
