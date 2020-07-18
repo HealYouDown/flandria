@@ -5,6 +5,8 @@ from app.extensions import db
 
 class NPCShop(db.Model):
     __tablename__ = "npc_shop"
+    __bind_key__ = "static_data"
+
     index = Column(Integer, primary_key=True, autoincrement=True)
 
     npc_code = Column(String, ForeignKey("npc.code"))
