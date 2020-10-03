@@ -12,6 +12,9 @@ Flandria is written with Flask (Backend) and ReactJS (Frontend).
 ### ReactJS
 [ReactJS](https://reactjs.org/) is a JavaScript library for building user interfaces.
 
+## Discord
+If you want to give feedback for the website or have any ideas on missing features or just want to talk about Florensia, you are free to join the [Flandria Discord Server](https://discord.gg/gmwCBz5).
+
 ## License
 [MIT License](https://opensource.org/licenses/MIT)
 
