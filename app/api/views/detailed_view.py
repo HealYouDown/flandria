@@ -71,8 +71,11 @@ def get_response(
         elif extra == "premium_essence_recipe":
             response[extra] = get_premium_essence_recipe(obj.result_code)
 
+        
+        # FIXME / BUG: NPCShop Table was accidentally removed from database.
         elif extra == "sold_by":
-            response["sold_by"] = get_sold_by(obj.code)
+            # response["sold_by"] = get_sold_by(obj.code)
+            response["sold_by"] = []
 
     return response
 
