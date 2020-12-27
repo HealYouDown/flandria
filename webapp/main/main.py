@@ -1,4 +1,5 @@
 import os
+import time
 
 import git
 from flask import (Blueprint, current_app, render_template, request,
@@ -136,5 +137,9 @@ def update_server():
     origin = repo.remotes.origin
 
     _ = origin.pull()
+
+    # touch wsgi file to reload server
+    os.utime(r"/var/www/www_flandria_info_wsgi.p",
+             (time.time(), time.time()))
 
     return "Updated server", 200
