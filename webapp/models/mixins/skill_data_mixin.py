@@ -104,24 +104,26 @@ class SkillDataMixin:
     @declared_attr
     def accuracy(cls):
         return CustomColumn(Integer, nullable=False,
-                            mapper_key="명중률",)
+                            mapper_key="명중률")
 
     @declared_attr
     def hit_compensation(cls):
         return CustomColumn(Integer, nullable=False,
-                            mapper_key="명중보정",)
+                            mapper_key="명중보정")
 
     @declared_attr
     def cooldown(cls):
-        return CustomColumn(Float, nullable=False,
-                            mapper_key="쿨타임밀초",
-                            transform=florensia_time_transform)
+        return CustomColumn(
+            Float, mapper_key="쿨타임밀초",
+            transform=(lambda v: florensia_time_transform(v)
+                       if v != MAX_INT else None))
 
     @declared_attr
     def cast_time(cls):
-        return CustomColumn(Float, nullable=False,
-                            mapper_key="캐스팅시간밀초",
-                            transform=florensia_time_transform)
+        return CustomColumn(
+            Float, mapper_key="캐스팅시간밀초",
+            transform=(lambda v: florensia_time_transform(v)
+                       if v != MAX_INT else None))
 
     @declared_attr
     def cast_distance(cls):
@@ -146,8 +148,10 @@ class SkillDataMixin:
 
     @declared_attr
     def effect_range(cls):
-        return CustomColumn(Float, nullable=False, mapper_key="영향범위",
-                            transform=florensia_meter_transform)
+        return CustomColumn(
+            Float, mapper_key="영향범위",
+            transform=(lambda v: florensia_meter_transform(v) if v != MAX_INT
+                       else None))
 
     @declared_attr
     def effect_angle(cls):

@@ -28,7 +28,7 @@ const SkillDataInfo = ({ classname, currentLevel, skillData }) => {
         />
         <SkillDataPair
           label="Cooldown"
-          value={`${skillData.cooldown}s`}
+          value={skillData.cooldown ? `${skillData.cooldown}s` : '0s'}
         />
         <SkillDataPair
           label="MP"
@@ -36,15 +36,15 @@ const SkillDataInfo = ({ classname, currentLevel, skillData }) => {
         />
         <SkillDataPair
           label="Cast Time"
-          value={`${skillData.cast_time}s`}
+          value={skillData.cast_time ? `${skillData.cast_time}s` : '0s'}
         />
         <SkillDataPair
           label="Cast Range"
-          value={`${skillData.cast_distance}m`}
+          value={skillData.cast_distance ? `${skillData.cast_distance}m` : '/'}
         />
         <SkillDataPair
           label="Effect Range"
-          value={`${skillData.effect_range}m`}
+          value={skillData.effect_range ? `${skillData.effect_range}m` : '/'}
         />
       </div>
       <p className="mt-1 leading-none text-white text-opacity-70">
