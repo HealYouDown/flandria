@@ -1,6 +1,11 @@
-.vscode/
 env/
 __pycache__/
-node_modules/
+.vscode/
+flandria-frontend/node_modules
+database_updater/temp
+flandria-frontend/build
+data.json
 *.db
-package-lock.json
+.env
+flandria-frontend/.eslintcache
+flandria-frontend/public
