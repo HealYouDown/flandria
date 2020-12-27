@@ -13,7 +13,7 @@ const LandingPage = () => {
           Flandria is an open-source database website for the MMORPG Florensia.
           It provides a clean interface to view all available monsters, items and quest in the
           world of Florensia.
-          Also included are a character builder, which allows you to design your own character
+          Also included is a character builder, which allows you to design your own character
           skilltree as well as maps, where you can view the locations of all monster.
         </p>
       </div>
