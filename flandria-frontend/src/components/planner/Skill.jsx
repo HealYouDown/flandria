@@ -111,7 +111,7 @@ const Skill = ({
         onClick={(e) => onLevelUpRequest(skillCode, e.shiftKey)}
         onContextMenu={(e) => {
           e.preventDefault();
-          onLevelDownRequest(skillCode);
+          onLevelDownRequest(skillCode, e.shiftKey);
         }}
         aria-hidden
       >

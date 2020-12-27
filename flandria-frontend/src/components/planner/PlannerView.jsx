@@ -142,7 +142,7 @@ class PlannerView extends React.Component {
     }
   }
 
-  onSkillLevelDownRequest(skillCode) {
+  onSkillLevelDownRequest(skillCode, isShift = false) {
     const { skillObjects } = this.state;
     const skillObjectsCopy = { ...skillObjects };
     const skillObj = skillObjectsCopy[skillCode];
@@ -151,7 +151,12 @@ class PlannerView extends React.Component {
     // kinda obvious
     if (skillObj.skillLevel > 0) {
       // Decrase level by one
-      skillObj.skillLevel -= 1;
+
+      if (isShift) {
+        skillObj.skillLevel = 0;
+      } else {
+        skillObj.skillLevel -= 1;
+      }
 
       // If skill level was reduced to 0, disable all skills that relied
       // on it
