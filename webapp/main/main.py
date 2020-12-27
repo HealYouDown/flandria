@@ -132,7 +132,7 @@ def update_server():
         return "Invalid", 401
 
     # Local path on server to the repo
-    repo = git.Repo("flandria-website/flandria")
+    repo = git.Repo("flandria")
     origin = repo.remotes.origin
 
     _ = origin.pull()
