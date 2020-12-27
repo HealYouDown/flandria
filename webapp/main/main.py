@@ -45,7 +45,7 @@ def index(path: str):
 
     return render_template(
         "index.html",
-        icon=f"static/assets/{icon}",
+        icon=f"/static/assets/{icon}",
         name=name,
     )
 
