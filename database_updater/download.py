@@ -29,7 +29,7 @@ def download_file(url: str) -> typing.Union[None, str]:
 
     # Quests are stored to an extra 'quests' folder
     if "QuestData" in fpath:
-        save_path = os.path.join(QUESTS_FOLDER, fname)
+        save_path = os.path.join(QUESTS_FOLDER, fname.lower())
     elif "Data/UI/Icon" in fpath:
         save_path = os.path.join(PALETTES_FOLDER, fname)
     else:

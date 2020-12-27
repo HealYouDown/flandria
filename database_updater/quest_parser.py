@@ -295,7 +295,8 @@ def parse_quests() -> typing.List[typing.Dict[str, typing.Union[list, dict]]]:
     root = tree.getroot()
 
     quests = [
-        _parse_quest_file(os.path.join(QUESTS_FOLDER, f"{element.tag}.xml"))
+        _parse_quest_file(os.path.join(QUESTS_FOLDER,
+                                       f"{element.tag.lower()}.xml"))
         for element in root
     ]
 
