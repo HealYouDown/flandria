@@ -139,7 +139,7 @@ def update_server():
     _ = origin.pull()
 
     # touch wsgi file to reload server
-    os.utime(r"/var/www/www_flandria_info_wsgi.p",
+    os.utime(r"/var/www/www_flandria_info_wsgi.py",
              (time.time(), time.time()))
 
     return "Updated server", 200
