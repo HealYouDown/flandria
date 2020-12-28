@@ -54,6 +54,8 @@ const InformationWidget = ({ tablename, obj, className }) => {
       { label: 'Area', value: obj.area.name },
       { label: 'Level', value: obj.level },
       { label: 'HP', value: Number(obj.hp).toLocaleString() },
+      { label: 'Physical Defense', value: Number(obj.physical_defense).toLocaleString() },
+      { label: 'Magic Defense', value: Number(obj.magic_defense).toLocaleString() },
       { label: 'Damage', value: `${Number(obj.minimal_damage).toLocaleString()} ~ ${Number(obj.maximal_damage).toLocaleString()}` },
       { label: 'Range', value: `${obj.attack_range}m, ${obj.range.name}` },
       { label: 'Experience', value: Number(obj.experience).toLocaleString() },
