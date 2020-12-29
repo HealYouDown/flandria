@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { getImagePath, setWindowTitle } from '../../helpers';
 
 const Error404Page = () => {
-  useState(() => {
+  useEffect(() => {
     setWindowTitle('Error 404');
   }, []);
 

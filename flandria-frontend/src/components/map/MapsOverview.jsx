@@ -1,3 +1,4 @@
+/* eslint-disable no-unreachable */
 import React from 'react';
 import { setWindowTitle } from '../../helpers';
 import Card, { ClickableCardItem, CardHeader, CardHeaderTitle } from '../shared/Card';
