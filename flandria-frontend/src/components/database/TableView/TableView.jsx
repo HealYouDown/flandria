@@ -9,7 +9,6 @@ import useDidMountEffect from '../../../useDidMountEffect';
 import TableViewItem from './TableViewItem';
 import { getApiUrl, setWindowTitle, tablenameToTitle } from '../../../helpers';
 import Pagination from '../../shared/Pagination';
-import Ad from '../../shared/Ad';
 
 function getQueryParameterOrDefault(key, defaultValue) {
   const params = new URLSearchParams(window.location.search);
@@ -157,7 +156,6 @@ const TableView = () => {
               }}
             />
           </div>
-          <Ad slot={1605863589} />
         </>
       )}
     </>
