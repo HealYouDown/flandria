@@ -22,7 +22,7 @@ const Ad = ({ slot }) => {
             <div className="flex flex-row items-center gap-5 px-4 py-2 border-2 border-gray-700 rounded-lg sm:px-10 sm:py-4 dark:border-white">
               <img
                 className="hidden h-24 rounded-full sm:block"
-                src={getImagePath('ad_banner_image.png')}
+                src={getImagePath('blocker_banner_image.png')}
                 alt="crying npc"
               />
               <div>
