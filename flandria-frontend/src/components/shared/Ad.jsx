@@ -6,7 +6,7 @@ import { getImagePath } from '../../helpers';
 const Ad = ({ slot }) => {
   const location = useLocation();
   const isPremium = isAuthenticated() ? getIdentity().premium : false;
-  const adblockEnabled = window.adblockEnabled;
+  const adblockEnabled = window.adblockEnabled || false;
 
   useEffect(() => {
     if (!isPremium && !adblockEnabled) {
