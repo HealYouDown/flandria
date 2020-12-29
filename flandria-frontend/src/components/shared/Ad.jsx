@@ -1,10 +1,8 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import { isAuthenticated, getIdentity } from '../auth/auth';
 import { getImagePath } from '../../helpers';
 
 const Ad = ({ slot }) => {
-  const location = useLocation();
   const isPremium = isAuthenticated() ? getIdentity().premium : false;
   const adblockEnabled = window.adblockEnabled || false;
 
@@ -12,7 +10,7 @@ const Ad = ({ slot }) => {
     if (!isPremium && !adblockEnabled) {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     }
-  }, [location]);
+  }, []);
 
   if (isPremium) return null;
 
