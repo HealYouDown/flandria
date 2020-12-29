@@ -19,7 +19,7 @@ const LandingPage = () => {
       </div>
 
       <div className="max-w-md">
-        <img className="rounded-full" src={getImagePath('landing_page_image.png')} alt="Landing Page" />
+        <img className="rounded-full" src={getImagePath('landing_page_image_small.png')} alt="Landing Page" />
       </div>
     </div>
   );
