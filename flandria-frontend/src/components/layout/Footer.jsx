@@ -31,7 +31,7 @@ const Footer = () => (
   >
     <div className="grid items-center grid-cols-1 gap-4 md:gap-x-12 md:grid-cols-2 justify-items-center">
       <div className="max-w-sm">
-        <img className="mx-auto mb-1 md:mx-0 h-14" src={getImagePath('logo.png')} alt="Logo Footer" />
+        <img className="mx-auto mb-1 md:mx-0 h-14" src={getImagePath('logo_small.png')} alt="Logo Footer" />
         <p className="text-sm leading-tight text-center text-gray-500 md:text-left dark:text-white">
           All information on Flandria is provided as is, without any guarantee that the shown
           information is correct or up-to-date.
