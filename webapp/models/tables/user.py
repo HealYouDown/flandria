@@ -28,7 +28,7 @@ class User(db.Model):
             "username": self.username,
             "admin": self.admin,
             "can_edit_drops": self.admin or self.can_edit_drops,
-            "premium": self.admin or self.can_edit_drops,
+            "premium": self.admin or self.premium,
         }
 
     def set_password(self, password: str) -> None:

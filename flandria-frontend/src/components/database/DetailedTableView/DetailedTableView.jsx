@@ -27,6 +27,7 @@ import NPCShopItemsWidget from './Widgets/NPCShopItemsWidget';
 import QuestMissionsWidget from './Widgets/QuestMissionsWidget';
 import QuestRewardsWidgets from './Widgets/QuestRewardsWidget';
 import MonsterMapsWidget from './Widgets/MonsterMapsWidget';
+import Ad from '../../shared/Ad';
 
 const isEmptyComponent = (children) => !ReactDOMServer.renderToStaticMarkup(children);
 
@@ -530,6 +531,7 @@ const DetailedTableView = () => {
       <Grid className="mt-3">
         {widgetColumns}
       </Grid>
+      <Ad slot={5299542498} />
     </>
   );
 };

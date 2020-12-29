@@ -15,6 +15,7 @@ import Hash from './Hash';
 import SkillObject from './SkillObject';
 import Skill from './Skill';
 import Breadcrumbs from '../shared/Breadcrumbs';
+import Ad from '../shared/Ad';
 
 const classSelectOptions = {
   explorer: [
@@ -512,6 +513,7 @@ class PlannerView extends React.Component {
             </div>
           </Card>
         </div>
+        <Ad slot={9338859857} />
       </>
     );
   }

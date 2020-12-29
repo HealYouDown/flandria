@@ -1,6 +1,6 @@
 import decode from 'jwt-decode';
 
-const localStorageKey = 'ACCESS_TOKEN_FLANDRIA';
+const localStorageKey = 'ACCESS_TOKEN_FLANDRIA_V1.1';
 
 function getToken() {
   return localStorage.getItem(localStorageKey) || null;

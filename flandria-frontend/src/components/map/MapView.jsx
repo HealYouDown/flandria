@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { getApiUrl, setWindowTitle } from '../../helpers';
+import Ad from '../shared/Ad';
 import Breadcrumbs from '../shared/Breadcrumbs';
 import Grid, { Column } from '../shared/Grid';
 import Icon from '../shared/Icon';
@@ -98,7 +99,7 @@ const MapView = () => {
   const { data } = fetchResult;
 
   return (
-    <div>
+    <>
       <div className="flex flex-col pb-3 border-b border-gray-200 dark:border-dark-3">
         <div>
           <Breadcrumbs
@@ -151,8 +152,8 @@ const MapView = () => {
           ))}
         </Grid>
       </div>
-    </div>
-
+      <Ad slot={4288701392} />
+    </>
   );
 };
 
