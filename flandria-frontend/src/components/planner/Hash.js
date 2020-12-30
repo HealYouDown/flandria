@@ -18,7 +18,7 @@ class Hash {
     this.classname = classname;
     // Sort skill codes so that they are always positioned
     // the same in the array.
-    this.skillCodes = skillCodes.sort((a, b) => a > b);
+    this.skillCodes = skillCodes;
 
     // Get current hash and replace # in front
     this.hash = window.location.hash.replace('#', '');

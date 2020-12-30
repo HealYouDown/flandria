@@ -1,6 +1,7 @@
 from flask_restx import Resource, abort
 from webapp.extensions import cache
 from webapp.models import PlayerSkill
+from collections import OrderedDict
 
 CLASSNAME_TO_SKILL_CODES = {
     "noble": [
@@ -66,11 +67,16 @@ class PlannerView(Resource):
         # group them by their reference code
         skill_objects = [skill.to_dict(minimal=True) for skill in query.all()]
 
-        grouped_skills = {
-            skill_code: [skill_obj for skill_obj in skill_objects
-                         if skill_obj["reference_code"] == skill_code]
-            for skill_code in skill_codes
-        }
+        # Using ordered dict to always have the same order of keys, otherwise
+        # hashes in the frontend will be messed up.
+        # Sorting is done on the backend as browsers implement different
+        # sorting algorithms. See below.
+        # https://forum.freecodecamp.org/t/the-sort-method-behaves-different-on-different-browsers/237221/5
+        grouped_skills = OrderedDict()
+        for skill_code in sorted(skill_codes):
+            grouped_skills[skill_code] = [
+                skill_obj for skill_obj in skill_objects
+                if skill_obj["reference_code"] == skill_code]
 
         return {
             "skills": grouped_skills
