@@ -234,7 +234,7 @@ for i in range(0, 62):
     # Quantity
     setattr(RandomBox, f"item_{i}_quantity",
             CustomColumn(
-                    db.String(32), mapper_key=f"보상수량{i}",
+                    db.Integer, mapper_key=f"보상수량{i}",
                     transform=lambda v: v if v != 0 else None
                 ))
 
