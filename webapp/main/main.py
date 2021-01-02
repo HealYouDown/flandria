@@ -29,20 +29,21 @@ def index(path: str):
             model = get_model_from_tablename(tablename)
             obj = model.query.get(code)
 
-            if tablename == "production":
-                obj = obj.result_item
+            if obj is not None:
+                if tablename == "production":
+                    obj = obj.result_item
 
-            if tablename == "monster":
-                name = obj.name
-                icon = f"monster_icons/{obj.icon}"
-            elif tablename == "quest":
-                name = obj.title
-            elif tablename == "npc":
-                name = obj.name
-                icon = f"npc_icons/{obj.icon}"
-            else:
-                name = obj.name
-                icon = f"item_icons/{obj.icon}"
+                if tablename == "monster":
+                    name = obj.name
+                    icon = f"monster_icons/{obj.icon}"
+                elif tablename == "quest":
+                    name = obj.title
+                elif tablename == "npc":
+                    name = obj.name
+                    icon = f"npc_icons/{obj.icon}"
+                else:
+                    name = obj.name
+                    icon = f"item_icons/{obj.icon}"
 
     return render_template(
         "index.html",
