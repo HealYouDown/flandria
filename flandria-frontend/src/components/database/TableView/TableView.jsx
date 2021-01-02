@@ -9,6 +9,7 @@ import useDidMountEffect from '../../../useDidMountEffect';
 import TableViewItem from './TableViewItem';
 import { getApiUrl, setWindowTitle, tablenameToTitle } from '../../../helpers';
 import Pagination from '../../shared/Pagination';
+import useAsyncError from '../../errors/useAsyncError';
 
 function getQueryParameterOrDefault(key, defaultValue) {
   const params = new URLSearchParams(window.location.search);
@@ -41,6 +42,7 @@ const TableView = () => {
   const { tablename } = useParams();
   const history = useHistory();
   const location = useLocation();
+  const throwError = useAsyncError();
 
   const [filterMenuOpen, setFilterMenuOpen] = useState(false);
   const [filter, setFilter] = useState(getDefaultFilter(tablename, location.search));
@@ -60,12 +62,16 @@ const TableView = () => {
       // Refetch data
       const url = getUrlWithParameters();
       const fetchData = async () => {
-        const result = await Axios(url);
-        setData({
-          url,
-          data: result.data,
-        });
-        setIsLoading(false);
+        try {
+          const result = await Axios(url);
+          setData({
+            url,
+            data: result.data,
+          });
+          setIsLoading(false);
+        } catch (error) {
+          throwError(new Error(error));
+        }
       };
 
       setIsLoading(true);

@@ -188,6 +188,7 @@ class PlannerView extends React.Component {
       pointsUsed: 0,
 
       skillObjects: {},
+      error: null,
     });
   }
 
@@ -305,6 +306,10 @@ class PlannerView extends React.Component {
       }, () => {
         this.updateAllowedSkills();
         this.updatePoints();
+      });
+    }).catch((error) => {
+      this.setState({}, () => {
+        throw new Error(error);
       });
     });
   }

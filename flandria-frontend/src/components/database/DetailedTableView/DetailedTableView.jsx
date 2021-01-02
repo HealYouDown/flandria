@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Axios from 'axios';
 import ReactDOMServer from 'react-dom/server';
 import TopBarProgress from 'react-topbar-progress-indicator';
+import Axios from 'axios';
 import { getApiUrl, setWindowTitle } from '../../../helpers';
 import InformationWidget from './Widgets/InformationWidget';
 import QuestsWidget from './Widgets/QuestsWidget';
@@ -27,6 +27,7 @@ import NPCShopItemsWidget from './Widgets/NPCShopItemsWidget';
 import QuestMissionsWidget from './Widgets/QuestMissionsWidget';
 import QuestRewardsWidgets from './Widgets/QuestRewardsWidget';
 import MonsterMapsWidget from './Widgets/MonsterMapsWidget';
+import useAsyncError from '../../errors/useAsyncError';
 
 const isEmptyComponent = (children) => !ReactDOMServer.renderToStaticMarkup(children);
 
@@ -34,28 +35,34 @@ const DetailedTableView = () => {
   const { tablename, code } = useParams();
   const [fetchResult, setFetchResult] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const throwError = useAsyncError();
 
   useEffect(() => {
     const url = `${getApiUrl()}/database/${tablename}/${code}`;
     const fetchData = async () => {
-      const result = await Axios(url);
-      setFetchResult({
-        tablename,
-        code,
-        data: result.data,
-      });
-      setIsLoading(false);
+      try {
+        const result = await Axios.get(url);
 
-      // Update window title
-      let title = '';
-      if (tablename === 'production') {
-        title = result.data.result_item.name;
-      } else if (tablename === 'quest') {
-        title = result.data.title;
-      } else {
-        title = result.data.name;
+        setFetchResult({
+          tablename,
+          code,
+          data: result.data,
+        });
+        setIsLoading(false);
+
+        // Update window title
+        let title = '';
+        if (tablename === 'production') {
+          title = result.data.result_item.name;
+        } else if (tablename === 'quest') {
+          title = result.data.title;
+        } else {
+          title = result.data.name;
+        }
+        setWindowTitle(title);
+      } catch (error) {
+        throwError(new Error(error));
       }
-      setWindowTitle(title);
     };
 
     setIsLoading(true);

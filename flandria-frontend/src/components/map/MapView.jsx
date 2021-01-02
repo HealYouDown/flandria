@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { getApiUrl, setWindowTitle } from '../../helpers';
+import useAsyncError from '../errors/useAsyncError';
 import Breadcrumbs from '../shared/Breadcrumbs';
 import Grid, { Column } from '../shared/Grid';
 import Icon from '../shared/Icon';
@@ -43,6 +44,7 @@ const MapView = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMonsters, setSeletectedMonsters] = useState([]);
   const [colors, setColors] = useState({});
+  const throwError = useAsyncError();
 
   const getMonstersFromPoints = (points) => {
     const uniqueMonsterObjects = [];
@@ -67,26 +69,30 @@ const MapView = () => {
   useEffect(() => {
     const url = `${getApiUrl()}/database/map/${mapCode}`;
     const fetchData = async () => {
-      const result = await Axios.get(url);
+      try {
+        const result = await Axios.get(url);
 
-      setFetchResult({
-        mapCode,
-        data: result.data,
-      });
-      setIsLoading(false);
+        setFetchResult({
+          mapCode,
+          data: result.data,
+        });
+        setIsLoading(false);
 
-      // Update window title
-      setWindowTitle(result.data.name);
+        // Update window title
+        setWindowTitle(result.data.name);
 
-      // Create colors for all monsters in points
-      const colorsScoped = {};
-      getMonstersFromPoints(result.data.points).forEach((monster) => {
-        colorsScoped[monster.code] = `#${Math.random().toString(16).slice(2, 8)}`;
-      });
-      setColors(colorsScoped);
+        // Create colors for all monsters in points
+        const colorsScoped = {};
+        getMonstersFromPoints(result.data.points).forEach((monster) => {
+          colorsScoped[monster.code] = `#${Math.random().toString(16).slice(2, 8)}`;
+        });
+        setColors(colorsScoped);
 
-      // Enable all monsters on first load (colors contains all monster keys :p)
-      setSeletectedMonsters(Object.keys(colorsScoped));
+        // Enable all monsters on first load (colors contains all monster keys :p)
+        setSeletectedMonsters(Object.keys(colorsScoped));
+      } catch (error) {
+        throwError(new Error(error));
+      }
     };
 
     setIsLoading(true);
