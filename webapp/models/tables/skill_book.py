@@ -39,6 +39,6 @@ class SkillBook(
 
         return {
             **minimal_dict,
-            "skill": self.skill.to_dict(),
+            "skill": self.skill.to_dict() if self.skill else None,
             **SoldByMixin.to_dict(self),
         }
