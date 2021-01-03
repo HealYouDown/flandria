@@ -466,6 +466,9 @@ class SkillTree extends React.Component {
                 onLevelUpRequest={this.onSkillLevelUpRequest}
               />
             ))}
+            <span className="absolute bottom-0 right-0 text-xs text-gray-500 dark:text-white dark:text-opacity-70">
+              Click ± 1. Shift-Click Max.
+            </span>
           </div>
         </div>
       </Card>

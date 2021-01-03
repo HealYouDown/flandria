@@ -344,6 +344,11 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
             onIncrement={(e) => incrementButtonClicked(e, 'will', will, setWill)}
             onDecrement={(e) => decrementButtonClicked(e, 'will', will, setWill)}
           />
+          <div className="flex justify-end col-span-2 mt-2">
+            <span className="text-xs text-gray-500 dark:text-white dark:text-opacity-70">
+              Click ± 1. Shift-Click ± 15.
+            </span>
+          </div>
         </div>
         <div className="grid grid-cols-1 pt-2 md:grid-cols-2 gap-x-6 gap-y-2">
           <div>
