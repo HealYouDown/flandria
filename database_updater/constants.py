@@ -15,6 +15,8 @@ QUESTS_FOLDER = os.path.join(TEMP_FOLDER, "quests")
 
 PALETTES_FOLDER = os.path.join(TEMP_FOLDER, "palettes")
 
+PERSISTENT_DATA_FOLDER = os.path.join(DATABASE_UPDATER_FPATH, "persistent_data")
+
 # Create folders they do not exist
 if not os.path.exists(TEMP_FOLDER):
     os.mkdir(TEMP_FOLDER)
