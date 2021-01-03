@@ -8,7 +8,7 @@ class Search(Resource):
     LIMIT = 15
 
     def get(self):
-        search_string = get_url_parameter("s", str, None)
+        search_string = get_url_parameter("s", str, None).strip()
         if not search_string:
             return [], 200
 
