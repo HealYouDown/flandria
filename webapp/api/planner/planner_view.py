@@ -1,7 +1,10 @@
+from collections import OrderedDict
+
 from flask_restx import Resource, abort
 from webapp.extensions import cache
-from webapp.models import PlayerSkill
-from collections import OrderedDict
+from webapp.models import PlayerSkill, StatusData
+from webapp.models.enums import CharacterClass
+from collections import defaultdict
 
 CLASSNAME_TO_SKILL_CODES = {
     "noble": [
@@ -45,6 +48,13 @@ CLASSNAME_TO_SKILL_CODES = {
     ]
 }
 
+CLASSNAME_TO_LETTER = {
+    "mercenary": "W",
+    "explorer": "E",
+    "noble": "N",
+    "saint": "S",
+}
+
 
 class PlannerView(Resource):
     def get(self, classname: str):
@@ -78,6 +88,22 @@ class PlannerView(Resource):
                 skill_obj for skill_obj in skill_objects
                 if skill_obj["reference_code"] == skill_code]
 
+        # Status data
+        if classname == "ship":
+            status_data = None
+        else:
+            query = (StatusData.query
+                     .filter(StatusData.character_class == CharacterClass(
+                         CLASSNAME_TO_LETTER[classname]))
+                     .order_by(StatusData.level.asc()))
+            status_data = defaultdict(list)
+            for stat in query.all():
+                # Only allow 700 out of ~1000 results in the list to
+                # save bandwidth
+                if len(status_data[stat.point_type]) < 700:
+                    status_data[stat.point_type].append(stat.to_dict())
+
         return {
-            "skills": grouped_skills
+            "skills": grouped_skills,
+            "status": status_data,
         }

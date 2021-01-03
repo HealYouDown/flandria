@@ -7,7 +7,8 @@ from flask import current_app
 from flask_sqlalchemy.model import DefaultMeta
 from webapp.extensions import db
 from webapp.models import (ItemList, Map, Quest, QuestDescription,
-                           QuestGiveItem, QuestMission, QuestSelectableItem)
+                           QuestGiveItem, QuestMission, QuestSelectableItem,
+                           StatusData)
 from webapp.models.custom_sql_classes import CustomColumn
 from webapp.models.enums import ProductionType, SealOptionType
 
@@ -18,6 +19,7 @@ from database_updater.model_lists import ITEMLIST_MODELS, MODELS
 from database_updater.npc_shop_parser import parse_npc_shop_data
 from database_updater.quest_parser import parse_quests, parse_string_data_file
 from database_updater.update_icons import get_icon_name
+from database_updater.status_points_parser import parse_status_points
 
 
 def get_mapping_from_model(model: DefaultMeta) -> typing.Dict[str, dict]:
@@ -64,6 +66,13 @@ def update_database(tables: typing.Tuple[str]) -> None:
 
     # Clear itemlist table
     ItemList.query.delete()
+
+    # Insert status data
+    current_app.logger.info("Inserting status data.")
+    data = parse_status_points()
+    StatusData.query.delete()
+
+    db.session.bulk_insert_mappings(StatusData, data)
 
     # Insert quests
     if not tables or "quest" in tables:
