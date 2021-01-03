@@ -60,5 +60,10 @@ class Npc(db.Model):
         return {
             **minimal_dict,
             "shop_items": [shop_item.to_dict(item_dict=True)
-                           for shop_item in self.shop_items],
+                           for shop_item in self.shop_items
+                           # Some NPCs sell items that do no longer exist
+                           # or are not included in the database (like
+                           # commerce goods), so those will be filtered
+                           # out for now to prevent errors.
+                           if shop_item.item],
         }
