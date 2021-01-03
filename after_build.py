@@ -9,7 +9,6 @@ import os
 import json
 import shutil
 from distutils.dir_util import copy_tree
-import sys
 
 root_dir = os.path.abspath(os.path.dirname(__file__))
 build_folder = os.path.join(root_dir, "flandria-frontend", "build")
@@ -29,14 +28,17 @@ shutil.copyfile(os.path.join(build_folder, "favicon.ico"),
                 os.path.join(static_folder, "favicon.ico"))
 
 # Copy assets
+shutil.rmtree(os.path.join(static_folder, "assets"), ignore_errors=True)
 copy_tree(os.path.join(build_folder, "assets"),
           os.path.join(static_folder, "assets"))
 
 # Copy css
+shutil.rmtree(os.path.join(static_folder, "css"), ignore_errors=True)
 copy_tree(os.path.join(build_folder, "static", "css"),
           os.path.join(static_folder, "css"))
 
 # Create js folder in static
+shutil.rmtree(os.path.join(static_folder, "js"), ignore_errors=True)
 if not os.path.exists(os.path.join(static_folder, "js")):
     os.mkdir(os.path.join(static_folder, "js"))
 

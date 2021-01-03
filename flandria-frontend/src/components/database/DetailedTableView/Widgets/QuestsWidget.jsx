@@ -9,7 +9,7 @@ const QuestsWidget = ({ quests, className, label = 'Quests' }) => {
       className={className}
       label={label}
     >
-      {quests.map((quest) => (
+      {quests.sort((a, b) => a.level < b.level).map((quest) => (
         <ItemListWidgetItem
           key={quest.code}
           tablename="quest"

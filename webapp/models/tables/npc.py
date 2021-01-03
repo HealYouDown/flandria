@@ -44,7 +44,13 @@ class Npc(db.Model):
 
     shop_items = db.relationship(
         "NpcShopItem",
-        primaryjoin="foreign(NpcShopItem.npc_code) == Npc.code")
+        primaryjoin="foreign(NpcShopItem.npc_code) == Npc.code"
+    )
+
+    quests = db.relationship(
+        "Quest",
+        primaryjoin="foreign(Quest.start_npc_code) == Npc.code"
+    )
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = {
@@ -66,4 +72,5 @@ class Npc(db.Model):
                            # commerce goods), so those will be filtered
                            # out for now to prevent errors.
                            if shop_item.item],
+            "quests": [quest.to_dict(minimal=True) for quest in self.quests],
         }

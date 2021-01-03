@@ -487,9 +487,14 @@ const DetailedTableView = () => {
         <Column md={4}>
           <InformationWidget tablename={tablename} obj={data} />
         </Column>
-        <Column md={8}>
+        <Column md={(data.quests.length === 0) ? 8 : 4}>
           <NPCShopItemsWidget items={data.shop_items} />
         </Column>
+        {(data.quests.length > 0) && (
+        <Column md={4}>
+          <QuestsWidget quests={data.quests} />
+        </Column>
+        )}
       </>
     );
   } else if (tablename === 'quest') {
