@@ -44,6 +44,9 @@ module.exports = {
           },
         },
       }),
+      height: {
+        'min-content': 'min-content',
+      },
       minHeight: {
         20: '5rem',
         112: '40rem',

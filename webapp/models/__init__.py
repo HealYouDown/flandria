@@ -93,6 +93,7 @@ from webapp.models.tables.map_point import MapPoint
 # Skills
 from webapp.models.tables.skill_book import SkillBook
 from webapp.models.tables.player_skill import PlayerSkill
+from webapp.models.tables.status_data import StatusData
 
 # Quests
 from webapp.models.tables.quest_item import QuestItem
