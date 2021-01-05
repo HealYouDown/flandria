@@ -71,6 +71,18 @@ const InformationWidget = ({ tablename, obj, className }) => {
       },
     ]);
   } else if (weaponTables.includes(tablename) || armorTables.includes(tablename) || tablename === 'fishing_rod') {
+    if (tablename === 'shield') {
+      informationItems.push(...[
+        {
+          label: 'Physical Defense',
+          value: Number(obj.physical_defense).toLocaleString(),
+        },
+        {
+          label: 'Magical Defense',
+          value: Number(obj.magic_defense).toLocaleString(),
+        },
+      ]);
+    }
     informationItems.push(...[
       {
         label: 'Class',
