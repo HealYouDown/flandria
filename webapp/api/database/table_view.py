@@ -7,7 +7,8 @@ from webapp.api.database.constants import ALLOWED_DATABASE_TABLES
 from webapp.api.database.utils import get_model_from_tablename
 from webapp.api.utils import get_url_parameter
 from webapp.extensions import cache
-from webapp.models.enums import Area, EffectCode, ProductionType, RatingType
+from webapp.models.enums import (Area, EffectCode, EssenceEquipType,
+                                 ProductionType, RatingType)
 
 
 class TableView(Resource):
@@ -101,6 +102,11 @@ class TableView(Resource):
         elif match := re.match(r"core_essence:(\d)$", filter_):
             core_essence = bool(int(match.group(1)))
             return query.filter(model.is_core_essence == core_essence)
+
+        # Filter essence equip type essences
+        elif match := re.match(r"essence_equip:(\d)$", filter_):
+            equip_type = EssenceEquipType(int(match.group(1)))
+            return query.filter(model.equip_type == equip_type)
 
         # Filter production type
         elif match := re.match(r"production:(\d)$", filter_):

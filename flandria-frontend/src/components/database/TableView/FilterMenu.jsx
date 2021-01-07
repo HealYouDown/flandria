@@ -94,6 +94,9 @@ const FilterMenu = ({
     filterOptions.push(...[
       { label: 'Meta Essence', value: 'core_essence:0' },
       { label: 'Core Essence', value: 'core_essence:1' },
+      { label: 'Equip: All', value: 'essence_equip:0' },
+      { label: 'Equip: Weapons', value: 'essence_equip:1' },
+      { label: 'Equip: Armor', value: 'essence_equip:2' },
     ]);
   } else if (tablename === 'production') {
     filterOptions.push(...[
