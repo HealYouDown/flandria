@@ -36,7 +36,7 @@ const DonateBanner = () => {
             rel="noreferrer"
             className="px-5 py-2 text-lg font-semibold text-white bg-blue-500 rounded-md hover:bg-blue-600"
           >
-            Paypal
+            PayPal
           </a>
           <a
             href="https://www.patreon.com/flandria"
