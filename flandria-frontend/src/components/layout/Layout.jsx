@@ -1,11 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import DonateBanner from './DonateBanner';
 import Footer from './Footer';
 import Main from './Main';
 import Nav from './Nav/Nav';
 
 const Layout = ({ children }) => {
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  const [cookies] = useCookies();
 
   useEffect(() => {
     if (theme === 'dark') {
@@ -29,6 +32,9 @@ const Layout = ({ children }) => {
       <Nav />
       <Main>
         {children}
+        {(!cookies.donate_banner) && (
+          <DonateBanner />
+        )}
       </Main>
       <Footer />
     </>

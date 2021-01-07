@@ -4,6 +4,7 @@ import {
 } from 'react-router-dom';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import { ErrorBoundary } from 'react-error-boundary';
+import { CookiesProvider } from 'react-cookie';
 import LoginView from './components/auth/LoginView';
 import LogoutView from './components/auth/LogoutView';
 import RegisterView from './components/auth/RegisterView';
@@ -36,29 +37,31 @@ const App = () => (
       FallbackComponent={ErrorBoundaryView}
     >
       <GATracker trackingId="UA-131501670-1">
-        <Layout>
-          <Switch>
-            <Route path="/" exact component={LandingPage} />
-            <Route path="/about" exact component={About} />
-            <Route path="/privacy-policy" exact component={PrivacyPolicy} />
-            <Route path="/legal-notice" exact component={LegalNotice} />
+        <CookiesProvider>
+          <Layout>
+            <Switch>
+              <Route path="/" exact component={LandingPage} />
+              <Route path="/about" exact component={About} />
+              <Route path="/privacy-policy" exact component={PrivacyPolicy} />
+              <Route path="/legal-notice" exact component={LegalNotice} />
 
-            <Route path="/auth/login" exact component={LoginView} />
-            <Route path="/auth/register" exact component={RegisterView} />
-            <Route path="/auth/logout" exact component={LogoutView} />
+              <Route path="/auth/login" exact component={LoginView} />
+              <Route path="/auth/register" exact component={RegisterView} />
+              <Route path="/auth/logout" exact component={LogoutView} />
 
-            <Route path="/database" exact component={ItemsOverview} />
-            <Route path="/database/:tablename" exact component={TableView} />
-            <Route path="/database/:tablename/:code" exact component={DetailedTableView} />
+              <Route path="/database" exact component={ItemsOverview} />
+              <Route path="/database/:tablename" exact component={TableView} />
+              <Route path="/database/:tablename/:code" exact component={DetailedTableView} />
 
-            <Route path="/map" exact component={MapsOverview} />
-            <Route path="/map/:mapCode" exact component={MapView} />
+              <Route path="/map" exact component={MapsOverview} />
+              <Route path="/map/:mapCode" exact component={MapView} />
 
-            <Route path="/planner/:classname" exact component={PlannerView} />
+              <Route path="/planner/:classname" exact component={PlannerView} />
 
-            <Route component={Error404Page} />
-          </Switch>
-        </Layout>
+              <Route component={Error404Page} />
+            </Switch>
+          </Layout>
+        </CookiesProvider>
       </GATracker>
     </ErrorBoundary>
   </Router>
