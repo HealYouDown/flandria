@@ -89,9 +89,9 @@ from webapp.models.tables.consumable import Consumable
 from webapp.models.tables.bullet import Bullet
 from webapp.models.tables.map import Map
 from webapp.models.tables.map_point import MapPoint
-
-# Skills
 from webapp.models.tables.skill_book import SkillBook
+
+# Player stuff
 from webapp.models.tables.player_skill import PlayerSkill
 from webapp.models.tables.status_data import StatusData
 
@@ -102,3 +102,7 @@ from webapp.models.tables.quest import (Quest, QuestGiveItem,
                                         QuestSelectableItem,
                                         QuestMission,
                                         QuestDescription)
+
+# Ranking
+from webapp.models.tables.ranking_player import RankingPlayer
+from webapp.models.tables.ranking_player_history import RankingPlayerHistory

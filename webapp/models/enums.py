@@ -6,6 +6,24 @@ in their files.
 """
 
 
+class Server(enum.Enum):
+    luxplena = 0
+    bergruen = 1
+
+    @property
+    def names(self) -> dict:
+        return {
+            Server.luxplena: "LuxPlena",
+            Server.bergruen: "Bergruen",
+        }
+
+    def to_dict(self) -> dict:
+        return {
+            "value": self.value,
+            "name": self.names.get(self),
+        }
+
+
 class EssenceEquipType(enum.Enum):
     all = 0
     weapons = 1
@@ -227,8 +245,8 @@ class CharacterClass(enum.Enum):
     excavator = "B"
     sniper = "H"
 
-    @property
-    def names(self) -> dict:
+    @staticmethod
+    def names() -> dict:
         return {
             CharacterClass.noble: "Noble",
             CharacterClass.magic_knight: "Magic Knight",
@@ -244,10 +262,18 @@ class CharacterClass(enum.Enum):
             CharacterClass.sniper: "Sniper",
         }
 
+    @classmethod
+    def from_name(cls, name: str) -> "CharacterClass":
+        for key, value in cls.names().items():
+            if value == name:
+                return key
+        else:
+            raise Exception(f"Name {name} was not found in enum.")
+
     def to_dict(self) -> dict:
         return {
             "value": self.value,
-            "name": self.names.get(self)
+            "name": self.names().get(self)
         }
 
 

@@ -5,6 +5,7 @@ flandria-frontend/node_modules
 database_updater/temp
 flandria-frontend/build
 data.json
+ranking.json
 *.db
 .env
 flandria-frontend/.eslintcache

@@ -5,8 +5,9 @@ from webapp.api.auth import LoginView, RegisterView
 from webapp.api.database import DetailedTableView, MapView, Search, TableView
 from webapp.api.planner import PlannerView
 from webapp.config import DevelopmentConfig, ProductionConfig, TestingConfig
-from webapp.extensions import api_, db, jwt, migrate, cache
+from webapp.extensions import api_, cache, db, jwt, migrate
 from webapp.main import main_bp
+from webapp.tasks import tasks_cli
 from webapp.utils import gzip_response, set_cors_header  # noqa: F401
 
 
@@ -88,6 +89,7 @@ def register_commands(app: Flask) -> None:
     """
     app.cli.add_command(updater_cli)
     app.cli.add_command(drops_cli)
+    app.cli.add_command(tasks_cli)
 
 
 def register_api_endpoints() -> None:
