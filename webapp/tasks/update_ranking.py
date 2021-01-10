@@ -137,7 +137,7 @@ def update_ranking():
     # Scrap all players
     t1 = time.time()
     players = get_players()
-    save_ranking(players)
+    # save_ranking(players)
     t2 = time.time()
 
     current_app.logger.info(
