@@ -4,6 +4,7 @@ import io
 import json
 import multiprocessing
 import os
+import sys
 import time
 import typing
 
@@ -124,18 +125,19 @@ def get_players() -> None:
     return players
 
 
+def save_ranking(data: list) -> None:
+    with open("ranking.json", "w") as fp:
+        json.dump(
+            data, fp, indent=2,
+            cls=JSONEncoderWithEnumSupport,
+            ensure_ascii=True)
+
+
 def update_ranking():
     # Scrap all players
     t1 = time.time()
     players = get_players()
-
-    """
-    # Save ranking players data to file
-    with open("ranking.json", "w") as fp:
-        json.dump(players, fp, indent=2,
-                  cls=JSONEncoderWithEnumSupport,
-                  ensure_ascii=True)
-    """
+    save_ranking(players)
     t2 = time.time()
 
     current_app.logger.info(
@@ -144,7 +146,7 @@ def update_ranking():
     """
     # Loading players from local json file
     players = []
-    with open("ranking copy.json", "r") as fp:
+    with open("ranking.json", "r") as fp:
         for player in json.load(fp):
             player["character_class"] = (
                 CharacterClass(player["character_class"]["value"]))
@@ -152,8 +154,8 @@ def update_ranking():
             players.append(player)
     """
 
-    #####################
-    # Now upsert (Update / Insert) all the players into the database
+    # Now update, delete or insert players, based on the data from
+    # the ranking
     t1 = time.time()
 
     # Get all ids that are in the database and should be updated
@@ -173,17 +175,72 @@ def update_ranking():
     players = [player for player in players
                if player["composite_key_string"] not in exclude_player_keys]
 
-    players_in_database = []
-    # keys consists of too many keys, so sql complains about variables.
-    # therefore we query the database in chunks
+    # keys contains all players that were found in the ranking. If a player
+    # does not exist anymore, its key won't be in there, so delete the player
+    players_in_database: typing.List[RankingPlayer] = []
+
+    # Database is queried in chunks as there is a limit with how many variables
+    # can be in the in_ clause.
     chunksize = 20000
+
     for i in range(0, len(keys), chunksize):
+        # First, add all players that are in the database and still
+        # in the ranking data
         players_in_database.extend(
             RankingPlayer.query
-            .filter(RankingPlayer.composite_key_string.in_(
-                keys[i:i+chunksize]))
-            .all()
+            .filter(
+                RankingPlayer.composite_key_string.in_(
+                    keys[i:i+chunksize]
+                )
+            ).all()
         )
+
+    # Get composite keys from ALL users in database, ignoring if they exist in
+    # the ranking data or not
+    all_composite_keys = [
+        row.composite_key_string for row in
+        RankingPlayer.query.with_entities(
+            RankingPlayer.composite_key_string
+        ).all()
+    ]
+
+    # To find out which players exist in database but no longer in ranking,
+    # compare composite keys
+    diff_keys = list(set(all_composite_keys).difference(keys))
+    deleted_players_count = len(diff_keys)
+
+    # Failsafe.
+    # If for some reasons ranking is buggy and script tries to delete *a lot*
+    # of players stop it from doing so and log an error.
+    # I doubt that there will be more than 1000 deleted users a single day
+    # (hope so?)
+    if deleted_players_count >= 1000:
+        current_app.logger.error(
+            f"Tried to delete {deleted_players_count} players.")
+        sys.exit(1)
+
+    # just in case that more than ~32k players in one night are deleted, we
+    # delete players in chunks
+    for i in range(0, len(diff_keys), chunksize):
+        # Delete ranking players
+        query = (
+            RankingPlayer.query
+            .filter(
+                RankingPlayer.composite_key_string.in_(
+                    diff_keys[i:i+chunksize]
+                )
+            )
+        )
+
+        # Delete history
+        # (Cascade on the player object does not work)
+        players_to_delete = query.all()
+        for player in players_to_delete:
+            for history in player.history:
+                db.session.delete(history)
+
+        # execute delete statement on player rows
+        query.delete(synchronize_session="fetch")
 
     # Dict that has the composite key as key and the player object
     # as the value
@@ -226,6 +283,7 @@ def update_ranking():
         else:
             players_to_insert.append(player)
 
+    current_app.logger.info(f"Deleting {deleted_players_count} players.")
     current_app.logger.info(f"Updating {len(players_to_update)} players.")
     current_app.logger.info(f"Adding {len(players_to_insert)} new players.")
 
