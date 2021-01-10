@@ -145,8 +145,11 @@ const Nav = () => {
           itemsClassName="divide-y w-52 left-0 dark:divide-dark-3"
         >
           <div className="py-1">
-            <DropdownMenuLink to="/map">Maps</DropdownMenuLink>
             <DropdownMenuLink to="/database/npc">NPCs</DropdownMenuLink>
+          </div>
+          <div className="py-1">
+            <DropdownMenuLink to="/map">Maps</DropdownMenuLink>
+            <DropdownMenuLink to="/ranking/guilds">Guilds Ranking</DropdownMenuLink>
           </div>
           <div className="py-1">
             <DropdownMenuLink to="/static/files/essence_system_en.pdf" external>[EN] Essence Guide</DropdownMenuLink>

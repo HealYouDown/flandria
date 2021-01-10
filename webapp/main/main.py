@@ -80,6 +80,11 @@ def js_file(filename: str):
     return resp
 
 
+@main_bp.route("/robots.txt")
+def robots():
+    return send_from_directory(current_app.static_folder, "robots.txt")
+
+
 @main_bp.route("/sitemap.txt")
 def sitemap():
     base_url = "https://www.flandria.info"

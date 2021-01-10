@@ -146,6 +146,7 @@ const TableView = () => {
                 key={item.code}
                 tablename={tablename}
                 item={item}
+                showIcon={tablename !== 'quest'}
               />
             ))}
           </div>
@@ -169,3 +170,6 @@ const TableView = () => {
 };
 
 export default TableView;
+export {
+  getQueryParameterOrDefault,
+};

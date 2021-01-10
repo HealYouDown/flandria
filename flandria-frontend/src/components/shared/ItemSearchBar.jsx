@@ -12,28 +12,43 @@ const SearchResultItem = ({ tableKey, item, onItemClick }) => {
   let rareGrade = 0;
   let tablename = '';
   let isItemListTable = false;
+  let toUrl = '';
 
   switch (tableKey) {
     case 'monsters':
       rareGrade = item.rating.value;
       tablename = 'monster';
+      toUrl = `/database/monster/${item.code}`;
       break;
     case 'npcs':
       tablename = 'npc';
+      toUrl = `/database/npc/${item.code}`;
       break;
     case 'quests':
       tablename = 'quest';
+      toUrl = `/database/quest/${item.code}`;
+      break;
+    case 'guilds':
+      tablename = 'guild';
+      toUrl = encodeURI(encodeURI(`/ranking/guilds/${item.name}`));
+      break;
+    case 'players':
+      tablename = 'player';
+      toUrl = `/ranking/players/${item.server.value === 0 ? 'luxplena' : 'bergruen'}/${item.name}`;
       break;
     default:
       rareGrade = item.rare_grade;
       tablename = item.table;
       isItemListTable = true;
+      toUrl = `/database/${tablename}/${item.code}`;
   }
 
-  const toUrl = `/database/${tablename}/${item.code}`;
-
   return (
-    <Link to={toUrl} onClick={onItemClick} className="flex items-center px-3 py-1 rounded-md group hover:bg-gray-200 dark:hover:bg-dark-3">
+    <Link
+      to={toUrl}
+      onClick={onItemClick}
+      className="flex items-center px-3 py-1 rounded-md group hover:bg-gray-200 dark:hover:bg-dark-3"
+    >
       <Icon
         icon={item.icon}
         tablename={tablename}

@@ -4,6 +4,8 @@ from flask import Flask
 from webapp.api.auth import LoginView, RegisterView
 from webapp.api.database import DetailedTableView, MapView, Search, TableView
 from webapp.api.planner import PlannerView
+from webapp.api.ranking import (GuildDetailedView, GuildOverviewView,
+                                RankingStatisticsView, PlayerDetailedView)
 from webapp.config import DevelopmentConfig, ProductionConfig, TestingConfig
 from webapp.extensions import api_, cache, db, jwt, migrate
 from webapp.main import main_bp
@@ -108,3 +110,10 @@ def register_api_endpoints() -> None:
     # Planner API
     planner_ns = api_.namespace("/planner")
     planner_ns.add_resource(PlannerView, "/<classname>")
+
+    # Ranking API
+    ranking_ns = api_.namespace("/ranking")
+    ranking_ns.add_resource(RankingStatisticsView, "/statistics")
+    ranking_ns.add_resource(GuildOverviewView, "/guilds")
+    ranking_ns.add_resource(GuildDetailedView, "/guilds/<name>")
+    ranking_ns.add_resource(PlayerDetailedView, "/players/<server>/<name>")

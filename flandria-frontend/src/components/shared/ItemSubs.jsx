@@ -6,7 +6,21 @@ const ItemSubs = ({ tablename, item, additionalSubs = [] }) => {
   const subs = [...additionalSubs];
 
   if (item) {
-    if (tablename === 'monster') {
+    if (tablename === 'guild') {
+      subs.push(...[
+        `${item.server.name}`,
+      ]);
+      // Only add those if the value exist. Search does not display
+      // all of them, so they are undefined by default.
+      if (item.member_count) subs.push(`${item.member_count} Member`);
+      if (item.avg_level_land) subs.push(`Avg. Level ${item.avg_level_land.toFixed(2)}`);
+    } else if (tablename === 'player') {
+      subs.push(...[
+        `${item.character_class.name}`,
+        `${item.level_land}/${item.level_sea}`,
+        `#${item.rank}`,
+      ]);
+    } else if (tablename === 'monster') {
       subs.push(...[
         `Lv. ${item.level}`,
         `${item.rating.name}`,

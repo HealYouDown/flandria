@@ -22,6 +22,10 @@ import MapView from './components/map/MapView';
 import PlannerView from './components/planner/PlannerView';
 import GATracker from './GATracker';
 import ErrorBoundaryView from './components/errors/ErrorBoundaryView';
+import RankingStatistics from './components/ranking/Statistics';
+import GuildOverview from './components/ranking/GuildOverview';
+import GuildView from './components/ranking/GuildView';
+import PlayerView from './components/ranking/PlayerView';
 
 TopBarProgress.config({
   barColors: {
@@ -57,6 +61,11 @@ const App = () => (
               <Route path="/map/:mapCode" exact component={MapView} />
 
               <Route path="/planner/:classname" exact component={PlannerView} />
+
+              <Route path="/ranking/statistics" exact component={RankingStatistics} />
+              <Route path="/ranking/guilds" exact component={GuildOverview} />
+              <Route path="/ranking/guilds/:guildName" exact component={GuildView} />
+              <Route path="/ranking/players/:server/:name" exact component={PlayerView} />
 
               <Route component={Error404Page} />
             </Switch>

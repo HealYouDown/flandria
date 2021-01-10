@@ -48,7 +48,67 @@ function getBaseSubs(obj) {
 const InformationWidget = ({ tablename, obj, className }) => {
   const informationItems = [];
 
-  if (tablename === 'monster') {
+  if (tablename === 'guild') {
+    informationItems.push(...[
+      {
+        label: 'Server',
+        value: obj.server.name,
+      },
+      {
+        label: 'Members',
+        value: obj.member_count,
+      },
+      {
+        label: 'Avg. Rank',
+        value: Number(obj.avg_rank.toFixed(2)).toLocaleString(),
+        description: 'Average rank (from the official ranking) of all members.',
+      },
+      {
+        label: 'Avg. Level Land',
+        value: Number(obj.avg_level_land.toFixed(2)).toLocaleString(),
+        description: 'Average land level of all members.',
+      },
+      {
+        label: 'Avg. Level Sea',
+        value: Number(obj.avg_level_sea.toFixed(2)).toLocaleString(),
+        description: 'Average sea level of all members.',
+      },
+    ]);
+  } else if (tablename === 'player') {
+    informationItems.push(...[
+      {
+        label: 'Server',
+        value: obj.server.name,
+      },
+      {
+        label: 'Class',
+        value: obj.character_class.name,
+      },
+      {
+        label: 'Guild',
+        value: obj.guild ? obj.guild : '/',
+      },
+      {
+        label: 'Level',
+        value: `${obj.level_land} / ${obj.level_sea}`,
+      },
+      {
+        label: 'Rank',
+        value: Number(obj.rank).toLocaleString(),
+        description: 'The rank from the official ranking.',
+      },
+      {
+        label: 'Last Updated',
+        value: obj.last_updated ? new Date(obj.last_updated).toLocaleDateString() : '/',
+        description: 'When the user was last updated with data from the ranking.',
+      },
+      {
+        label: 'Indexed At',
+        value: new Date(obj.indexed_at).toLocaleDateString(),
+        description: 'The date when the user was indexed from the ranking into the Flandria database.',
+      },
+    ]);
+  } else if (tablename === 'monster') {
     informationItems.push(...[
       { label: 'Type', value: obj.rating.name },
       { label: 'Area', value: obj.area.name },

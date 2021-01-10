@@ -58,6 +58,8 @@ const MobileSideMenu = ({ closeMenu, isLoggedIn }) => (
       </MobileMenuSection>
       <MobileMenuSection header="More">
         <MobileMenuLink to="/map">Maps</MobileMenuLink>
+        <MobileMenuLink to="/database/npc">NPCs</MobileMenuLink>
+        <MobileMenuLink to="/ranking/guilds">Guilds Ranking</MobileMenuLink>
         <MobileMenuLink to="/static/files/essence_system_en.pdf" external>[EN] Essence Guide</MobileMenuLink>
         <MobileMenuLink to="/static/files/essence_system_de.pdf" external>[DE] Essence Guide</MobileMenuLink>
       </MobileMenuSection>

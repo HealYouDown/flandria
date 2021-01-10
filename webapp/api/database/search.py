@@ -1,7 +1,7 @@
 from flask_restx import Resource
-from webapp.api.utils import get_url_parameter
-from webapp.models import ItemList, Monster, Npc, Quest
 from sqlalchemy import or_
+from webapp.api.utils import get_url_parameter
+from webapp.models import ItemList, Monster, Npc, Quest, RankingPlayer
 
 
 class Search(Resource):
@@ -15,31 +15,66 @@ class Search(Resource):
             search_string = search_string.strip()
 
         items = (
-            ItemList.query.filter(or_(
+            ItemList.query
+            .filter(or_(
                 ItemList.name.contains(search_string),
                 ItemList.code.contains(search_string),
-            )).limit(self.LIMIT).all()
+            )).limit(
+                self.LIMIT
+            ).all()
         )
 
         monsters = (
-            Monster.query.filter(or_(
+            Monster.query
+            .filter(or_(
                 Monster.name.contains(search_string),
                 Monster.code.contains(search_string),
-            )).limit(self.LIMIT).all()
+            )).limit(
+                self.LIMIT
+            ).all()
         )
 
         npcs = (
             Npc.query.filter(or_(
                 Npc.name.contains(search_string),
                 Npc.code.contains(search_string),
-            )).limit(self.LIMIT).all()
+            )).limit(
+                self.LIMIT
+            ).all()
         )
 
         quests = (
             Quest.query.filter(or_(
                 Quest.title.contains(search_string),
                 Quest.code.contains(search_string),
-            )).limit(self.LIMIT).all()
+            )).limit(
+                self.LIMIT
+            ).all()
+        )
+
+        guilds = (
+            RankingPlayer.query.
+            with_entities(
+                RankingPlayer.guild,
+                RankingPlayer.server,
+            ).group_by(
+                RankingPlayer.guild
+            ).filter(
+                RankingPlayer.guild.contains(search_string)
+            ).limit(
+                self.LIMIT
+            ).all()
+        )
+
+        players = (
+            RankingPlayer.query
+            .filter(
+                RankingPlayer.name.contains(search_string)
+            ).order_by(
+                RankingPlayer.rank,
+            ).limit(
+                self.LIMIT
+            ).all()
         )
 
         resp = {}
@@ -59,5 +94,17 @@ class Search(Resource):
         if quests:
             resp["quests"] = [quest.to_dict(minimal=True)
                               for quest in quests]
+
+        if players:
+            resp["players"] = [player.to_dict(minimal=True)
+                               for player in players]
+
+        if guilds:
+            resp["guilds"] = [
+                {
+                    "name": guild.guild,
+                    "server": guild.server.to_dict()
+                } for guild in guilds
+            ]
 
         return resp, 200

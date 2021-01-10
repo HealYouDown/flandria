@@ -11,6 +11,21 @@ const shipTables = [
   'ship_normal_weapon', 'ship_special_weapon',
 ];
 
+const characterClassToIconName = {
+  N: 'noble',
+  K: 'magic_knight',
+  M: 'court_magician',
+  W: 'mercenary',
+  G: 'gladiator',
+  D: 'guardian_swordsman',
+  S: 'saint',
+  P: 'priest',
+  A: 'shaman',
+  E: 'explorer',
+  B: 'excavator',
+  H: 'sniper',
+};
+
 const effectCodes = [
   { label: 'Max. HP', value: 0 },
   { label: 'Max. MP', value: 1 },
@@ -190,4 +205,5 @@ const effectCodes = [
 
 export {
   weaponTables, armorTables, shipTables, effectCodes,
+  characterClassToIconName,
 };

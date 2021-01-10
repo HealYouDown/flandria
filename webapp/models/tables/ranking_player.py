@@ -26,3 +26,34 @@ class RankingPlayer(db.Model):
 
     updated_at = db.Column(db.DateTime, onupdate=get_utc_now)
     indexed_at = db.Column(db.DateTime, default=get_utc_now)
+
+    history = db.relationship(
+        "RankingPlayerHistory",
+        primaryjoin=(
+            "and_("
+            "foreign(RankingPlayerHistory.server) == RankingPlayer.server,"
+            "foreign(RankingPlayerHistory.name) == RankingPlayer.name"
+            ")"
+        )
+    )
+
+    def to_dict(self, minimal: bool = False) -> dict:
+        minimal_dict = {
+            "server": self.server.to_dict(),
+            "name": self.name,
+            "rank": self.rank,
+            "guild": self.guild,
+            "character_class": self.character_class.to_dict(),
+            "level_land": self.level_land,
+            "level_sea": self.level_sea,
+        }
+
+        if minimal:
+            return minimal_dict
+
+        return {
+            **minimal_dict,
+            "history": [history.to_dict() for history in self.history],
+            "updated_at": str(self.updated_at) if self.updated_at else None,
+            "indexed_at": str(self.indexed_at),
+        }
