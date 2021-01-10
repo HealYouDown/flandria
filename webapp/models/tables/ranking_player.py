@@ -34,7 +34,8 @@ class RankingPlayer(db.Model):
             "foreign(RankingPlayerHistory.server) == RankingPlayer.server,"
             "foreign(RankingPlayerHistory.name) == RankingPlayer.name"
             ")"
-        )
+        ),
+        order_by="RankingPlayerHistory.inserted_at.desc()",
     )
 
     def to_dict(self, minimal: bool = False) -> dict:
