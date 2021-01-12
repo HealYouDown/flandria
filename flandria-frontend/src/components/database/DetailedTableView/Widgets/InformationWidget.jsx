@@ -98,11 +98,6 @@ const InformationWidget = ({ tablename, obj, className }) => {
         description: 'The rank from the official ranking.',
       },
       {
-        label: 'Last Updated',
-        value: obj.last_updated ? new Date(obj.last_updated).toLocaleDateString() : '/',
-        description: 'When the user was last updated with data from the ranking.',
-      },
-      {
         label: 'Indexed At',
         value: new Date(obj.indexed_at).toLocaleDateString(),
         description: 'The date when the user was indexed from the ranking into the Flandria database.',
