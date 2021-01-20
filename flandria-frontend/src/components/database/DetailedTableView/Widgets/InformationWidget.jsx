@@ -115,6 +115,11 @@ const InformationWidget = ({ tablename, obj, className }) => {
       { label: 'Range', value: `${obj.attack_range}m, ${obj.range.name}` },
       { label: 'Experience', value: Number(obj.experience).toLocaleString() },
       {
+        label: 'Tamable',
+        value: resolveBoolToString(obj.tamable),
+        description: "Whether a monster can be tamed with the skill 'Temptation'.",
+      },
+      {
         label: 'Vision Range',
         value: `${obj.vision_range}m`,
         description: 'Aggression range when standing close to the monster.',
