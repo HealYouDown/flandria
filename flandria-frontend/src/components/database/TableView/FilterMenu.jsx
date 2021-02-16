@@ -114,6 +114,12 @@ const FilterMenu = ({
       { label: 'Mainteance Ship', value: 'class_sea:M' },
       { label: 'Assault Ship', value: 'class_sea:R' },
     ]);
+  } else if (tablename === 'accessory') {
+    filterOptions.push(...[
+      { label: 'Necklace', value: 'accessory:0' },
+      { label: 'Earring', value: 'accessory:1' },
+      { label: 'Ring', value: 'accessory:2' },
+    ]);
   }
 
   // Area options

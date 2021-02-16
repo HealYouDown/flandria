@@ -7,7 +7,7 @@ from webapp.api.database.constants import ALLOWED_DATABASE_TABLES
 from webapp.api.database.utils import get_model_from_tablename
 from webapp.api.utils import get_url_parameter
 from webapp.extensions import cache
-from webapp.models.enums import (Area, EffectCode, EssenceEquipType,
+from webapp.models.enums import (AccessoryType, Area, EffectCode, EssenceEquipType,
                                  ProductionType, RatingType)
 
 
@@ -113,6 +113,12 @@ class TableView(Resource):
             production = int(match.group(1))
             return query.filter(
                 model.production_type == ProductionType(production))
+
+        # Accessory type
+        elif match := re.match(r"accessory:(\d)$", filter_):
+            accessory_type = int(match.group(1))
+            return query.filter(
+                model.accessory_type == AccessoryType(accessory_type))
 
         # If no filter was matched, but it was not all, just return the query
         # again :shrug:
