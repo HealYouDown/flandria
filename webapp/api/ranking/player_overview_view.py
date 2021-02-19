@@ -7,7 +7,7 @@ import typing
 
 
 class PlayerOverviewView(Resource):
-    def get(self, server: typing.Optional[str]):
+    def get(self, server: typing.Optional[str] = None):
         min_level_land = get_url_parameter("min_lv_land", int, 1)
 
         resp = self._get_response(
