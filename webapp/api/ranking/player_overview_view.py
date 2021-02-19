@@ -3,10 +3,11 @@ from webapp.api.utils import get_url_parameter
 from webapp.extensions import cache
 from webapp.models import RankingPlayer
 from webapp.models.enums import Server
+import typing
 
 
-class PlayerDetailedView(Resource):
-    def get(self, server: str):
+class PlayerOverviewView(Resource):
+    def get(self, server: typing.Optional[str]):
         min_level_land = get_url_parameter("min_lv_land", int, 1)
 
         resp = self._get_response(
@@ -22,13 +23,15 @@ class PlayerDetailedView(Resource):
         server: str,
         min_level_land: int,
     ) -> dict:
-        server_value = 0 if server == "luxplena" else 1
-        players = (
+        query = (
             RankingPlayer.query
             .filter(
-                RankingPlayer.server == Server(server_value),
                 RankingPlayer.level_land >= min_level_land,
-            ).all()
+            )
         )
 
-        return [player.to_dict(minimal=True) for player in players]
+        if server:
+            server_value = 0 if server == "luxplena" else 1
+            query = query.filter(RankingPlayer.server == Server(server_value))
+
+        return [player.to_dict(minimal=True) for player in query.all()]

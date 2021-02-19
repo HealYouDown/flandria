@@ -5,7 +5,8 @@ from webapp.api.auth import LoginView, RegisterView
 from webapp.api.database import DetailedTableView, MapView, Search, TableView
 from webapp.api.planner import PlannerView
 from webapp.api.ranking import (GuildDetailedView, GuildOverviewView,
-                                RankingStatisticsView, PlayerDetailedView)
+                                RankingStatisticsView, PlayerDetailedView,
+                                PlayerOverviewView)
 from webapp.config import DevelopmentConfig, ProductionConfig, TestingConfig
 from webapp.extensions import api_, cache, db, jwt, migrate
 from webapp.main import main_bp
@@ -116,4 +117,6 @@ def register_api_endpoints() -> None:
     ranking_ns.add_resource(RankingStatisticsView, "/statistics")
     ranking_ns.add_resource(GuildOverviewView, "/guilds")
     ranking_ns.add_resource(GuildDetailedView, "/guilds/<name>")
+    ranking_ns.add_resource(PlayerOverviewView, "/players/<server>")
+    ranking_ns.add_resource(PlayerOverviewView, "/players")
     ranking_ns.add_resource(PlayerDetailedView, "/players/<server>/<name>")
