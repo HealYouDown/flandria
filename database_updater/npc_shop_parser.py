@@ -15,9 +15,9 @@ def parse_npc_shop_data() -> typing.List[dict]:
 
     items = []
     # Parse xml structure
-    for npc in root.getchildren():
-        for section in npc.getchildren():
-            for item in section.getchildren():
+    for npc in list(root):
+        for section in list(npc):
+            for item in list(section):
                 items.append({
                     "npc_code": npc.attrib.get("NpcCode"),
                     "npc_class": int(npc.attrib.get("MerchantClass")),
