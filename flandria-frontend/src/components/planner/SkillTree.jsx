@@ -85,13 +85,18 @@ class SkillTree extends React.Component {
 
   onLevelChange(newSelectedLevel) {
     const { selectedLevel, selectedClass } = this.state;
+    const { classname } = this.props;
+
     if (newSelectedLevel < selectedLevel) {
       // Reset skills because the new level is now smaller
       this.resetSkills(false);
     }
 
-    // Reset class to base class if < 40
-    const newSelectedClass = (newSelectedLevel < 40) ? this.classOptions[0].value : selectedClass;
+    // Reset class to base class if < 40 (skip ship planner though)
+    let newSelectedClass = null;
+    if (classname !== 'ship') {
+      newSelectedClass = (newSelectedLevel < 40) ? this.classOptions[0].value : selectedClass;
+    }
 
     this.setState({
       selectedLevel: newSelectedLevel,
