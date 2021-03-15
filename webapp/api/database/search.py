@@ -1,3 +1,6 @@
+import re
+import typing
+
 from flask_restx import Resource
 from sqlalchemy import or_
 from webapp.api.utils import get_url_parameter
@@ -5,8 +8,6 @@ from webapp.models import ItemList, Monster, Npc, Quest, RankingPlayer
 
 
 class Search(Resource):
-    LIMIT = 15
-
     def get(self):
         search_string = get_url_parameter("s", str, None)
         if not search_string:
@@ -14,13 +15,73 @@ class Search(Resource):
         else:
             search_string = search_string.strip()
 
+        # Check if search string is in a format that is used to parse for
+        # exact columns, e.g. key1:value1 key2:value2 ..
+        column_filters = list(re.findall(r"(\w+):([^\s]+)", search_string))
+        if column_filters:
+            return self._handle_column_search(column_filters)
+        else:
+            return self._handle_normal_search(search_string)
+
+    def _handle_column_search(
+        self,
+        column_filters: typing.List[typing.Tuple[str, str]],
+        limit: int = 50,
+    ):
+        print(column_filters)
+        queries = [
+            ("monsters", Monster),
+            ("items", ItemList),
+            ("npcs", Npc),
+            ("quests", Quest,),
+            ("players", RankingPlayer)
+        ]
+
+        resp = {}
+
+        for resp_key, table in queries:
+            query = table.query
+            skip: bool = False
+
+            for column_key, value in column_filters:
+                if hasattr(table, column_key):
+                    column = getattr(table, column_key)
+
+                    try:  # Check if value is a number
+                        value = float(value)
+                        query = query.filter(column == value)
+                    except ValueError:  # string
+                        # replace _ in strings with space
+                        value = value.replace("_", " ")
+                        query = query.filter(column.contains(value))
+                else:
+                    skip = True
+                    break
+
+            if not skip:
+                obj_kws = (
+                    {"minimal": True} if resp_key != "items"
+                    else {"with_item_data": True}
+                )
+
+                objects = [
+                    obj.to_dict(**obj_kws)
+                    for obj in query.limit(limit).all()
+                ]
+
+                if objects:
+                    resp[resp_key] = objects
+
+        return resp, 200
+
+    def _handle_normal_search(self, search_string: str, limit: int = 15):
         items = (
             ItemList.query
             .filter(or_(
                 ItemList.name.contains(search_string),
                 ItemList.code.contains(search_string),
             )).limit(
-                self.LIMIT
+                limit
             ).all()
         )
 
@@ -30,7 +91,7 @@ class Search(Resource):
                 Monster.name.contains(search_string),
                 Monster.code.contains(search_string),
             )).limit(
-                self.LIMIT
+                limit
             ).all()
         )
 
@@ -39,7 +100,7 @@ class Search(Resource):
                 Npc.name.contains(search_string),
                 Npc.code.contains(search_string),
             )).limit(
-                self.LIMIT
+                limit
             ).all()
         )
 
@@ -48,7 +109,7 @@ class Search(Resource):
                 Quest.title.contains(search_string),
                 Quest.code.contains(search_string),
             )).limit(
-                self.LIMIT
+                limit
             ).all()
         )
 
@@ -62,7 +123,7 @@ class Search(Resource):
             ).filter(
                 RankingPlayer.guild.contains(search_string)
             ).limit(
-                self.LIMIT
+                limit
             ).all()
         )
 
@@ -73,7 +134,7 @@ class Search(Resource):
             ).order_by(
                 RankingPlayer.rank,
             ).limit(
-                self.LIMIT
+                limit
             ).all()
         )
 
