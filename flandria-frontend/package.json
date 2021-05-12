@@ -15,7 +15,7 @@
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.5",
     "jwt-decode": "^3.1.2",
-    "postcss": "^7.0.35",
+    "postcss": "^8.2.10",
     "react": "^17.0.1",
     "react-cookie": "^4.0.3",
     "react-dom": "^17.0.1",
