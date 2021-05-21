@@ -17,6 +17,12 @@ class User(db.Model):
     can_edit_drops = db.Column(db.Boolean, default=False)
     premium = db.Column(db.Boolean, default=False)
 
+    def to_dict(self) -> dict:
+        return {
+            "id": self.id,
+            "username": self.username,
+        }
+
     def get_jwt_content(self) -> dict:
         """Returns the content that is included in the JWT.
 

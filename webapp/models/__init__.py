@@ -106,3 +106,4 @@ from webapp.models.tables.quest import (Quest, QuestGiveItem,
 # Ranking
 from webapp.models.tables.ranking_player import RankingPlayer
 from webapp.models.tables.ranking_player_history import RankingPlayerHistory
+from webapp.models.tables.planner_build import PlannerBuild, PlannerStar

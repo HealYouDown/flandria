@@ -1,14 +1,16 @@
 import React from 'react';
 import Select from 'react-select';
 import { toBlob } from 'dom-to-image';
-import { HiDownload } from 'react-icons/hi';
+import { HiDownload, HiCursorClick } from 'react-icons/hi';
 // This has to be imported, but is not used directly.
 // eslint-disable-next-line no-unused-vars
 import { saveAs } from 'file-saver';
+import { Link } from 'react-router-dom';
 import Card, { CardHeader } from '../shared/Card';
 import { getImagePath } from '../../helpers';
 import SkillObject from './SkillObject';
 import Skill from './Skill';
+import { isAuthenticated } from '../auth/auth';
 
 const classSelectOptions = {
   explorer: [
@@ -451,8 +453,24 @@ class SkillTree extends React.Component {
                 className="flex items-center gap-1 px-2 py-1 text-white bg-green-500 rounded-md hover:bg-green-600"
               >
                 <HiDownload className="w-4 h-4" />
-                Download
+                Image
               </button>
+              {(isAuthenticated() && classname !== 'ship') && (
+              <Link
+                to="/planner/builds/add"
+                type="button"
+                id="excluded-in-image"
+                className="flex items-center gap-1 px-2 py-1 text-white bg-blue-400 rounded-md hover:bg-blue-500"
+                state={{
+                  url_classname: classname,
+                  character_class: selectedClass,
+                  hash: window.location.hash,
+                }}
+              >
+                <HiCursorClick className="w-4 h-4" />
+                Publish
+              </Link>
+              )}
             </div>
           </CardHeader>
       )}
@@ -462,10 +480,11 @@ class SkillTree extends React.Component {
             className="relative rounded-lg select-none"
             style={{ ...skilltreeSize, backgroundImage: `url(${getImagePath(`planner/${classname}.png`)})` }}
           >
-            {Object.values(skillObjects).map((skillObj) => (
+            {Object.keys(skillObjects).map((skillKey) => (
               <Skill
+                key={skillKey}
                 classname={classname}
-                skillObj={skillObj}
+                skillObj={skillObjects[skillKey]}
                 selectedLevel={selectedLevel}
                 onLevelDownRequest={this.onSkillLevelDownRequest}
                 onLevelUpRequest={this.onSkillLevelUpRequest}
