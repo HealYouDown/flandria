@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { HiCollection } from 'react-icons/hi';
+import { Link, useParams } from 'react-router-dom';
 import TopBarProgress from 'react-topbar-progress-indicator';
 import {
   getApiUrl, getImagePath, setWindowTitle, tablenameToTitle,
@@ -100,8 +101,19 @@ const PlannerView = () => {
               icons={icons}
             />
             )}
-            <h2 className="mt-0 text-2xl font-semibold text-gray-700 md:text-3xl dark:text-white">
+            <h2 className="flex items-center mt-0 text-2xl font-semibold text-gray-700 md:text-3xl dark:text-white gap-x-4">
               {tablenameToTitle(classname)}
+              {classname !== 'ship' && (
+                <Link
+                  to={`/planner/${classname}/builds`}
+                  type="button"
+                  role="button"
+                  className="flex items-center gap-x-1 px-3 py-1.5 text-xl text-white bg-yellow-600 rounded-md hover:bg-yellow-700"
+                >
+                  <HiCollection className="w-6 h-6" />
+                  Builds
+                </Link>
+              )}
             </h2>
           </div>
         </div>

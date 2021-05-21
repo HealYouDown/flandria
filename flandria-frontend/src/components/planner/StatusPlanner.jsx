@@ -267,13 +267,8 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
             </div>
           </div>
           <p className="mt-2 text-sm leading-none text-gray-500 dark:text-white dark:text-opacity-70">
-            This feature is still in the
-            {' '}
-            <b>early stages</b>
-            {' '}
-            of development.
-            Results may be off by up to ~3.
-            Stats from skills are also
+            Results may be off by up to 1-2.
+            Stats from skills are
             {' '}
             <b>not</b>
             {' '}

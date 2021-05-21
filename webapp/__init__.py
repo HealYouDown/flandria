@@ -1,3 +1,4 @@
+from webapp.api.planner.planner_build import PlannerBuildView, PlannerStarView
 from database_updater.cli import drops_cli, updater_cli
 from flask import Flask
 
@@ -96,6 +97,7 @@ def register_commands(app: Flask) -> None:
 
 
 def register_api_endpoints() -> None:
+
     # Database API
     database_ns = api_.namespace("/database")
     database_ns.add_resource(TableView, "/<table>")
@@ -111,6 +113,13 @@ def register_api_endpoints() -> None:
     # Planner API
     planner_ns = api_.namespace("/planner")
     planner_ns.add_resource(PlannerView, "/<classname>")
+    planner_ns.add_resource(PlannerBuildView,
+                            "/<string:classname>/builds",
+                            "/builds/<int:id>/delete",
+                            "/builds/create")
+    planner_ns.add_resource(PlannerStarView,
+                            "/builds/<int:id>/star/add",
+                            "/builds/<int:id>/star/delete")
 
     # Ranking API
     ranking_ns = api_.namespace("/ranking")
