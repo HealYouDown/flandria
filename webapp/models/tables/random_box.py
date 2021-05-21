@@ -241,7 +241,7 @@ for i in range(0, 62):
     # Chance
     setattr(RandomBox, f"item_{i}_chance",
             CustomColumn(
-                db.Float, mapper_key="보상확률0",
+                db.Float, mapper_key=f"보상확률{i}",
                 transform=(
                     lambda v: florensia_probability_transform(v) if v != 0
                     else None)))
