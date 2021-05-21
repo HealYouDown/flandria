@@ -1,5 +1,5 @@
-from sqlalchemy.ext.declarative.api import as_declarative
-from sqlalchemy.ext.declarative.base import declared_attr
+from sqlalchemy.ext.declarative import as_declarative
+from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.orm import relationship
 
 """
