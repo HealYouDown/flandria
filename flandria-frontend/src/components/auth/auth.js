@@ -34,4 +34,5 @@ export {
   getIdentity,
   loginUser,
   logoutUser,
+  getToken,
 };

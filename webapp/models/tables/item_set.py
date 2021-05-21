@@ -30,7 +30,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     weapon = db.relationship("ItemList", foreign_keys=[weapon_code],
-                             uselist=False, lazy="joined")
+                             uselist=False, lazy="joined",
+                             viewonly=True,)
 
     coat_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -38,7 +39,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     coat = db.relationship("ItemList", foreign_keys=[coat_code],
-                           uselist=False, lazy="joined")
+                           uselist=False, lazy="joined",
+                           viewonly=True,)
 
     pants_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -46,7 +48,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     pants = db.relationship("ItemList", foreign_keys=[pants_code],
-                            uselist=False, lazy="joined")
+                            uselist=False, lazy="joined",
+                            viewonly=True,)
 
     shoes_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -54,7 +57,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     shoes = db.relationship("ItemList", foreign_keys=[shoes_code],
-                            uselist=False, lazy="joined")
+                            uselist=False, lazy="joined",
+                            viewonly=True,)
 
     gauntlet_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -62,7 +66,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     gauntlet = db.relationship("ItemList", foreign_keys=[gauntlet_code],
-                               uselist=False, lazy="joined")
+                               uselist=False, lazy="joined",
+                               viewonly=True,)
 
     shield_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -70,7 +75,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     shield = db.relationship("ItemList", foreign_keys=[shield_code],
-                             uselist=False, lazy="joined")
+                             uselist=False, lazy="joined",
+                             viewonly=True,)
 
     necklace_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -78,7 +84,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     necklace = db.relationship("ItemList", foreign_keys=[necklace_code],
-                               uselist=False, lazy="joined")
+                               uselist=False, lazy="joined",
+                               viewonly=True,)
 
     earring_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -86,7 +93,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     earring = db.relationship("ItemList", foreign_keys=[earring_code],
-                              uselist=False, lazy="joined")
+                              uselist=False, lazy="joined",
+                              viewonly=True,)
 
     ring_1_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -94,7 +102,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     ring_1 = db.relationship("ItemList", foreign_keys=[ring_1_code],
-                             uselist=False, lazy="joined")
+                             uselist=False, lazy="joined",
+                             viewonly=True,)
 
     ring_2_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -102,7 +111,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     ring_2 = db.relationship("ItemList", foreign_keys=[ring_2_code],
-                             uselist=False, lazy="joined")
+                             uselist=False, lazy="joined",
+                             viewonly=True,)
 
     dress_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -110,7 +120,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     dress = db.relationship("ItemList", foreign_keys=[dress_code],
-                            uselist=False, lazy="joined")
+                            uselist=False, lazy="joined",
+                            viewonly=True,)
 
     hat_code = CustomColumn(
         db.String(32), db.ForeignKey("item_list.code"),
@@ -118,7 +129,8 @@ class ItemSet(db.Model):
         transform=lambda v: v if v != "#" else None)
 
     hat = db.relationship("ItemList", foreign_keys=[hat_code],
-                          uselist=False, lazy="joined")
+                          uselist=False, lazy="joined",
+                          viewonly=True,)
 
     def to_dict(self) -> dict:
         item_columns = [self.weapon, self.coat, self.pants,

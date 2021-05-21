@@ -16,6 +16,10 @@ html.dark footer {
     @apply w-full px-3 py-2 text-gray-700 placeholder-gray-800 bg-gray-200 border border-gray-200 rounded-sm outline-none focus:ring-4 ring-blue-500 ring-opacity-50 dark:ring-dark-primary focus-within:outline-none dark:placeholder-white dark:bg-dark-4 dark:border-gray-900 dark:text-white;
   }
 
+  .text-input-label {
+    @apply font-semibold text-white;
+  }
+
   /* Control input */
   .react-select__control {
     @apply rounded-md border dark:border-dark-4 dark:bg-dark-3 border-gray-300 bg-white px-1 focus:outline-none dark:focus:border-dark-primary focus:border-blue-300 !important;

@@ -9,7 +9,8 @@ class PlannerBuild(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
-    user = db.relationship("User", foreign_keys=[user_id])
+    user = db.relationship("User", foreign_keys=[user_id],
+                           viewonly=True,)
 
     created_at = db.Column(db.DateTime, default=get_utc_now)
 
@@ -18,13 +19,14 @@ class PlannerBuild(db.Model):
     build_title = db.Column(db.String(128), nullable=False)
     build_description = db.Column(db.Text(512), nullable=False)
 
-    stars = db.relationship("PlannerStar", lazy="joined")
+    stars = db.relationship("PlannerStar", lazy="joined",
+                            viewonly=True)
 
     def to_dict(self) -> dict:
         return {
             "id": self.id,
             "user": self.user.to_dict(),
-            "created_at": self.created_at,
+            "created_at": str(self.created_at),
             "character_class": self.character_class.to_dict(),
             "build_hash": self.build_hash,
             "build_title": self.build_title,
@@ -48,5 +50,5 @@ class PlannerStar(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            "created_at": self.created_at,
+            "created_at": str(self.created_at),
         }

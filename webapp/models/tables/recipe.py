@@ -32,7 +32,8 @@ class Recipe(
     result_item_quantity = CustomColumn(db.Integer, nullable=False,
                                         mapper_key="결과물수량")
 
-    result_item = db.relationship("ItemList", foreign_keys=[result_item_code])
+    result_item = db.relationship("ItemList", foreign_keys=[result_item_code],
+                                  viewonly=True,)
 
     # Material 1
     material_1_code = CustomColumn(
@@ -45,7 +46,8 @@ class Recipe(
         transform=lambda v: v if v != 0 else None
     )
 
-    material_1 = db.relationship("ItemList", foreign_keys=[material_1_code])
+    material_1 = db.relationship("ItemList", foreign_keys=[material_1_code],
+                                 viewonly=True,)
 
     # Material 2
     material_2_code = CustomColumn(
@@ -58,7 +60,8 @@ class Recipe(
         transform=lambda v: v if v != 0 else None
     )
 
-    material_2 = db.relationship("ItemList", foreign_keys=[material_2_code])
+    material_2 = db.relationship("ItemList", foreign_keys=[material_2_code],
+                                 viewonly=True,)
 
     # Material 3
     material_3_code = CustomColumn(
@@ -71,7 +74,8 @@ class Recipe(
         transform=lambda v: v if v != 0 else None
     )
 
-    material_3 = db.relationship("ItemList", foreign_keys=[material_3_code])
+    material_3 = db.relationship("ItemList", foreign_keys=[material_3_code],
+                                 viewonly=True,)
 
     # Material 4
     material_4_code = CustomColumn(
@@ -84,7 +88,8 @@ class Recipe(
         transform=lambda v: v if v != 0 else None
     )
 
-    material_4 = db.relationship("ItemList", foreign_keys=[material_4_code])
+    material_4 = db.relationship("ItemList", foreign_keys=[material_4_code],
+                                 viewonly=True,)
 
     # Material 5
     material_5_code = CustomColumn(
@@ -97,7 +102,8 @@ class Recipe(
         transform=lambda v: v if v != 0 else None
     )
 
-    material_5 = db.relationship("ItemList", foreign_keys=[material_5_code])
+    material_5 = db.relationship("ItemList", foreign_keys=[material_5_code],
+                                 viewonly=True,)
 
     # Material 6
     material_6_code = CustomColumn(
@@ -110,7 +116,8 @@ class Recipe(
         transform=lambda v: v if v != 0 else None
     )
 
-    material_6 = db.relationship("ItemList", foreign_keys=[material_6_code])
+    material_6 = db.relationship("ItemList", foreign_keys=[material_6_code],
+                                 viewonly=True,)
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = BaseMixin.to_dict(self, minimal)

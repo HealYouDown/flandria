@@ -16,7 +16,7 @@ class NpcShopItem(db.Model):
 
     npc_code = db.Column(db.String(32), db.ForeignKey("npc.code"),
                          nullable=False)
-    npc = db.relationship("Npc", foreign_keys=[npc_code])
+    npc = db.relationship("Npc", foreign_keys=[npc_code], viewonly=True,)
 
     npc_class = db.Column(db.Integer, nullable=False)  # idk what that is
 
@@ -26,7 +26,7 @@ class NpcShopItem(db.Model):
     item_code = db.Column(db.String(32), db.ForeignKey("item_list.code"),
                           nullable=False)
 
-    item = db.relationship("ItemList", foreign_keys=[item_code])
+    item = db.relationship("ItemList", foreign_keys=[item_code], viewonly=True)
 
     def to_dict(self, npc_dict: bool = False, item_dict: bool = False) -> dict:
         # npc dict is used to link from an item to the npc, while item dict

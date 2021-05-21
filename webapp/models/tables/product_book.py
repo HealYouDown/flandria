@@ -29,7 +29,7 @@ class ProductBook(
         nullable=False, mapper_key="대상코드")
 
     production = db.relationship("Production", foreign_keys=[production_code],
-                                 uselist=False)
+                                 uselist=False, viewonly=True)
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = BaseMixin.to_dict(self, minimal)

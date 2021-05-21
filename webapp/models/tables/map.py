@@ -84,7 +84,8 @@ class Map(db.Model):
     height = CustomColumn(db.Float)
 
     map_points = db.relationship(
-        "MapPoint", primaryjoin="foreign(MapPoint.map_code) == Map.code")
+        "MapPoint", primaryjoin="foreign(MapPoint.map_code) == Map.code",
+        viewonly=True,)
 
     def _parse_row(row: dict) -> "Map":
         code = row["Code"]

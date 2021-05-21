@@ -1,10 +1,11 @@
 from flask import request
-from flask_jwt_extended import jwt_required, current_user
-from webapp.models.tables.planner_build import PlannerStar, PlannerBuild
+from flask_jwt_extended import (current_user, jwt_required,
+                                verify_jwt_in_request)
 from flask_restx import Resource, abort
+from sqlalchemy import func, text
 from webapp.extensions import db
 from webapp.models.enums import CharacterClass
-from sqlalchemy import func
+from webapp.models.tables.planner_build import PlannerBuild, PlannerStar
 
 
 class PlannerBuildView(Resource):
@@ -16,12 +17,9 @@ class PlannerBuildView(Resource):
 
         query = db.session.query(
             PlannerBuild,
-            func.count(PlannerStar.user_id).label("stars_count")
-        ).join(
-            PlannerStar,
-        ).group_by(
-            "stars_count DESC"
         )
+
+        # TODO: ORDER BY func.count(PlannerStar.user_id).label("stars_count")
 
         if base_class == CharacterClass.noble:
             classes = [CharacterClass.noble,
@@ -45,12 +43,15 @@ class PlannerBuildView(Resource):
         if classes:
             query = query.filter(PlannerBuild.character_class.in_(classes))
 
+        print(query.all())
+
         return [
             build.to_dict() for build in query.all()
         ]
 
-    @jwt_required
     def post(self):
+        verify_jwt_in_request()
+
         # Check if user already has more than 20 builds
         user_builds_count = PlannerBuild.query.filter(
             PlannerBuild.user_id == current_user.id).count()

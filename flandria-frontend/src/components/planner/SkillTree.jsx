@@ -456,20 +456,22 @@ class SkillTree extends React.Component {
                 Image
               </button>
               {(isAuthenticated() && classname !== 'ship') && (
-              <Link
-                to="/planner/builds/add"
-                type="button"
-                id="excluded-in-image"
-                className="flex items-center gap-1 px-2 py-1 text-white bg-blue-400 rounded-md hover:bg-blue-500"
-                state={{
-                  url_classname: classname,
-                  character_class: selectedClass,
-                  hash: window.location.hash,
-                }}
-              >
-                <HiCursorClick className="w-4 h-4" />
-                Publish
-              </Link>
+                <Link
+                  to={{
+                    pathname: '/planner/builds/add',
+                    state: {
+                      url_classname: classname,
+                      character_class: selectedClass,
+                      hash: window.location.hash.substring(1), // removes the # at the beginning
+                    },
+                  }}
+                  id="excluded-in-image"
+                  className="flex items-center gap-1 px-2 py-1 text-white bg-blue-400 rounded-md hover:bg-blue-500"
+
+                >
+                  <HiCursorClick className="w-4 h-4" />
+                  Publish
+                </Link>
               )}
             </div>
           </CardHeader>

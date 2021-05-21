@@ -250,4 +250,6 @@ for i in range(0, 62):
     setattr(RandomBox, f"item_{i}",
             db.relationship(
                 "ItemList",
-                foreign_keys=[getattr(RandomBox, f"item_{i}_code")]))
+                foreign_keys=[getattr(RandomBox, f"item_{i}_code")],
+                viewonly=True)
+            )

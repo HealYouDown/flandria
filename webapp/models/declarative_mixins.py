@@ -30,7 +30,8 @@ class ItemSetMixin:
         return relationship(
             "ItemSet",
             uselist=False,
-            primaryjoin=f"or_({join})"
+            primaryjoin=f"or_({join})",
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:
@@ -52,7 +53,8 @@ class UpgradeRuleMixin:
             "UpgradeRule",
             order_by="asc(UpgradeRule.upgrade_level)",
             primaryjoin=("foreign(UpgradeRule.code) == "
-                         f"{cls.__name__}.upgrade_code")
+                         f"{cls.__name__}.upgrade_code"),
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:
@@ -67,7 +69,8 @@ class DroppedByMixin:
     def dropped_by(cls):
         return relationship(
             "Drop",
-            primaryjoin=f"foreign(Drop.item_code) == {cls.__name__}.code"
+            primaryjoin=f"foreign(Drop.item_code) == {cls.__name__}.code",
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:
@@ -84,7 +87,8 @@ class ProducedByMixin:
         return relationship(
             "Recipe",
             primaryjoin=(
-                f"foreign(Recipe.result_item_code) == {cls.__name__}.code")
+                f"foreign(Recipe.result_item_code) == {cls.__name__}.code"),
+            viewonly=True,
         )
 
     @declared_attr
@@ -94,7 +98,8 @@ class ProducedByMixin:
             primaryjoin=(
                 "and_(foreign(Production.result_item_code) == "
                 f"{cls.__name__}.code, "
-                "not_(foreign(Production.is_premium_essence)))")
+                "not_(foreign(Production.is_premium_essence)))"),
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:
@@ -118,7 +123,8 @@ class NeededForMixin:
 
         return relationship(
             "Recipe",
-            primaryjoin=(f"or_({join})")
+            primaryjoin=(f"or_({join})"),
+            viewonly=True,
         )
 
     @declared_attr
@@ -130,7 +136,8 @@ class NeededForMixin:
         return relationship(
             "Production",
             primaryjoin=(f"and_(or_({join}), "
-                         "not_(foreign(Production.is_premium_essence)))")
+                         "not_(foreign(Production.is_premium_essence)))"),
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:
@@ -154,7 +161,8 @@ class RandomBoxMixin:
 
         return relationship(
             "RandomBox",
-            primaryjoin=(f"or_({join})")
+            primaryjoin=(f"or_({join})"),
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:
@@ -170,7 +178,8 @@ class SoldByMixin:
         return relationship(
             "NpcShopItem",
             primaryjoin=("foreign(NpcShopItem.item_code) == "
-                         f"{cls.__name__}.code")
+                         f"{cls.__name__}.code"),
+            viewonly=True,
         )
 
     def to_dict(self) -> dict:

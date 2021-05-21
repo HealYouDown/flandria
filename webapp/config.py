@@ -25,6 +25,8 @@ class Config:
 
     ERROR_404_HELP = False
 
+    JWT_IDENTITY_CLAIM = "identity"
+
 
 class DevelopmentConfig(Config):
     ENV = "development"

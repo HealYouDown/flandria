@@ -93,16 +93,19 @@ class Monster(db.Model):
 
     drops = db.relationship(
         "Drop",
-        primaryjoin="foreign(Drop.monster_code) == Monster.code")
+        primaryjoin="foreign(Drop.monster_code) == Monster.code",
+        viewonly=True,)
 
     map_points = db.relationship(
         "MapPoint",
-        primaryjoin="foreign(MapPoint.monster_code) == Monster.code"
+        primaryjoin="foreign(MapPoint.monster_code) == Monster.code",
+        viewonly=True,
     )
 
     quest_missions = db.relationship(
         "QuestMission",
-        primaryjoin="foreign(QuestMission.monster_code) == Monster.code"
+        primaryjoin="foreign(QuestMission.monster_code) == Monster.code",
+        viewonly=True,
     )
 
     vision_range = CustomColumn(db.Float,
@@ -121,7 +124,8 @@ class Monster(db.Model):
         db.String(32), mapper_key="오브젝트채팅",
         transform=lambda v: v if v != "#" else None)
 
-    monster_message = db.relationship("MonsterMessage", uselist=False)
+    monster_message = db.relationship("MonsterMessage", uselist=False,
+                                      viewonly=True,)
 
     # Skill 1
     skill_1_code = CustomColumn(
@@ -133,7 +137,8 @@ class Monster(db.Model):
         db.Float, mapper_key="부가Action1선택율",
         transform=florensia_probability_transform)
 
-    skill_1 = db.relationship("MonsterSkill", foreign_keys=[skill_1_code])
+    skill_1 = db.relationship("MonsterSkill", foreign_keys=[skill_1_code],
+                              viewonly=True,)
 
     # Skill 2
     skill_2_code = CustomColumn(
@@ -145,7 +150,8 @@ class Monster(db.Model):
         db.Float, mapper_key="부가Action2선택율",
         transform=florensia_probability_transform)
 
-    skill_2 = db.relationship("MonsterSkill", foreign_keys=[skill_2_code])
+    skill_2 = db.relationship("MonsterSkill", foreign_keys=[skill_2_code],
+                              viewonly=True,)
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = {
