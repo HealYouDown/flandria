@@ -94,7 +94,9 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
       constitution, wisdom, intelligence, will, dexterity, strength,
     };
 
-    hash.updateStatusPlannerPart(levelLand, levelSea, unlimitedPoints, statusLevels);
+    hash.updateStatusPlannerPart(levelLand, levelSea, unlimitedPoints, {
+      constitution, wisdom, intelligence, will, dexterity, strength,
+    });
   };
 
   const applyIncrementsToStats = (statsObj, increments) => {
@@ -145,6 +147,7 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
   const setInitialValues = () => {
     const initialPoints = CLASSNAME_TO_INITIAL_POINTS[classname];
     const hashValues = hash.getStatusPoints();
+    console.log(hashValues);
 
     setConstitution(initialPoints.constitution + hashValues.constitution);
     setWisdom(initialPoints.wisdom + hashValues.wisdom);

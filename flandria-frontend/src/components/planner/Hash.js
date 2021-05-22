@@ -143,9 +143,7 @@ class Hash {
     // Status points part
     const partSplitted = [];
 
-    Object.keys(statusPoints).sort(
-      (key1, key2) => this.statusNameToIndex[key1] > this.statusNameToIndex[key2],
-    ).forEach((key) => {
+    Object.keys(this.statusNameToIndex).forEach((key) => {
       partSplitted.push(statusPoints[key] - CLASSNAME_TO_INITIAL_POINTS[this.classname][key]);
     });
 
