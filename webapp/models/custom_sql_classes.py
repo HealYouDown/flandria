@@ -1,9 +1,6 @@
-import json
 import typing
 
 from sqlalchemy import Column
-from sqlalchemy.ext import mutable
-from webapp.extensions import db
 
 
 class CustomColumn(Column):

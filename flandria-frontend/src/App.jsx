@@ -26,6 +26,8 @@ import RankingStatistics from './components/ranking/Statistics';
 import GuildOverview from './components/ranking/GuildOverview';
 import GuildView from './components/ranking/GuildView';
 import PlayerView from './components/ranking/PlayerView';
+import PublishBuildView from './components/planner/PublishBuildView';
+import BuildsView from './components/planner/BuildsView';
 
 TopBarProgress.config({
   barColors: {
@@ -61,6 +63,8 @@ const App = () => (
               <Route path="/map/:mapCode" exact component={MapView} />
 
               <Route path="/planner/:classname" exact component={PlannerView} />
+              <Route path="/planner/:classname/builds" exact component={BuildsView} />
+              <Route path="/planner/builds/add" exact component={PublishBuildView} />
 
               <Route path="/ranking/statistics" exact component={RankingStatistics} />
               <Route path="/ranking/guilds" exact component={GuildOverview} />

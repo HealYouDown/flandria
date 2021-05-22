@@ -44,12 +44,14 @@ class Npc(db.Model):
 
     shop_items = db.relationship(
         "NpcShopItem",
-        primaryjoin="foreign(NpcShopItem.npc_code) == Npc.code"
+        primaryjoin="foreign(NpcShopItem.npc_code) == Npc.code",
+        viewonly=True,
     )
 
     quests = db.relationship(
         "Quest",
-        primaryjoin="foreign(Quest.start_npc_code) == Npc.code"
+        primaryjoin="foreign(Quest.start_npc_code) == Npc.code",
+        viewonly=True,
     )
 
     def to_dict(self, minimal: bool = False) -> dict:

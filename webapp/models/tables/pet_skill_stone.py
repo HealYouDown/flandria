@@ -27,7 +27,8 @@ class PetSkillStone(
     skill_code = CustomColumn(db.String(32), db.ForeignKey("pet_skill.code"),
                               nullable=False, mapper_key="대상코드")
 
-    skill_data = db.relationship("PetSkill", foreign_keys=[skill_code])
+    skill_data = db.relationship("PetSkill", foreign_keys=[skill_code],
+                                 viewonly=True,)
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = BaseMixin.to_dict(self, minimal)

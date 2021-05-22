@@ -12,14 +12,16 @@ class Drop(db.Model):
                              nullable=False)
 
     monster = db.relationship("Monster",
-                              foreign_keys=[monster_code])
+                              foreign_keys=[monster_code],
+                              viewonly=True,)
 
     item_code = db.Column(db.String(32),
                           db.ForeignKey("item_list.code"),
                           nullable=False)
 
     item = db.relationship("ItemList",
-                           foreign_keys=[item_code])
+                           foreign_keys=[item_code],
+                           viewonly=True,)
 
     def to_dict(
         self,

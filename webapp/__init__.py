@@ -1,3 +1,4 @@
+from webapp.api.planner.planner_build import PlannerBuildView, PlannerStarView
 from database_updater.cli import drops_cli, updater_cli
 from flask import Flask
 
@@ -12,6 +13,7 @@ from webapp.extensions import api_, cache, db, jwt, migrate
 from webapp.main import main_bp
 from webapp.tasks import tasks_cli
 from webapp.utils import gzip_response, set_cors_header  # noqa: F401
+from webapp.loaders import user_lookup_loader
 
 
 def create_app(
@@ -49,6 +51,9 @@ def create_app(
 
     # Commands
     register_commands(app)
+
+    # Register functions for extensions
+    jwt.user_lookup_loader(user_lookup_loader)
 
     # Register teardown functions
     # app.after_request(gzip_response)
@@ -96,6 +101,7 @@ def register_commands(app: Flask) -> None:
 
 
 def register_api_endpoints() -> None:
+
     # Database API
     database_ns = api_.namespace("/database")
     database_ns.add_resource(TableView, "/<table>")
@@ -111,6 +117,13 @@ def register_api_endpoints() -> None:
     # Planner API
     planner_ns = api_.namespace("/planner")
     planner_ns.add_resource(PlannerView, "/<classname>")
+    planner_ns.add_resource(PlannerBuildView,
+                            "/<string:classname>/builds",
+                            "/builds/<int:id>/delete",
+                            "/builds/add")
+    planner_ns.add_resource(PlannerStarView,
+                            "/builds/<int:build_id>/star/add",
+                            "/builds/<int:build_id>/star/delete")
 
     # Ranking API
     ranking_ns = api_.namespace("/ranking")

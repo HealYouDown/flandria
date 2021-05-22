@@ -29,7 +29,7 @@ class SkillBook(
         nullable=False, mapper_key="대상코드")
 
     skill = db.relationship("PlayerSkill", foreign_keys=[skill_code],
-                            uselist=False)
+                            uselist=False, viewonly=True,)
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = BaseMixin.to_dict(self, minimal)

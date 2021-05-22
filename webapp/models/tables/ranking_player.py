@@ -36,6 +36,7 @@ class RankingPlayer(db.Model):
             ")"
         ),
         order_by="RankingPlayerHistory.inserted_at.desc()",
+        viewonly=True,
     )
 
     def to_dict(self, minimal: bool = False) -> dict:

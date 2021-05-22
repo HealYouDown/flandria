@@ -48,12 +48,13 @@ class QuestGiveItem(db.Model):
 
     quest_code = db.Column(db.String(32), db.ForeignKey("quest.code"),
                            nullable=False)
-    quest = db.relationship("Quest", foreign_keys=[quest_code])
+    quest = db.relationship("Quest", foreign_keys=[quest_code],
+                            viewonly=True,)
 
     item_code = db.Column(db.String(32), db.ForeignKey("item_list.code"),
                           nullable=False)
     item = db.relationship("ItemList", foreign_keys=[item_code],
-                           uselist=False)
+                           uselist=False, viewonly=True,)
 
     amount = db.Column(db.Integer, nullable=False)
 
@@ -71,12 +72,13 @@ class QuestSelectableItem(db.Model):
 
     quest_code = db.Column(db.String(32), db.ForeignKey("quest.code"),
                            nullable=False)
-    quest = db.relationship("Quest", foreign_keys=[quest_code])
+    quest = db.relationship("Quest", foreign_keys=[quest_code],
+                            viewonly=True,)
 
     item_code = db.Column(db.String(32), db.ForeignKey("item_list.code"),
                           nullable=False)
     item = db.relationship("ItemList", foreign_keys=[item_code],
-                           uselist=False)
+                           uselist=False, viewonly=True,)
 
     amount = db.Column(db.Integer, nullable=False)
 
@@ -97,11 +99,12 @@ class QuestMission(db.Model):
     quest_code = db.Column(db.String(32), db.ForeignKey("quest.code"),
                            nullable=False)
 
-    quest = db.relationship("Quest", foreign_keys=[quest_code])
+    quest = db.relationship("Quest", foreign_keys=[quest_code],
+                            viewonly=True,)
 
     map_code = db.Column(db.String(32), db.ForeignKey("map.code"))
     map = db.relationship("Map", foreign_keys=[map_code],
-                          uselist=False)
+                          uselist=False, viewonly=True,)
 
     x = db.Column(db.Float)
     y = db.Column(db.Float)
@@ -110,20 +113,20 @@ class QuestMission(db.Model):
 
     npc_code = db.Column(db.String(32), db.ForeignKey("npc.code"))
     npc = db.relationship("Npc", foreign_keys=[npc_code],
-                          uselist=False)
+                          uselist=False, viewonly=True,)
 
     item_code = db.Column(db.String(32), db.ForeignKey("item_list.code"))
     item = db.relationship("ItemList", foreign_keys=[item_code],
-                           uselist=False)
+                           uselist=False, viewonly=True,)
 
     monster_code = db.Column(db.String(32), db.ForeignKey("monster.code"))
     monster = db.relationship("Monster", foreign_keys=[monster_code],
-                              uselist=False)
+                              uselist=False, viewonly=True,)
 
     quest_item_code = db.Column(db.String(32),
                                 db.ForeignKey("quest_item.code"))
     quest_item = db.relationship("QuestItem", foreign_keys=[quest_item_code],
-                                 uselist=False)
+                                 uselist=False, viewonly=True,)
 
     def to_dict(self) -> dict:
         return {
@@ -164,30 +167,33 @@ class Quest(db.Model):
     before_quest = db.relationship(
         "Quest",
         primaryjoin="foreign(Quest.code) == Quest.before_quest_code",
-        uselist=False)
+        uselist=False, viewonly=True,)
 
     after_quest = db.relationship(
         "Quest",
         primaryjoin="foreign(Quest.before_quest_code) == Quest.code",
-        uselist=False)
+        uselist=False, viewonly=True,)
 
     start_npc_code = db.Column(db.String(32), db.ForeignKey("npc.code"))
     start_npc = db.relationship("Npc", foreign_keys=[start_npc_code],
-                                uselist=False)
+                                uselist=False, viewonly=True,)
 
     end_npc_code = db.Column(db.String(32), db.ForeignKey("npc.code"))
     end_npc = db.relationship("Npc", foreign_keys=[end_npc_code],
-                              uselist=False)
+                              uselist=False, viewonly=True,)
 
     start_area_code = db.Column(db.String(32), db.ForeignKey("map.code"))
-    start_area = db.relationship("Map", foreign_keys=[start_area_code])
+    start_area = db.relationship("Map", foreign_keys=[start_area_code],
+                                 viewonly=True,)
 
-    missions = db.relationship("QuestMission")
-    selectable_items = db.relationship("QuestSelectableItem")
-    give_items = db.relationship("QuestGiveItem")
+    missions = db.relationship("QuestMission", viewonly=True)
+    selectable_items = db.relationship("QuestSelectableItem", viewonly=True)
+    give_items = db.relationship("QuestGiveItem", viewonly=True)
     descriptions = db.relationship(
         "QuestDescription",
-        primaryjoin="foreign(QuestDescription.quest_code) == Quest.code")
+        primaryjoin="foreign(QuestDescription.quest_code) == Quest.code",
+        viewonly=True,
+    )
 
     def to_dict(self, minimal: bool = False) -> dict:
         minimal_dict = {

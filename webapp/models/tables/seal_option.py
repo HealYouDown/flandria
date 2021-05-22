@@ -46,5 +46,6 @@ for i in range(0, 63):
         SealOption, f"option_{i}",
         db.relationship(
             "SealOptionData",
-            foreign_keys=[getattr(SealOption, f"option_{i}_code")])
+            foreign_keys=[getattr(SealOption, f"option_{i}_code")],
+            viewonly=True,)
     )

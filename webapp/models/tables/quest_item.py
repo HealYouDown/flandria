@@ -37,11 +37,13 @@ class QuestItem(
     quest_missions = db.relationship(
         "QuestMission",
         primaryjoin="foreign(QuestMission.quest_item_code) == QuestItem.code",
+        viewonly=True,
     )
 
     quest_give_items = db.relationship(
         "QuestGiveItem",
         primaryjoin="foreign(QuestGiveItem.item_code) == QuestItem.code",
+        viewonly=True,
     )
 
     def to_dict(self, minimal: bool = False) -> dict:
