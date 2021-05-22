@@ -19,8 +19,7 @@ class PlannerBuild(db.Model):
     build_title = db.Column(db.String(128), nullable=False)
     build_description = db.Column(db.Text(512), nullable=False)
 
-    stars = db.relationship("PlannerStar", lazy="joined",
-                            viewonly=True)
+    stars = db.relationship("PlannerStar", lazy="joined", cascade="all,delete")
 
     def to_dict(self) -> dict:
         return {

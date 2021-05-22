@@ -1,8 +1,7 @@
 from flask import request
-from flask_jwt_extended import (current_user, jwt_required,
+from flask_jwt_extended import (current_user,
                                 verify_jwt_in_request)
 from flask_restx import Resource, abort
-from sqlalchemy import func, text
 from webapp.extensions import db
 from webapp.models.enums import CharacterClass
 from webapp.models.tables.planner_build import PlannerBuild, PlannerStar
@@ -18,8 +17,6 @@ class PlannerBuildView(Resource):
         query = db.session.query(
             PlannerBuild,
         )
-
-        # TODO: ORDER BY func.count(PlannerStar.user_id).label("stars_count")
 
         if base_class == CharacterClass.noble:
             classes = [CharacterClass.noble,
@@ -42,8 +39,6 @@ class PlannerBuildView(Resource):
 
         if classes:
             query = query.filter(PlannerBuild.character_class.in_(classes))
-
-        print(query.all())
 
         return [
             build.to_dict() for build in query.all()
@@ -70,12 +65,12 @@ class PlannerBuildView(Resource):
 
         # Check title length > 2, < 100
         if not (2 < len(json["title"].strip()) < 100):
-            abort(400)
+            abort(400, "Title too short")
 
         try:
             char_class = CharacterClass(json["character_class"])
         except ValueError:
-            abort(400)
+            abort(400, "Unknown class")
 
         build = PlannerBuild(
             user_id=current_user.id,
@@ -89,13 +84,14 @@ class PlannerBuildView(Resource):
 
         return {}, 201
 
-
-    @jwt_required
     def delete(self, id: int):
+        verify_jwt_in_request()
+
         build = PlannerBuild.query.get_or_404(id)
 
         if build.user_id != current_user.id:
-            abort(401)
+            if not current_user.admin:  # allow admins to delete all builds
+                abort(401)
 
         db.session.delete(build)
         db.session.commit()
@@ -104,16 +100,17 @@ class PlannerBuildView(Resource):
 
 
 class PlannerStarView(Resource):
-    @jwt_required
     def post(self, build_id: int):
+        verify_jwt_in_request()
+
         # Check if already voted on that build
         star = PlannerStar.query.filter(
             PlannerStar.user_id == current_user.id,
-            build_id == build_id,
+            PlannerStar.build_id == build_id,
         ).first()
 
         if star:
-            abort(401)
+            abort(409, "Star already exists")
 
         db.session.add(PlannerStar(
             build_id=build_id,
@@ -121,10 +118,12 @@ class PlannerStarView(Resource):
         ))
         db.session.commit()
 
-    @jwt_required
     def delete(self, build_id: int):
+        verify_jwt_in_request()
+
         PlannerStar.query.filter(
             PlannerStar.user_id == current_user.id,
-            build_id == build_id,
+            PlannerStar.build_id == build_id,
         ).delete()
+
         db.session.commit()

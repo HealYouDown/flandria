@@ -56,18 +56,8 @@ const PublishBuildView = () => {
 
   return (
     <div className="flex flex-col items-center justify-center w-full">
-      <h2 className="text-3xl font-bold tracking-wide text-white uppercase mb-7">Publish a Skill-Build</h2>
-      <div className="w-full max-w-md space-y-5">
-        <div className={formContainerClassname}>
-          <label className="text-input-label" htmlFor="url">URL (Can&apos;t be edited)</label>
-          <input
-            id="url"
-            disabled
-            className="text-input"
-            value={`${window.location.host}/planner/${url_classname}/${hash}`}
-          />
-        </div>
-
+      <div className="w-full max-w-2xl px-8 py-4 space-y-5 bg-white border-l-4 border-blue-400 rounded-md shadow-xl dark:bg-dark-3">
+        <h2 className="w-full text-3xl font-bold tracking-wide text-center text-gray-900 uppercase dark:text-white mb-7">Publish a Skill-Build</h2>
         <div className={formContainerClassname}>
           <label className="text-input-label" htmlFor="title">
             Title * (
@@ -100,9 +90,25 @@ const PublishBuildView = () => {
           />
         </div>
 
+        <p className="text-gray-500 dark:text-white dark:text-opacity-75">
+          Publish build for
+          {' '}
+          <a
+            className="text-blue-500 dark:text-blue-400"
+            href={`/planner/${url_classname}#${hash}`}
+            target="_blank"
+            rel="noreferrer"
+            style={{ overflowWrap: 'anywhere' }}
+          >
+            {`${window.location.host}/planner/${url_classname}#${hash}`}
+          </a>
+        </p>
+
+        {fieldErrors.length > 0 && (
         <div className="flex flex-col h-12 gap-2 overflow-auto text-red-400 dark:text-red-600 max-h-12">
           {fieldErrors.map((error) => <span key={error}>{error}</span>)}
         </div>
+        )}
 
         <button
           type="button"

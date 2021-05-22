@@ -13,7 +13,7 @@ from webapp.extensions import api_, cache, db, jwt, migrate
 from webapp.main import main_bp
 from webapp.tasks import tasks_cli
 from webapp.utils import gzip_response, set_cors_header  # noqa: F401
-from webapp.loaders import user_lookup_loader, user_identity_loader
+from webapp.loaders import user_lookup_loader
 
 
 def create_app(
@@ -53,7 +53,6 @@ def create_app(
     register_commands(app)
 
     # Register functions for extensions
-    jwt.user_identity_loader(user_identity_loader)
     jwt.user_lookup_loader(user_lookup_loader)
 
     # Register teardown functions
@@ -123,8 +122,8 @@ def register_api_endpoints() -> None:
                             "/builds/<int:id>/delete",
                             "/builds/add")
     planner_ns.add_resource(PlannerStarView,
-                            "/builds/<int:id>/star/add",
-                            "/builds/<int:id>/star/delete")
+                            "/builds/<int:build_id>/star/add",
+                            "/builds/<int:build_id>/star/delete")
 
     # Ranking API
     ranking_ns = api_.namespace("/ranking")
