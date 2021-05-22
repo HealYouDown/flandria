@@ -90,10 +90,6 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
   };
 
   const updateHash = () => {
-    const statusLevels = {
-      constitution, wisdom, intelligence, will, dexterity, strength,
-    };
-
     hash.updateStatusPlannerPart(levelLand, levelSea, unlimitedPoints, {
       constitution, wisdom, intelligence, will, dexterity, strength,
     });
@@ -145,9 +141,9 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
   };
 
   const setInitialValues = () => {
+    console.log(classname);
     const initialPoints = CLASSNAME_TO_INITIAL_POINTS[classname];
     const hashValues = hash.getStatusPoints();
-    console.log(hashValues);
 
     setConstitution(initialPoints.constitution + hashValues.constitution);
     setWisdom(initialPoints.wisdom + hashValues.wisdom);
@@ -305,7 +301,7 @@ const StatusPlanner = ({ classname, statusData, hash }) => {
             Unlimited Points
           </label>
         </div>
-        <div className="grid grid-cols-1 pt-2 md:grid-cols-2 gap-x-8">
+        <div className="md:grid md:grid-cols-2 flex flex-col pt-2 space-y-1.5 md:space-y-0.5 md:gap-x-8">
           <StatusButton
             label="Strength"
             value={strength}
