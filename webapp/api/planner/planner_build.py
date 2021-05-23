@@ -51,7 +51,7 @@ class PlannerBuildView(Resource):
         user_builds_count = PlannerBuild.query.filter(
             PlannerBuild.user_id == current_user.id).count()
 
-        if user_builds_count > 10:
+        if user_builds_count > 15:
             return {
                 "message": "Too many builds."
             }, 401
@@ -66,6 +66,9 @@ class PlannerBuildView(Resource):
         # Check title length > 2, < 100
         if not (2 < len(json["title"].strip()) < 100):
             abort(400, "Title too short")
+
+        if not json["description"] <= 1000:
+            abort(400, "Description too long")
 
         try:
             char_class = CharacterClass(json["character_class"])

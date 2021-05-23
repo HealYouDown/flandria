@@ -77,12 +77,12 @@ const PublishBuildView = () => {
         <div className={formContainerClassname}>
           <label className="text-input-label" htmlFor="description">
             Description (
-            {500 - description.length}
+            {700 - description.length}
             {' '}
             chars left)
           </label>
           <textarea
-            maxLength={500}
+            maxLength={700}
             id="description"
             value={description}
             className="text-input"

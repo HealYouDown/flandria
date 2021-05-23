@@ -17,7 +17,7 @@ class PlannerBuild(db.Model):
     character_class = db.Column(db.Enum(CharacterClass), nullable=False)
     build_hash = db.Column(db.String(128), nullable=False)
     build_title = db.Column(db.String(128), nullable=False)
-    build_description = db.Column(db.Text(512), nullable=False)
+    build_description = db.Column(db.Text(1024), nullable=False)
 
     stars = db.relationship("PlannerStar", lazy="joined", cascade="all,delete")
 
