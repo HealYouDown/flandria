@@ -67,7 +67,7 @@ class PlannerBuildView(Resource):
         if not (2 < len(json["title"].strip()) < 100):
             abort(400, "Title too short")
 
-        if not json["description"] <= 1000:
+        if not len(json["description"]) <= 1000:
             abort(400, "Description too long")
 
         try:
