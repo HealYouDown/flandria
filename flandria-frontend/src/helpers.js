@@ -2,6 +2,9 @@ function getImagePath(name) {
   if (process.env.NODE_ENV === 'development') {
     return `/assets/${name}`;
   }
+  // On the production server, there is a mapping that maps
+  // static-assets to static/assets. Allows serving files
+  // faster than via the flask webserver
   return `/static-assets/${name}`;
 }
 
