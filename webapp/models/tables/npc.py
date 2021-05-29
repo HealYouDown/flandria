@@ -34,7 +34,8 @@ class Npc(db.Model):
                         mapper_key="코드")
 
     name = CustomColumn(db.String(128), nullable=False,
-                        mapper_key="_name")
+                        mapper_key="_name",
+                        index=True)
 
     icon = CustomColumn(db.String(128), nullable=False,
                         mapper_key="_icon")

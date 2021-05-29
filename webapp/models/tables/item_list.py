@@ -9,7 +9,8 @@ class ItemList(db.Model):
                      primary_key=True)
 
     name = db.Column(db.String(256),
-                     nullable=False)
+                     nullable=False,
+                     index=True)
 
     icon = db.Column(db.String(32),
                      nullable=False)

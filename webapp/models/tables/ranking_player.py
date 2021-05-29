@@ -15,7 +15,8 @@ class RankingPlayer(db.Model):
     # You can have a Shadow on Bergruen and a Shadow on LuxPlena, *sometimes*.
     # Florensia race conditions I guess.
     server = db.Column(db.Enum(Server), nullable=False, primary_key=True)
-    name = db.Column(db.String(32), nullable=False, primary_key=True)
+    name = db.Column(db.String(32), nullable=False, primary_key=True,
+                     index=True)
 
     rank = db.Column(db.Integer, nullable=False)
     guild = db.Column(db.String(32))

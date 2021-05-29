@@ -19,16 +19,17 @@ class Search(Resource):
         # exact columns, e.g. key1:value1 key2:value2 ..
         column_filters = list(re.findall(r"(\w+):([^\s]+)", search_string))
         if column_filters:
-            return self._handle_column_search(column_filters)
+            resp = self._handle_column_search(column_filters)
         else:
-            return self._handle_normal_search(search_string)
+            resp = self._handle_normal_search(search_string)
+
+        return resp
 
     def _handle_column_search(
         self,
         column_filters: typing.List[typing.Tuple[str, str]],
         limit: int = 50,
     ):
-        print(column_filters)
         queries = [
             ("monsters", Monster),
             ("items", ItemList),

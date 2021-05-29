@@ -159,7 +159,7 @@ class Quest(db.Model):
     class_ = db.Column(db.String(16))
     money = db.Column(db.Integer)
     experience = db.Column(db.Integer)
-    title = db.Column(db.String(256), nullable=False)
+    title = db.Column(db.String(256), nullable=False, index=True)
 
     selectable_items_count = db.Column(db.Integer)
 

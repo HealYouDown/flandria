@@ -33,7 +33,8 @@ class Monster(db.Model):
 
     name = CustomColumn(db.String(256),
                         nullable=False,
-                        mapper_key="_name")
+                        mapper_key="_name",
+                        index=True)
 
     icon = CustomColumn(db.String(32),
                         nullable=False,
