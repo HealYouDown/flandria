@@ -68,7 +68,7 @@ const App = () => (
 
               <Route path="/ranking/statistics" exact component={RankingStatistics} />
               <Route path="/ranking/guilds" exact component={GuildOverview} />
-              <Route path="/ranking/guilds/:guildName" component={GuildView} />
+              <Route path="/ranking/guilds/:guildName+" component={GuildView} />
               <Route path="/ranking/players/:server/:name" exact component={PlayerView} />
 
               <Route component={Error404Page} />
