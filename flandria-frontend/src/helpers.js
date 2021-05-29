@@ -2,7 +2,7 @@ function getImagePath(name) {
   if (process.env.NODE_ENV === 'development') {
     return `/assets/${name}`;
   }
-  return `/static/assets/${name}`;
+  return `/static-assets/${name}`;
 }
 
 function getApiUrl() {
