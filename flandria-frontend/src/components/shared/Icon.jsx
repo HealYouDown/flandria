@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { getImagePath } from '../../helpers';
 
 const monsterMapping = {
@@ -52,7 +53,7 @@ const Icon = ({
   }
 
   return (
-    <img
+    <LazyLoadImage
       onError={() => setError(true)}
       className={`rounded-full border-3 border-opacity-50 ${borderColor} ${className}`}
       src={src}
