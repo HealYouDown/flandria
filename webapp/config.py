@@ -39,7 +39,7 @@ class ProductionConfig(Config):
     ENV = "production"
     DEBUG = False
 
-    CACHE_TYPE = "simple"
+    CACHE_TYPE = "null"
     CACHE_DEFAULT_TIMEOUT = 900
 
 
