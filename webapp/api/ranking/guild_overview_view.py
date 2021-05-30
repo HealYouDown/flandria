@@ -1,7 +1,7 @@
 import typing
 
 from flask_restx import Resource
-from sqlalchemy import func, text
+from sqlalchemy import func
 from webapp.api.utils import get_url_parameter
 from webapp.models import RankingPlayer
 from webapp.models.enums import Server
@@ -44,8 +44,6 @@ class GuildOverviewView(Resource):
                 RankingPlayer.guild.isnot(None),
             ).group_by(
                 RankingPlayer.guild,
-            ).order_by(
-                text("-member_count")
             )
         )
 
