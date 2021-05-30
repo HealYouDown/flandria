@@ -8,8 +8,7 @@ class QuestDescription(db.Model):
     index = db.Column(db.Integer, primary_key=True, autoincrement=True)
     language = db.Column(db.String(4), nullable=False)
 
-    quest_code = db.Column(db.String(32), db.ForeignKey("quest.code"),
-                           nullable=False)
+    quest_code = db.Column(db.String(32), db.ForeignKey("quest.code"))
 
     title = db.Column(db.Text(256))
 

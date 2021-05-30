@@ -43,10 +43,10 @@ class GuildDetailedView(Resource):
             "guild": {
                 "name": guild.guild,
                 "server": guild.server.to_dict(),
-                "member_count": guild.member_count,
-                "avg_level_land": guild.avg_level_land,
-                "avg_level_sea": guild.avg_level_sea,
-                "avg_rank": guild.avg_rank,
+                "member_count": int(guild.member_count),
+                "avg_level_land": float(guild.avg_level_land),
+                "avg_level_sea": float(guild.avg_level_sea),
+                "avg_rank": float(guild.avg_rank),
             },
             "members": [player.to_dict(minimal=True)
                         for player in members],

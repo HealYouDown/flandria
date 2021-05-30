@@ -1,4 +1,4 @@
-from flask_restx import Resource
+from flask_restx import Resource, abort
 from webapp.models import RankingPlayer
 from webapp.models.enums import Server
 from webapp.extensions import cache
@@ -20,6 +20,12 @@ class PlayerDetailedView(Resource):
         name: str,
     ) -> dict:
         server_value = 0 if server == "luxplena" else 1
-        player = RankingPlayer.query.get_or_404((Server(server_value), name))
+        player = RankingPlayer.query.filter(
+            RankingPlayer.server == Server(server_value),
+            RankingPlayer.name == name,
+        ).first()
+
+        if not player:
+            abort(404, "Player not found.")
 
         return player.to_dict()

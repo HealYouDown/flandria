@@ -14,7 +14,7 @@ class ShipBaseMixin(BaseMixin):
 
     @declared_attr
     def class_sea(cls):
-        return CustomColumn(String, nullable=False, mapper_key="클래스")
+        return CustomColumn(String(255), nullable=False, mapper_key="클래스")
 
     @declared_attr
     def level_sea(cls):

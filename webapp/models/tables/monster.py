@@ -125,8 +125,11 @@ class Monster(db.Model):
         db.String(32), mapper_key="오브젝트채팅",
         transform=lambda v: v if v != "#" else None)
 
-    monster_message = db.relationship("MonsterMessage", uselist=False,
-                                      viewonly=True,)
+    monster_message = db.relationship(
+        "MonsterMessage",
+        primaryjoin="foreign(MonsterMessage.code) == Monster.messages_code",
+        uselist=False,
+        viewonly=True)
 
     # Skill 1
     skill_1_code = CustomColumn(

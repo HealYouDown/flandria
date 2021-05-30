@@ -37,7 +37,7 @@ class UpgradeRule(db.Model):
         db.Integer, mapper_key="효과코드0",
         transform=lambda v: v if v != MAX_INT else None)
 
-    effect_0_operator = CustomColumn(db.String, mapper_key="연산자0")
+    effect_0_operator = CustomColumn(db.String(4), mapper_key="연산자0")
 
     effect_0_value = CustomColumn(
         db.Float, mapper_key="효과값0",
@@ -48,7 +48,7 @@ class UpgradeRule(db.Model):
         db.Integer, mapper_key="효과코드1",
         transform=lambda v: v if v != MAX_INT else None)
 
-    effect_1_operator = CustomColumn(db.String, mapper_key="연산자1")
+    effect_1_operator = CustomColumn(db.String(4), mapper_key="연산자1")
 
     effect_1_value = CustomColumn(
         db.Float, mapper_key="효과값1",
@@ -59,7 +59,7 @@ class UpgradeRule(db.Model):
         db.Integer, mapper_key="효과코드2",
         transform=lambda v: v if v != MAX_INT else None)
 
-    effect_2_operator = CustomColumn(db.String, mapper_key="연산자2")
+    effect_2_operator = CustomColumn(db.String(4), mapper_key="연산자2")
 
     effect_2_value = CustomColumn(
         db.Float, mapper_key="효과값2",
@@ -70,7 +70,7 @@ class UpgradeRule(db.Model):
         db.Integer, mapper_key="효과코드3",
         transform=lambda v: v if v != MAX_INT else None)
 
-    effect_3_operator = CustomColumn(db.String, mapper_key="연산자3")
+    effect_3_operator = CustomColumn(db.String(4), mapper_key="연산자3")
 
     effect_3_value = CustomColumn(
         db.Float, mapper_key="효과값3",

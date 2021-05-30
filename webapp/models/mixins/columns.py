@@ -9,7 +9,7 @@ LEVEL_LAND_COLUMN = CustomColumn(Integer, nullable=False, mapper_key="육상LV")
 LEVEL_SEA_COLUMN = CustomColumn(Integer, nullable=False, mapper_key="해상LV")
 
 UPGRADE_CODE_COLUMN = CustomColumn(
-    String, mapper_key="업그레이드코드",
+    String(32), mapper_key="업그레이드코드",
     transform=lambda v: v if v != "#" else None)
 
 SET_CODE_COLUMN = CustomColumn(String(32), mapper_key="세트코드")

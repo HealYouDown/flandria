@@ -6,17 +6,15 @@ from webapp.utils import get_utc_now
 class RankingPlayer(db.Model):
     __tablename__ = "ranking_player"
 
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
     # Unique key consists of servername_username, both case insensitive
     # e.g. bergruen_Shadow or luxplena_Shadow
     # Used to filter later
     composite_key_string = db.Column(db.String(32), nullable=False)
 
-    # Use server and name as primary key, as duplicates are allowed.
-    # You can have a Shadow on Bergruen and a Shadow on LuxPlena, *sometimes*.
-    # Florensia race conditions I guess.
-    server = db.Column(db.Enum(Server), nullable=False, primary_key=True)
-    name = db.Column(db.String(32), nullable=False, primary_key=True,
-                     index=True)
+    server = db.Column(db.Enum(Server), nullable=False)
+    name = db.Column(db.String(32), nullable=False, index=True)
 
     rank = db.Column(db.Integer, nullable=False)
     guild = db.Column(db.String(32))

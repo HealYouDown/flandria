@@ -21,8 +21,8 @@ class MonsterMessage(db.Model):
         },
     }
 
-    code = CustomColumn(db.String(32), db.ForeignKey("monster.messages_code"),
-                        primary_key=True, nullable=False, mapper_key="대사코드")
+    code = CustomColumn(db.String(32), primary_key=True,
+                        nullable=False, mapper_key="대사코드")
 
     idle_0 = CustomColumn(db.Text, mapper_key="Idle0")
     idle_1 = CustomColumn(db.Text, mapper_key="Idle1")

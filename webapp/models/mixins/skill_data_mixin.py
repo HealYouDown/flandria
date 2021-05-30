@@ -59,7 +59,7 @@ class SkillDataMixin:
 
     @declared_attr
     def required_weapons(cls):
-        return CustomColumn(String, mapper_key="사용가능무기타입")
+        return CustomColumn(String(32), mapper_key="사용가능무기타입")
 
     @declared_attr
     def required_skill_1_code(cls):

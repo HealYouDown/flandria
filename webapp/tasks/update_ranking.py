@@ -136,14 +136,13 @@ def save_ranking(data: list) -> None:
 def update_ranking():
     # Scrap all players
     t1 = time.time()
-    players = get_players()
+    # players = get_players()
     # save_ranking(players)
     t2 = time.time()
 
     current_app.logger.info(
         f"Finished scrapping - took {round(t2 - t1, 2)}s")
 
-    """
     # Loading players from local json file
     players = []
     with open("ranking.json", "r") as fp:
@@ -152,7 +151,6 @@ def update_ranking():
                 CharacterClass(player["character_class"]["value"]))
             player["server"] = Server(player["server"]["value"])
             players.append(player)
-    """
 
     # Now update, delete or insert players, based on the data from
     # the ranking
@@ -212,9 +210,9 @@ def update_ranking():
     # Failsafe.
     # If for some reasons ranking is buggy and script tries to delete *a lot*
     # of players stop it from doing so and log an error.
-    # I doubt that there will be more than 1000 deleted users a single day
+    # I doubt that there will be more than 5000 deleted users a single day
     # (hope so?)
-    if deleted_players_count >= 1000:
+    if deleted_players_count >= 5000:
         current_app.logger.error(
             f"Tried to delete {deleted_players_count} players.")
         sys.exit(1)
@@ -277,6 +275,9 @@ def update_ranking():
                 history["name"] = player["name"]
                 history["server"] = player["server"]
 
+                # Add id
+                player["id"] = player_obj.id
+
                 players_history.append(history)
                 players_to_update.append(player)
 
@@ -287,7 +288,7 @@ def update_ranking():
     current_app.logger.info(f"Updating {len(players_to_update)} players.")
     current_app.logger.info(f"Adding {len(players_to_insert)} new players.")
 
-    if players_to_update:
+    if players_to_update:            
         db.session.bulk_update_mappings(RankingPlayer, players_to_update)
 
     if players_to_insert:

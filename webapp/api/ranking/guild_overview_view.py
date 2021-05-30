@@ -40,8 +40,10 @@ class GuildOverviewView(Resource):
                 func.avg(RankingPlayer.level_land).label("avg_level_land"),
                 func.avg(RankingPlayer.level_sea).label("avg_level_sea"),
                 func.avg(RankingPlayer.rank).label("avg_rank"),
+            ).filter(
+                RankingPlayer.guild.isnot(None),
             ).group_by(
-                RankingPlayer.guild
+                RankingPlayer.guild,
             ).order_by(
                 text("-member_count")
             )
@@ -60,10 +62,10 @@ class GuildOverviewView(Resource):
                 {
                     "name": item.guild,
                     "server": item.server.to_dict(),
-                    "member_count": item.member_count,
-                    "avg_level_land": item.avg_level_land,
-                    "avg_level_sea": item.avg_level_sea,
-                    "avg_rank": item.avg_rank,
+                    "member_count": int(item.member_count),
+                    "avg_level_land": float(item.avg_level_land),
+                    "avg_level_sea": float(item.avg_level_sea),
+                    "avg_rank": float(item.avg_rank),
                 } for item in pagination_obj.items
             ],
             "pagination": {

@@ -8,7 +8,7 @@ from flask_sqlalchemy.model import DefaultMeta
 from webapp.extensions import db
 from webapp.models import (ItemList, Map, Quest, QuestDescription,
                            QuestGiveItem, QuestMission, QuestSelectableItem,
-                           StatusData)
+                           StatusData, UpgradeRule)
 from webapp.models.custom_sql_classes import CustomColumn
 from webapp.models.enums import ProductionType, SealOptionType
 
@@ -78,8 +78,8 @@ def update_database(tables: typing.Tuple[str]) -> None:
     if not tables or "quest" in tables:
         current_app.logger.info("Inserting quests.")
         # Clear models
-        QuestDescription.query.delete()
         Quest.query.delete()
+        QuestDescription.query.delete()
         QuestGiveItem.query.delete()
         QuestMission.query.delete()
         QuestSelectableItem.query.delete()
@@ -363,6 +363,13 @@ def update_database(tables: typing.Tuple[str]) -> None:
 
         # Clear table
         model.query.delete()
+
+        # Delete index from upgrade_rule items as it conflicts
+        # with autoincrement on the index column (could have just removed
+        # the autoincrement from the column :D)
+        if model == UpgradeRule:
+            for item in items:
+                del item["index"]
 
         # (Re-)popuplate table
         db.session.bulk_insert_mappings(model, items)

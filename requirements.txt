@@ -1,6 +1,8 @@
 alembic==1.6.2
 aniso8601==9.0.1
 attrs==21.2.0
+certifi==2020.12.5
+chardet==4.0.0
 click==7.1.2
 colorama==0.4.4
 flake8==3.9.2
@@ -13,12 +15,14 @@ Flask-SQLAlchemy==2.5.1
 gitdb==4.0.7
 GitPython==3.1.17
 greenlet==1.1.0
+idna==2.10
 itsdangerous==1.1.0
 Jinja2==2.11.3
 jsonschema==3.2.0
 Mako==1.1.4
 MarkupSafe==2.0.1
 mccabe==0.6.1
+mysqlclient==2.0.3
 pycodestyle==2.7.0
 pyflakes==2.3.1
 PyJWT==2.1.0
@@ -27,8 +31,10 @@ python-dateutil==2.8.1
 python-dotenv==0.17.1
 python-editor==1.0.4
 pytz==2021.1
+requests==2.25.1
 Send2Trash==1.5.0
 six==1.16.0
 smmap==4.0.0
 SQLAlchemy==1.4.15
+urllib3==1.26.5
 Werkzeug==1.0.1
