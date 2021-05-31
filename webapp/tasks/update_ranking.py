@@ -136,7 +136,7 @@ def save_ranking(data: list) -> None:
 def update_ranking():
     # Scrap all players
     t1 = time.time()
-    # players = get_players()
+    players = get_players()
     # save_ranking(players)
     t2 = time.time()
 
@@ -144,6 +144,7 @@ def update_ranking():
         f"Finished scrapping - took {round(t2 - t1, 2)}s")
 
     # Loading players from local json file
+    """
     players = []
     with open("ranking.json", "r") as fp:
         for player in json.load(fp):
@@ -151,6 +152,7 @@ def update_ranking():
                 CharacterClass(player["character_class"]["value"]))
             player["server"] = Server(player["server"]["value"])
             players.append(player)
+    """
 
     # Now update, delete or insert players, based on the data from
     # the ranking
