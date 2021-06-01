@@ -277,9 +277,6 @@ def update_ranking():
                 history["name"] = player["name"]
                 history["server"] = player["server"]
 
-                # Add id
-                player["id"] = player_obj.id
-
                 players_history.append(history)
                 players_to_update.append(player)
 

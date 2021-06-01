@@ -13,7 +13,8 @@ class Config:
 
     # Disables overhead of SQLAlchemy
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = os.getenv("MYSQL_URI")
+    SQLALCHEMY_DATABASE_URI = "sqlite:///{0}".format(os.path.join(
+        ROOT_DIR, "database.db"))
 
     # RestX Configuration
     RESTX_JSON = {
