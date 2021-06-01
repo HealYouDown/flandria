@@ -290,7 +290,7 @@ def update_ranking():
     current_app.logger.info(f"Updating {len(players_to_update)} players.")
     current_app.logger.info(f"Adding {len(players_to_insert)} new players.")
 
-    if players_to_update:            
+    if players_to_update:
         db.session.bulk_update_mappings(RankingPlayer, players_to_update)
 
     if players_to_insert:
