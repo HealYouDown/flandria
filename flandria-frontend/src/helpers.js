@@ -5,7 +5,7 @@ function getImagePath(name) {
   // On the production server, there is a mapping that maps
   // static-assets to static/assets. Allows serving files
   // faster than via the flask webserver
-  return `/static-assets/${name}`;
+  return `/static/assets/${name}`;
 }
 
 function getApiUrl() {
