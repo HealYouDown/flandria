@@ -1,12 +1,12 @@
-import os
+# import os
 import time
 
-import git
+# import git
 from flask import (Blueprint, current_app, render_template, request,
                    send_from_directory)
 from webapp.api.database.constants import ALLOWED_DATABASE_TABLES
 from webapp.api.database.utils import get_model_from_tablename
-from webapp.main.check_git_signature import is_valid_signature
+# from webapp.main.check_git_signature import is_valid_signature
 from webapp.models import ItemList, Monster, Npc, Quest
 
 main_bp = Blueprint("main", __name__)
@@ -128,9 +128,10 @@ def sitemap():
     return result
 
 
+"""
 @main_bp.route("/update-server", methods=["POST"])
 def update_server():
-    """Runs by github workflow to update server."""
+    # Runs by github workflow to update server.
     x_hub_signature = request.headers.get("X-Hub-Signature", None)
     if x_hub_signature is None:
         return "Missing signature", 401
@@ -153,3 +154,4 @@ def update_server():
              (time.time(), time.time()))
 
     return "Updated server", 200
+"""
