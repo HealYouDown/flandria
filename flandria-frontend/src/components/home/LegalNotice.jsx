@@ -13,6 +13,8 @@ const LegalNotice = () => {
 
       <h2>Contact Information</h2>
       <p>
+        Jeremy Regitz
+        <br />
         E-Mail:
         {' '}
         <a href="mailto:contact@flandria.info">contact@flandria.info</a>
