@@ -2,3 +2,4 @@ Sitemap: https://www.flandria.info/sitemap.txt
 
 User-agent: *
 Disallow: /ranking/
+Disallow: /legal-notice
