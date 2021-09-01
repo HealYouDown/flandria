@@ -103,9 +103,9 @@ def sitemap():
         f"{base_url}/planner/explorer",
         f"{base_url}/planner/explorer/builds",
         f"{base_url}/planner/ship",
-        f"{base_url}/about",
-        f"{base_url}/privacy-policy",
-        f"{base_url}/legal-notice",
+        # f"{base_url}/about",
+        # f"{base_url}/privacy-policy",
+        # f"{base_url}/legal-notice",
     ]
 
     for tablename in ALLOWED_DATABASE_TABLES:
