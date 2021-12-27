@@ -10,7 +10,7 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
     "autoprefixer": "^9.8.6",
-    "axios": "^0.21.0",
+    "axios": "^0.21.2",
     "axios-hooks": "^2.2.0",
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.5",
