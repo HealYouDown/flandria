@@ -90,9 +90,15 @@ export function WeaponUpgradeCard({
         calculatedMinMagicDamage = Math.floor(baseMinMagicDamage + effect.value)
       } else if (effect.effect_code === EffectCode.CharMagicMaxAttk) {
         calculatedMaxMagicDamage = Math.floor(baseMaxMagicDamage + effect.value)
-      } else if (effect.effect_code === EffectCode.CharMeleeMinAttk) {
+      } else if (
+        effect.effect_code === EffectCode.CharMeleeMinAttk ||
+        effect.effect_code === EffectCode.CharRangeMinAttk
+      ) {
         calculatedMinPhDamage = Math.floor(baseMinPhDamage + effect.value)
-      } else if (effect.effect_code === EffectCode.CharMeleeMaxAttk) {
+      } else if (
+        effect.effect_code === EffectCode.CharMeleeMaxAttk ||
+        effect.effect_code === EffectCode.CharRangeMaxAttk
+      ) {
         calculatedMaxPhDamage = Math.floor(baseMaxPhDamage + effect.value)
       } else {
         console.error(`Unknown effect code ${effect.effect_code}`)
