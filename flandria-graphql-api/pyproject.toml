@@ -17,7 +17,7 @@ sqlalchemy = "^2.0.30"
 lxml = "^5.2.2"
 pillow = "^10.3.0"
 pygltflib = "^1.16.2"
-aiohttp = "^3.9.5"
+aiohttp = "^3.10.2"
 aiofiles = "^23.2.1"
 strawberry-graphql = {extras = ["asgi"], version = "^0.243.1"}
 uvicorn = "^0.30.6"
