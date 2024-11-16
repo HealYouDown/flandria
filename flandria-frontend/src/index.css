@@ -2,117 +2,80 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Note: skill planner bg has to be updated if background color changes here */
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
 
-footer {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'%3E%3Cpath fill='%23303030' fill-opacity='0.1' d='M14 16H9v-2h5V9.87a4 4 0 1 1 2 0V14h5v2h-5v15.95A10 10 0 0 0 23.66 27l-3.46-2 8.2-2.2-2.9 5a12 12 0 0 1-21 0l-2.89-5 8.2 2.2-3.47 2A10 10 0 0 0 14 31.95V16zm40 40h-5v-2h5v-4.13a4 4 0 1 1 2 0V54h5v2h-5v15.95A10 10 0 0 0 63.66 67l-3.47-2 8.2-2.2-2.88 5a12 12 0 0 1-21.02 0l-2.88-5 8.2 2.2-3.47 2A10 10 0 0 0 54 71.95V56zm-39 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm40-40a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM15 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm40 40a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'%3E%3C/path%3E%3C/svg%3E");
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
 }
 
-html.dark footer {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80' width='80' height='80'%3E%3Cpath fill='%23303030' fill-opacity='1' d='M14 16H9v-2h5V9.87a4 4 0 1 1 2 0V14h5v2h-5v15.95A10 10 0 0 0 23.66 27l-3.46-2 8.2-2.2-2.9 5a12 12 0 0 1-21 0l-2.89-5 8.2 2.2-3.47 2A10 10 0 0 0 14 31.95V16zm40 40h-5v-2h5v-4.13a4 4 0 1 1 2 0V54h5v2h-5v15.95A10 10 0 0 0 63.66 67l-3.47-2 8.2-2.2-2.88 5a12 12 0 0 1-21.02 0l-2.88-5 8.2 2.2-3.47 2A10 10 0 0 0 54 71.95V56zm-39 6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm40-40a2 2 0 1 1 0-4 2 2 0 0 1 0 4zM15 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm40 40a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'%3E%3C/path%3E%3C/svg%3E");
-}
-
-@layer components {
-  .text-input {
-    @apply w-full px-3 py-2 text-gray-700 placeholder-gray-800 bg-gray-200 border border-gray-200 rounded-sm outline-none focus:ring-4 ring-blue-500 ring-opacity-50 dark:ring-dark-primary focus-within:outline-none dark:placeholder-white dark:bg-dark-4 dark:border-gray-900 dark:text-white;
+@layer base {
+  * {
+    @apply border-border;
   }
-
-  .text-input-label {
-    @apply font-semibold text-gray-700 dark:text-white dark:text-opacity-75;
-  }
-
-  /* Control input */
-  .react-select__control {
-    @apply rounded-md border dark:border-dark-4 dark:bg-dark-3 border-gray-300 bg-white px-1 focus:outline-none dark:focus:border-dark-primary focus:border-blue-300 !important;
-  } 
-
-  /* Control Input on hover */
-  .react-select__control:hover {
-    @apply bg-white dark:bg-dark-3 !important;
-  }
-
-  /* Search input field */
-  .react-select__input input {
-    @apply dark:text-white text-gray-500 !important;
-  }
-
-  /* Indicator */
-  .react-select__indicators * {
-    @apply text-gray-700 dark:text-white !important;
-  }
-
-  /* Selected value */
-  .react-select__single-value {
-    @apply text-gray-700 dark:text-white text-left truncate !important;
-  }
-
-  /* Menu list outer */
-  .react-select__menu {
-    @apply bg-white dark:bg-dark-3 mt-2 !important;
-  }
-
-  /* Menu list inner */
-  .react-select__menu-list {
-    @apply m-0 !important;
-  }
-
-  /* Option */
-  .react-select__option {
-    @apply bg-white text-gray-500 dark:bg-dark-3 dark:text-white !important;
-  }
-  
-  /* Option when selected */
-  .react-select__option--is-selected {
-    @apply bg-transparent font-semibold text-gray-900 dark:text-white !important;
-  }
-
-  /* Option on hover */
-  .react-select__option:hover {
-    @apply bg-gray-200 text-gray-900 dark:text-white dark:bg-dark-4 !important;
-  }
-
-  /* Multi Option Background */
-  .react-select__multi-value {
-    @apply bg-gray-50 dark:bg-dark-4 rounded-lg dark:border-dark-1 border !important;
-  }
-
-  /* Multi Option label */
-  .react-select__multi-value__label {
-    @apply text-gray-900 dark:text-white !important;
-  }
-
-  /* Multi option remove button */
-  .react-select__multi-value__remove:hover * {
-    @apply dark:text-red-600 text-red-500 !important;
-  }
-
-  /* Multi option remove button background */
-  .react-select__multi-value__remove {
-    @apply bg-transparent cursor-pointer dark:text-white text-gray-900 !important;
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
 @layer utilities {
-  @variants hover {
-    .reset-filter {
-      -webkit-filter: none;
-      -moz-filter: none;
-      -o-filter: none;
-      -ms-filter: none;
-      filter: none;
-    }
+  .popover-content-width-full {
+    width: var(--radix-popover-trigger-width);
+    /* max-height: var(--radix-popover-content-available-height); */
+  }
 
-    .skill-disabled {
-      -webkit-filter: grayscale(100%);
-      -moz-filter: grayscale(100%);
-      -o-filter: grayscale(100%);
-      -ms-filter: grayscale(100%);
-      filter: grayscale(100%); 
-    }
-  
-    .skill-not-skilled {
-      filter: brightness(50%);
-      -webkit-filter: brightness(50%);
-      -moz-filter: brightness(50%);  
-    }
+  .icon-size {
+    @apply h-[1.2rem] w-[1.2rem];
   }
 }

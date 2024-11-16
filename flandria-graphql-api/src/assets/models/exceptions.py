@@ -1,0 +1,2 @@
+class NoesisConvertException(Exception):
+    pass

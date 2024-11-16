@@ -1,0 +1,23 @@
+import enum
+
+
+class QuestMissionType(enum.Enum):
+    DELIVER_ITEM = 0
+    TALK_TO_NPC = 1
+    KILL_MONSTER = 2
+    COLLECT_QUEST_ITEM = 3
+    PROTECT_NPC = 4
+    EQUIP_ITEM = 5
+    # UNKNOWN_1 = 6
+    # UNKNOWN_2 = 7
+    USE_STATPOINT = 8
+    USE_SKILLBOOK = 9
+    USE_SKILLPOINT = 10
+    ADD_CONSUMABLE_TO_SLOT_BAR = 11
+    ADD_SKILL_TO_SLOT_BAR = 12
+    REGISTER_SHIP = 13
+    TUNE_SHIP = 14
+    EQUIP_SEA_SHELLS = 15
+    CHANGE_WEAPONS = 16
+    LISTEN_TO_NPC = 17  # same as 1?
+    UNSEAL_ITEM = 18

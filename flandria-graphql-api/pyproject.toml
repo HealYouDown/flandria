@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "flandria-backend"
+version = "1.0.0"
+description = "Backend for Flandria"
+authors = ["Jeremy <HealYouDown@gmail.com>"]
+license = "AGPL-3.0"
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+requests = "^2.31.0"
+loguru = "^0.7.2"
+humanize = "^4.9.0"
+click = "^8.1.7"
+sqlalchemy = "^2.0.30"
+lxml = "^5.2.2"
+pillow = "^10.3.0"
+pygltflib = "^1.16.2"
+aiohttp = "^3.9.5"
+aiofiles = "^23.2.1"
+strawberry-graphql = {extras = ["asgi"], version = "^0.243.1"}
+uvicorn = "^0.30.6"
+python-dotenv = "^1.0.1"
+psycopg2 = "^2.9.9"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.4"
+types-requests = "^2.31.0.20240406"
+lxml-stubs = "^0.5.1"
+xlsxwriter = "^3.2.0"
+types-aiofiles = "^23.2.0.20240403"
+strawberry-graphql = {extras = ["debug-server"], version = "^0.243.1"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+exclude = ["lib"]
+
+[tool.pyright]
+exclude = ["lib"]
