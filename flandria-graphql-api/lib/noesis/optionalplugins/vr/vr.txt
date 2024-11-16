@@ -1,0 +1,11 @@
+To enable VR support, copy everything in this directory up to your Noesis root directory. That includes the "openvr" subdirectory. Then go enable the "Enable VR" option in the data viewer and restart Noesis. If all is well, Noesis will start up in VR mode.
+
+As of this writing, this support is very early, so there are a lot of rough edges. You still have to load up models from the window running on a PC, the texture view isn't really supported (it kind of works, but not intentionally), and so on. It's not that I don't know, it's that I've only had a couple of days to put into this support so far. I'll probably fix it up gradually as I have more occasion to use it myself.
+
+Two VR controllers are required to navigate properly.
+
+- Hold right trigger and move the right controller to move along the ground plane, and left trigger on the left controller to move up and down.
+- Hold menu and/or grip with trigger to accelerate movement for a given controller.
+- Hold left/right grip to rotate the model.
+- Hold left and right trigger while moving the controllers apart/together to scale the model, and hold right menu while doing that to accelerate the scale.
+- Push left and right menu simultaneously to bring up the menu at room center. The menu can be used reset scale/offset/etc., and can be extended via plugin/script. tool_vrbrowser.py can be installed from optionalplugins/python to add an in-VR file browser.

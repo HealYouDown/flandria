@@ -1,0 +1,7473 @@
+directive @oneOf on INPUT_OBJECT
+
+type Accessory implements EquipmentMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  gender: Gender!
+  level_land: Int!
+  level_sea: Int!
+  item_flag: ItemFlag!
+  accessory_type: AccessoryType!
+}
+
+input AccessoryFilter {
+  gender: GenderEnumFilter
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  accessory_type: AccessoryTypeEnumFilter
+}
+
+type AccessoryPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Accessory!]!
+}
+
+input AccessorySort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+}
+
+enum AccessoryType {
+  NECKLACE
+  EARRING
+  RING
+}
+
+input AccessoryTypeEnumFilter @oneOf {
+  eq: AccessoryType
+  ne: AccessoryType
+  in: [AccessoryType!]
+}
+
+enum ActorGrade {
+  NORMAL
+  ELITE
+  MINI_BOSS
+  BOSS
+}
+
+input ActorGradeEnumFilter @oneOf {
+  eq: ActorGrade
+  ne: ActorGrade
+  in: [ActorGrade!]
+}
+
+type ActorMessage {
+  index: Int!
+  code: String
+  trigger: MonsterMessageTrigger!
+  message: String!
+}
+
+input ActorMessageFilter {
+  index: NumberFilter
+  code: StringFilter
+  trigger: MonsterMessageTriggerEnumFilter
+  message: StringFilter
+}
+
+type ActorMessagePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ActorMessage!]!
+}
+
+input ActorMessageSort @oneOf {
+  index: SortDirection
+  code: SortDirection
+  message: SortDirection
+}
+
+interface ActorMixin implements RowIDMixin & ActorModelMixin & FlorensiaModelMixin {
+  row_id: Int!
+  model_name: String
+  models: [Available3DModel!]!
+  model_scale: Float
+  code: String!
+  name: String!
+  icon: String!
+  level: Int!
+  grade: ActorGrade!
+  is_inanimate: Boolean!
+  is_sea: Boolean!
+  is_ship: Boolean!
+  is_air: Boolean!
+  is_tameable: Boolean!
+  experience: Int!
+  health_points: Int!
+  recovery_rate: Float!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  physical_evasion_rate: Int!
+  physical_hit_rate: Int!
+  magical_hit_rate: Int!
+  critical_rate: Int!
+  critical_resistance_rate: Int!
+  sea_attack_aoe_range: Float!
+  ship_guns_count: Int!
+  ship_guns_speed: Float!
+  ship_attack_range: Float!
+  attack_cast_time: Float!
+  attack_cooldown: Float!
+  despawn_delay_time: Float!
+  attack_vision_range: Float!
+  nearby_attack_vision_range: Float!
+  is_ranged: Boolean!
+  attack_range: Float!
+  walking_speed: Int!
+  running_speed: Int!
+  turning_speed: Int!
+  messages_code: String
+  posion_resistance: Int!
+  fire_resistance: Int!
+  cold_resistance: Int!
+  lightning_resistance: Int!
+  holy_resistance: Int!
+  dark_resistance: Int!
+  messages: [ActorMessage!]!
+}
+
+interface ActorModelMixin implements FlorensiaModelMixin {
+  model_name: String
+  models: [Available3DModel!]!
+  model_scale: Float
+}
+
+interface ArmorMixin implements BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+}
+
+type Available3DModel {
+  asset_path: String!
+  filename: String!
+  model_name: String!
+  model_variant: [Int!]
+  animation_name: String
+  character_class: Model3DClass
+  gender: Model3DGender
+}
+
+input Available3DModelFilter {
+  asset_path: StringFilter
+  filename: StringFilter
+  model_name: StringFilter
+  animation_name: StringFilter
+  character_class: Model3DClassEnumFilter
+  gender: Model3DGenderEnumFilter
+}
+
+enum BaseClassType {
+  NOBLE
+  SAINT
+  EXPLORER
+  MERCENARY
+  SHIP
+}
+
+interface BaseMixin implements RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+}
+
+input BooleanFilter @oneOf {
+  eq: Boolean
+}
+
+type Bullet implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+}
+
+input BulletFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+}
+
+type BulletPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Bullet!]!
+}
+
+input BulletSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+}
+
+type Cariad implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input CariadFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type CariadPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Cariad!]!
+}
+
+input CariadSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+interface ClassLandMixin {
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+}
+
+interface ClassSeaMixin {
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+}
+
+type Coat implements ArmorMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & FlorensiaModelMixin & UpgradeRuleMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+}
+
+input CoatFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+}
+
+type CoatPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Coat!]!
+}
+
+input CoatSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_name: SortDirection
+  upgrade_rule_base_code: SortDirection
+}
+
+type Consumable implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String
+  level_land: Int!
+  level_sea: Int!
+  cooldown_id: Int!
+  cooldown: Float!
+  cast_time: Float!
+  value: Int
+  skill_code: String
+}
+
+input ConsumableFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  cooldown_id: NumberFilter
+  cooldown: NumberFilter
+  cast_time: NumberFilter
+  value: NumberFilter
+  skill_code: StringFilter
+}
+
+type ConsumablePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Consumable!]!
+}
+
+input ConsumableSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+  level_land: SortDirection
+  level_sea: SortDirection
+  cooldown_id: SortDirection
+  cooldown: SortDirection
+  cast_time: SortDirection
+  value: SortDirection
+  skill_code: SortDirection
+}
+
+type Dagger implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input DaggerFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type DaggerPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Dagger!]!
+}
+
+input DaggerSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+type Dress implements EquipmentMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & ExtraEquipmentModelMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  gender: Gender!
+  level_land: Int!
+  level_sea: Int!
+  item_flag: ItemFlag!
+  model_name: String
+  models: [Available3DModel!]!
+  model_variant: [Int!]
+}
+
+input DressFilter {
+  gender: GenderEnumFilter
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type DressPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Dress!]!
+}
+
+input DressSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_variant: SortDirection
+  model_name: SortDirection
+}
+
+type Drop {
+  index: Int!
+  quantity: Int!
+  monster_code: String!
+  item_code: String!
+  monster: Monster!
+  item: ItemList!
+}
+
+input DropFilter {
+  index: NumberFilter
+  quantity: NumberFilter
+  probability: NumberFilter
+  monster_code: StringFilter
+  item_code: StringFilter
+  monster: MonsterFilter
+  item: ItemListFilter
+}
+
+type DropPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Drop!]!
+}
+
+input DropSort @oneOf {
+  index: SortDirection
+  quantity: SortDirection
+  probability: SortDirection
+  monster_code: SortDirection
+  item_code: SortDirection
+}
+
+type Duals implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input DualsFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type DualsPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Duals!]!
+}
+
+input DualsSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+type Effect {
+  index: Int!
+  ref_code: String!
+  effect_code: EffectCode!
+  operator: String!
+  value: Float!
+}
+
+enum EffectCode {
+  CHAR_MAX_HP
+  CHAR_MAX_MP
+  CHAR_REV_HP
+  CHAR_REV_MP
+  CHAR_PH_AVD
+  CHAR_MOVE_SPD
+  CHAR_MELEE_MAX_ATTK
+  CHAR_MELEE_MIN_ATTK
+  CHAR_RANGE_MAX_ATTK
+  CHAR_RANGE_MIN_ATTK
+  CHAR_MAGIC_MAX_ATTK
+  CHAR_MAGIC_MIN_ATTK
+  CHAR_PH_DEFC
+  CHAR_MAGIC_DEFC
+  CHAR_MELEE_HIT
+  CHAR_RANGE_HIT
+  CHAR_MAGIC_HIT
+  CHAR_MELEE_SPD
+  CHAR_RANGE_SPD
+  CHAR_MAGIC_SPD
+  CHAR_MELEE_DST
+  CHAR_RANGE_DST
+  CHAR_MAGIC_DST
+  CHAR_MELEE_CRI_RATE
+  CHAR_RANGE_CRI_RATE
+  CHAR_MAGIC_CRI_RATE
+  CHAR_VIEW_RANGE
+  CHAR_ATK_ELEMENTAL
+  CHAR_ATK_ILLUSION
+  CHAR_ATK_HOLY
+  CHAR_ATK_DARK
+  CHAR_REG_ELEMENTAL
+  CHAR_REG_ILLUSION
+  CHAR_REG_HOLY
+  CHAR_REG_DARK
+  CHAR_STATE_STUN
+  CHAR_STATE_SWOON
+  CHAR_STATE_SILENT
+  CHAR_STATE_BLEED
+  CHAR_RECOVERY_HP_3
+  SHIP_DAMAGE_3
+  SHIP_UP_MAX_MOVESPEED
+  SHIP_UPDOWN_SHELL_THRONG_RANGE
+  SHIP_UPDOWN_ALL_ATTACK
+  SHIP_UPDOWN_RANGE_ATTACK
+  SHIP_UPDOWN_MELEE_ATTACK
+  SHIP_UPDOWN_ATTRIBUTE_ATTACK
+  SHIP_UPDOWN_DEFENCE
+  SHIP_UP_TURN_SPEED
+  SHIP_IMPOSSIBLE_TURN
+  SHIP_UPDOWN_COLLUSION_DAMAGE
+  SHIP_UPDOWN_CANNON_ATTACK_DIST
+  CHAR_ICE_SHIELD
+  SHIP_STUN
+  SHIP_DOWN_MAX_MOVESPEED
+  SHIP_DOWN_TURN_SPEED
+  CHAR_PHDAMAGE_DECREASE
+  CHAR_DAMAGE_5
+  CHAR_POISON_DAMAGE_8
+  CHAR_CANNOT_CONTROL
+  CHAR_IGNORE_DAMAGE
+  CHAR_CANNOT_ATTAK
+  CHAR_RESIZE
+  CHAR_CONTINUE_SLAVE
+  CHAR_SHIELD_SPECIALIZE
+  CHAR_ONEHAND_SPECIALIZE
+  CHAR_TWOHAND_SPECIALIZE
+  CHAR_RIFLE_SPECIALIZE
+  CHAR_PISTOL_SPECIALIZE
+  CHAR_RECOVERY_SKILL_UP
+  CHAR_IGNORE_USEMP
+  CHAR_HALF_DAMGE
+  CHAR_HALF_CASTINGTIME
+  CHAR_SKILL_HITRATE_UP
+  SHIP_UP_BALANCE
+  SHIP_UP_MAXHP
+  SHIP_UP_HPRECOVERY
+  SHIP_UP_MAXMP
+  SHIP_UP_MPRECOVERY
+  SHIP_UP_MAX_DURA
+  SHIP_UP_DEFENCE
+  SHIP_UP_CANNONPROOF
+  SHIP_UP_REGBOMB
+  SHIP_UP_REGCRASH
+  SHIP_UP_REGPIERCING
+  SHIP_UP_REGDESTROY
+  SHIP_UP_SPEED_SQUARESAIL
+  SHIP_UP_SPEED_FOREAFTSAIL
+  SHIP_UP_TURNSPEED
+  SHIP_UP_ACCELERATION
+  SHIP_UP_RETARDATION
+  SHIP_UP_BOMBATK
+  SHIP_UP_CRASHATK
+  SHIP_UP_PIERCINGATK
+  SHIP_UP_DESTROYATK
+  SHIP_UP_CANNONATK
+  SHIP_UP_CANNONRELOAD
+  SHIP_UP_CANNONMAXDIST
+  SHIP_UP_CANNONEFFECTIVEDIST
+  SHIP_UP_CANNONCRITICAL
+  SHIP_UP_CANNONSHELLRANGE
+  SHIP_UP_CANNONSHELLSPEED
+  SHIP_UP_SPECIALFORCEATK
+  SHIP_UP_SPECIALMAXDIST
+  SHIP_UP_SPECIALCRITICAL
+  SHIP_UP_SPECIALSHELLSPEED
+  SHIP_UP_GUNATK
+  SHIP_UP_GUNCRITIAL
+  SHIP_UP_GUNMAXDIST
+  SHIP_UP_GUNRELOAD
+  SHIP_NEEDENERGY_SPECIALWEAPON
+  CHAR_TAUNT
+  CHAR_DAMAGE_TO_MP
+  INCREATE_REWARDEXP_LAND
+  INCREATE_REWARDEXP_SEA
+  CHAR_PASS_EXPPENALTY
+  SHIP_PASS_EXPPENALTY
+  CHAR_UP_FISHING_BAIT
+  CHAR_FISHING_BAIT_PERFORMANCE
+  CHAR_REGIST_STUN
+  CHAR_CRIDMG
+  CHAR_ADD_STUN_PROB
+  CHAR_DAMAGE_ALTER_MP
+  CHAR_WHEN_ATTACKING_DAMAGE
+  CHAR_MPCOST
+  CHAR_DAMAGEX2
+  CHAR_ALLSTATEPOINT
+  CHAR_ALTER_HP_3
+  CHAR_ALTER_MP_3
+  CHAR_ALL_ATTACK_FORCE
+  CHAR_ALL_DEFENCE_FORCE
+  CHAR_ALL_ATTACK_SPEED
+  PET_PH_DEFC
+  PET_MAGIC_DEFC
+  CHAR_ATTRIBUTE_ATK_PHYSICAL
+  CHAR_ATTRIBUTE_ATK_POISON
+  CHAR_ATTRIBUTE_ATK_FIRE
+  CHAR_ATTRIBUTE_ATK_ICE
+  CHAR_ATTRIBUTE_ATK_LIGHTNING
+  CHAR_ATTRIBUTE_ATK_HOLY
+  CHAR_ATTRIBUTE_ATK_DARK
+  CHAR_ATTRIBUTE_ATK_ABSOLUTE
+  CHAR_ATTRIBUTE_REG_PHYSICAL
+  CHAR_ATTRIBUTE_REG_POISON
+  CHAR_ATTRIBUTE_REG_FIRE
+  CHAR_ATTRIBUTE_REG_ICE
+  CHAR_ATTRIBUTE_REG_LIGHTNING
+  CHAR_ATTRIBUTE_REG_HOLY
+  CHAR_ATTRIBUTE_REG_DARK
+  CHAR_ATTRIBUTE_REG_ABSOLUTE
+  UNKNOWN_1
+  UNKNOWN_2
+  UNKNOWN_3
+  UNKNOWN_4
+  CHAR_FISHING_SPEEDUP
+  CON
+  STR
+  INT
+  DEX
+  WIS
+  VOL
+  LUC
+  SHIP_UP_HEADWINDRESIST
+  SHIP_UP_NOSKILL
+  UNKNOWN_5
+  SHIP_UP_HIDENOTARGET
+  SHIP_UP_SHIPAVOID
+  UNKNOWN_6
+  SHIP_UP_DURABILITYBLIND
+  SHIP_UP_DOUBLEDAMAGE
+  SHIP_UP_EFFECTDEFENCE
+  UNKNOWN_7
+  SHIP_UP_DURABILITYFLASH
+  UNKNOWN_8
+  UNKNOWN_9
+}
+
+input EffectCodeEnumFilter @oneOf {
+  eq: EffectCode
+  ne: EffectCode
+  in: [EffectCode!]
+}
+
+input EffectFilter {
+  index: NumberFilter
+  ref_code: StringFilter
+  effect_code: EffectCodeEnumFilter
+  operator: StringFilter
+  value: NumberFilter
+}
+
+interface EffectMixin {
+  effects: [Effect!]!
+}
+
+type EffectPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Effect!]!
+}
+
+input EffectSort @oneOf {
+  index: SortDirection
+  ref_code: SortDirection
+  operator: SortDirection
+  value: SortDirection
+}
+
+interface EquipmentMixin implements BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  gender: Gender!
+  level_land: Int!
+  level_sea: Int!
+  item_flag: ItemFlag!
+}
+
+type Essence implements BaseMixin & RowIDMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  effects: [Effect!]!
+  equip_type: EssenceEquipType!
+  required_level: Int!
+  is_core: Boolean!
+}
+
+enum EssenceEquipType {
+  ALL
+  WEAPONS
+  ARMOR
+  SHIELD
+  DRESS
+  DRESS_ARMOR_SHIELD
+  DRESS_ARMOR
+  WEAPONS_ARMOR
+  DRESS_WEAPONS_ARMOR
+  WEAPONS_SHIELD
+}
+
+input EssenceEquipTypeEnumFilter @oneOf {
+  eq: EssenceEquipType
+  ne: EssenceEquipType
+  in: [EssenceEquipType!]
+}
+
+input EssenceFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  effects: EffectFilter
+  equip_type: EssenceEquipTypeEnumFilter
+  required_level: NumberFilter
+  is_core: BooleanFilter
+}
+
+type EssenceHelp implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String
+}
+
+input EssenceHelpFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type EssenceHelpPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [EssenceHelp!]!
+}
+
+input EssenceHelpSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+type EssencePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Essence!]!
+}
+
+input EssenceSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  required_level: SortDirection
+  is_core: SortDirection
+}
+
+interface ExtraEquipmentModelMixin implements FlorensiaModelMixin {
+  model_name: String
+  models: [Available3DModel!]!
+  model_variant: [Int!]
+}
+
+type FishingBait implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+}
+
+input FishingBaitFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+}
+
+type FishingBaitPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [FishingBait!]!
+}
+
+input FishingBaitSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+}
+
+type FishingMaterial implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+}
+
+input FishingMaterialFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+}
+
+type FishingMaterialPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [FishingMaterial!]!
+}
+
+input FishingMaterialSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+}
+
+type FishingRod implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input FishingRodFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type FishingRodPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [FishingRod!]!
+}
+
+input FishingRodSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+interface FlorensiaModelMixin {
+  model_name: String
+  models: [Available3DModel!]!
+}
+
+type FusionHelp implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String
+}
+
+input FusionHelpFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type FusionHelpPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [FusionHelp!]!
+}
+
+input FusionHelpSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+type Gauntlet implements ArmorMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & FlorensiaModelMixin & UpgradeRuleMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+}
+
+input GauntletFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+}
+
+type GauntletPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Gauntlet!]!
+}
+
+input GauntletSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_name: SortDirection
+  upgrade_rule_base_code: SortDirection
+}
+
+enum Gender {
+  GENDERLESS
+  MALE
+  FEMALE
+}
+
+input GenderEnumFilter @oneOf {
+  eq: Gender
+  ne: Gender
+  in: [Gender!]
+}
+
+type Hat implements EquipmentMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & ExtraEquipmentModelMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  gender: Gender!
+  level_land: Int!
+  level_sea: Int!
+  item_flag: ItemFlag!
+  model_name: String
+  models: [Available3DModel!]!
+  model_variant: [Int!]
+}
+
+input HatFilter {
+  gender: GenderEnumFilter
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type HatPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Hat!]!
+}
+
+input HatSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_variant: SortDirection
+  model_name: SortDirection
+}
+
+enum ItemFlag {
+  NO_FLAG
+  EVENT
+  CASH
+}
+
+input ItemFlagEnumFilter @oneOf {
+  eq: ItemFlag
+  ne: ItemFlag
+  in: [ItemFlag!]
+}
+
+enum ItemGrade {
+  BLUE
+  GREEN
+  YELLOW
+  ORANGE
+}
+
+input ItemGradeEnumFilter @oneOf {
+  eq: ItemGrade
+  ne: ItemGrade
+  in: [ItemGrade!]
+}
+
+type ItemList implements ClassLandMixin & ClassSeaMixin & EffectMixin {
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  code: String!
+  tablename: String!
+  name: String!
+  icon: String!
+  grade: ItemGrade!
+  gender: Gender
+  duration: Int
+  level_land: Int
+  level_sea: Int
+  model_name: String
+  model_variant: [Int!]
+}
+
+input ItemListFilter {
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+  code: StringFilter
+  tablename: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  grade: ItemGradeEnumFilter
+  gender: GenderEnumFilter
+  duration: NumberFilter
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  model_name: StringFilter
+}
+
+type ItemSet implements EffectMixin {
+  effects: [Effect!]!
+  code: String!
+  name: String!
+  items: [ItemSetItem!]!
+}
+
+input ItemSetFilter {
+  effects: EffectFilter
+  code: StringFilter
+  name: StringFilter
+  items: ItemSetItemFilter
+}
+
+type ItemSetItem {
+  set_code: String!
+  slot: ItemSetSlot!
+  item_code: String!
+  item: ItemList!
+}
+
+input ItemSetItemFilter {
+  set_code: StringFilter
+  slot: ItemSetSlotEnumFilter
+  item_code: StringFilter
+  item: ItemListFilter
+}
+
+type ItemSetItemPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ItemSetItem!]!
+}
+
+input ItemSetItemSort @oneOf {
+  set_code: SortDirection
+  item_code: SortDirection
+}
+
+interface ItemSetMixin {
+  item_set_code: String
+  item_set: ItemSet
+}
+
+type ItemSetPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ItemSet!]!
+}
+
+enum ItemSetSlot {
+  WEAPON
+  COAT
+  PANTS
+  SHOES
+  GAUNTLET
+  SHIELD
+  NECKLACE
+  EARRING
+  RING1
+  RING2
+  DRESS
+  HAT
+}
+
+input ItemSetSlotEnumFilter @oneOf {
+  eq: ItemSetSlot
+  ne: ItemSetSlot
+  in: [ItemSetSlot!]
+}
+
+input ItemSetSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+}
+
+type Map {
+  code: String!
+  name: String!
+  left: Float!
+  top: Float!
+  width: Float!
+  height: Float!
+  areas: [MapArea!]!
+  monsters: [MonsterPosition!]!
+  npcs: [NpcPosition!]!
+}
+
+type MapArea {
+  map_code: String!
+  area_code: String!
+  name: String!
+}
+
+input MapAreaFilter {
+  map_code: StringFilter
+  area_code: StringFilter
+  name: StringFilter
+}
+
+type MapAreaPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [MapArea!]!
+}
+
+input MapAreaSort @oneOf {
+  map_code: SortDirection
+  area_code: SortDirection
+  name: SortDirection
+}
+
+input MapFilter {
+  code: StringFilter
+  name: StringFilter
+  left: NumberFilter
+  top: NumberFilter
+  width: NumberFilter
+  height: NumberFilter
+  areas: MapAreaFilter
+  monsters: MonsterPositionFilter
+  npcs: NpcPositionFilter
+}
+
+type MapPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Map!]!
+}
+
+input MapSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  left: SortDirection
+  top: SortDirection
+  width: SortDirection
+  height: SortDirection
+}
+
+type Material implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+}
+
+input MaterialFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+}
+
+type MaterialPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Material!]!
+}
+
+input MaterialSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+}
+
+enum Model3DClass {
+  SAINT
+  NOBLE
+  MERCENARY
+  EXPLORER
+  ALL
+}
+
+input Model3DClassEnumFilter @oneOf {
+  eq: Model3DClass
+  ne: Model3DClass
+  in: [Model3DClass!]
+}
+
+enum Model3DGender {
+  MALE
+  FEMALE
+  GENDERLESS
+}
+
+input Model3DGenderEnumFilter @oneOf {
+  eq: Model3DGender
+  ne: Model3DGender
+  in: [Model3DGender!]
+}
+
+type Money {
+  monster_code: String!
+  min: Int!
+  max: Int!
+  monster: Monster!
+}
+
+input MoneyFilter {
+  monster_code: StringFilter
+  probability: NumberFilter
+  min: NumberFilter
+  max: NumberFilter
+  monster: MonsterFilter
+}
+
+type MoneyPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Money!]!
+}
+
+input MoneySort @oneOf {
+  monster_code: SortDirection
+  probability: SortDirection
+  min: SortDirection
+  max: SortDirection
+}
+
+type Monster implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaModelMixin {
+  row_id: Int!
+  model_name: String
+  models: [Available3DModel!]!
+  model_scale: Float
+  code: String!
+  name: String!
+  icon: String!
+  level: Int!
+  grade: ActorGrade!
+  is_inanimate: Boolean!
+  is_sea: Boolean!
+  is_ship: Boolean!
+  is_air: Boolean!
+  is_tameable: Boolean!
+  experience: Int!
+  health_points: Int!
+  recovery_rate: Float!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  physical_evasion_rate: Int!
+  physical_hit_rate: Int!
+  magical_hit_rate: Int!
+  critical_rate: Int!
+  critical_resistance_rate: Int!
+  sea_attack_aoe_range: Float!
+  ship_guns_count: Int!
+  ship_guns_speed: Float!
+  ship_attack_range: Float!
+  attack_cast_time: Float!
+  attack_cooldown: Float!
+  despawn_delay_time: Float!
+  attack_vision_range: Float!
+  nearby_attack_vision_range: Float!
+  is_ranged: Boolean!
+  attack_range: Float!
+  walking_speed: Int!
+  running_speed: Int!
+  turning_speed: Int!
+  messages_code: String
+  posion_resistance: Int!
+  fire_resistance: Int!
+  cold_resistance: Int!
+  lightning_resistance: Int!
+  holy_resistance: Int!
+  dark_resistance: Int!
+  messages: [ActorMessage!]!
+  skill_1_code: String
+  skill_1_chance: Float!
+  skill_2_code: String
+  skill_2_chance: Float!
+  skill_1: MonsterSkill
+  skill_2: MonsterSkill
+  drops: [Drop!]!
+  money: Money
+  positions: [MonsterPosition!]!
+}
+
+input MonsterFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  level: NumberFilter
+  grade: ActorGradeEnumFilter
+  is_inanimate: BooleanFilter
+  is_sea: BooleanFilter
+  is_ship: BooleanFilter
+  is_air: BooleanFilter
+  is_tameable: BooleanFilter
+  experience: NumberFilter
+  health_points: NumberFilter
+  recovery_rate: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  physical_evasion_rate: NumberFilter
+  physical_hit_rate: NumberFilter
+  magical_hit_rate: NumberFilter
+  critical_rate: NumberFilter
+  critical_resistance_rate: NumberFilter
+  sea_attack_aoe_range: NumberFilter
+  ship_guns_count: NumberFilter
+  ship_guns_speed: NumberFilter
+  ship_attack_range: NumberFilter
+  attack_cast_time: NumberFilter
+  attack_cooldown: NumberFilter
+  despawn_delay_time: NumberFilter
+  attack_vision_range: NumberFilter
+  nearby_attack_vision_range: NumberFilter
+  is_ranged: BooleanFilter
+  attack_range: NumberFilter
+  walking_speed: NumberFilter
+  running_speed: NumberFilter
+  turning_speed: NumberFilter
+  messages_code: StringFilter
+  posion_resistance: NumberFilter
+  fire_resistance: NumberFilter
+  cold_resistance: NumberFilter
+  lightning_resistance: NumberFilter
+  holy_resistance: NumberFilter
+  dark_resistance: NumberFilter
+  messages: ActorMessageFilter
+  row_id: NumberFilter
+  model_scale: NumberFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+  skill_1_code: StringFilter
+  skill_1_chance: NumberFilter
+  skill_2_code: StringFilter
+  skill_2_chance: NumberFilter
+  skill_1: MonsterSkillFilter
+  skill_2: MonsterSkillFilter
+  drops: DropFilter
+  money: MoneyFilter
+  positions: MonsterPositionFilter
+}
+
+enum MonsterMessageTrigger {
+  IDLE
+  ATTACK
+  DAMAGE
+  CRITICAL
+  DIE
+  REGENERATION
+}
+
+input MonsterMessageTriggerEnumFilter @oneOf {
+  eq: MonsterMessageTrigger
+  ne: MonsterMessageTrigger
+  in: [MonsterMessageTrigger!]
+}
+
+union MonsterNpcQuestItemList = Monster | Npc | Quest | ItemList
+
+type MonsterPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Monster!]!
+}
+
+type MonsterPosition {
+  index: Int!
+  monster_code: String!
+  map_code: String!
+  amount: Int!
+  respawn_time: Int!
+  x: Float!
+  y: Float!
+  z: Float!
+  monster: Monster!
+  map: Map!
+}
+
+input MonsterPositionFilter {
+  index: NumberFilter
+  monster_code: StringFilter
+  map_code: StringFilter
+  amount: NumberFilter
+  respawn_time: NumberFilter
+  x: NumberFilter
+  y: NumberFilter
+  z: NumberFilter
+  monster: MonsterFilter
+  map: MapFilter
+}
+
+type MonsterPositionPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [MonsterPosition!]!
+}
+
+input MonsterPositionSort @oneOf {
+  index: SortDirection
+  monster_code: SortDirection
+  map_code: SortDirection
+  amount: SortDirection
+  respawn_time: SortDirection
+  x: SortDirection
+  y: SortDirection
+  z: SortDirection
+}
+
+type MonsterSkill implements SkillMixin & EffectMixin & ClassSeaMixin & ClassLandMixin {
+  effects: [Effect!]!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  code: String!
+  reference_code: String!
+  name: String!
+  icon: String!
+  required_level_land: Int!
+  required_level_sea: Int!
+  skill_level: Int!
+  skill_max_level: Int!
+  mana_cost: Int!
+  accuracy: Int!
+  hit_correction: Int!
+  cooldown: Float!
+  cast_time: Float!
+  cast_distance: Float!
+  dash_distance: Float!
+  push_distance: Float!
+  effect_range: Float!
+  effect_angle: Int!
+  is_persistent: Boolean!
+  duration: Float!
+  toggle_tick_time: Float
+  toggle_operator: String
+  toggle_hp_value: Float
+  toggle_mp_value: Float
+  required_weapons: String!
+  description: String!
+}
+
+input MonsterSkillFilter {
+  code: StringFilter
+  reference_code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  required_level_land: NumberFilter
+  required_level_sea: NumberFilter
+  skill_level: NumberFilter
+  skill_max_level: NumberFilter
+  mana_cost: NumberFilter
+  accuracy: NumberFilter
+  hit_correction: NumberFilter
+  cooldown: NumberFilter
+  cast_time: NumberFilter
+  cast_distance: NumberFilter
+  dash_distance: NumberFilter
+  push_distance: NumberFilter
+  effect_range: NumberFilter
+  effect_angle: NumberFilter
+  is_persistent: BooleanFilter
+  duration: NumberFilter
+  toggle_tick_time: NumberFilter
+  toggle_operator: StringFilter
+  toggle_hp_value: NumberFilter
+  toggle_mp_value: NumberFilter
+  required_weapons: StringFilter
+  description: StringFilter
+  effects: EffectFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+}
+
+type MonsterSkillPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [MonsterSkill!]!
+}
+
+input MonsterSkillSort @oneOf {
+  code: SortDirection
+  reference_code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  required_level_land: SortDirection
+  required_level_sea: SortDirection
+  skill_level: SortDirection
+  skill_max_level: SortDirection
+  mana_cost: SortDirection
+  accuracy: SortDirection
+  hit_correction: SortDirection
+  cooldown: SortDirection
+  cast_time: SortDirection
+  cast_distance: SortDirection
+  dash_distance: SortDirection
+  push_distance: SortDirection
+  effect_range: SortDirection
+  effect_angle: SortDirection
+  is_persistent: SortDirection
+  duration: SortDirection
+  toggle_tick_time: SortDirection
+  toggle_operator: SortDirection
+  toggle_hp_value: SortDirection
+  toggle_mp_value: SortDirection
+  required_weapons: SortDirection
+  description: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+}
+
+input MonsterSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  level: SortDirection
+  is_inanimate: SortDirection
+  is_sea: SortDirection
+  is_ship: SortDirection
+  is_air: SortDirection
+  is_tameable: SortDirection
+  experience: SortDirection
+  health_points: SortDirection
+  recovery_rate: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  physical_evasion_rate: SortDirection
+  physical_hit_rate: SortDirection
+  magical_hit_rate: SortDirection
+  critical_rate: SortDirection
+  critical_resistance_rate: SortDirection
+  sea_attack_aoe_range: SortDirection
+  ship_guns_count: SortDirection
+  ship_guns_speed: SortDirection
+  ship_attack_range: SortDirection
+  attack_cast_time: SortDirection
+  attack_cooldown: SortDirection
+  despawn_delay_time: SortDirection
+  attack_vision_range: SortDirection
+  nearby_attack_vision_range: SortDirection
+  is_ranged: SortDirection
+  attack_range: SortDirection
+  walking_speed: SortDirection
+  running_speed: SortDirection
+  turning_speed: SortDirection
+  messages_code: SortDirection
+  posion_resistance: SortDirection
+  fire_resistance: SortDirection
+  cold_resistance: SortDirection
+  lightning_resistance: SortDirection
+  holy_resistance: SortDirection
+  dark_resistance: SortDirection
+  row_id: SortDirection
+  model_scale: SortDirection
+  model_name: SortDirection
+  skill_1_code: SortDirection
+  skill_1_chance: SortDirection
+  skill_2_code: SortDirection
+  skill_2_chance: SortDirection
+}
+
+type Npc implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaModelMixin {
+  row_id: Int!
+  model_name: String
+  models: [Available3DModel!]!
+  model_scale: Float
+  code: String!
+  name: String!
+  icon: String!
+  level: Int!
+  grade: ActorGrade!
+  is_inanimate: Boolean!
+  is_sea: Boolean!
+  is_ship: Boolean!
+  is_air: Boolean!
+  is_tameable: Boolean!
+  experience: Int!
+  health_points: Int!
+  recovery_rate: Float!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  physical_evasion_rate: Int!
+  physical_hit_rate: Int!
+  magical_hit_rate: Int!
+  critical_rate: Int!
+  critical_resistance_rate: Int!
+  sea_attack_aoe_range: Float!
+  ship_guns_count: Int!
+  ship_guns_speed: Float!
+  ship_attack_range: Float!
+  attack_cast_time: Float!
+  attack_cooldown: Float!
+  despawn_delay_time: Float!
+  attack_vision_range: Float!
+  nearby_attack_vision_range: Float!
+  is_ranged: Boolean!
+  attack_range: Float!
+  walking_speed: Int!
+  running_speed: Int!
+  turning_speed: Int!
+  messages_code: String
+  posion_resistance: Int!
+  fire_resistance: Int!
+  cold_resistance: Int!
+  lightning_resistance: Int!
+  holy_resistance: Int!
+  dark_resistance: Int!
+  messages: [ActorMessage!]!
+  positions: [NpcPosition!]!
+  quests: [Quest!]!
+  store_items: [NpcStoreItem!]!
+}
+
+input NpcFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  level: NumberFilter
+  grade: ActorGradeEnumFilter
+  is_inanimate: BooleanFilter
+  is_sea: BooleanFilter
+  is_ship: BooleanFilter
+  is_air: BooleanFilter
+  is_tameable: BooleanFilter
+  experience: NumberFilter
+  health_points: NumberFilter
+  recovery_rate: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  physical_evasion_rate: NumberFilter
+  physical_hit_rate: NumberFilter
+  magical_hit_rate: NumberFilter
+  critical_rate: NumberFilter
+  critical_resistance_rate: NumberFilter
+  sea_attack_aoe_range: NumberFilter
+  ship_guns_count: NumberFilter
+  ship_guns_speed: NumberFilter
+  ship_attack_range: NumberFilter
+  attack_cast_time: NumberFilter
+  attack_cooldown: NumberFilter
+  despawn_delay_time: NumberFilter
+  attack_vision_range: NumberFilter
+  nearby_attack_vision_range: NumberFilter
+  is_ranged: BooleanFilter
+  attack_range: NumberFilter
+  walking_speed: NumberFilter
+  running_speed: NumberFilter
+  turning_speed: NumberFilter
+  messages_code: StringFilter
+  posion_resistance: NumberFilter
+  fire_resistance: NumberFilter
+  cold_resistance: NumberFilter
+  lightning_resistance: NumberFilter
+  holy_resistance: NumberFilter
+  dark_resistance: NumberFilter
+  messages: ActorMessageFilter
+  row_id: NumberFilter
+  model_scale: NumberFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+  positions: NpcPositionFilter
+  quests: QuestFilter
+  store_items: NpcStoreItemFilter
+}
+
+type NpcPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Npc!]!
+}
+
+type NpcPosition {
+  index: Int!
+  npc_code: String!
+  map_code: String!
+  x: Float!
+  y: Float!
+  z: Float!
+  npc: Npc!
+  map: Map!
+}
+
+input NpcPositionFilter {
+  index: NumberFilter
+  npc_code: StringFilter
+  map_code: StringFilter
+  x: NumberFilter
+  y: NumberFilter
+  z: NumberFilter
+  npc: NpcFilter
+  map: MapFilter
+}
+
+type NpcPositionPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [NpcPosition!]!
+}
+
+input NpcPositionSort @oneOf {
+  index: SortDirection
+  npc_code: SortDirection
+  map_code: SortDirection
+  x: SortDirection
+  y: SortDirection
+  z: SortDirection
+}
+
+input NpcSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  level: SortDirection
+  is_inanimate: SortDirection
+  is_sea: SortDirection
+  is_ship: SortDirection
+  is_air: SortDirection
+  is_tameable: SortDirection
+  experience: SortDirection
+  health_points: SortDirection
+  recovery_rate: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  physical_evasion_rate: SortDirection
+  physical_hit_rate: SortDirection
+  magical_hit_rate: SortDirection
+  critical_rate: SortDirection
+  critical_resistance_rate: SortDirection
+  sea_attack_aoe_range: SortDirection
+  ship_guns_count: SortDirection
+  ship_guns_speed: SortDirection
+  ship_attack_range: SortDirection
+  attack_cast_time: SortDirection
+  attack_cooldown: SortDirection
+  despawn_delay_time: SortDirection
+  attack_vision_range: SortDirection
+  nearby_attack_vision_range: SortDirection
+  is_ranged: SortDirection
+  attack_range: SortDirection
+  walking_speed: SortDirection
+  running_speed: SortDirection
+  turning_speed: SortDirection
+  messages_code: SortDirection
+  posion_resistance: SortDirection
+  fire_resistance: SortDirection
+  cold_resistance: SortDirection
+  lightning_resistance: SortDirection
+  holy_resistance: SortDirection
+  dark_resistance: SortDirection
+  row_id: SortDirection
+  model_scale: SortDirection
+  model_name: SortDirection
+}
+
+type NpcStoreItem {
+  index: Int!
+  section_name: String!
+  page_name: String!
+  npc_code: String!
+  item_code: String!
+  item: ItemList!
+}
+
+input NpcStoreItemFilter {
+  index: NumberFilter
+  section_name: StringFilter
+  page_name: StringFilter
+  npc_code: StringFilter
+  item_code: StringFilter
+  item: ItemListFilter
+}
+
+type NpcStoreItemPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [NpcStoreItem!]!
+}
+
+input NpcStoreItemSort @oneOf {
+  index: SortDirection
+  section_name: SortDirection
+  page_name: SortDirection
+  npc_code: SortDirection
+  item_code: SortDirection
+}
+
+input NumberFilter @oneOf {
+  eq: Int
+  ne: Int
+  in: [Int!]
+  gt: Int
+  ge: Int
+  lt: Int
+  le: Int
+
+  """Only the first two numbers are considered"""
+  between: [Int!]
+}
+
+type OneHandedSword implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input OneHandedSwordFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type OneHandedSwordPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [OneHandedSword!]!
+}
+
+input OneHandedSwordSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+type Pants implements ArmorMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & FlorensiaModelMixin & UpgradeRuleMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+}
+
+input PantsFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+}
+
+type PantsPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Pants!]!
+}
+
+input PantsSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_name: SortDirection
+  upgrade_rule_base_code: SortDirection
+}
+
+type Pet implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  initial_courage: Int!
+  initial_patience: Int!
+  initial_wisdom: Int!
+  is_unlimited: Boolean!
+}
+
+type PetCombineHelp implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  value: Float!
+}
+
+input PetCombineHelpFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  value: NumberFilter
+}
+
+type PetCombineHelpPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [PetCombineHelp!]!
+}
+
+input PetCombineHelpSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  value: SortDirection
+}
+
+type PetCombineStone implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  min_value: Int!
+  max_value: Int!
+}
+
+input PetCombineStoneFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  min_value: NumberFilter
+  max_value: NumberFilter
+}
+
+type PetCombineStonePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [PetCombineStone!]!
+}
+
+input PetCombineStoneSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  min_value: SortDirection
+  max_value: SortDirection
+}
+
+input PetFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  initial_courage: NumberFilter
+  initial_patience: NumberFilter
+  initial_wisdom: NumberFilter
+  is_unlimited: BooleanFilter
+}
+
+type PetPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Pet!]!
+}
+
+type PetSkill implements SkillMixin & EffectMixin & ClassSeaMixin & ClassLandMixin {
+  effects: [Effect!]!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  code: String!
+  reference_code: String!
+  name: String!
+  icon: String!
+  required_level_land: Int!
+  required_level_sea: Int!
+  skill_level: Int!
+  skill_max_level: Int!
+  mana_cost: Int!
+  accuracy: Int!
+  hit_correction: Int!
+  cooldown: Float!
+  cast_time: Float!
+  cast_distance: Float!
+  dash_distance: Float!
+  push_distance: Float!
+  effect_range: Float!
+  effect_angle: Int!
+  is_persistent: Boolean!
+  duration: Float!
+  toggle_tick_time: Float
+  toggle_operator: String
+  toggle_hp_value: Float
+  toggle_mp_value: Float
+  required_weapons: String!
+  description: String!
+}
+
+input PetSkillFilter {
+  code: StringFilter
+  reference_code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  required_level_land: NumberFilter
+  required_level_sea: NumberFilter
+  skill_level: NumberFilter
+  skill_max_level: NumberFilter
+  mana_cost: NumberFilter
+  accuracy: NumberFilter
+  hit_correction: NumberFilter
+  cooldown: NumberFilter
+  cast_time: NumberFilter
+  cast_distance: NumberFilter
+  dash_distance: NumberFilter
+  push_distance: NumberFilter
+  effect_range: NumberFilter
+  effect_angle: NumberFilter
+  is_persistent: BooleanFilter
+  duration: NumberFilter
+  toggle_tick_time: NumberFilter
+  toggle_operator: StringFilter
+  toggle_hp_value: NumberFilter
+  toggle_mp_value: NumberFilter
+  required_weapons: StringFilter
+  description: StringFilter
+  effects: EffectFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+}
+
+type PetSkillPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [PetSkill!]!
+}
+
+input PetSkillSort @oneOf {
+  code: SortDirection
+  reference_code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  required_level_land: SortDirection
+  required_level_sea: SortDirection
+  skill_level: SortDirection
+  skill_max_level: SortDirection
+  mana_cost: SortDirection
+  accuracy: SortDirection
+  hit_correction: SortDirection
+  cooldown: SortDirection
+  cast_time: SortDirection
+  cast_distance: SortDirection
+  dash_distance: SortDirection
+  push_distance: SortDirection
+  effect_range: SortDirection
+  effect_angle: SortDirection
+  is_persistent: SortDirection
+  duration: SortDirection
+  toggle_tick_time: SortDirection
+  toggle_operator: SortDirection
+  toggle_hp_value: SortDirection
+  toggle_mp_value: SortDirection
+  required_weapons: SortDirection
+  description: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+}
+
+type PetSkillStone implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  skill_code: String!
+  skill: PetSkill!
+}
+
+input PetSkillStoneFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  skill_code: StringFilter
+  skill: PetSkillFilter
+}
+
+type PetSkillStonePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [PetSkillStone!]!
+}
+
+input PetSkillStoneSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  skill_code: SortDirection
+}
+
+input PetSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  initial_courage: SortDirection
+  initial_patience: SortDirection
+  initial_wisdom: SortDirection
+  is_unlimited: SortDirection
+}
+
+type PlayerLevelStat {
+  base_class: BaseClassType!
+  level: Int!
+  max_hp: Int!
+  max_mp: Int!
+  avoidance: Int!
+  melee_min_attack: Int!
+  melee_max_attack: Int!
+  melee_hitrate: Int!
+  melee_critical_rate: Int!
+  range_min_attack: Int!
+  range_max_attack: Int!
+  range_hitrate: Int!
+  range_critical_rate: Int!
+  magic_min_attack: Int!
+  magic_max_attack: Int!
+  magic_hitrate: Int!
+  magic_critical_rate: Int!
+}
+
+type PlayerRequiredSkill {
+  skill_code: String!
+  required_skill_code: String!
+  skill: PlayerSkill!
+}
+
+input PlayerRequiredSkillFilter {
+  skill_code: StringFilter
+  required_skill_code: StringFilter
+  skill: PlayerSkillFilter
+}
+
+type PlayerRequiredSkillPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [PlayerRequiredSkill!]!
+}
+
+input PlayerRequiredSkillSort @oneOf {
+  skill_code: SortDirection
+  required_skill_code: SortDirection
+}
+
+type PlayerSkill implements SkillMixin & EffectMixin & ClassSeaMixin & ClassLandMixin {
+  effects: [Effect!]!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  code: String!
+  reference_code: String!
+  name: String!
+  icon: String!
+  required_level_land: Int!
+  required_level_sea: Int!
+  skill_level: Int!
+  skill_max_level: Int!
+  mana_cost: Int!
+  accuracy: Int!
+  hit_correction: Int!
+  cooldown: Float!
+  cast_time: Float!
+  cast_distance: Float!
+  dash_distance: Float!
+  push_distance: Float!
+  effect_range: Float!
+  effect_angle: Int!
+  is_persistent: Boolean!
+  duration: Float!
+  toggle_tick_time: Float
+  toggle_operator: String
+  toggle_hp_value: Float
+  toggle_mp_value: Float
+  required_weapons: String!
+  description: String!
+  required_skills: [PlayerRequiredSkill!]!
+}
+
+input PlayerSkillFilter {
+  code: StringFilter
+  reference_code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  required_level_land: NumberFilter
+  required_level_sea: NumberFilter
+  skill_level: NumberFilter
+  skill_max_level: NumberFilter
+  mana_cost: NumberFilter
+  accuracy: NumberFilter
+  hit_correction: NumberFilter
+  cooldown: NumberFilter
+  cast_time: NumberFilter
+  cast_distance: NumberFilter
+  dash_distance: NumberFilter
+  push_distance: NumberFilter
+  effect_range: NumberFilter
+  effect_angle: NumberFilter
+  is_persistent: BooleanFilter
+  duration: NumberFilter
+  toggle_tick_time: NumberFilter
+  toggle_operator: StringFilter
+  toggle_hp_value: NumberFilter
+  toggle_mp_value: NumberFilter
+  required_weapons: StringFilter
+  description: StringFilter
+  effects: EffectFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  required_skills: PlayerRequiredSkillFilter
+}
+
+type PlayerSkillPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [PlayerSkill!]!
+}
+
+input PlayerSkillSort @oneOf {
+  code: SortDirection
+  reference_code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  required_level_land: SortDirection
+  required_level_sea: SortDirection
+  skill_level: SortDirection
+  skill_max_level: SortDirection
+  mana_cost: SortDirection
+  accuracy: SortDirection
+  hit_correction: SortDirection
+  cooldown: SortDirection
+  cast_time: SortDirection
+  cast_distance: SortDirection
+  dash_distance: SortDirection
+  push_distance: SortDirection
+  effect_range: SortDirection
+  effect_angle: SortDirection
+  is_persistent: SortDirection
+  duration: SortDirection
+  toggle_tick_time: SortDirection
+  toggle_operator: SortDirection
+  toggle_hp_value: SortDirection
+  toggle_mp_value: SortDirection
+  required_weapons: SortDirection
+  description: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+}
+
+type PlayerStatusStat {
+  base_class: BaseClassType!
+  point_level: Int!
+  stat_type: StatType!
+  max_hp_increment: Int!
+  max_mp_increment: Int!
+  avoidance_increment: Int!
+  melee_min_attack_increment: Int!
+  melee_max_attack_increment: Int!
+  melee_hitrate_increment: Int!
+  melee_critical_rate_increment: Int!
+  range_min_attack_increment: Int!
+  range_max_attack_increment: Int!
+  range_hitrate_increment: Int!
+  range_critical_rate_increment: Int!
+  magic_min_attack_increment: Int!
+  magic_max_attack_increment: Int!
+  magic_hitrate_increment: Int!
+  magic_critical_rate_increment: Int!
+}
+
+type Production implements RowIDMixin {
+  row_id: Int!
+  code: String!
+  type: SecondJobType!
+  points_required: Int!
+  result_code: String!
+  result_quantity: Int!
+  result_item: ItemList!
+  required_materials: [ProductionRequiredMaterial!]!
+}
+
+type ProductionBook implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  production_code: String!
+  production: Production!
+}
+
+input ProductionBookFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  production_code: StringFilter
+  production: ProductionFilter
+}
+
+type ProductionBookPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ProductionBook!]!
+}
+
+input ProductionBookSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  production_code: SortDirection
+}
+
+input ProductionFilter {
+  row_id: NumberFilter
+  code: StringFilter
+  type: SecondJobTypeEnumFilter
+  points_required: NumberFilter
+  result_code: StringFilter
+  result_quantity: NumberFilter
+  result_item: ItemListFilter
+  required_materials: ProductionRequiredMaterialFilter
+}
+
+type ProductionPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Production!]!
+}
+
+type ProductionRequiredMaterial {
+  production_code: String!
+  material_code: String!
+  quantity: Int!
+  item: ItemList!
+}
+
+input ProductionRequiredMaterialFilter {
+  production_code: StringFilter
+  material_code: StringFilter
+  quantity: NumberFilter
+  item: ItemListFilter
+}
+
+type ProductionRequiredMaterialPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ProductionRequiredMaterial!]!
+}
+
+input ProductionRequiredMaterialSort @oneOf {
+  production_code: SortDirection
+  material_code: SortDirection
+  quantity: SortDirection
+}
+
+input ProductionSort @oneOf {
+  row_id: SortDirection
+  code: SortDirection
+  points_required: SortDirection
+  result_code: SortDirection
+  result_quantity: SortDirection
+}
+
+type Query {
+  monster(code: String!): Monster
+  npc(code: String!): Npc
+  quest(code: String!): Quest
+  quest_item(code: String!): QuestItem
+  quest_scroll(code: String!): QuestScroll
+  random_box(code: String!): RandomBox
+  fishing_bait(code: String!): FishingBait
+  fishing_material(code: String!): FishingMaterial
+  essence(code: String!): Essence
+  essence_help_item(code: String!): EssenceHelp
+  coat(code: String!): Coat
+  pants(code: String!): Pants
+  gauntlets(code: String!): Gauntlet
+  shoes(code: String!): Shoes
+  shield(code: String!): Shield
+  cariad(code: String!): Cariad
+  dagger(code: String!): Dagger
+  duals(code: String!): Duals
+  fishing_rod(code: String!): FishingRod
+  one_handed_sword(code: String!): OneHandedSword
+  rapier(code: String!): Rapier
+  rifle(code: String!): Rifle
+  two_handed_sword(code: String!): TwoHandedSword
+  accessory(code: String!): Accessory
+  dress(code: String!): Dress
+  hat(code: String!): Hat
+  ship_anchor(code: String!): ShipAnchor
+  ship_body(code: String!): ShipBody
+  ship_figure(code: String!): ShipFigure
+  ship_flag(code: String!): ShipFlag
+  ship_front(code: String!): ShipFront
+  ship_head_mast(code: String!): ShipHeadMast
+  ship_magic_stone(code: String!): ShipMagicStone
+  ship_main_mast(code: String!): ShipMainMast
+  ship_normal_weapon(code: String!): ShipNormalWeapon
+  ship_shell(code: String!): ShipShell
+  ship_special_weapon(code: String!): ShipSpecialWeapon
+  pet(code: String!): Pet
+  pet_combine_help_item(code: String!): PetCombineHelp
+  pet_combine_stone(code: String!): PetCombineStone
+  pet_skill(code: String!): PetSkill
+  pet_skill_stone(code: String!): PetSkillStone
+  riding_pet(code: String!): RidingPet
+  player_skill(code: String!): PlayerSkill
+  skill_book(code: String!): SkillBook
+  recipe(code: String!): Recipe
+  production(code: String!): Production
+  production_book(code: String!): ProductionBook
+  upgrade_help_item(code: String!): UpgradeHelp
+  upgrade_stone(code: String!): UpgradeStone
+  upgrade_crystal(code: String!): UpgradeCrystal
+  seal_break_help_item(code: String!): SealBreakHelp
+  map(code: String!): Map
+  bullet(code: String!): Bullet
+  consumable(code: String!): Consumable
+  material(code: String!): Material
+  tower_floor(code: String!): TowerFloor
+  all_monsters(offset: Int! = 0, limit: Int! = 50, filter: MonsterFilter, order_by: [MonsterSort!]): MonsterPageInfo!
+  all_npcs(offset: Int! = 0, limit: Int! = 50, filter: NpcFilter, order_by: [NpcSort!]): NpcPageInfo!
+  all_npc_store_items(offset: Int! = 0, limit: Int! = 50, filter: NpcStoreItemFilter, order_by: [NpcStoreItemSort!]): NpcStoreItemPageInfo!
+  all_actor_messages(offset: Int! = 0, limit: Int! = 50, filter: ActorMessageFilter, order_by: [ActorMessageSort!]): ActorMessagePageInfo!
+  all_monster_skills(offset: Int! = 0, limit: Int! = 50, filter: MonsterSkillFilter, order_by: [MonsterSkillSort!]): MonsterSkillPageInfo!
+  all_drops(offset: Int! = 0, limit: Int! = 50, filter: DropFilter, order_by: [DropSort!]): DropPageInfo!
+  all_money_drops(offset: Int! = 0, limit: Int! = 50, filter: MoneyFilter, order_by: [MoneySort!]): MoneyPageInfo!
+  all_monster_positions(offset: Int! = 0, limit: Int! = 50, filter: MonsterPositionFilter, order_by: [MonsterPositionSort!]): MonsterPositionPageInfo!
+  all_npc_positions(offset: Int! = 0, limit: Int! = 50, filter: NpcPositionFilter, order_by: [NpcPositionSort!]): NpcPositionPageInfo!
+  all_quests(offset: Int! = 0, limit: Int! = 50, filter: QuestFilter, order_by: [QuestSort!]): QuestPageInfo!
+  all_quest_give_items(offset: Int! = 0, limit: Int! = 50, filter: QuestGiveItemFilter, order_by: [QuestGiveItemSort!]): QuestGiveItemPageInfo!
+  all_quest_mission(offset: Int! = 0, limit: Int! = 50, filter: QuestMissionFilter, order_by: [QuestMissionSort!]): QuestMissionPageInfo!
+  all_quest_reward_items(offset: Int! = 0, limit: Int! = 50, filter: QuestRewardItemFilter, order_by: [QuestRewardItemSort!]): QuestRewardItemPageInfo!
+  all_quest_items(offset: Int! = 0, limit: Int! = 50, filter: QuestItemFilter, order_by: [QuestItemSort!]): QuestItemPageInfo!
+  all_quest_scrolls(offset: Int! = 0, limit: Int! = 50, filter: QuestScrollFilter, order_by: [QuestScrollSort!]): QuestScrollPageInfo!
+  all_random_boxes(offset: Int! = 0, limit: Int! = 50, filter: RandomBoxFilter, order_by: [RandomBoxSort!]): RandomBoxPageInfo!
+  all_random_box_rewards(offset: Int! = 0, limit: Int! = 50, filter: RandomBoxRewardFilter, order_by: [RandomBoxRewardSort!]): RandomBoxRewardPageInfo!
+  all_fishing_baits(offset: Int! = 0, limit: Int! = 50, filter: FishingBaitFilter, order_by: [FishingBaitSort!]): FishingBaitPageInfo!
+  all_fishing_materials(offset: Int! = 0, limit: Int! = 50, filter: FishingMaterialFilter, order_by: [FishingMaterialSort!]): FishingMaterialPageInfo!
+  all_essences(offset: Int! = 0, limit: Int! = 50, filter: EssenceFilter, order_by: [EssenceSort!]): EssencePageInfo!
+  all_essence_help_items(offset: Int! = 0, limit: Int! = 50, filter: EssenceHelpFilter, order_by: [EssenceHelpSort!]): EssenceHelpPageInfo!
+  all_coats(offset: Int! = 0, limit: Int! = 50, filter: CoatFilter, order_by: [CoatSort!]): CoatPageInfo!
+  all_pants(offset: Int! = 0, limit: Int! = 50, filter: PantsFilter, order_by: [PantsSort!]): PantsPageInfo!
+  all_gauntlets(offset: Int! = 0, limit: Int! = 50, filter: GauntletFilter, order_by: [GauntletSort!]): GauntletPageInfo!
+  all_shoes(offset: Int! = 0, limit: Int! = 50, filter: ShoesFilter, order_by: [ShoesSort!]): ShoesPageInfo!
+  all_shields(offset: Int! = 0, limit: Int! = 50, filter: ShieldFilter, order_by: [ShieldSort!]): ShieldPageInfo!
+  all_cariads(offset: Int! = 0, limit: Int! = 50, filter: CariadFilter, order_by: [CariadSort!]): CariadPageInfo!
+  all_daggers(offset: Int! = 0, limit: Int! = 50, filter: DaggerFilter, order_by: [DaggerSort!]): DaggerPageInfo!
+  all_duals(offset: Int! = 0, limit: Int! = 50, filter: DualsFilter, order_by: [DualsSort!]): DualsPageInfo!
+  all_fishing_rods(offset: Int! = 0, limit: Int! = 50, filter: FishingRodFilter, order_by: [FishingRodSort!]): FishingRodPageInfo!
+  all_one_handed_swords(offset: Int! = 0, limit: Int! = 50, filter: OneHandedSwordFilter, order_by: [OneHandedSwordSort!]): OneHandedSwordPageInfo!
+  all_rapiers(offset: Int! = 0, limit: Int! = 50, filter: RapierFilter, order_by: [RapierSort!]): RapierPageInfo!
+  all_rifles(offset: Int! = 0, limit: Int! = 50, filter: RifleFilter, order_by: [RifleSort!]): RiflePageInfo!
+  all_two_handed_swords(offset: Int! = 0, limit: Int! = 50, filter: TwoHandedSwordFilter, order_by: [TwoHandedSwordSort!]): TwoHandedSwordPageInfo!
+  all_accessories(offset: Int! = 0, limit: Int! = 50, filter: AccessoryFilter, order_by: [AccessorySort!]): AccessoryPageInfo!
+  all_dresses(offset: Int! = 0, limit: Int! = 50, filter: DressFilter, order_by: [DressSort!]): DressPageInfo!
+  all_hats(offset: Int! = 0, limit: Int! = 50, filter: HatFilter, order_by: [HatSort!]): HatPageInfo!
+  all_ship_anchors(offset: Int! = 0, limit: Int! = 50, filter: ShipAnchorFilter, order_by: [ShipAnchorSort!]): ShipAnchorPageInfo!
+  all_ship_bodies(offset: Int! = 0, limit: Int! = 50, filter: ShipBodyFilter, order_by: [ShipBodySort!]): ShipBodyPageInfo!
+  all_ship_figures(offset: Int! = 0, limit: Int! = 50, filter: ShipFigureFilter, order_by: [ShipFigureSort!]): ShipFigurePageInfo!
+  all_ship_flags(offset: Int! = 0, limit: Int! = 50, filter: ShipFlagFilter, order_by: [ShipFlagSort!]): ShipFlagPageInfo!
+  all_ship_fronts(offset: Int! = 0, limit: Int! = 50, filter: ShipFrontFilter, order_by: [ShipFrontSort!]): ShipFrontPageInfo!
+  all_ship_head_masts(offset: Int! = 0, limit: Int! = 50, filter: ShipHeadMastFilter, order_by: [ShipHeadMastSort!]): ShipHeadMastPageInfo!
+  all_ship_magic_stones(offset: Int! = 0, limit: Int! = 50, filter: ShipMagicStoneFilter, order_by: [ShipMagicStoneSort!]): ShipMagicStonePageInfo!
+  all_ship_main_masts(offset: Int! = 0, limit: Int! = 50, filter: ShipMainMastFilter, order_by: [ShipMainMastSort!]): ShipMainMastPageInfo!
+  all_ship_normal_weapons(offset: Int! = 0, limit: Int! = 50, filter: ShipNormalWeaponFilter, order_by: [ShipNormalWeaponSort!]): ShipNormalWeaponPageInfo!
+  all_ship_shells(offset: Int! = 0, limit: Int! = 50, filter: ShipShellFilter, order_by: [ShipShellSort!]): ShipShellPageInfo!
+  all_ship_special_weapons(offset: Int! = 0, limit: Int! = 50, filter: ShipSpecialWeaponFilter, order_by: [ShipSpecialWeaponSort!]): ShipSpecialWeaponPageInfo!
+  all_pets(offset: Int! = 0, limit: Int! = 50, filter: PetFilter, order_by: [PetSort!]): PetPageInfo!
+  all_pet_combine_help_items(offset: Int! = 0, limit: Int! = 50, filter: PetCombineHelpFilter, order_by: [PetCombineHelpSort!]): PetCombineHelpPageInfo!
+  all_pet_combine_stones(offset: Int! = 0, limit: Int! = 50, filter: PetCombineStoneFilter, order_by: [PetCombineStoneSort!]): PetCombineStonePageInfo!
+  all_pet_skills(offset: Int! = 0, limit: Int! = 50, filter: PetSkillFilter, order_by: [PetSkillSort!]): PetSkillPageInfo!
+  all_pet_skill_stones(offset: Int! = 0, limit: Int! = 50, filter: PetSkillStoneFilter, order_by: [PetSkillStoneSort!]): PetSkillStonePageInfo!
+  all_riding_pets(offset: Int! = 0, limit: Int! = 50, filter: RidingPetFilter, order_by: [RidingPetSort!]): RidingPetPageInfo!
+  all_player_skills(offset: Int! = 0, limit: Int! = 50, filter: PlayerSkillFilter, order_by: [PlayerSkillSort!]): PlayerSkillPageInfo!
+  all_skill_books(offset: Int! = 0, limit: Int! = 50, filter: SkillBookFilter, order_by: [SkillBookSort!]): SkillBookPageInfo!
+  all_recipes(offset: Int! = 0, limit: Int! = 50, filter: RecipeFilter, order_by: [RecipeSort!]): RecipePageInfo!
+  all_recipe_required_materials(offset: Int! = 0, limit: Int! = 50, filter: RecipeRequiredMaterialFilter, order_by: [RecipeRequiredMaterialSort!]): RecipeRequiredMaterialPageInfo!
+  all_productions(offset: Int! = 0, limit: Int! = 50, filter: ProductionFilter, order_by: [ProductionSort!]): ProductionPageInfo!
+  all_production_required_material(offset: Int! = 0, limit: Int! = 50, filter: ProductionRequiredMaterialFilter, order_by: [ProductionRequiredMaterialSort!]): ProductionRequiredMaterialPageInfo!
+  all_production_books(offset: Int! = 0, limit: Int! = 50, filter: ProductionBookFilter, order_by: [ProductionBookSort!]): ProductionBookPageInfo!
+  all_upgrade_help_items(offset: Int! = 0, limit: Int! = 50, filter: UpgradeHelpFilter, order_by: [UpgradeHelpSort!]): UpgradeHelpPageInfo!
+  all_upgrade_stones(offset: Int! = 0, limit: Int! = 50, filter: UpgradeStoneFilter, order_by: [UpgradeStoneSort!]): UpgradeStonePageInfo!
+  all_upgrade_crystals(offset: Int! = 0, limit: Int! = 50, filter: UpgradeCrystalFilter, order_by: [UpgradeCrystalSort!]): UpgradeCrystalPageInfo!
+  all_upgrade_rules(offset: Int! = 0, limit: Int! = 50, filter: UpgradeRuleFilter, order_by: [UpgradeRuleSort!]): UpgradeRulePageInfo!
+  all_seal_break_help_items(offset: Int! = 0, limit: Int! = 50, filter: SealBreakHelpFilter, order_by: [SealBreakHelpSort!]): SealBreakHelpPageInfo!
+  all_fusion_help_items(offset: Int! = 0, limit: Int! = 50, filter: FusionHelpFilter, order_by: [FusionHelpSort!]): FusionHelpPageInfo!
+  all_player_required_skills(offset: Int! = 0, limit: Int! = 50, filter: PlayerRequiredSkillFilter, order_by: [PlayerRequiredSkillSort!]): PlayerRequiredSkillPageInfo!
+  all_effects(offset: Int! = 0, limit: Int! = 50, filter: EffectFilter, order_by: [EffectSort!]): EffectPageInfo!
+  all_item_sets(offset: Int! = 0, limit: Int! = 50, filter: ItemSetFilter, order_by: [ItemSetSort!]): ItemSetPageInfo!
+  all_item_set_items(offset: Int! = 0, limit: Int! = 50, filter: ItemSetItemFilter, order_by: [ItemSetItemSort!]): ItemSetItemPageInfo!
+  all_maps(offset: Int! = 0, limit: Int! = 50, filter: MapFilter, order_by: [MapSort!]): MapPageInfo!
+  all_map_areas(offset: Int! = 0, limit: Int! = 50, filter: MapAreaFilter, order_by: [MapAreaSort!]): MapAreaPageInfo!
+  all_bullets(offset: Int! = 0, limit: Int! = 50, filter: BulletFilter, order_by: [BulletSort!]): BulletPageInfo!
+  all_consumables(offset: Int! = 0, limit: Int! = 50, filter: ConsumableFilter, order_by: [ConsumableSort!]): ConsumablePageInfo!
+  all_materials(offset: Int! = 0, limit: Int! = 50, filter: MaterialFilter, order_by: [MaterialSort!]): MaterialPageInfo!
+  all_tower_floors(offset: Int! = 0, limit: Int! = 50, filter: TowerFloorFilter, order_by: [TowerFloorSort!]): TowerFloorPageInfo!
+  all_tower_floor_monsters(offset: Int! = 0, limit: Int! = 50, filter: TowerFloorMonsterFilter, order_by: [TowerFloorMonsterSort!]): TowerFloorMonsterPageInfo!
+  search(s: String!, limit: Int! = 20): [MonsterNpcQuestItemList!]!
+  dropped_by(code: String!): [Drop!]!
+  produced_by(code: String!): [RecipeProduction!]!
+  needed_for(code: String!): [RecipeProduction!]!
+  available_in_randombox(code: String!): [RandomBox!]!
+  available_as_quest_reward(code: String!): [Quest!]!
+  sold_by_npc(code: String!): [Npc!]!
+  player_level_stats(base_class: BaseClassType!, level_min: Int! = 1, level_max: Int! = 105): [PlayerLevelStat!]!
+  player_stats(base_class: BaseClassType!, max_points: Int! = 700): [PlayerStatusStat!]!
+}
+
+type Quest {
+  code: String!
+  is_sea: Boolean!
+  level: Int!
+  is_mercenary: Boolean!
+  is_saint: Boolean!
+  is_noble: Boolean!
+  is_explorer: Boolean!
+  experience: Int!
+  money: Int!
+  selectable_items_count: Int!
+  title: String!
+  description: String
+  pre_dialog: String
+  start_dialog: String
+  run_dialog: String
+  finish_dialog: String
+  previous_quest_code: String
+  start_npc_code: String
+  start_area_code: String
+  end_npc_code: String
+  previous_quest: Quest
+  start_npc: Npc
+  start_area: MapArea
+  end_npc: Npc
+  give_items: [QuestGiveItem!]!
+  reward_items: [QuestRewardItem!]!
+  missions: [QuestMission!]!
+}
+
+input QuestFilter {
+  code: StringFilter
+  is_sea: BooleanFilter
+  level: NumberFilter
+  is_mercenary: BooleanFilter
+  is_saint: BooleanFilter
+  is_noble: BooleanFilter
+  is_explorer: BooleanFilter
+  experience: NumberFilter
+  money: NumberFilter
+  selectable_items_count: NumberFilter
+  title: StringFilter
+  description: StringFilter
+  pre_dialog: StringFilter
+  start_dialog: StringFilter
+  run_dialog: StringFilter
+  finish_dialog: StringFilter
+  previous_quest_code: StringFilter
+  start_npc_code: StringFilter
+  start_area_code: StringFilter
+  end_npc_code: StringFilter
+  previous_quest: QuestFilter
+  start_npc: NpcFilter
+  start_area: MapAreaFilter
+  end_npc: NpcFilter
+  give_items: QuestGiveItemFilter
+  reward_items: QuestRewardItemFilter
+  missions: QuestMissionFilter
+}
+
+type QuestGiveItem {
+  quest_code: String!
+  item_code: String!
+  amount: Int!
+  item: ItemList!
+}
+
+input QuestGiveItemFilter {
+  quest_code: StringFilter
+  item_code: StringFilter
+  amount: NumberFilter
+  item: ItemListFilter
+}
+
+type QuestGiveItemPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [QuestGiveItem!]!
+}
+
+input QuestGiveItemSort @oneOf {
+  quest_code: SortDirection
+  item_code: SortDirection
+  amount: SortDirection
+}
+
+type QuestItem implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  quests_by_mission: [Quest!]!
+  quests_by_give_item: [Quest!]!
+}
+
+input QuestItemFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  quests_by_mission: QuestFilter
+  quests_by_give_item: QuestFilter
+}
+
+type QuestItemPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [QuestItem!]!
+}
+
+input QuestItemSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+}
+
+type QuestMission {
+  index: Int!
+  quest_code: String!
+  work_type: QuestMissionType!
+  count: Int!
+  description: String!
+  map_code: String
+  x: Float
+  y: Float
+  monster_code: String
+  item_code: String
+  quest_item_code: String
+  npc_code: String
+  map: Map
+  monster: Monster
+  item: ItemList
+  quest_item: QuestItem
+  npc: Npc
+}
+
+input QuestMissionFilter {
+  index: NumberFilter
+  quest_code: StringFilter
+  work_type: QuestMissionTypeEnumFilter
+  count: NumberFilter
+  description: StringFilter
+  map_code: StringFilter
+  x: NumberFilter
+  y: NumberFilter
+  monster_code: StringFilter
+  item_code: StringFilter
+  quest_item_code: StringFilter
+  npc_code: StringFilter
+  map: MapFilter
+  monster: MonsterFilter
+  item: ItemListFilter
+  quest_item: QuestItemFilter
+  npc: NpcFilter
+}
+
+type QuestMissionPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [QuestMission!]!
+}
+
+input QuestMissionSort @oneOf {
+  index: SortDirection
+  quest_code: SortDirection
+  count: SortDirection
+  description: SortDirection
+  map_code: SortDirection
+  x: SortDirection
+  y: SortDirection
+  monster_code: SortDirection
+  item_code: SortDirection
+  quest_item_code: SortDirection
+  npc_code: SortDirection
+}
+
+enum QuestMissionType {
+  DELIVER_ITEM
+  TALK_TO_NPC
+  KILL_MONSTER
+  COLLECT_QUEST_ITEM
+  PROTECT_NPC
+  EQUIP_ITEM
+  USE_STATPOINT
+  USE_SKILLBOOK
+  USE_SKILLPOINT
+  ADD_CONSUMABLE_TO_SLOT_BAR
+  ADD_SKILL_TO_SLOT_BAR
+  REGISTER_SHIP
+  TUNE_SHIP
+  EQUIP_SEA_SHELLS
+  CHANGE_WEAPONS
+  LISTEN_TO_NPC
+  UNSEAL_ITEM
+}
+
+input QuestMissionTypeEnumFilter @oneOf {
+  eq: QuestMissionType
+  ne: QuestMissionType
+  in: [QuestMissionType!]
+}
+
+type QuestPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Quest!]!
+}
+
+type QuestRewardItem {
+  index: Int!
+  quest_code: String!
+  item_code: String!
+  amount: Int!
+  item: ItemList!
+}
+
+input QuestRewardItemFilter {
+  index: NumberFilter
+  quest_code: StringFilter
+  item_code: StringFilter
+  amount: NumberFilter
+  item: ItemListFilter
+}
+
+type QuestRewardItemPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [QuestRewardItem!]!
+}
+
+input QuestRewardItemSort @oneOf {
+  index: SortDirection
+  quest_code: SortDirection
+  item_code: SortDirection
+  amount: SortDirection
+}
+
+type QuestScroll implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  quest_code: String!
+  quest: Quest!
+}
+
+input QuestScrollFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  quest_code: StringFilter
+  quest: QuestFilter
+}
+
+type QuestScrollPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [QuestScroll!]!
+}
+
+input QuestScrollSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  quest_code: SortDirection
+}
+
+input QuestSort @oneOf {
+  code: SortDirection
+  is_sea: SortDirection
+  level: SortDirection
+  is_mercenary: SortDirection
+  is_saint: SortDirection
+  is_noble: SortDirection
+  is_explorer: SortDirection
+  experience: SortDirection
+  money: SortDirection
+  selectable_items_count: SortDirection
+  title: SortDirection
+  description: SortDirection
+  pre_dialog: SortDirection
+  start_dialog: SortDirection
+  run_dialog: SortDirection
+  finish_dialog: SortDirection
+  previous_quest_code: SortDirection
+  start_npc_code: SortDirection
+  start_area_code: SortDirection
+  end_npc_code: SortDirection
+}
+
+type RandomBox implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  level_land: Int!
+  level_sea: Int!
+  rewards: [RandomBoxReward!]!
+}
+
+input RandomBoxFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  rewards: RandomBoxRewardFilter
+}
+
+type RandomBoxPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [RandomBox!]!
+}
+
+type RandomBoxReward {
+  index: Int!
+  random_box_code: String!
+  reward_code: String!
+  quantity: Int!
+  item: ItemList!
+}
+
+input RandomBoxRewardFilter {
+  index: NumberFilter
+  random_box_code: StringFilter
+  reward_code: StringFilter
+  quantity: NumberFilter
+  probability: NumberFilter
+  item: ItemListFilter
+}
+
+type RandomBoxRewardPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [RandomBoxReward!]!
+}
+
+input RandomBoxRewardSort @oneOf {
+  index: SortDirection
+  random_box_code: SortDirection
+  reward_code: SortDirection
+  quantity: SortDirection
+  probability: SortDirection
+}
+
+input RandomBoxSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  level_land: SortDirection
+  level_sea: SortDirection
+}
+
+type Rapier implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input RapierFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type RapierPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Rapier!]!
+}
+
+input RapierSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+type Recipe implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  result_code: String!
+  result_quantity: Int!
+  result_item: ItemList!
+  required_materials: [RecipeRequiredMaterial!]!
+}
+
+input RecipeFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  result_code: StringFilter
+  result_quantity: NumberFilter
+  result_item: ItemListFilter
+  required_materials: RecipeRequiredMaterialFilter
+}
+
+type RecipePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Recipe!]!
+}
+
+union RecipeProduction = Recipe | Production
+
+type RecipeRequiredMaterial {
+  recipe_code: String!
+  material_code: String!
+  quantity: Int!
+  item: ItemList!
+}
+
+input RecipeRequiredMaterialFilter {
+  recipe_code: StringFilter
+  material_code: StringFilter
+  quantity: NumberFilter
+  item: ItemListFilter
+}
+
+type RecipeRequiredMaterialPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [RecipeRequiredMaterial!]!
+}
+
+input RecipeRequiredMaterialSort @oneOf {
+  recipe_code: SortDirection
+  material_code: SortDirection
+  quantity: SortDirection
+}
+
+input RecipeSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  result_code: SortDirection
+  result_quantity: SortDirection
+}
+
+type RidingPet implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String!
+}
+
+input RidingPetFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type RidingPetPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [RidingPet!]!
+}
+
+input RidingPetSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+type Rifle implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input RifleFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type RiflePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Rifle!]!
+}
+
+input RifleSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+interface RowIDMixin {
+  row_id: Int!
+}
+
+type SealBreakHelp implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String!
+}
+
+input SealBreakHelpFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type SealBreakHelpPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [SealBreakHelp!]!
+}
+
+input SealBreakHelpSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+enum SecondJobType {
+  WEAPON_SMITH
+  ARMOR_SMITH
+  ALCHEMIST
+  WORKMANSHIP
+  ESSENCE
+}
+
+input SecondJobTypeEnumFilter @oneOf {
+  eq: SecondJobType
+  ne: SecondJobType
+  in: [SecondJobType!]
+}
+
+type Shield implements ArmorMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+}
+
+input ShieldFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type ShieldPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Shield!]!
+}
+
+input ShieldSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_name: SortDirection
+}
+
+type ShipAnchor implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipAnchorFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipAnchorPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipAnchor!]!
+}
+
+input ShipAnchorSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+interface ShipBaseMixin implements BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+type ShipBody implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipBodyFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipBodyPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipBody!]!
+}
+
+input ShipBodySort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipFigure implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipFigureFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipFigurePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipFigure!]!
+}
+
+input ShipFigureSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipFlag implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipFlagFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipFlagPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipFlag!]!
+}
+
+input ShipFlagSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipFront implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipFrontFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipFrontPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipFront!]!
+}
+
+input ShipFrontSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipHeadMast implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipHeadMastFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipHeadMastPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipHeadMast!]!
+}
+
+input ShipHeadMastSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipMagicStone implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipMagicStoneFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipMagicStonePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipMagicStone!]!
+}
+
+input ShipMagicStoneSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipMainMast implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipMainMastFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipMainMastPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipMainMast!]!
+}
+
+input ShipMainMastSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipNormalWeapon implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipNormalWeaponFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipNormalWeaponPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipNormalWeapon!]!
+}
+
+input ShipNormalWeaponSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type ShipShell implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  level_sea: Int!
+  physical_damage: Int!
+  explosion_range: Float!
+}
+
+input ShipShellFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  level_sea: NumberFilter
+  physical_damage: NumberFilter
+  explosion_range: NumberFilter
+}
+
+type ShipShellPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipShell!]!
+}
+
+input ShipShellSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  level_sea: SortDirection
+  physical_damage: SortDirection
+  explosion_range: SortDirection
+}
+
+type ShipSpecialWeapon implements ShipBaseMixin & BaseMixin & RowIDMixin & ClassSeaMixin & EffectMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  effects: [Effect!]!
+  npc_tune_price: Int!
+  level_sea: Int!
+  guns_front: Int!
+  guns_side: Int!
+  crew_size: Int!
+  physical_defense: Int!
+  protection: Int!
+  balance: Int!
+  dp: Int!
+  en: Int!
+  en_usage: Int!
+  en_recovery: Int!
+  acceleration: Float!
+  deceleration: Float!
+  turning_power: Float!
+  favorable_wind: Float!
+  adverse_wind: Float!
+  physical_damage: Int!
+  weapon_range: Float!
+  critical_chance: Float!
+  reload_speed: Float!
+  hit_range: Float!
+}
+
+input ShipSpecialWeaponFilter {
+  npc_tune_price: NumberFilter
+  level_sea: NumberFilter
+  guns_front: NumberFilter
+  guns_side: NumberFilter
+  crew_size: NumberFilter
+  physical_defense: NumberFilter
+  protection: NumberFilter
+  balance: NumberFilter
+  dp: NumberFilter
+  en: NumberFilter
+  en_usage: NumberFilter
+  en_recovery: NumberFilter
+  acceleration: NumberFilter
+  deceleration: NumberFilter
+  turning_power: NumberFilter
+  favorable_wind: NumberFilter
+  adverse_wind: NumberFilter
+  physical_damage: NumberFilter
+  weapon_range: NumberFilter
+  critical_chance: NumberFilter
+  reload_speed: NumberFilter
+  hit_range: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_armored: BooleanFilter
+  is_big_gun: BooleanFilter
+  is_torpedo: BooleanFilter
+  is_maintenance: BooleanFilter
+  is_assault: BooleanFilter
+  effects: EffectFilter
+}
+
+type ShipSpecialWeaponPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [ShipSpecialWeapon!]!
+}
+
+input ShipSpecialWeaponSort @oneOf {
+  npc_tune_price: SortDirection
+  level_sea: SortDirection
+  guns_front: SortDirection
+  guns_side: SortDirection
+  crew_size: SortDirection
+  physical_defense: SortDirection
+  protection: SortDirection
+  balance: SortDirection
+  dp: SortDirection
+  en: SortDirection
+  en_usage: SortDirection
+  en_recovery: SortDirection
+  acceleration: SortDirection
+  deceleration: SortDirection
+  turning_power: SortDirection
+  favorable_wind: SortDirection
+  adverse_wind: SortDirection
+  physical_damage: SortDirection
+  weapon_range: SortDirection
+  critical_chance: SortDirection
+  reload_speed: SortDirection
+  hit_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_armored: SortDirection
+  is_big_gun: SortDirection
+  is_torpedo: SortDirection
+  is_maintenance: SortDirection
+  is_assault: SortDirection
+}
+
+type Shoes implements ArmorMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & FlorensiaModelMixin & UpgradeRuleMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  physical_defense: Int!
+  magical_defense: Int!
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+}
+
+input ShoesFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  physical_defense: NumberFilter
+  magical_defense: NumberFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+}
+
+type ShoesPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [Shoes!]!
+}
+
+input ShoesSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  physical_defense: SortDirection
+  magical_defense: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  model_name: SortDirection
+  upgrade_rule_base_code: SortDirection
+}
+
+type SkillBook implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  skill_code: String!
+  skill: PlayerSkill!
+}
+
+input SkillBookFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  skill_code: StringFilter
+  skill: PlayerSkillFilter
+}
+
+type SkillBookPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [SkillBook!]!
+}
+
+input SkillBookSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  skill_code: SortDirection
+}
+
+interface SkillMixin implements EffectMixin & ClassSeaMixin & ClassLandMixin {
+  effects: [Effect!]!
+  is_armored: Boolean!
+  is_big_gun: Boolean!
+  is_torpedo: Boolean!
+  is_maintenance: Boolean!
+  is_assault: Boolean!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  code: String!
+  reference_code: String!
+  name: String!
+  icon: String!
+  required_level_land: Int!
+  required_level_sea: Int!
+  skill_level: Int!
+  skill_max_level: Int!
+  mana_cost: Int!
+  accuracy: Int!
+  hit_correction: Int!
+  cooldown: Float!
+  cast_time: Float!
+  cast_distance: Float!
+  dash_distance: Float!
+  push_distance: Float!
+  effect_range: Float!
+  effect_angle: Int!
+  is_persistent: Boolean!
+  duration: Float!
+  toggle_tick_time: Float
+  toggle_operator: String
+  toggle_hp_value: Float
+  toggle_mp_value: Float
+  required_weapons: String!
+  description: String!
+}
+
+enum SortDirection {
+  ASC
+  DESC
+}
+
+enum StatType {
+  STRENGTH
+  DEXTERITY
+  CONSTITUTION
+  INTELLIGENCE
+  WISDOM
+  WILL
+}
+
+input StringFilter @oneOf {
+  eq: String
+  ne: String
+  in: [String!]
+  like: String
+  ilike: String
+}
+
+type TowerFloor {
+  code: String!
+  floor_number: Int!
+  time: Int!
+  monsters: [TowerFloorMonster!]!
+}
+
+input TowerFloorFilter {
+  code: StringFilter
+  floor_number: NumberFilter
+  time: NumberFilter
+  monsters: TowerFloorMonsterFilter
+}
+
+type TowerFloorMonster {
+  floor_code: String!
+  monster_code: String!
+  amount: Int!
+  monster: Monster!
+}
+
+input TowerFloorMonsterFilter {
+  floor_code: StringFilter
+  monster_code: StringFilter
+  amount: NumberFilter
+  monster: MonsterFilter
+}
+
+type TowerFloorMonsterPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [TowerFloorMonster!]!
+}
+
+input TowerFloorMonsterSort @oneOf {
+  floor_code: SortDirection
+  monster_code: SortDirection
+  amount: SortDirection
+}
+
+type TowerFloorPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [TowerFloor!]!
+}
+
+input TowerFloorSort @oneOf {
+  code: SortDirection
+  floor_number: SortDirection
+  time: SortDirection
+}
+
+type TwoHandedSword implements WeaponMixin & BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
+
+input TwoHandedSwordFilter {
+  level_land: NumberFilter
+  level_sea: NumberFilter
+  minimum_physical_damage: NumberFilter
+  maximum_physical_damage: NumberFilter
+  minimum_magical_damage: NumberFilter
+  maximum_magical_damage: NumberFilter
+  attack_speed: NumberFilter
+  attack_range: NumberFilter
+  item_flag: ItemFlagEnumFilter
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  is_noble: BooleanFilter
+  is_court_magician: BooleanFilter
+  is_magic_knight: BooleanFilter
+  is_saint: BooleanFilter
+  is_priest: BooleanFilter
+  is_shaman: BooleanFilter
+  is_mercenary: BooleanFilter
+  is_gladiator: BooleanFilter
+  is_guardian_swordsman: BooleanFilter
+  is_explorer: BooleanFilter
+  is_excavator: BooleanFilter
+  is_sniper: BooleanFilter
+  effects: EffectFilter
+  item_set_code: StringFilter
+  item_set: ItemSetFilter
+  upgrade_rule_base_code: StringFilter
+  upgrade_rule: UpgradeRuleFilter
+  model_name: StringFilter
+  models: Available3DModelFilter
+}
+
+type TwoHandedSwordPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [TwoHandedSword!]!
+}
+
+input TwoHandedSwordSort @oneOf {
+  level_land: SortDirection
+  level_sea: SortDirection
+  minimum_physical_damage: SortDirection
+  maximum_physical_damage: SortDirection
+  minimum_magical_damage: SortDirection
+  maximum_magical_damage: SortDirection
+  attack_speed: SortDirection
+  attack_range: SortDirection
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  is_noble: SortDirection
+  is_court_magician: SortDirection
+  is_magic_knight: SortDirection
+  is_saint: SortDirection
+  is_priest: SortDirection
+  is_shaman: SortDirection
+  is_mercenary: SortDirection
+  is_gladiator: SortDirection
+  is_guardian_swordsman: SortDirection
+  is_explorer: SortDirection
+  is_excavator: SortDirection
+  is_sniper: SortDirection
+  item_set_code: SortDirection
+  upgrade_rule_base_code: SortDirection
+  model_name: SortDirection
+}
+
+type UpgradeCrystal implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String!
+}
+
+input UpgradeCrystalFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type UpgradeCrystalPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [UpgradeCrystal!]!
+}
+
+input UpgradeCrystalSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+type UpgradeHelp implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String
+}
+
+input UpgradeHelpFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type UpgradeHelpPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [UpgradeHelp!]!
+}
+
+input UpgradeHelpSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+type UpgradeRule implements EffectMixin {
+  effects: [Effect!]!
+  code: String!
+  base_code: String!
+  level: Int!
+  cost: Int!
+}
+
+input UpgradeRuleFilter {
+  effects: EffectFilter
+  code: StringFilter
+  base_code: StringFilter
+  level: NumberFilter
+  cost: NumberFilter
+}
+
+interface UpgradeRuleMixin {
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+}
+
+type UpgradeRulePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [UpgradeRule!]!
+}
+
+input UpgradeRuleSort @oneOf {
+  code: SortDirection
+  base_code: SortDirection
+  level: SortDirection
+  cost: SortDirection
+}
+
+type UpgradeStone implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String!
+}
+
+input UpgradeStoneFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+}
+
+type UpgradeStonePageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [UpgradeStone!]!
+}
+
+input UpgradeStoneSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+}
+
+interface WeaponMixin implements BaseMixin & RowIDMixin & ClassLandMixin & EffectMixin & ItemSetMixin & UpgradeRuleMixin & FlorensiaModelMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  is_noble: Boolean!
+  is_court_magician: Boolean!
+  is_magic_knight: Boolean!
+  is_saint: Boolean!
+  is_priest: Boolean!
+  is_shaman: Boolean!
+  is_mercenary: Boolean!
+  is_gladiator: Boolean!
+  is_guardian_swordsman: Boolean!
+  is_explorer: Boolean!
+  is_excavator: Boolean!
+  is_sniper: Boolean!
+  effects: [Effect!]!
+  item_set_code: String
+  item_set: ItemSet
+  upgrade_rule_base_code: String
+  upgrade_rule: [UpgradeRule!]!
+  model_name: String
+  models: [Available3DModel!]!
+  level_land: Int!
+  level_sea: Int!
+  minimum_physical_damage: Int!
+  maximum_physical_damage: Int!
+  minimum_magical_damage: Int!
+  maximum_magical_damage: Int!
+  attack_speed: Float!
+  attack_range: Float!
+  item_flag: ItemFlag!
+}
