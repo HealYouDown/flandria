@@ -57,11 +57,11 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
 
     @orm.declared_attr
     def description(cls):
-        info = ColumnInfo.description("원형코드")
+        info = ColumnInfo.description("코드")
         tablename: str = cls.__tablename__  # type: ignore
 
-        if tablename == "pet_skill":
-            info = ColumnInfo.description("코드")
+        if tablename == "monster_skill":
+            info = ColumnInfo.description("원형코드")
 
         return orm.mapped_column(
             sa.Text,
