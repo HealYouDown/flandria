@@ -13,7 +13,7 @@ flask-restx==0.3.0
 Flask-SQLAlchemy==2.5.1
 git-python==1.0.3
 gitdb==4.0.7
-GitPython==3.1.18
+GitPython==3.1.41
 greenlet==1.1.0
 idna==2.10
 itsdangerous==1.1.0
