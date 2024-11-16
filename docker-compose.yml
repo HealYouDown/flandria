@@ -1,0 +1,45 @@
+# Our backend as well as our frontend need the assets folder mounted. Backend, in theory, only needs it to populate the 3d models into the database.
+# By default right here, we just use our local one that we also use in development.
+# For production, we'd probably have it located somewhere else, so change the paths if needed.
+
+services:
+  api:
+    container_name: flandria-api
+    build: ./flandria-graphql-api/
+    ports:
+      - "9000:5000"
+    environment:
+      DATABASE_URI: postgresql+psycopg2://user:password@db:5432/flandria
+    volumes:
+      - "./flandria-frontend/public/assets:/app/assets:ro"
+      # We also mount our local tmp folder for testing purposes
+      - "./flandria-graphql-api/tmp:/app/tmp"
+    restart: unless-stopped
+
+  frontend:
+    container_name: flandria-frontend
+    build:
+      context: ./flandria-frontend/
+      args:
+        API_URL: "http://127.0.0.1:9000/graphql"
+    ports:
+      - "9001:8080"
+    volumes:
+      - "./flandria-frontend/public/assets:/usr/share/nginx/flandria/assets:ro"
+    restart: unless-stopped
+
+  db:
+    container_name: flandria-db
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: flandria
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres: {}

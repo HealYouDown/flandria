@@ -15,7 +15,7 @@ ENV POETRY_HOME=/opt/poetry \
 RUN pip install "poetry==${POETRY_VERSION}"
 
 # Needed to build psycopg2 later
-RUN apt-get update && apt-get -y install libpq-dev gcc
+RUN apt-get update && apt-get -y install musl-dev libpq-dev gcc
 
 WORKDIR /app
 COPY pyproject.toml .
@@ -23,6 +23,10 @@ RUN poetry install --no-root --without dev && rm -rf $POETRY_CACHE_DIR
 
 # Runtime stage
 FROM python:3.12-slim AS runtime
+
+# Also needed at runtime
+RUN apt-get update && apt-get -y install libpq-dev
+
 WORKDIR /app
 EXPOSE 5000
 

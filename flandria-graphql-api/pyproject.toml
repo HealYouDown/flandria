@@ -19,10 +19,11 @@ pillow = "^10.3.0"
 pygltflib = "^1.16.2"
 aiohttp = "^3.9.5"
 aiofiles = "^23.2.1"
-strawberry-graphql = {extras = ["asgi"], version = "^0.243.1"}
+strawberry-graphql = {extras = ["cli"], version = "^0.248.1"}
 uvicorn = "^0.30.6"
 python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.9"
+starlette = "^0.41.2"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.4.4"
@@ -30,7 +31,6 @@ types-requests = "^2.31.0.20240406"
 lxml-stubs = "^0.5.1"
 xlsxwriter = "^3.2.0"
 types-aiofiles = "^23.2.0.20240403"
-strawberry-graphql = {extras = ["debug-server"], version = "^0.243.1"}
 
 [build-system]
 requires = ["poetry-core"]
