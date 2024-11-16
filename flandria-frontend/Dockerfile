@@ -24,7 +24,5 @@ COPY --from=builder /app/dist /usr/share/nginx/flandria
 # Copy custom Nginx configuration. Do it last, so that we don't have to rebuild all layers for config changes.
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 
-EXPOSE 8080
-
 # Entrypoint for Nginx
 CMD ["nginx", "-g", "daemon off;"]
