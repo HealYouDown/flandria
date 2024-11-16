@@ -75,8 +75,7 @@ def download_item_models(skip_existing: bool):
         prefix + r"/item_(hef|hem|hnf|hnm|hsf|hsm|hwf|hwm|not)/\w+\.nif$"
     )
     texture_pattern = re.compile(
-        prefix
-        + r"item_(hef|hem|hnf|hnm|hsf|hsm|hwf|hwm|not)/Textures_low/\w+\.(tga|png|dds)$"
+        prefix + r"/item_(hef|hem|hnf|hnm|hsf|hsm|hwf|hwm|not)/Textures_low/.*$"
     )
 
     to_download = index_filelist.find_by_regex(item_pattern)
