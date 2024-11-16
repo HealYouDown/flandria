@@ -1,0 +1,44 @@
+services:
+  flandria-api:
+    container_name: flandria-api
+    build: ./flandria/flandria-graphql-api/
+    ports:
+      - "9000:5000"
+    volumes:
+      - "./flandria-data/assets:/app/assets:ro"
+      # We also mount our local tmp folder for testing purposes
+      - "./flandria-data/tmp:/app/tmp"
+      # Sqlite3 database (for now, postgres didn't behave)
+      - "./flandria-data/database.sqlite3:/app/database.sqlite3"
+    restart: unless-stopped
+    labels:
+      - "traefik.http.routers.flandria_api.rule=Host(`flandria.wiki`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.flandria_api.entrypoints=websecure"
+      - "traefik.http.routers.flandria_api.tls=true"
+      - "traefik.http.routers.flandria_api.tls.certresolver=leresolver"
+      - "traefik.http.routers.flandria_api.priority=999"
+      - "traefik.http.middlewares.flandria_api_strip.stripprefix.prefixes=/api"
+      - "traefik.http.routers.flandria_api.middlewares=flandria_api_strip"
+
+  flandria_frontend:
+    container_name: flandria-frontend
+    build:
+      context: ./flandria/flandria-frontend/
+      args:
+        API_URL: "https://flandria.wiki/api/graphql"
+    ports:
+      - "9001:80"
+    volumes:
+      - "./flandria-data/assets:/usr/share/nginx/flandria/assets:ro"
+    restart: unless-stopped
+    labels:
+      # without subdomain
+      - "traefik.http.routers.flandria.rule=Host(`flandria.wiki`)"
+      - "traefik.http.routers.flandria.entrypoints=websecure"
+      - "traefik.http.routers.flandria.tls=true"
+      - "traefik.http.routers.flandria.tls.certresolver=leresolver"
+      # www domain
+      - "traefik.http.routers.flandria_www.rule=Host(`www.flandria.wiki`)"
+      - "traefik.http.routers.flandria_www.entrypoints=websecure"
+      - "traefik.http.routers.flandria_www.tls=true"
+      - "traefik.http.routers.flandria_www.tls.certresolver=leresolver"
