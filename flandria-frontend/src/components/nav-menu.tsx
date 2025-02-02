@@ -95,6 +95,11 @@ export const downloadLinks: NavListExternalLink[] = [
     description: "Essence Guide in German.",
   },
   {
+    title: "Essence Guide (FR)",
+    href: "/files/essence_guide_fr.pdf",
+    description: "Essence Guide in French.",
+  },
+  {
     title: "Combat Pet Stats",
     href: "/files/pet_stats.pdf",
     description: "A list of S+ stats per pevel for all pets.",
