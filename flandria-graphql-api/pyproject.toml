@@ -19,7 +19,7 @@ pillow = "^10.3.0"
 pygltflib = "^1.16.2"
 aiohttp = "^3.9.5"
 aiofiles = "^23.2.1"
-strawberry-graphql = {extras = ["cli"], version = "^0.248.1"}
+strawberry-graphql = {extras = ["cli"], version = "^0.257.0"}
 uvicorn = "^0.30.6"
 python-dotenv = "^1.0.1"
 psycopg2 = "^2.9.9"
