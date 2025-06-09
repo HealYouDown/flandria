@@ -43,6 +43,7 @@ const Cardiff = (
       <MapListItem code="AD3_000">Secret Laboratory</MapListItem>
       <MapListItem code="AD4_000">[Elite] Fox Den</MapListItem>
       <MapListItem code="AD5_000">[Elite] Cardiff Abandoned Mine</MapListItem>
+      <MapListItem code="DF1_000">Realm of Ruins</MapListItem>
     </CardContentList>
   </Card>
 )
@@ -61,7 +62,6 @@ const Magnel = (
         The 2nd Basement of Tulach Dungeon
       </MapListItem>
       <MapListItem code="BF2_000">Lava Plateau</MapListItem>
-      <MapListItem code="DF1_000">Realm of Ruins</MapListItem>
     </CardContentList>
   </Card>
 )
