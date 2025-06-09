@@ -1,5 +1,5 @@
+import configparser
 import os
-import re
 from typing import TYPE_CHECKING, Any, cast
 
 from loguru import logger
@@ -36,35 +36,35 @@ def quest(
         loader_info.files.extra_files[1],
     )
 
-    # This doesn't cover the last "new" quests that are separated by ;
-    # and have linebreaks inside their text (my man AHA the hero!)
-    # Some text will be cut short, but whatever
-    description_pattern = re.compile(
-        r"\[(?P<quest_code>.*)\][\n\r]"
-        r"(?:Title=(?P<title>.*)[\n\r])?"
-        r"(?:Mission1=(?P<mission_1>.*))[\n\r]?"
-        r"(?:Mission2=(?P<mission_2>.*)[\n\r])?"
-        r"(?:Mission3=(?P<mission_3>.*)[\n\r])?"
-        r"(?:desc=(?P<description>.*)[\n\r])?"
-        r"(?:preDlg=(?P<pre_dialog>.*)[\n\r])?"
-        r"(?:startDlg=(?P<start_dialog>.*)[\n\r])?"
-        r"(?:runDlg=(?P<run_dialog>.*)[\n\r])?"
-        r"(?:finishDlg=(?P<finish_dialog>.*)[\n\r])?"
-    )
-
     quest_descriptions: dict[str, dict[str, str | None]] = {}
-    with open(quest_description_fpath, encoding="utf-16") as fp:
-        for match in re.finditer(description_pattern, fp.read()):
+
+    description_parser = configparser.ConfigParser(allow_no_value=True, strict=False)
+    description_parser.read(quest_description_fpath, encoding="utf-16")
+
+    for quest_code in description_parser:
+        if quest_code == description_parser.default_section:
+            continue
+
+        descriptions = {}
+        for key in (
+            "Title",
+            "Mission1",
+            "Mission2",
+            "Mission3",
+            "desc",
+            "preDlg",
+            "startDlg",
+            "runDlg",
+            "finishDlg",
+        ):
+            value = description_parser[quest_code][key]
+            value = value.strip()
             # Strings with less than 3 chars are set as None
             # Sometimes a '.' is used as a filler character, so we
             # want to ignore those (and empty descriptions)
-            obj = match.groupdict()
-            for key, value in obj.items():
-                if value is not None:
-                    value = value.strip()
-                    value = value if len(value) > 3 else None
-                obj[key] = value
-            quest_descriptions[obj["quest_code"]] = obj
+            value = value if len(value) > 3 else None
+            descriptions[key] = value
+        quest_descriptions[quest_code] = descriptions
 
     xml_parser = etree.XMLParser(encoding="utf-8")
 
@@ -95,12 +95,12 @@ def quest(
             "code": quest_code,
             "start_npc_code": root.get("SourceObject"),
             "start_area_code": root.get("SourceArea"),
-            "title": quest_description["title"],
-            "description": quest_description["description"],
-            "pre_dialog": quest_description["pre_dialog"],
-            "start_dialog": quest_description["start_dialog"],
-            "run_dialog": quest_description["run_dialog"],
-            "finish_dialog": quest_description["finish_dialog"],
+            "title": quest_description["Title"],
+            "description": quest_description["desc"],
+            "pre_dialog": quest_description["preDlg"],
+            "start_dialog": quest_description["startDlg"],
+            "run_dialog": quest_description["runDlg"],
+            "finish_dialog": quest_description["finishDlg"],
         }
 
         for element in root:
@@ -214,9 +214,9 @@ def quest(
 
             elif element.tag == "Mission":
                 mission_descriptions = [
-                    quest_description["mission_1"],
-                    quest_description["mission_2"],
-                    quest_description["mission_3"],
+                    quest_description["Mission1"],
+                    quest_description["Mission2"],
+                    quest_description["Mission3"],
                 ]
                 for mission, description in zip(element, mission_descriptions):
                     required_keys = {"WorkType", "WorkValue", "Count"}
