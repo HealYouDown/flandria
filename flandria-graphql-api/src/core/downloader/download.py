@@ -1,8 +1,6 @@
 import asyncio
 import datetime
-import io
 import os
-import zipfile
 from typing import Callable
 
 import aiofiles
@@ -17,46 +15,15 @@ from src.core.utils import get_semaphore_limit
 from .index_file_parser import File, Filelist
 
 
-def validate_zip(file: File, zipf: zipfile.ZipFile) -> bool:
-    if not len(zipf.filelist) == 1:
-        logger.error(f"Found more than one file in downloaded zip: {zipf.filelist!r}")
-        return False
-
-    zipf_file = zipf.filelist[0]
-    if not zipf_file.filename == file.filename:
-        logger.error(
-            f"Expected {file.filename!r}, but zip contains {zipf_file.filename!r}"
-        )
-        return False
-
-    if not zipf_file.file_size == file.size:
-        logger.error(
-            f"{zipf_file.filename} has a different size than according to "
-            f"the index file: {zipf_file.file_size} (Zipfile) vs. "
-            f"{file.size} (Version.bin) "
-        )
-        return False
-
-    return True
-
-
 def download_file_sync(file: File, to_folder: str) -> None:
     with requests.get(file.download_url) as resp:
         if resp.status_code != 200:
             logger.error(f"Failed to download {file.part!r}, got {resp.status_code!r}")
             return
 
-    try:
-        with zipfile.ZipFile(io.BytesIO(resp.content)) as zipf:
-            if not validate_zip(file, zipf):
-                return
-
-            out_fpath = os.path.join(to_folder, file.filename)
-            with open(out_fpath, "wb") as fp:
-                fp.write(zipf.read(zipf.filelist[0]))
-
-    except zipfile.BadZipFile as e:
-        logger.error(f"Bad ZipFile for for {file.part!r}: {e}")
+        out_fpath = os.path.join(to_folder, file.filename)
+        with open(out_fpath, "wb") as fp:
+            fp.write(resp.content)
 
 
 async def download_file_async(
@@ -68,16 +35,7 @@ async def download_file_async(
                 logger.error(f"Failed to download {file.part!r}, got {resp.status!r}")
                 return
 
-            try:
-                zip_data = await resp.read()
-            except Exception as e:
-                logger.error(f"Failed to download {file.part!r}: {e!r}")
-                return
-
-    try:
-        with zipfile.ZipFile(io.BytesIO(zip_data)) as zipf:
-            if not validate_zip(file, zipf):
-                return
+            file_content = await resp.read()
 
             # Check that to_folder exists, as it isn't checked beforehand
             # for async download, only sync.
@@ -92,10 +50,7 @@ async def download_file_async(
 
             out_fpath = os.path.join(folder, file.filename)
             async with aiofiles.open(out_fpath, "wb") as fp:
-                await fp.write(zipf.read(zipf.filelist[0]))
-
-    except zipfile.BadZipFile as e:
-        logger.error(f"Bad ZipFile for for {file.part!r}: {e}")
+                await fp.write(file_content)
 
 
 def download_files(

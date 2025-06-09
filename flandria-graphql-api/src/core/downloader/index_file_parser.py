@@ -1,6 +1,6 @@
+import json
 import os
 import re
-import shutil
 from dataclasses import dataclass
 from typing import Container
 
@@ -13,8 +13,6 @@ from src.core.constants import PATCHSERVER_URL, TMP_PATH
 @dataclass
 class File:
     part: str
-    unknown1: int
-    unknown2: int
     size: int
 
     @property
@@ -41,7 +39,7 @@ class File:
 
     @property
     def download_url(self) -> str:
-        return f"{PATCHSERVER_URL}/{self.part}.zip"
+        return f"{PATCHSERVER_URL}/{self.part}"
 
 
 class Filelist(list[File]):
@@ -118,25 +116,23 @@ def get_filelist_from_index() -> Filelist:
         Filelist: A list of all File objects which contain
         data about the available files in the index.
     """
+    metadata_fpath = os.path.join(TMP_PATH, "metadata.json")
 
-    index_fpath = os.path.join(TMP_PATH, "version.bin")
-
-    # Check if we have a cached version.bin available for usage
-    if not os.path.exists(index_fpath):
-        logger.debug("Downloading version.bin file because it does not exist.")
-        download_url = f"{PATCHSERVER_URL}/version.bin"
+    # Check if we have a cached metadata.json available for usage
+    if not os.path.exists(metadata_fpath):
+        logger.debug("Downloading metadata.json file because it does not exist.")
+        download_url = f"{PATCHSERVER_URL}/metadata.json"
         with requests.get(download_url, stream=True) as resp:
-            with open(index_fpath, "wb") as fp:
-                shutil.copyfileobj(resp.raw, fp)
+            with open(metadata_fpath, "w") as fp:
+                json.dump(resp.json(), fp)
 
     # Parse the index file and extract all information
     # uk1 and uk2 are probably related to how the launcher checks whether
     # a file needs to be updated, somehow related to timestamps, but no idea.
-    with open(index_fpath, "r", encoding="euc_kr") as fp:
-        lines = fp.read().splitlines(keepends=False)[1:]
-        files = []
-        for line in lines:
-            part, rest = line.split("| ")
-            uk1, uk2, size = tuple(int(i) for i in rest.split(" "))
-            files.append(File(part.strip(), uk1, uk2, size))
+    with open(metadata_fpath, "r", encoding="utf-8") as fp:
+        data = json.load(fp)
+
+        files: list[File] = []
+        for file_metadata in data:
+            files.append(File(part=file_metadata["name"], size=file_metadata["size"]))
         return Filelist(files)

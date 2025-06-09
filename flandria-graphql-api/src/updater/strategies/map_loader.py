@@ -1,4 +1,3 @@
-import sys
 from typing import TYPE_CHECKING, cast
 
 from loguru import logger
@@ -12,6 +11,8 @@ if TYPE_CHECKING:
 
     from .types import T_STRATEGY_RETURN
 
+
+# FIXME: Technically they are now correct, but I'm too lazy to update this
 
 # This data normally resides inside the map folders in an .ini
 # file, however, for Realm of Ruins, the values are simply wrong
@@ -87,8 +88,7 @@ MAP_CODE_TO_LTWH: dict[str, tuple[float, float, float, float]] = {
     "AT008_000": (-9087.323, 9058.313, 18200, 18200),  # Tower
     "AT009_000": (-9087.323, 9058.313, 18200, 18200),  # Tower
     "AT010_000": (-9087.323, 9058.313, 18200, 18200),  # Tower
-    #
-    # Harbor Occupation War Map(s)?
+    # Harbor Occupation War Maps
     "AW1_000": (-19924.076, 18475.932, 40000, 40000),  # Battlefield
     "BW1_000": (-19924.076, 18475.932, 40000, 40000),  # Battlefield
     "CW1_000": (-19924.076, 18475.932, 40000, 40000),  # Battlefield
@@ -109,7 +109,6 @@ def map(
 
     for row in data.server_data:
         code = cast(str, row["코드"])
-        parent_code = row["부모코드"]
 
         try:
             name = data.string_lookup[code][LANGUAGE]
@@ -117,13 +116,8 @@ def map(
             logger.debug(f"No name found for map/area {code}")
             name = FALLBACK_NAME
 
-        if parent_code == "*":  # -> map instead of just an area
-            try:
-                left, top, width, height = MAP_CODE_TO_LTWH[code]
-            except KeyError:
-                logger.critical(f"Unknown map code {code}")
-                sys.exit(1)
-
+        if code in MAP_CODE_TO_LTWH:
+            left, top, width, height = MAP_CODE_TO_LTWH[code]
             maps.append(
                 {
                     "code": code,
@@ -135,6 +129,7 @@ def map(
                 }
             )
         else:  # area
+            parent_code = code.split("_")[0] + "_000"
             map_areas.append(
                 {
                     "area_code": code,

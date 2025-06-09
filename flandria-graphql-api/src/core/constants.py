@@ -1,6 +1,6 @@
 import os
 
-PATCHSERVER_URL = r"http://patch.florensia-online.eu/LIVE/Patch/Update"
+PATCHSERVER_URL = r"http://patch-live.florensia-online.eu/game"
 
 NOESIS_PATH = os.path.abspath("lib/noesis/Noesis64.exe")
 
