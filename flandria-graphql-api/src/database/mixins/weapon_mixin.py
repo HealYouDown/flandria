@@ -46,7 +46,7 @@ class WeaponMixin(
         sa.Integer,
         nullable=False,
         doc="Maximum physical damage of the weapon",
-        info=ColumnInfo(key="최소물공력"),
+        info=ColumnInfo(key="최대물공력"),
     )
 
     minimum_magical_damage = orm.mapped_column(
