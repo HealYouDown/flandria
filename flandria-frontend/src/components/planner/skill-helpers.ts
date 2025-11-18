@@ -1,5 +1,3 @@
-import {clamp} from "@/utils/utils"
-
 import {graphql} from "@/gql"
 import {PlannerPlayerSkillFragment} from "@/gql/graphql"
 
