@@ -11,7 +11,7 @@ from .utils import utils_cli
 
 @click.group()
 @click.option("--debug/--no-debug", default=False)
-def entrypoint(debug: bool):
+def entrypoint(debug: bool = False):
     level = "DEBUG" if debug else "INFO"
 
     logger.remove()
