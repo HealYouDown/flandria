@@ -40,8 +40,6 @@ function RouteComponent() {
   const {
     data: {
       all_player_skills: {skills},
-      player_level_stats: levelData,
-      player_stats: statsData,
     },
   } = useSuspenseQuery(
     makePlannerQueryOptions(BaseClassType.Explorer, EXPLORER_SKILL_CODES),
@@ -70,11 +68,7 @@ function RouteComponent() {
           levelOptions={landLevelOptions}
           getAvailableSkillPointsFromLevel={getAvailableSkillPointsLand}
         />
-        <StatsPlannerCard
-          baseClass={BaseClassType.Explorer}
-          levelData={levelData}
-          statsData={statsData}
-        />
+        <StatsPlannerCard baseClass={BaseClassType.Explorer} />
       </div>
     </>
   )

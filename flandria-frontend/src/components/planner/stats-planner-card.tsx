@@ -2,15 +2,26 @@ import {cn} from "@/lib/utils"
 
 import {clamp} from "@/utils/utils"
 
-import {graphql} from "@/gql"
-import {
-  BaseClassType,
-  PlayerLevelDataFragment,
-  PlayerStatsDataFragment,
-  StatType,
-} from "@/gql/graphql"
+import {BaseClassType} from "@/gql/graphql"
 
 import {Combobox} from "@/components/combobox"
+import {
+  calculateAvoidance,
+  calculateMagicCriticalRate,
+  calculateMagicHitRate,
+  calculateMagicMaxAttack,
+  calculateMagicMinAttack,
+  calculateMaxHP,
+  calculateMaxMP,
+  calculateMeleeCriticalRate,
+  calculateMeleeHitRate,
+  calculateMeleeMaxAttack,
+  calculateMeleeMinAttack,
+  calculateRangedCriticalRate,
+  calculateRangedHitRate,
+  calculateRangedMaxAttack,
+  calculateRangedMinAttack,
+} from "@/components/planner/stat-helpers"
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardFooter, CardHeader} from "@/components/ui/card"
 import {Label} from "@/components/ui/label"
@@ -21,7 +32,6 @@ import {
 } from "@/routes/planner/-combobox-options"
 import {MinusIcon, PlusIcon} from "lucide-react"
 import * as React from "react"
-import {useDeepCompareMemo} from "use-deep-compare"
 
 const MAX_INVEST_POINTS = 500
 
@@ -59,59 +69,6 @@ const BASE_POINTS = {
     will: 17,
   },
 }
-
-graphql(`
-  fragment PlayerLevelData on PlayerLevelStat {
-    level
-    max_hp
-    max_mp
-    avoidance
-
-    range_min_attack
-    range_max_attack
-    range_hitrate
-    range_critical_rate
-
-    magic_min_attack
-    magic_max_attack
-    magic_hitrate
-    magic_critical_rate
-
-    melee_min_attack
-    melee_max_attack
-    melee_hitrate
-    melee_critical_rate
-  }
-`)
-
-graphql(`
-  fragment PlayerStatsData on PlayerStatusStat {
-    point_level
-    stat_type
-
-    max_hp_increment
-    max_mp_increment
-    avoidance_increment
-
-    range_min_attack_increment
-    range_max_attack_increment
-    range_hitrate_increment
-    range_critical_rate_increment
-
-    magic_min_attack_increment
-    magic_max_attack_increment
-    magic_hitrate_increment
-    magic_critical_rate_increment
-
-    melee_min_attack_increment
-    melee_max_attack_increment
-    melee_hitrate_increment
-    melee_critical_rate_increment
-  }
-`)
-
-export type PlayerLevelData = PlayerLevelDataFragment
-export type PlayerStatsData = PlayerStatsDataFragment
 
 type StatsPlannerState = {
   levelLand: number
@@ -190,40 +147,8 @@ const StatDisplaySection = ({
 
 type StatsPlannerCardProps = {
   baseClass: Exclude<BaseClassType, BaseClassType.Ship>
-  levelData: PlayerLevelData[]
-  statsData: PlayerStatsData[]
 }
-export function StatsPlannerCard({
-  baseClass,
-  levelData,
-  statsData,
-}: StatsPlannerCardProps) {
-  const groupedLevelData = useDeepCompareMemo(
-    () =>
-      levelData.reduce(
-        (acc, current) => {
-          acc[current.level] = current
-          return acc
-        },
-        {} as {[x: number]: PlayerLevelData},
-      ),
-    [levelData],
-  )
-  const groupedStatsData = useDeepCompareMemo(
-    () =>
-      statsData.reduce(
-        (acc, current) => {
-          if (!(current.stat_type in acc)) {
-            acc[current.stat_type] = {}
-          }
-          acc[current.stat_type][current.point_level] = current
-          return acc
-        },
-        {} as {[key in StatType]: {[x: number]: PlayerStatsData}},
-      ),
-    [statsData],
-  )
-
+export function StatsPlannerCard({baseClass}: StatsPlannerCardProps) {
   const [
     {
       levelLand,
@@ -316,16 +241,8 @@ export function StatsPlannerCard({
   ])
 
   const calculateAvailableStatusPoints = () => {
-    // 3 points per level on land up to including 100,
-    // 5 points on 105
-    // 1 point per level on sea, expect on lv 1
     const seaPoints = levelSea - 1
-
-    let landPoints = clamp(levelLand, 1, 100) * 3
-    if (levelLand === 105) {
-      landPoints += 5
-    }
-
+    const landPoints = levelLand * 3
     return seaPoints + landPoints
   }
 
@@ -344,54 +261,74 @@ export function StatsPlannerCard({
     classInitialStatusPoints["constitution"] + constitution
   const totalWill = classInitialStatusPoints["will"] + will
 
-  const currentLevelData = groupedLevelData[levelLand]
-  const currentStats = {
-    max_hp: currentLevelData.max_hp,
-    max_mp: currentLevelData.max_mp,
-    avoidance: currentLevelData.avoidance,
-
-    melee_min_attack: currentLevelData.melee_min_attack,
-    melee_max_attack: currentLevelData.melee_max_attack,
-    melee_hitrate: currentLevelData.melee_hitrate,
-    melee_critical_rate: currentLevelData.melee_critical_rate,
-
-    range_min_attack: currentLevelData.range_min_attack,
-    range_max_attack: currentLevelData.range_max_attack,
-    range_hitrate: currentLevelData.range_hitrate,
-    range_critical_rate: currentLevelData.range_critical_rate,
-
-    magic_min_attack: currentLevelData.magic_min_attack,
-    magic_max_attack: currentLevelData.magic_max_attack,
-    magic_hitrate: currentLevelData.magic_hitrate,
-    magic_critical_rate: currentLevelData.magic_critical_rate,
-  }
-  ;[
-    groupedStatsData.CONSTITUTION[totalConstitution],
-    groupedStatsData.DEXTERITY[totalDexterity],
-    groupedStatsData.INTELLIGENCE[totalIntelligence],
-    groupedStatsData.STRENGTH[totalStrength],
-    groupedStatsData.WILL[totalWill],
-    groupedStatsData.WISDOM[totalWisdom],
-  ].forEach((stats) => {
-    currentStats.max_hp += stats.max_hp_increment
-    currentStats.max_mp += stats.max_mp_increment
-    currentStats.avoidance += stats.avoidance_increment
-
-    currentStats.melee_min_attack += stats.melee_min_attack_increment
-    currentStats.melee_max_attack += stats.melee_max_attack_increment
-    currentStats.melee_hitrate += stats.melee_hitrate_increment
-    currentStats.melee_critical_rate += stats.melee_critical_rate_increment
-
-    currentStats.range_min_attack += stats.range_min_attack_increment
-    currentStats.range_max_attack += stats.range_max_attack_increment
-    currentStats.range_hitrate += stats.range_hitrate_increment
-    currentStats.range_critical_rate += stats.range_critical_rate_increment
-
-    currentStats.magic_min_attack += stats.magic_min_attack_increment
-    currentStats.magic_max_attack += stats.magic_max_attack_increment
-    currentStats.magic_hitrate += stats.magic_hitrate_increment
-    currentStats.magic_critical_rate += stats.magic_critical_rate_increment
-  })
+  const maxHP = Math.floor(
+    calculateMaxHP(levelLand, baseClass, totalConstitution),
+  )
+  const maxMP = Math.floor(calculateMaxMP(levelLand, baseClass, totalWisdom))
+  const avoidance = Math.floor(
+    calculateAvoidance(levelLand, baseClass, totalDexterity),
+  )
+  const meleeMinAttack = Math.floor(
+    calculateMeleeMinAttack(
+      levelLand,
+      baseClass,
+      totalStrength,
+      totalIntelligence,
+    ),
+  )
+  const meleeMaxAttack = Math.floor(
+    calculateMeleeMaxAttack(
+      levelLand,
+      baseClass,
+      totalStrength,
+      totalIntelligence,
+    ),
+  )
+  const meleeHitrate = Math.floor(
+    calculateMeleeHitRate(levelLand, baseClass, totalDexterity),
+  )
+  const meleeCriticalRate = Math.floor(
+    calculateMeleeCriticalRate(levelLand, baseClass, totalWill),
+  )
+  const rangeMinAttack = Math.floor(
+    calculateRangedMinAttack(
+      levelLand,
+      baseClass,
+      totalStrength,
+      totalIntelligence,
+    ),
+  )
+  const rangeMaxAttack = Math.floor(
+    calculateRangedMaxAttack(
+      levelLand,
+      baseClass,
+      totalStrength,
+      totalIntelligence,
+    ),
+  )
+  const rangeHitrate = Math.floor(
+    calculateRangedHitRate(levelLand, baseClass, totalDexterity),
+  )
+  const rangeCriticalRate = Math.floor(
+    calculateRangedCriticalRate(levelLand, baseClass, totalWill),
+  )
+  const magicMinAttack = Math.floor(
+    calculateMagicMinAttack(levelLand, baseClass, totalIntelligence),
+  )
+  const magicMaxAttack = Math.floor(
+    calculateMagicMaxAttack(levelLand, baseClass, totalIntelligence),
+  )
+  const magicHitrate = Math.floor(
+    calculateMagicHitRate(
+      levelLand,
+      baseClass,
+      totalDexterity,
+      totalIntelligence,
+    ),
+  )
+  const magicCriticalRate = Math.floor(
+    calculateMagicCriticalRate(levelLand, baseClass, totalWill),
+  )
 
   return (
     <Card className="w-full max-w-[450px] xl:w-auto xl:max-w-max">
@@ -480,59 +417,59 @@ export function StatsPlannerCard({
             <div>
               <StatDisplaySection
                 label="Max. HP"
-                value={currentStats.max_hp.toLocaleString()}
+                value={maxHP.toLocaleString()}
                 labelClassName="text-red-500"
               />
               <StatDisplaySection
                 label="Max. MP"
-                value={currentStats.max_mp.toLocaleString()}
+                value={maxMP.toLocaleString()}
                 labelClassName="text-blue-500"
               />
               <StatDisplaySection
                 label="Avoidance"
-                value={currentStats.avoidance.toLocaleString()}
+                value={avoidance.toLocaleString()}
               />
             </div>
             <div>
               <StatDisplaySection
                 label="Melee Attack"
-                value={`${currentStats.melee_min_attack.toLocaleString()} ~ ${currentStats.melee_max_attack.toLocaleString()}`}
+                value={`${meleeMinAttack.toLocaleString()} ~ ${meleeMaxAttack.toLocaleString()}`}
               />
               <StatDisplaySection
                 label="Melee Hitrate"
-                value={currentStats.melee_hitrate.toLocaleString()}
+                value={meleeHitrate.toLocaleString()}
               />
               <StatDisplaySection
                 label="Melee Critical Rate"
-                value={currentStats.melee_critical_rate.toLocaleString()}
+                value={meleeCriticalRate.toLocaleString()}
               />
             </div>
             <div>
               <StatDisplaySection
                 label="Range Attack"
-                value={`${currentStats.range_min_attack.toLocaleString()} ~ ${currentStats.range_max_attack.toLocaleString()}`}
+                value={`${rangeMinAttack.toLocaleString()} ~ ${rangeMaxAttack.toLocaleString()}`}
               />
               <StatDisplaySection
                 label="Range Hitrate"
-                value={currentStats.range_hitrate.toLocaleString()}
+                value={rangeHitrate.toLocaleString()}
               />
               <StatDisplaySection
                 label="Range Critical Rate"
-                value={currentStats.range_critical_rate.toLocaleString()}
+                value={rangeCriticalRate.toLocaleString()}
               />
             </div>
             <div>
               <StatDisplaySection
                 label="Magic Attack"
-                value={`${currentStats.magic_min_attack.toLocaleString()} ~ ${currentStats.magic_max_attack.toLocaleString()}`}
+                value={`${magicMinAttack.toLocaleString()} ~ ${magicMaxAttack.toLocaleString()}`}
               />
               <StatDisplaySection
                 label="Magic Hitrate"
-                value={currentStats.magic_hitrate.toLocaleString()}
+                value={magicHitrate.toLocaleString()}
               />
               <StatDisplaySection
                 label="Magic Critical Rate"
-                value={currentStats.magic_critical_rate.toLocaleString()}
+                value={magicCriticalRate.toLocaleString()}
               />
             </div>
           </div>

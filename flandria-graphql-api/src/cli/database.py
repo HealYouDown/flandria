@@ -6,14 +6,12 @@ from src.core.constants import (
     DROPS_DATA_PATH,
     MAPS_DATA_PATH,
     OUTPUT_ASSETS_FOLDER,
-    STATS_DATA_PATH,
 )
 from src.database.base import Base
 from src.database.engine import engine
 from src.updater.load_availble_3d_models import load_available_3d_models
 from src.updater.load_drops import load_drops
 from src.updater.load_maps import load_maps
-from src.updater.load_player_stats import load_player_stats
 from src.updater.updater import (
     download_updater_files,
     fix_fk_violations,
@@ -72,17 +70,6 @@ def load_drops_cli(path: str):
 def load_maps_cli(path):
     """Loads map files (monsters and respawn timers) into the database."""
     load_maps(path)
-
-
-@database_cli.command("stats")
-@click.option(
-    "--path",
-    type=click.Path(exists=True, readable=True),
-    default=STATS_DATA_PATH,
-)
-def load_player_stats_cli(path):
-    """Loads player stats files into the database."""
-    load_player_stats(path)
 
 
 @database_cli.command("models")

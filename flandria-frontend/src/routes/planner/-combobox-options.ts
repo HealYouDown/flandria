@@ -2,7 +2,7 @@ import {ComboboxOption} from "@/components/combobox"
 import {ClassFlagsType} from "@/components/planner/skill-helpers"
 
 export const landLevelOptions: ComboboxOption<string>[] = [
-  ...Array(105).keys(),
+  ...Array(120).keys(),
 ].map((i) => ({label: (i + 1).toString(), value: (i + 1).toString()}))
 
 export const seaLevelOptions: ComboboxOption<string>[] = [

@@ -111,8 +111,7 @@ export function groupSkillsData<TCode extends string>(
   }, {} as GroupedSkillData<TCode>)
 }
 export function getAvailableSkillPointsLand(level: number): number {
-  if (level === 105) return 101
-  return clamp(level, 1, 100)
+  return level
 }
 
 export function getAvailableSkillPointsSea(level: number): number {

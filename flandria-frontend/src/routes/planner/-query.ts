@@ -6,19 +6,11 @@ import {BaseClassType} from "@/gql/graphql"
 import {queryOptions} from "@tanstack/react-query"
 
 const plannerQuery = graphql(`
-  query PlannerData($codes: [String!]!, $class: BaseClassType!) {
+  query PlannerData($codes: [String!]!) {
     all_player_skills(limit: -1, filter: {reference_code: {in: $codes}}) {
       skills: items {
         ...PlannerPlayerSkill
       }
-    }
-
-    player_level_stats(base_class: $class) {
-      ...PlayerLevelData
-    }
-
-    player_stats(base_class: $class) {
-      ...PlayerStatsData
     }
   }
 `)
@@ -31,7 +23,6 @@ export const makePlannerQueryOptions = (
     queryKey: ["planner", baseClass, referenceCodes],
     queryFn: async () =>
       gqlClient.request(plannerQuery, {
-        class: baseClass,
         codes: referenceCodes,
       }),
   })
