@@ -16,9 +16,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip"
 
-import {InfoIcon} from "lucide-react"
 import React from "react"
 
 graphql(`
