@@ -18,7 +18,6 @@ if TYPE_CHECKING:
     ItemFlag = enums.ItemFlag
     ItemSetSlot = enums.ItemSetSlot
     BaseClassType = enums.BaseClassType
-    StatType = enums.StatType
     Model3DClass = enums.Model3DClass
     Model3DGender = enums.Model3DGender
 else:
@@ -34,6 +33,5 @@ else:
     ItemFlag = strawberry.enum(enums.ItemFlag)
     ItemSetSlot = strawberry.enum(enums.ItemSetSlot)
     BaseClassType = strawberry.enum(enums.BaseClassType)
-    StatType = strawberry.enum(enums.StatType)
     Model3DClass = strawberry.enum(enums.Model3DClass)
     Model3DGender = strawberry.enum(enums.Model3DGender)

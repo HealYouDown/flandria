@@ -7,7 +7,7 @@ from lxml import etree
 from src.updater.transforms import probability_to_float
 
 
-def get_probability(element: etree._Element, total: int = 10_000) -> float:
+def get_item_probability(element: etree._Element, total: int = 10_000) -> float:
     # typos are nice, wonder how florensia handles them (:
     keys = ["Probapility", "Probability"]
 
@@ -27,6 +27,7 @@ def parse_dropfile(path: str, monster_code: str):
     drops: list[dict] = []
     money: dict | None = None
 
+    section_counter = 0
     for element in tree.getroot():
         if element.tag == "Money":
             assert "LeastMoney" in element.attrib and "MaxMoney" in element.attrib
@@ -36,7 +37,7 @@ def parse_dropfile(path: str, monster_code: str):
                 "monster_code": monster_code,
                 "min": int(float(cast(str, element.get("LeastMoney")))),
                 "max": int(float(cast(str, element.get("MaxMoney")))),
-                "probability": get_probability(element),
+                "probability": get_item_probability(element),
             }
         else:  # WearItems, AccessoryItems, StuffItems, EventItems
             assert "MainProbability" in element.attrib
@@ -50,11 +51,14 @@ def parse_dropfile(path: str, monster_code: str):
                         "monster_code": monster_code,
                         "item_code": item_code,
                         "quantity": int(cast(str, child.get("Amount"))),
-                        "probability": get_probability(
-                            child,
-                            total=int(cast(str, element.get("MainProbability"))),
+                        "section_id": section_counter,
+                        "section_probability": probability_to_float(
+                            int(cast(str, element.get("MainProbability")))
                         ),
+                        "item_probability": get_item_probability(child),
                     }
                 )
+
+            section_counter += 1
 
     return drops, money

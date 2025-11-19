@@ -329,7 +329,9 @@ class MonsterSkillSort(
 class DropSort:
     index: Optional[SortDirection] = strawberry.UNSET
     quantity: Optional[SortDirection] = strawberry.UNSET
-    probability: Optional[SortDirection] = strawberry.UNSET
+    section_id: Optional[SortDirection] = strawberry.UNSET
+    section_probability: Optional[SortDirection] = strawberry.UNSET
+    item_probability: Optional[SortDirection] = strawberry.UNSET
     monster_code: Optional[SortDirection] = strawberry.UNSET
     item_code: Optional[SortDirection] = strawberry.UNSET
 
@@ -699,46 +701,6 @@ class PlayerSkillSort(
 @strawberry.input(one_of=True)
 class SkillBookSort(BaseMixinSort, RowIDMixinSort):
     skill_code: Optional[SortDirection] = strawberry.UNSET
-
-
-@strawberry.input(one_of=True)
-class PlayerLevelStatSort:
-    level: Optional[SortDirection] = strawberry.UNSET
-    max_hp: Optional[SortDirection] = strawberry.UNSET
-    max_mp: Optional[SortDirection] = strawberry.UNSET
-    avoidance: Optional[SortDirection] = strawberry.UNSET
-    melee_min_attack: Optional[SortDirection] = strawberry.UNSET
-    melee_max_attack: Optional[SortDirection] = strawberry.UNSET
-    melee_hitrate: Optional[SortDirection] = strawberry.UNSET
-    melee_critical_rate: Optional[SortDirection] = strawberry.UNSET
-    range_min_attack: Optional[SortDirection] = strawberry.UNSET
-    range_max_attack: Optional[SortDirection] = strawberry.UNSET
-    range_hitrate: Optional[SortDirection] = strawberry.UNSET
-    range_critical_rate: Optional[SortDirection] = strawberry.UNSET
-    magic_min_attack: Optional[SortDirection] = strawberry.UNSET
-    magic_max_attack: Optional[SortDirection] = strawberry.UNSET
-    magic_hitrate: Optional[SortDirection] = strawberry.UNSET
-    magic_critical_rate: Optional[SortDirection] = strawberry.UNSET
-
-
-@strawberry.input(one_of=True)
-class PlayerStatusStatSort:
-    point_level: Optional[SortDirection] = strawberry.UNSET
-    max_hp_increment: Optional[SortDirection] = strawberry.UNSET
-    max_mp_increment: Optional[SortDirection] = strawberry.UNSET
-    avoidance_increment: Optional[SortDirection] = strawberry.UNSET
-    melee_min_attack_increment: Optional[SortDirection] = strawberry.UNSET
-    melee_max_attack_increment: Optional[SortDirection] = strawberry.UNSET
-    melee_hitrate_increment: Optional[SortDirection] = strawberry.UNSET
-    melee_critical_rate_increment: Optional[SortDirection] = strawberry.UNSET
-    range_min_attack_increment: Optional[SortDirection] = strawberry.UNSET
-    range_max_attack_increment: Optional[SortDirection] = strawberry.UNSET
-    range_hitrate_increment: Optional[SortDirection] = strawberry.UNSET
-    range_critical_rate_increment: Optional[SortDirection] = strawberry.UNSET
-    magic_min_attack_increment: Optional[SortDirection] = strawberry.UNSET
-    magic_max_attack_increment: Optional[SortDirection] = strawberry.UNSET
-    magic_hitrate_increment: Optional[SortDirection] = strawberry.UNSET
-    magic_critical_rate_increment: Optional[SortDirection] = strawberry.UNSET
 
 
 @strawberry.input(one_of=True)

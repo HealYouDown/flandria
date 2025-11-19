@@ -5,18 +5,13 @@ from typing import TYPE_CHECKING, cast
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
 
-from src.database import models
 from src.database.column_types import RGB
 
 if TYPE_CHECKING:
     from src.database.types import ModelCls
 
 # List of columns that should be annotated with strawberry.Private to not expose them
-PRIVATE_COLUMNS = [
-    models.Drop.probability,
-    models.Money.probability,
-    models.RandomBoxReward.probability,
-]
+PRIVATE_COLUMNS = []
 
 
 @dataclass(frozen=True)

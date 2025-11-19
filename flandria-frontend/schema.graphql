@@ -278,14 +278,6 @@ input Available3DModelFilter {
   gender: Model3DGenderEnumFilter
 }
 
-enum BaseClassType {
-  NOBLE
-  SAINT
-  EXPLORER
-  MERCENARY
-  SHIP
-}
-
 interface BaseMixin implements RowIDMixin {
   row_id: Int!
   code: String!
@@ -969,6 +961,9 @@ input DressSort @oneOf {
 type Drop {
   index: Int!
   quantity: Int!
+  section_id: Int!
+  section_probability: Float!
+  item_probability: Float!
   monster_code: String!
   item_code: String!
   monster: Monster!
@@ -978,7 +973,9 @@ type Drop {
 input DropFilter {
   index: NumberFilter
   quantity: NumberFilter
-  probability: NumberFilter
+  section_id: NumberFilter
+  section_probability: NumberFilter
+  item_probability: NumberFilter
   monster_code: StringFilter
   item_code: StringFilter
   monster: MonsterFilter
@@ -996,7 +993,9 @@ type DropPageInfo {
 input DropSort @oneOf {
   index: SortDirection
   quantity: SortDirection
-  probability: SortDirection
+  section_id: SortDirection
+  section_probability: SortDirection
+  item_probability: SortDirection
   monster_code: SortDirection
   item_code: SortDirection
 }
@@ -2409,6 +2408,7 @@ input Model3DGenderEnumFilter @oneOf {
 
 type Money {
   monster_code: String!
+  probability: Float!
   min: Int!
   max: Int!
   monster: Monster!
@@ -3737,26 +3737,6 @@ input PetSort @oneOf {
   is_unlimited: SortDirection
 }
 
-type PlayerLevelStat {
-  base_class: BaseClassType!
-  level: Int!
-  max_hp: Int!
-  max_mp: Int!
-  avoidance: Int!
-  melee_min_attack: Int!
-  melee_max_attack: Int!
-  melee_hitrate: Int!
-  melee_critical_rate: Int!
-  range_min_attack: Int!
-  range_max_attack: Int!
-  range_hitrate: Int!
-  range_critical_rate: Int!
-  magic_min_attack: Int!
-  magic_max_attack: Int!
-  magic_hitrate: Int!
-  magic_critical_rate: Int!
-}
-
 type PlayerRequiredSkill {
   skill_code: String!
   required_skill_code: String!
@@ -3930,27 +3910,6 @@ input PlayerSkillSort @oneOf {
   is_explorer: SortDirection
   is_excavator: SortDirection
   is_sniper: SortDirection
-}
-
-type PlayerStatusStat {
-  base_class: BaseClassType!
-  point_level: Int!
-  stat_type: StatType!
-  max_hp_increment: Int!
-  max_mp_increment: Int!
-  avoidance_increment: Int!
-  melee_min_attack_increment: Int!
-  melee_max_attack_increment: Int!
-  melee_hitrate_increment: Int!
-  melee_critical_rate_increment: Int!
-  range_min_attack_increment: Int!
-  range_max_attack_increment: Int!
-  range_hitrate_increment: Int!
-  range_critical_rate_increment: Int!
-  magic_min_attack_increment: Int!
-  magic_max_attack_increment: Int!
-  magic_hitrate_increment: Int!
-  magic_critical_rate_increment: Int!
 }
 
 type Production implements RowIDMixin {
@@ -4222,8 +4181,6 @@ type Query {
   available_in_randombox(code: String!): [RandomBox!]!
   available_as_quest_reward(code: String!): [Quest!]!
   sold_by_npc(code: String!): [Npc!]!
-  player_level_stats(base_class: BaseClassType!, level_min: Int! = 1, level_max: Int! = 105): [PlayerLevelStat!]!
-  player_stats(base_class: BaseClassType!, max_points: Int! = 700): [PlayerStatusStat!]!
 }
 
 type Quest {
@@ -4634,6 +4591,7 @@ type RandomBoxReward {
   random_box_code: String!
   reward_code: String!
   quantity: Int!
+  probability: Float!
   item: ItemList!
 }
 
@@ -7009,15 +6967,6 @@ interface SkillMixin implements EffectMixin & ClassSeaMixin & ClassLandMixin {
 enum SortDirection {
   ASC
   DESC
-}
-
-enum StatType {
-  STRENGTH
-  DEXTERITY
-  CONSTITUTION
-  INTELLIGENCE
-  WISDOM
-  WILL
 }
 
 input StringFilter @oneOf {

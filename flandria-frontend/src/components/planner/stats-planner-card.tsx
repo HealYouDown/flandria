@@ -1,8 +1,7 @@
+import {BaseClassType} from "@/lib/enums"
 import {cn} from "@/lib/utils"
 
 import {clamp} from "@/utils/utils"
-
-import {BaseClassType} from "@/gql/graphql"
 
 import {Combobox} from "@/components/combobox"
 import {

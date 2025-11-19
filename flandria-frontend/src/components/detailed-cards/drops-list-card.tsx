@@ -1,3 +1,5 @@
+import {formatPercent} from "@/lib/utils"
+
 import {graphql} from "@/gql"
 import {
   DropsListMoney_FragmentFragment,
@@ -14,10 +16,17 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip"
+
+import {InfoIcon} from "lucide-react"
+import React from "react"
 
 graphql(`
   fragment DropsList_Fragment on Drop {
     quantity
+    section_id
+    section_probability
+    item_probability
     item {
       ...Card_ItemlistItem
     }
@@ -107,6 +116,15 @@ export function DropsListCard({money, drops}: DropsCardProps) {
     </CardContent>
   )
 
+  const sectionIdToLetterMapping = React.useMemo(() => {
+    const uniqueIds = [...new Set(drops.map((drop) => drop.section_id))].sort()
+    const map: Record<number, string> = {}
+    uniqueIds.forEach((id, idx) => {
+      map[id] = String.fromCharCode(65 + idx)
+    })
+    return map
+  }, [drops])
+
   if (drops.length > 0 || !!money) {
     body = (
       <CardContentScrollList>
@@ -132,10 +150,13 @@ export function DropsListCard({money, drops}: DropsCardProps) {
 
         {drops.sort(sortDrops).map((drop) => {
           const {quantity, item} = drop
-          const additionalSubs = quantity > 1 ? [`Qty. ${quantity}x`] : []
-          return (
-            <CardItemlistItem item={item} additionalSubs={additionalSubs} />
-          )
+          const subs = [
+            `Chance: ${formatPercent(drop.section_probability * drop.item_probability, 4)} (${sectionIdToLetterMapping[drop.section_id]})`,
+          ]
+          if (quantity > 1) {
+            subs.push(`Qty. ${quantity}x`)
+          }
+          return <CardItemlistItem item={item} additionalSubs={subs} />
         })}
       </CardContentScrollList>
     )
@@ -145,6 +166,25 @@ export function DropsListCard({money, drops}: DropsCardProps) {
     <Card>
       <CardHeader>
         <CardTitle>Drops</CardTitle>
+        <p className="text-xs leading-tight text-foreground/70">
+          Drops are organized into categories (A-Z). Each category has a chance
+          to be selected. If a category triggers, exactly one item from that
+          category is chosen based on its individual chance.
+          <br />
+          The chances shown reflect the final probability.
+        </p>
+        {/* <Tooltip delayDuration={0}>
+          <TooltipTrigger asChild>
+            <InfoIcon className="size-6" />
+          </TooltipTrigger>
+          <TooltipContent>
+            <p className="max-w-60">
+              Drops are organized into categories (A-Z). Each category has a
+              chance to be selected. If a category triggers, exactly one item
+              from that category is chosen based on its individual chance.
+            </p>
+          </TooltipContent>
+        </Tooltip> */}
       </CardHeader>
       {body}
     </Card>

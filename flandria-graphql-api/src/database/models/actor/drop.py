@@ -15,7 +15,13 @@ class Drop(Base):
         sa.Integer,
         nullable=False,
     )
-    probability = orm.mapped_column(
+
+    section_id = orm.mapped_column(sa.Integer, nullable=False)
+    section_probability = orm.mapped_column(
+        sa.Float,
+        nullable=False,
+    )
+    item_probability = orm.mapped_column(
         sa.Float,
         nullable=False,
     )

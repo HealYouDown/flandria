@@ -1,4 +1,4 @@
-import {BaseClassType} from "@/gql/graphql"
+import {BaseClassType} from "@/lib/enums"
 
 export function calculateMaxHP(
   lv: number,

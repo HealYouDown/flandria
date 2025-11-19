@@ -197,7 +197,9 @@ def quest(
                     drops.append(
                         {
                             "quantity": 1,
-                            "probability": probability_to_float(drop_rate),
+                            "section_id": 999,
+                            "section_probability": 1.0,
+                            "item_probability": probability_to_float(drop_rate),
                             "monster_code": monster_code,
                             "item_code": item_code,
                         }

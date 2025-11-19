@@ -1,5 +1,6 @@
 import {gqlClient} from "@/lib/graphql-client"
 import {queryClient} from "@/lib/react-query-client"
+import {formatPercent} from "@/lib/utils"
 
 import {nameWithDuration} from "@/utils/format-helpers"
 
@@ -33,6 +34,7 @@ const randomBoxDetailedDocument = graphql(`
       ...ItemBase
       rewards {
         quantity
+        probability
         item {
           ...Card_ItemlistItem
         }
@@ -137,13 +139,15 @@ function RouteComponent() {
             title="Content"
             items={random_box.rewards}
             itemlistGetter={(o) => o.item}
-            additionalSubsMaker={(o) =>
-              o.item.tablename === "money"
-                ? [o.quantity.toLocaleString()]
-                : o.quantity > 1
-                  ? [`Qty. ${o.quantity}x`]
-                  : []
-            }
+            additionalSubsMaker={(o) => {
+              const subs = [`Chance: ${formatPercent(o.probability)}`]
+              if (o.item.tablename === "money") {
+                subs.push(o.quantity.toLocaleString())
+              } else if (o.quantity > 1) {
+                subs.push(`Qty. ${o.quantity}x`)
+              }
+              return subs
+            }}
           />
         </div>
       </ColsWrapper>

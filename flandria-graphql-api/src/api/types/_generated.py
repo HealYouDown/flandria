@@ -241,7 +241,7 @@ class RandomBoxReward:
     random_box_code: str
     reward_code: str
     quantity: int
-    probability: strawberry.Private[float]
+    probability: float
     item: "ItemList"
 
 
@@ -372,7 +372,9 @@ class MonsterSkill(SkillMixin): ...
 class Drop:
     index: int
     quantity: int
-    probability: strawberry.Private[float]
+    section_id: int
+    section_probability: float
+    item_probability: float
     monster_code: str
     item_code: str
     monster: "Monster"
@@ -382,7 +384,7 @@ class Drop:
 @strawberry.type
 class Money:
     monster_code: str
-    probability: strawberry.Private[float]
+    probability: float
     min: int
     max: int
     monster: "Monster"
@@ -589,49 +591,6 @@ class PlayerSkill(SkillMixin):
 class SkillBook(BaseMixin):
     skill_code: str
     skill: "PlayerSkill"
-
-
-@strawberry.type
-class PlayerLevelStat:
-    base_class: enums.BaseClassType
-    level: int
-    max_hp: int
-    max_mp: int
-    avoidance: int
-    melee_min_attack: int
-    melee_max_attack: int
-    melee_hitrate: int
-    melee_critical_rate: int
-    range_min_attack: int
-    range_max_attack: int
-    range_hitrate: int
-    range_critical_rate: int
-    magic_min_attack: int
-    magic_max_attack: int
-    magic_hitrate: int
-    magic_critical_rate: int
-
-
-@strawberry.type
-class PlayerStatusStat:
-    base_class: enums.BaseClassType
-    point_level: int
-    stat_type: enums.StatType
-    max_hp_increment: int
-    max_mp_increment: int
-    avoidance_increment: int
-    melee_min_attack_increment: int
-    melee_max_attack_increment: int
-    melee_hitrate_increment: int
-    melee_critical_rate_increment: int
-    range_min_attack_increment: int
-    range_max_attack_increment: int
-    range_hitrate_increment: int
-    range_critical_rate_increment: int
-    magic_min_attack_increment: int
-    magic_max_attack_increment: int
-    magic_hitrate_increment: int
-    magic_critical_rate_increment: int
 
 
 @strawberry.type

@@ -11,7 +11,6 @@ from .models import Model3DClass, Model3DGender
 from .monster_message_trigger import MonsterMessageTrigger
 from .quest_mission_type import QuestMissionType
 from .second_job_type import SecondJobType
-from .stat_type import StatType
 
 __all__ = [
     "AccessoryType",
@@ -26,7 +25,6 @@ __all__ = [
     "ItemFlag",
     "ItemSetSlot",
     "BaseClassType",
-    "StatType",
     "Model3DClass",
     "Model3DGender",
 ]

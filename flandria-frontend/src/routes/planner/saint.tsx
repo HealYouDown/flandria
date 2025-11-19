@@ -1,6 +1,5 @@
+import {BaseClassType} from "@/lib/enums"
 import {queryClient} from "@/lib/react-query-client"
-
-import {BaseClassType} from "@/gql/graphql"
 
 import {
   PageHeader,

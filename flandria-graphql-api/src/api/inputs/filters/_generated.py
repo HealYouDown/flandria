@@ -370,7 +370,9 @@ class MonsterSkillFilter(
 class DropFilter:
     index: Optional[NumberFilter] = strawberry.UNSET
     quantity: Optional[NumberFilter] = strawberry.UNSET
-    probability: Optional[NumberFilter] = strawberry.UNSET
+    section_id: Optional[NumberFilter] = strawberry.UNSET
+    section_probability: Optional[NumberFilter] = strawberry.UNSET
+    item_probability: Optional[NumberFilter] = strawberry.UNSET
     monster_code: Optional[StringFilter] = strawberry.UNSET
     item_code: Optional[StringFilter] = strawberry.UNSET
     monster: Optional["MonsterFilter"] = strawberry.UNSET
@@ -792,49 +794,6 @@ class PlayerSkillFilter(
 class SkillBookFilter(BaseMixinFilter, RowIDMixinFilter):
     skill_code: Optional[StringFilter] = strawberry.UNSET
     skill: Optional["PlayerSkillFilter"] = strawberry.UNSET
-
-
-@strawberry.input
-class PlayerLevelStatFilter:
-    base_class: Optional[EnumFilter[enums.BaseClassType]] = strawberry.UNSET
-    level: Optional[NumberFilter] = strawberry.UNSET
-    max_hp: Optional[NumberFilter] = strawberry.UNSET
-    max_mp: Optional[NumberFilter] = strawberry.UNSET
-    avoidance: Optional[NumberFilter] = strawberry.UNSET
-    melee_min_attack: Optional[NumberFilter] = strawberry.UNSET
-    melee_max_attack: Optional[NumberFilter] = strawberry.UNSET
-    melee_hitrate: Optional[NumberFilter] = strawberry.UNSET
-    melee_critical_rate: Optional[NumberFilter] = strawberry.UNSET
-    range_min_attack: Optional[NumberFilter] = strawberry.UNSET
-    range_max_attack: Optional[NumberFilter] = strawberry.UNSET
-    range_hitrate: Optional[NumberFilter] = strawberry.UNSET
-    range_critical_rate: Optional[NumberFilter] = strawberry.UNSET
-    magic_min_attack: Optional[NumberFilter] = strawberry.UNSET
-    magic_max_attack: Optional[NumberFilter] = strawberry.UNSET
-    magic_hitrate: Optional[NumberFilter] = strawberry.UNSET
-    magic_critical_rate: Optional[NumberFilter] = strawberry.UNSET
-
-
-@strawberry.input
-class PlayerStatusStatFilter:
-    base_class: Optional[EnumFilter[enums.BaseClassType]] = strawberry.UNSET
-    point_level: Optional[NumberFilter] = strawberry.UNSET
-    stat_type: Optional[EnumFilter[enums.StatType]] = strawberry.UNSET
-    max_hp_increment: Optional[NumberFilter] = strawberry.UNSET
-    max_mp_increment: Optional[NumberFilter] = strawberry.UNSET
-    avoidance_increment: Optional[NumberFilter] = strawberry.UNSET
-    melee_min_attack_increment: Optional[NumberFilter] = strawberry.UNSET
-    melee_max_attack_increment: Optional[NumberFilter] = strawberry.UNSET
-    melee_hitrate_increment: Optional[NumberFilter] = strawberry.UNSET
-    melee_critical_rate_increment: Optional[NumberFilter] = strawberry.UNSET
-    range_min_attack_increment: Optional[NumberFilter] = strawberry.UNSET
-    range_max_attack_increment: Optional[NumberFilter] = strawberry.UNSET
-    range_hitrate_increment: Optional[NumberFilter] = strawberry.UNSET
-    range_critical_rate_increment: Optional[NumberFilter] = strawberry.UNSET
-    magic_min_attack_increment: Optional[NumberFilter] = strawberry.UNSET
-    magic_max_attack_increment: Optional[NumberFilter] = strawberry.UNSET
-    magic_hitrate_increment: Optional[NumberFilter] = strawberry.UNSET
-    magic_critical_rate_increment: Optional[NumberFilter] = strawberry.UNSET
 
 
 @strawberry.input

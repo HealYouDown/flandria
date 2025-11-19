@@ -1,7 +1,7 @@
+import {BaseClassType} from "@/lib/enums"
 import {gqlClient} from "@/lib/graphql-client"
 
 import {graphql} from "@/gql"
-import {BaseClassType} from "@/gql/graphql"
 
 import {queryOptions} from "@tanstack/react-query"
 
