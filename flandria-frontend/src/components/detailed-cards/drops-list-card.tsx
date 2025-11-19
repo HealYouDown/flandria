@@ -149,7 +149,7 @@ export function DropsListCard({money, drops}: DropsCardProps) {
         {drops.sort(sortDrops).map((drop) => {
           const {quantity, item} = drop
           const subs = [
-            `Chance: ${formatPercent(drop.section_probability * drop.item_probability, 4)} (${sectionIdToLetterMapping[drop.section_id]})`,
+            `Chance: ${formatPercent(drop.section_probability * drop.item_probability)} (${sectionIdToLetterMapping[drop.section_id]})`,
           ]
           if (quantity > 1) {
             subs.push(`Qty. ${quantity}x`)
@@ -171,18 +171,6 @@ export function DropsListCard({money, drops}: DropsCardProps) {
           <br />
           The chances shown reflect the final probability.
         </p>
-        {/* <Tooltip delayDuration={0}>
-          <TooltipTrigger asChild>
-            <InfoIcon className="size-6" />
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="max-w-60">
-              Drops are organized into categories (A-Z). Each category has a
-              chance to be selected. If a category triggers, exactly one item
-              from that category is chosen based on its individual chance.
-            </p>
-          </TooltipContent>
-        </Tooltip> */}
       </CardHeader>
       {body}
     </Card>
