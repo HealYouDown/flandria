@@ -112,6 +112,8 @@ const Chester = (
       <MapListItem code="EF1_000">Rainbow Highland</MapListItem>
       <MapListItem code="ED2_000">Droes Under Valley</MapListItem>
       <MapListItem code="ED1_000">Droes Cave of Abyss</MapListItem>
+      <MapListItem code="ED3_000">Valley of Decay</MapListItem>
+      <MapListItem code="ED4_000">Devouring Abyss</MapListItem>
     </CardContentList>
   </Card>
 )

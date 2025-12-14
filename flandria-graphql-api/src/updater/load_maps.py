@@ -69,6 +69,8 @@ CODE_TO_FOLDER = {
     "EI4_000": "ei4",
     "ED1_000": "ed1_1b",
     "ED2_000": "ed1_2b",
+    "ED3_000": "ed2_1b",
+    "ED4_000": "ed2_2b",
     # Battlefield Maps
     # "AW1_000": "aw1",
     # "BW1_000": "bw1",

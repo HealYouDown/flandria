@@ -160,7 +160,7 @@ export const effectCodeMapping: {[key in EffectCode]: string} = {
   [EffectCode.CharMeleeMinAttk]: "Melee min attack",
   [EffectCode.CharMeleeSpd]: "Melee speed",
   [EffectCode.CharMoveSpd]: "Moving speed",
-  [EffectCode.CharMpcost]: "MP사용량",
+  [EffectCode.CharMpcost]: "MP Cost",
   [EffectCode.CharOnehandSpecialize]: "One-hand specialization",
   [EffectCode.CharPassExppenalty]: "육상 경험치 패널티 적용되지 않는 효과",
   [EffectCode.CharPhdamageDecrease]: "Physical damage",
