@@ -1,3 +1,4 @@
+from itertools import batched
 from typing import TYPE_CHECKING, cast
 
 from src.updater.file_data import FileData
@@ -81,23 +82,25 @@ def upgrade_rule(
 
     objects: list[dict] = []
     effects: list[dict] = []
-    for row in data.server_data:
-        upgrade_rule_code = cast(str, row["코드"])
 
+    for rules in batched(data.server_data, 16):
         # used so that we can query all upgrade rules for a specific item
-        base_code = f"{upgrade_rule_code[:-2]}00"
-        level = row["업그레이드레벨"]
-        cost = row["강화소모gelt"]
+        base_code = cast(str, rules[0]["코드"])
 
-        objects.append(
-            {
-                "code": upgrade_rule_code,
-                "base_code": base_code,
-                "level": level,
-                "cost": cost,
-            }
-        )
-        effects.extend(get_effects(row, "upgrade_rule", upgrade_rule_code))
+        for row in rules:
+            upgrade_rule_code = cast(str, row["코드"])
+            level = row["업그레이드레벨"]
+            cost = row["강화소모gelt"]
+
+            objects.append(
+                {
+                    "code": upgrade_rule_code,
+                    "base_code": base_code,
+                    "level": level,
+                    "cost": cost,
+                }
+            )
+            effects.extend(get_effects(row, "upgrade_rule", upgrade_rule_code))
 
     return [
         (model_cls, objects),
