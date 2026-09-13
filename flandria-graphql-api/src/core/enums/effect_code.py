@@ -176,4 +176,6 @@ class EffectCode(enum.Enum):
     UNKNOWN_7 = 171
     SHIP_UP_DURABILITYFLASH = 172
     UNKNOWN_8 = 173
-    UNKNOWN_9 = 174
+    MAX_HP_MODIFY = 174
+    MAX_MP_MODIFY = 175
+    ROOT = 176

@@ -274,9 +274,11 @@ export const effectCodeMapping: {[key in EffectCode]: string} = {
   [EffectCode.Unknown_6]: "UNKNOWN_6",
   [EffectCode.Unknown_7]: "UNKNOWN_7",
   [EffectCode.Unknown_8]: "UNKNOWN_8",
-  [EffectCode.Unknown_9]: "UNKNOWN_9",
   [EffectCode.Vol]: "Will",
   [EffectCode.Wis]: "Wisdom",
+  [EffectCode.MaxHpModify]: "Final HP modifier",
+  [EffectCode.MaxMpModify]: "Final MP modifier",
+  [EffectCode.Root]: "Root",
 }
 
 export function effectCodeToString(effectCode: EffectCode): string {

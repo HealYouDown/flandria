@@ -709,8 +709,11 @@ export enum EffectCode {
   IncreateRewardexpSea = 'INCREATE_REWARDEXP_SEA',
   Int = 'INT',
   Luc = 'LUC',
+  MaxHpModify = 'MAX_HP_MODIFY',
+  MaxMpModify = 'MAX_MP_MODIFY',
   PetMagicDefc = 'PET_MAGIC_DEFC',
   PetPhDefc = 'PET_PH_DEFC',
+  Root = 'ROOT',
   ShipDamage_3 = 'SHIP_DAMAGE_3',
   ShipDownMaxMovespeed = 'SHIP_DOWN_MAX_MOVESPEED',
   ShipDownTurnSpeed = 'SHIP_DOWN_TURN_SPEED',
@@ -781,7 +784,6 @@ export enum EffectCode {
   Unknown_6 = 'UNKNOWN_6',
   Unknown_7 = 'UNKNOWN_7',
   Unknown_8 = 'UNKNOWN_8',
-  Unknown_9 = 'UNKNOWN_9',
   Vol = 'VOL',
   Wis = 'WIS'
 }

@@ -1317,7 +1317,9 @@ enum EffectCode {
   UNKNOWN_7
   SHIP_UP_DURABILITYFLASH
   UNKNOWN_8
-  UNKNOWN_9
+  MAX_HP_MODIFY
+  MAX_MP_MODIFY
+  ROOT
 }
 
 input EffectCodeEnumFilter @oneOf {

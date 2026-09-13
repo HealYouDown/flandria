@@ -174,6 +174,18 @@ const Ocean = (
   </Card>
 )
 
+const BlackTides = (
+  <Card>
+    <CardHeader>
+      <CardTitle>Black Tides</CardTitle>
+    </CardHeader>
+    <CardContentList>
+      <MapListItem code="BC2_000">Outlaw Camp</MapListItem>
+      <MapListItem code="SD2F2_000">Black Tide Cove</MapListItem>
+    </CardContentList>
+  </Card>
+)
+
 export const mapBreadcrumbItems: BreadcrumbItem[] = [
   ...databaseBreadcrumbItems,
   {label: "Maps", href: "/database/map"},
@@ -195,6 +207,7 @@ function DatabaseIndex() {
         </div>
         <div>
           {Magnel}
+          {BlackTides}
           {PartyIslands}
         </div>
         <div>

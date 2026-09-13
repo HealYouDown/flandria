@@ -1,5 +1,7 @@
 import configparser
 
+from loguru import logger
+
 from src.updater.transforms import ms_to_seconds
 
 
@@ -27,6 +29,12 @@ def parse_monster_positions(
             continue
 
         section = parser[section_key]
+
+        # Data structure changed for timed spawns in BTC,
+        # right now we just skip them..
+        if "Term0" not in section:
+            logger.warning(f"Skipped {section_key} spawn due to unhandled format")
+            continue
 
         # Each section is a location where monsters can spawn
         x = float(section["pos.x"])
