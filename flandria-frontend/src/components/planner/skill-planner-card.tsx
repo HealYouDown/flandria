@@ -103,6 +103,7 @@ export function SkillPlannerCard<TCode extends string>({
   const {theme} = useTheme()
   const stageRef = React.useRef<Konva.Stage>(null)
   const previousLevel = usePrevious(level)
+  const restoredFromUrl = React.useRef(false)
 
   const [bgImage] = useImage(`/planner-trees/${background}-lines.png`)
 
@@ -225,6 +226,7 @@ export function SkillPlannerCard<TCode extends string>({
     if (hash === null) return
     const asJson = atob(hash)
     const data = JSON.parse(asJson) as PlannerState<TCode>
+    if (data.class !== null) restoredFromUrl.current = true
     setPlannerState(data)
   }, [])
 
@@ -234,6 +236,7 @@ export function SkillPlannerCard<TCode extends string>({
   useDeepCompareEffect(() => {
     const isInitialState =
       level === 1 &&
+      selectedClass === null &&
       Object.values(skillLevels as number[]).reduce((a, b) => a + b) == 0
 
     const plannerState: PlannerState<TCode> = {
@@ -273,6 +276,13 @@ export function SkillPlannerCard<TCode extends string>({
   // Updates whenever our class changes, disables all skills that do not match the new selected class.
   useDeepCompareEffect(() => {
     if (selectedClass === null) return
+
+    // Skip the reset when the class was just restored from the URL — skills are
+    // already correct in the loaded state and should not be wiped.
+    if (restoredFromUrl.current) {
+      restoredFromUrl.current = false
+      return
+    }
 
     // Reset all cc skills
     const ccSkillCodes = Object.keys(groupedSkills).filter((key) => {
