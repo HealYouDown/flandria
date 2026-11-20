@@ -397,6 +397,7 @@ export function SkillPlannerCard<TCode extends string>({
             <Layer>
               {hoveredSkillCode && !isMobile && (
                 <Html
+                  divProps={{style: {pointerEvents: "none"}}}
                   transformFunc={(attrs) => ({
                     ...attrs,
                     x: positions[hoveredSkillCode].x + 48,
