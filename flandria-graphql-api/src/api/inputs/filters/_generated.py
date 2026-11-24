@@ -354,6 +354,7 @@ class NpcExchangeItemFilter:
     quantity: Optional[NumberFilter] = strawberry.UNSET
     gelt: Optional[NumberFilter] = strawberry.UNSET
     item: Optional["ItemListFilter"] = strawberry.UNSET
+    npc: Optional["NpcFilter"] = strawberry.UNSET
     materials: Optional["NpcExchangeMaterialFilter"] = strawberry.UNSET
 
 

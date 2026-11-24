@@ -36,6 +36,10 @@ def apply_join_options(
     ) -> None:
         insp = sa.inspect(m)
         for key, next_keys in nk.items():
+            # Union results (e.g. Recipe | Production) share one selection,
+            # so it can contain relationships of the other types
+            if key not in insp.relationships:
+                continue
             relationship = insp.relationships[key]
             declared_relatiopnship = getattr(m, key)
             # TODO: Depending on the relationship, we should probably decide between joinedload and selectinload

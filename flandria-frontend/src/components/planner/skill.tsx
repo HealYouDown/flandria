@@ -84,7 +84,7 @@ export function Skill<T>({
         y={y}
         onMouseOver={onMouseOver}
         onMouseOut={onMouseOut}
-        onDblTap={() => onLevelDown}
+        onDblTap={() => onLevelDown()}
         onClick={(event) => {
           const {evt} = event
           if (evt.button !== 0 && evt.button !== 2) return

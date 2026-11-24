@@ -1,4 +1,4 @@
-import {formatSeconds} from "@/utils/date-helpers"
+import {formatCastTime, formatSeconds} from "@/utils/date-helpers"
 import {
   characterClassStringFromObject,
   formatSkillRequiredWeapons,
@@ -6,7 +6,7 @@ import {
   shipClassFromObject,
 } from "@/utils/format-helpers"
 
-import {LevelSkillData} from "@/components/planner/skill-planner-card"
+import {LevelSkillData} from "@/components/planner/skill-helpers"
 import {Separator} from "@/components/ui/separator"
 
 import React from "react"
@@ -46,11 +46,7 @@ function SkillDataSection({skillData}: {skillData: LevelSkillData[number]}) {
         <DataPair label="MP" value={skillData.mana_cost.toLocaleString()} />
         <DataPair
           label="Cast Time"
-          value={
-            skillData.cast_time > 0
-              ? formatSeconds(skillData.cast_time, true)
-              : "Instant"
-          }
+          value={formatCastTime(skillData.cast_time, !isSeaSkill)}
         />
         <DataPair
           label="Cast Range"

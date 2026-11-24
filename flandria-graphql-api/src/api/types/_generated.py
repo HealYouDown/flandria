@@ -358,6 +358,7 @@ class NpcExchangeItem:
     quantity: int
     gelt: int
     item: "ItemList"
+    npc: "Npc"
     materials: list["NpcExchangeMaterial"]
 
 

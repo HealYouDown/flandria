@@ -29,7 +29,6 @@ export const EXPLORER_SKILLS_POSITIONS = {
   ck005600: {x: 391, y: 207},
   ck008600: {x: 391, y: 386},
 } as const
-export const EXPLORER_SKILL_CODES = Object.keys(EXPLORER_SKILLS_POSITIONS)
 
 export const MERCENARY_SKILLS_POSITIONS = {
   ck500000: {x: 14, y: 14},
@@ -63,7 +62,6 @@ export const MERCENARY_SKILLS_POSITIONS = {
   ck007700: {x: 388, y: 239},
   ck007200: {x: 388, y: 334},
 } as const
-export const MERCENARY_SKILL_CODES = Object.keys(MERCENARY_SKILLS_POSITIONS)
 
 export const SAINT_SKILLS_POSITIONS = {
   cp003500: {x: 19, y: 16},
@@ -97,7 +95,6 @@ export const SAINT_SKILLS_POSITIONS = {
   cp007500: {x: 384, y: 286},
   cp009900: {x: 384, y: 357},
 }
-export const SAINT_SKILL_CODES = Object.keys(SAINT_SKILLS_POSITIONS)
 
 export const NOBLE_SKILL_POSITIONS = {
   ck500000: {x: 14, y: 15},
@@ -131,7 +128,6 @@ export const NOBLE_SKILL_POSITIONS = {
   cp008600: {x: 383, y: 436},
   cp008500: {x: 191, y: 328},
 }
-export const NOBLE_SKILL_CODES = Object.keys(NOBLE_SKILL_POSITIONS)
 
 export const SHIP_SKILL_POSITIONS = {
   sksinso00: {x: 12, y: 17},
@@ -179,4 +175,3 @@ export const SHIP_SKILL_POSITIONS = {
   skdouca00: {x: 389, y: 304},
   sklimit00: {x: 389, y: 411},
 }
-export const SHIP_SKILL_CODES = Object.keys(SHIP_SKILL_POSITIONS)

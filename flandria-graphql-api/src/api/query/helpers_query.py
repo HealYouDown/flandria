@@ -1,3 +1,5 @@
+from typing import Annotated
+
 import strawberry
 
 from src.api import types
@@ -26,7 +28,12 @@ class HelpersQuery:
     @strawberry.field
     def needed_for(
         self, info: strawberry.Info, code: str
-    ) -> list[types.Recipe | types.Production]:
+    ) -> list[
+        Annotated[
+            types.Recipe | types.Production | types.NpcExchangeItem,
+            strawberry.union("NeededFor"),
+        ]
+    ]:
         return resolve_needed_for(info=info, item_code=code)
 
     @strawberry.field

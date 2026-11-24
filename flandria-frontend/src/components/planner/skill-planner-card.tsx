@@ -4,18 +4,23 @@ import {cn} from "@/lib/utils"
 import {Combobox, ComboboxOption} from "@/components/combobox"
 import {Skill} from "@/components/planner/skill"
 import {
-  CLASS_FLAGS,
+  CLASS_MIN_LEVEL,
   ClassFlagsType,
-  PlayerSkill,
   SKILL_PLANNER_HEIGHT,
   SKILL_PLANNER_WIDTH,
-  makeSkillLevels,
+  SkillBuild,
+  SkillTree,
+  canLevelUpSkill,
+  getAvailableSkillPoints,
+  maxReachableSkillLevel,
+  normalizeSkillBuild,
+  setSkillLevel,
+  usedSkillPoints,
 } from "@/components/planner/skill-helpers"
 import {SkillPlannerTooltip} from "@/components/planner/skill-tooltip"
 import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardFooter, CardHeader} from "@/components/ui/card"
 
-import usePrevious from "@/hooks/use-previous"
 import {useToast} from "@/hooks/use-toast"
 import Konva from "konva"
 import {DownloadIcon, LinkIcon} from "lucide-react"
@@ -23,12 +28,7 @@ import * as React from "react"
 import {isMobile} from "react-device-detect"
 import {Image, Layer, Rect, Stage} from "react-konva"
 import {Html} from "react-konva-utils"
-import {useDeepCompareEffect, useDeepCompareMemo} from "use-deep-compare"
 import useImage from "use-image"
-
-export type SkillLevels<TCode extends string> = {
-  [key in TCode]: number
-}
 
 type SkillPositions<TCode extends string> = {
   [key in TCode]: {
@@ -37,174 +37,35 @@ type SkillPositions<TCode extends string> = {
   }
 }
 
-export type LevelSkillData = {[key: number]: PlayerSkill}
-
-export type GroupedSkillData<TCode extends string> = {
-  [key in TCode]: LevelSkillData
-}
-
-type PlannerState<TCode extends string> = {
-  level: number
-  class: ClassFlagsType | null
-  skills: SkillLevels<TCode>
-}
-
 type SkillPlannerCardProps<TCode extends string> = {
-  skillData: GroupedSkillData<TCode>
+  tree: SkillTree<TCode>
+  build: SkillBuild<TCode>
+  onChange: (build: SkillBuild<TCode>) => void
   positions: SkillPositions<TCode>
   background: "ship" | "explorer" | "noble" | "saint" | "mercenary"
-  alwaysAllowedClasses: ClassFlagsType[]
   classOptions: ComboboxOption<ClassFlagsType>[] | null
-
   levelOptions: ComboboxOption<string>[]
-  getAvailableSkillPointsFromLevel: (level: number) => number
 }
 
 export function SkillPlannerCard<TCode extends string>({
-  skillData: groupedSkills,
+  tree,
+  build,
+  onChange,
   positions,
   background,
-  alwaysAllowedClasses,
   classOptions,
   levelOptions,
-  getAvailableSkillPointsFromLevel,
 }: SkillPlannerCardProps<TCode>) {
   const {toast} = useToast()
-
-  const skillCodes = useDeepCompareMemo(
-    () => Object.keys(groupedSkills) as TCode[],
-    [groupedSkills],
-  )
-
-  const [{level, class: selectedClass, skills: skillLevels}, setPlannerState] =
-    React.useReducer<
-      React.Reducer<
-        PlannerState<TCode>,
-        | Partial<PlannerState<TCode>>
-        | ((prev: PlannerState<TCode>) => Partial<PlannerState<TCode>>)
-      >
-    >(
-      (state, newState) => {
-        const newWithPrevState =
-          typeof newState === "function" ? newState(state) : newState
-        const completeNewState = {...state, ...newWithPrevState}
-        return completeNewState
-      },
-      {
-        level: 1,
-        class: null,
-        skills: makeSkillLevels(skillCodes, 0),
-      },
-    )
+  const {theme} = useTheme()
+  const stageRef = React.useRef<Konva.Stage>(null)
   const [hoveredSkillCode, setHoveredSkillCode] = React.useState<TCode | null>(
     null,
   )
-
-  const {theme} = useTheme()
-  const stageRef = React.useRef<Konva.Stage>(null)
-  const previousLevel = usePrevious(level)
-
   const [bgImage] = useImage(`/planner-trees/${background}-lines.png`)
 
-  const allowedClassFlags: ClassFlagsType[] = [
-    ...alwaysAllowedClasses,
-    ...(selectedClass === null ? [] : [selectedClass]),
-  ]
-
-  const getChildSkillCodes = (parentCode: TCode): TCode[] => {
-    const codes: TCode[] = []
-
-    Object.keys(groupedSkills).forEach((code) => {
-      const baseSkill = groupedSkills[code as TCode][0]
-      const previousSkills = baseSkill.required_skills.map(
-        (o) => o.required_skill_code as TCode,
-      )
-      if (previousSkills.includes(parentCode)) {
-        codes.push(code as TCode)
-        codes.push(...getChildSkillCodes(code as TCode))
-      }
-    })
-
-    return [...new Set(codes)].filter((code) => code != parentCode)
-  }
-
-  const canSkillBeLeveled = (skillCode: TCode): boolean => {
-    const baseSkillData = groupedSkills[skillCode][0]
-    const currentSkillLevel = skillLevels[skillCode]
-
-    // Check that all previous skills are at least level 1
-    const previousSkillsSkilled = baseSkillData.required_skills.every(
-      (s) => skillLevels[s.required_skill_code as TCode] >= 1,
-    )
-
-    // Check that the level criteria for the next level is matched
-    let levelMatches = true
-    if (currentSkillLevel !== baseSkillData.skill_max_level) {
-      const nextSkillData = groupedSkills[skillCode][currentSkillLevel + 1]
-
-      // We have to check whether our level is a sea or land level
-      const nextSkillRequiredLevel =
-        nextSkillData.required_level_land === 0
-          ? nextSkillData.required_level_sea
-          : nextSkillData.required_level_land
-      levelMatches = level >= nextSkillRequiredLevel
-    }
-
-    // Check that any required classes is selected
-    // Some skills can be skilled by multiple classes, so
-    // we only check if one class is selected, not all.
-    const requiredClassesSelected = CLASS_FLAGS.some((flag) => {
-      // We don't require that class
-      if (baseSkillData[flag] === false) {
-        return null
-      }
-      return allowedClassFlags.includes(flag)
-    })
-    // Some skills (looking at you sea) also requires no class at all
-    const requiresNoClass =
-      CLASS_FLAGS.reduce((s, flag) => s + Number(baseSkillData[flag]), 0) === 0
-
-    return (
-      previousSkillsSkilled &&
-      levelMatches &&
-      (requiredClassesSelected || requiresNoClass)
-    )
-  }
-
-  const setSkillLevel = (skillCode: TCode, newSkillLevel: number): void => {
-    if (newSkillLevel === 0) {
-      // iterate tree and get all skills after our current skill
-      // => set them all to 0
-      const childSkillCodes = getChildSkillCodes(skillCode)
-      const skillsToReset = [skillCode as TCode, ...childSkillCodes]
-      const resettedSkills = skillsToReset.reduce((acc, current) => {
-        acc[current] = 0
-        return acc
-      }, {} as SkillLevels<TCode>)
-
-      setPlannerState((prev) => ({skills: {...prev.skills, ...resettedSkills}}))
-    } else {
-      // Just set the skill level for the given skill code
-      // Check that we have enough points to do so, if not,
-      // just increase the skill as much as possible
-
-      // We can always decrease skill levels
-      const isLower = newSkillLevel < skillLevels[skillCode]
-      if (!isLower) {
-        // We don't have any points left, so return early
-        if (remainingSkillPoints === 0) return
-
-        // Cap new skill level if we don't have enough points
-        const currentSkillLevel = skillLevels[skillCode]
-        if (newSkillLevel > remainingSkillPoints + currentSkillLevel) {
-          newSkillLevel = remainingSkillPoints + currentSkillLevel
-        }
-      }
-      setPlannerState((prev) => ({
-        skills: {...prev.skills, [skillCode]: newSkillLevel},
-      }))
-    }
-  }
+  const skillCodes = Object.keys(tree.skills) as TCode[]
+  const {level, class: selectedClass, skills: skillLevels} = build
 
   const exportTreeAsImage = (): void => {
     if (!stageRef.current) return
@@ -218,86 +79,8 @@ export function SkillPlannerCard<TCode extends string>({
     link.click()
   }
 
-  // Loads the hash - if existing
-  React.useEffect(() => {
-    const currentSearchParams = new URLSearchParams(window.location.search)
-    const hash = currentSearchParams.get("p") ?? null
-    if (hash === null) return
-    const asJson = atob(hash)
-    const data = JSON.parse(asJson) as PlannerState<TCode>
-    setPlannerState(data)
-  }, [])
-
-  // Sets the hash on update
-  // Does not set the hash if everything is equal to the initial state, so that our loaded state is not overriden on the first render
-  // There are probably better ways, but that's the easiest :)
-  useDeepCompareEffect(() => {
-    const isInitialState =
-      level === 1 &&
-      Object.values(skillLevels as number[]).reduce((a, b) => a + b) == 0
-
-    const plannerState: PlannerState<TCode> = {
-      level,
-      skills: skillLevels,
-      class: selectedClass,
-    }
-    const asJson = JSON.stringify(plannerState)
-    const hash = btoa(asJson)
-    const currentSearchParams = new URLSearchParams(window.location.search)
-    if (isInitialState) {
-      currentSearchParams.delete("p")
-    } else {
-      currentSearchParams.set("p", hash)
-    }
-    // Normally we would use tanstack routers navigate function, but this
-    // results in a re-render / redirect every time we use it.
-    // We only want to store the state in the URL, so we bypass the navigate
-    // function.
-    const newUrl = [window.location.pathname, currentSearchParams.toString()]
-      .filter(Boolean)
-      .join("?")
-    window.history.replaceState(null, "", newUrl)
-  }, [level, skillLevels, selectedClass])
-
-  // Updates whenever our level changes, resets all skills. Resets class if level is now < 40.
-  useDeepCompareEffect(() => {
-    // Level was reduced, so we reset all skills
-    if (previousLevel && level < previousLevel) {
-      setPlannerState({skills: makeSkillLevels(skillCodes)})
-      if (level < 40) {
-        setPlannerState({class: null})
-      }
-    }
-  }, [skillCodes, previousLevel, level])
-
-  // Updates whenever our class changes, disables all skills that do not match the new selected class.
-  useDeepCompareEffect(() => {
-    if (selectedClass === null) return
-
-    // Reset all cc skills
-    const ccSkillCodes = Object.keys(groupedSkills).filter((key) => {
-      const baseData = groupedSkills[key as TCode][0]
-      const skillIsCC = CLASS_FLAGS.every((flag) => {
-        // Skill flag is not used, so we ignore it
-        if (!baseData[flag]) return true
-        // Check if our skill flag is in our always on classes
-        // (basically the base classes)
-        // If it isn't, then it's a cc skill
-        return !alwaysAllowedClasses!.includes(flag)
-      })
-      return skillIsCC
-    })
-
-    setPlannerState((prev) => ({
-      skills: {...prev.skills, ...makeSkillLevels(ccSkillCodes)},
-    }))
-  }, [selectedClass, groupedSkills, alwaysAllowedClasses])
-
-  const maxSkillPoints = getAvailableSkillPointsFromLevel(level)
-  const usedSkillPoints = (Object.values(skillLevels) as number[]).reduce(
-    (a, b) => a + b,
-  )
-  const remainingSkillPoints = maxSkillPoints - usedSkillPoints
+  const usedPoints = usedSkillPoints(skillLevels)
+  const remainingSkillPoints = getAvailableSkillPoints(level) - usedPoints
 
   return (
     <Card className="max-w-min">
@@ -311,26 +94,38 @@ export function SkillPlannerCard<TCode extends string>({
             options={levelOptions}
             value={level.toString()}
             onValueChange={(value) =>
-              setPlannerState({level: parseInt(value, 10)})
+              onChange(
+                normalizeSkillBuild(
+                  {...build, level: parseInt(value, 10)},
+                  tree,
+                ),
+              )
             }
           />
           {classOptions !== null && (
             <Combobox
               nullable
-              disabled={level < 40}
+              disabled={level < CLASS_MIN_LEVEL}
               placeholder="Select class..."
               id="class"
               triggerClassName="w-full"
               contentClassName="popover-content-width-full"
               options={classOptions}
               value={selectedClass}
-              onValueChange={(s) => setPlannerState({class: s})}
+              onValueChange={(s) =>
+                onChange(normalizeSkillBuild({...build, class: s}, tree))
+              }
             />
           )}
         </div>
-        <div className="flex items-center justify-around">
+        <div
+          className={cn(
+            "flex items-center justify-around",
+            remainingSkillPoints < 0 ? "text-red-500" : undefined,
+          )}
+        >
           <p>Remaining: {remainingSkillPoints}</p>
-          <p>Used: {usedSkillPoints}</p>
+          <p>Used: {usedPoints}</p>
         </div>
       </CardHeader>
       <CardContent className={cn("p-0", isMobile ? "overflow-x-auto" : null)}>
@@ -358,23 +153,8 @@ export function SkillPlannerCard<TCode extends string>({
                 const {x, y} = positions[skillCode]
                 const currentSkillLevel = skillLevels[skillCode]
 
-                const skillData = groupedSkills[skillCode]
+                const skillData = tree.skills[skillCode]
                 const {icon, skill_max_level} = skillData[0]
-                const canBeSkilled = canSkillBeLeveled(skillCode)
-
-                const currentMaxLevel = Math.max(
-                  0,
-                  ...Object.values(skillData)
-                    .filter((skill) => {
-                      const requiredLevel =
-                        skill.required_level_land === 0
-                          ? skill.required_level_sea
-                          : skill.required_level_land
-
-                      return requiredLevel <= level
-                    })
-                    .map((skill) => skill.skill_level),
-                )
 
                 return (
                   <Skill
@@ -383,13 +163,15 @@ export function SkillPlannerCard<TCode extends string>({
                     x={x}
                     y={y}
                     icon={icon}
-                    canBeSkilled={canBeSkilled}
+                    canBeSkilled={canLevelUpSkill(build, tree, skillCode)}
                     currentLevel={currentSkillLevel}
                     skillMaxLevel={skill_max_level}
-                    currentMaxLevel={currentMaxLevel}
+                    currentMaxLevel={maxReachableSkillLevel(skillData, level)}
                     onMouseOver={() => setHoveredSkillCode(skillCode)}
                     onMouseOut={() => setHoveredSkillCode(null)}
-                    setSkillLevel={setSkillLevel}
+                    setSkillLevel={(code, newLevel) =>
+                      onChange(setSkillLevel(build, tree, code, newLevel))
+                    }
                   />
                 )
               })}
@@ -405,7 +187,7 @@ export function SkillPlannerCard<TCode extends string>({
                 >
                   <SkillPlannerTooltip
                     skillCode={hoveredSkillCode}
-                    skillData={groupedSkills[hoveredSkillCode]}
+                    skillData={tree.skills[hoveredSkillCode]}
                     currentLevel={skillLevels[hoveredSkillCode]}
                   />
                 </Html>

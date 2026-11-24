@@ -1,73 +1,33 @@
 import {BaseClassType} from "@/lib/enums"
 import {queryClient} from "@/lib/react-query-client"
 
-import {
-  PageHeader,
-  PageHeaderBreadcrumbs,
-  PageTitle,
-  homeBreadcrumbItems,
-} from "@/components/page-header"
-import {
-  getAvailableSkillPointsLand,
-  groupSkillsData,
-} from "@/components/planner/skill-helpers"
-import {SkillPlannerCard} from "@/components/planner/skill-planner-card"
-import {StatsPlannerCard} from "@/components/planner/stats-planner-card"
+import {plannerSearchValidator} from "@/components/planner/use-planner-build"
 
 import {
   landLevelOptions,
   mercenaryClassOptions,
 } from "@/routes/planner/-combobox-options"
-import {makePlannerQueryOptions} from "@/routes/planner/-query"
 import {
-  MERCENARY_SKILLS_POSITIONS,
-  MERCENARY_SKILL_CODES,
-} from "@/routes/planner/-skill-codes"
-import {useSuspenseQuery} from "@tanstack/react-query"
+  PlannerConfig,
+  PlannerPage,
+  plannerQueryOptions,
+} from "@/routes/planner/-planner-page"
+import {MERCENARY_SKILLS_POSITIONS} from "@/routes/planner/-skill-codes"
 import {createFileRoute} from "@tanstack/react-router"
 
-export const Route = createFileRoute("/planner/mercenary")({
-  loader: () =>
-    queryClient.ensureQueryData(
-      makePlannerQueryOptions(BaseClassType.Mercenary, MERCENARY_SKILL_CODES),
-    ),
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  const {
-    data: {
-      all_player_skills: {skills},
-    },
-  } = useSuspenseQuery(
-    makePlannerQueryOptions(BaseClassType.Mercenary, MERCENARY_SKILL_CODES),
-  )
-
-  const groupedSkillData = groupSkillsData(skills)
-
-  return (
-    <>
-      <PageHeader>
-        <PageHeaderBreadcrumbs
-          items={[
-            ...homeBreadcrumbItems,
-            {label: "Planner Mercenary", href: "/planner/mercenary"},
-          ]}
-        />
-        <PageTitle title="Mercenary" />
-      </PageHeader>
-      <div className="flex flex-col items-center justify-around gap-10 lg:flex-row lg:items-start">
-        <SkillPlannerCard
-          skillData={groupedSkillData}
-          positions={MERCENARY_SKILLS_POSITIONS}
-          background="mercenary"
-          alwaysAllowedClasses={["is_mercenary"]}
-          classOptions={mercenaryClassOptions}
-          levelOptions={landLevelOptions}
-          getAvailableSkillPointsFromLevel={getAvailableSkillPointsLand}
-        />
-        <StatsPlannerCard baseClass={BaseClassType.Mercenary} />
-      </div>
-    </>
-  )
+const config: PlannerConfig<keyof typeof MERCENARY_SKILLS_POSITIONS> = {
+  baseClass: BaseClassType.Mercenary,
+  title: "Mercenary",
+  href: "/planner/mercenary",
+  positions: MERCENARY_SKILLS_POSITIONS,
+  background: "mercenary",
+  alwaysAllowedClasses: ["is_mercenary"],
+  classOptions: mercenaryClassOptions,
+  levelOptions: landLevelOptions,
 }
+
+export const Route = createFileRoute("/planner/mercenary")({
+  loader: () => queryClient.ensureQueryData(plannerQueryOptions(config)),
+  validateSearch: plannerSearchValidator,
+  component: () => <PlannerPage config={config} />,
+})

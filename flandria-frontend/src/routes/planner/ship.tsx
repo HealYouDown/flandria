@@ -1,74 +1,36 @@
 import {BaseClassType} from "@/lib/enums"
 import {queryClient} from "@/lib/react-query-client"
 
-import {
-  PageHeader,
-  PageHeaderBreadcrumbs,
-  PageTitle,
-  homeBreadcrumbItems,
-} from "@/components/page-header"
-import {
-  getAvailableSkillPointsSea,
-  groupSkillsData,
-} from "@/components/planner/skill-helpers"
-import {SkillPlannerCard} from "@/components/planner/skill-planner-card"
+import {plannerSearchValidator} from "@/components/planner/use-planner-build"
 
 import {seaLevelOptions} from "@/routes/planner/-combobox-options"
-import {makePlannerQueryOptions} from "@/routes/planner/-query"
 import {
-  SHIP_SKILL_CODES,
-  SHIP_SKILL_POSITIONS,
-} from "@/routes/planner/-skill-codes"
-import {useSuspenseQuery} from "@tanstack/react-query"
+  PlannerConfig,
+  PlannerPage,
+  plannerQueryOptions,
+} from "@/routes/planner/-planner-page"
+import {SHIP_SKILL_POSITIONS} from "@/routes/planner/-skill-codes"
 import {createFileRoute} from "@tanstack/react-router"
 
-export const Route = createFileRoute("/planner/ship")({
-  loader: () =>
-    queryClient.ensureQueryData(
-      makePlannerQueryOptions(BaseClassType.Ship, SHIP_SKILL_CODES),
-    ),
-  component: RouteComponent,
-})
-
-function RouteComponent() {
-  const {
-    data: {
-      all_player_skills: {skills},
-    },
-  } = useSuspenseQuery(
-    makePlannerQueryOptions(BaseClassType.Ship, SHIP_SKILL_CODES),
-  )
-
-  const groupedSkillData = groupSkillsData(skills)
-
-  return (
-    <>
-      <PageHeader>
-        <PageHeaderBreadcrumbs
-          items={[
-            ...homeBreadcrumbItems,
-            {label: "Planner Ship", href: "/planner/ship"},
-          ]}
-        />
-        <PageTitle title="Ship" />
-      </PageHeader>
-      <div>
-        <SkillPlannerCard
-          skillData={groupedSkillData}
-          positions={SHIP_SKILL_POSITIONS}
-          background="ship"
-          alwaysAllowedClasses={[
-            "is_torpedo",
-            "is_armored",
-            "is_assault",
-            "is_big_gun",
-            "is_maintenance",
-          ]}
-          classOptions={null}
-          levelOptions={seaLevelOptions}
-          getAvailableSkillPointsFromLevel={getAvailableSkillPointsSea}
-        />
-      </div>
-    </>
-  )
+const config: PlannerConfig<keyof typeof SHIP_SKILL_POSITIONS> = {
+  baseClass: BaseClassType.Ship,
+  title: "Ship",
+  href: "/planner/ship",
+  positions: SHIP_SKILL_POSITIONS,
+  background: "ship",
+  alwaysAllowedClasses: [
+    "is_torpedo",
+    "is_armored",
+    "is_assault",
+    "is_big_gun",
+    "is_maintenance",
+  ],
+  classOptions: null,
+  levelOptions: seaLevelOptions,
 }
+
+export const Route = createFileRoute("/planner/ship")({
+  loader: () => queryClient.ensureQueryData(plannerQueryOptions(config)),
+  validateSearch: plannerSearchValidator,
+  component: () => <PlannerPage config={config} />,
+})

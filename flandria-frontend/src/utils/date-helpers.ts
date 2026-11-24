@@ -41,3 +41,14 @@ export function formatSeconds(
   const ms = durationInSeconds * 1000
   return short ? shortHumanizer(ms) : defaultHumanizer(ms)
 }
+
+// Same as the client: the casting bar of land player skills runs 300ms longer
+// than the table value, anything below 5ms is instant.
+export function formatCastTime(
+  castTimeInSeconds: number,
+  isLandPlayerSkill: boolean,
+): string {
+  if (castTimeInSeconds < 0.005) return "Instant"
+  const padded = castTimeInSeconds + (isLandPlayerSkill ? 0.3 : 0)
+  return `${padded.toFixed(2)}s`
+}

@@ -2884,6 +2884,8 @@ input MonsterSort @oneOf {
   skill_2_chance: SortDirection
 }
 
+union NeededFor = Recipe | Production | NpcExchangeItem
+
 type Npc implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaModelMixin {
   row_id: Int!
   model_name: String
@@ -2949,6 +2951,7 @@ type NpcExchangeItem {
   quantity: Int!
   gelt: Int!
   item: ItemList!
+  npc: Npc!
   materials: [NpcExchangeMaterial!]!
 }
 
@@ -2961,6 +2964,7 @@ input NpcExchangeItemFilter {
   quantity: NumberFilter
   gelt: NumberFilter
   item: ItemListFilter
+  npc: NpcFilter
   materials: NpcExchangeMaterialFilter
 }
 
@@ -4288,7 +4292,7 @@ type Query {
   search(s: String!, limit: Int! = 20): [MonsterNpcQuestItemList!]!
   dropped_by(code: String!): [Drop!]!
   produced_by(code: String!): [RecipeProduction!]!
-  needed_for(code: String!): [RecipeProduction!]!
+  needed_for(code: String!): [NeededFor!]!
   available_in_randombox(code: String!): [RandomBox!]!
   available_as_quest_reward(code: String!): [Quest!]!
   sold_by_npc(code: String!): [Npc!]!

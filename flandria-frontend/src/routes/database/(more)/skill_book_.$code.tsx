@@ -94,7 +94,7 @@ function RouteComponent() {
           <DetailsCard details={details} />
         </div>
         <div>
-          <SkillCard skill={skill_book.skill} extended />
+          <SkillCard skill={skill_book.skill} extended isPlayerSkill />
         </div>
         <div>
           <SoldByNPCCard npcs={sold_by_npc} />

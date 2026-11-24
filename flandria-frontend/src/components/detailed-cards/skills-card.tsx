@@ -1,4 +1,4 @@
-import {formatSeconds} from "@/utils/date-helpers"
+import {formatCastTime, formatSeconds} from "@/utils/date-helpers"
 
 import {graphql} from "@/gql"
 import {SkillsCard_FragmentFragment} from "@/gql/graphql"
@@ -29,9 +29,16 @@ type SkillCardProps = {
   title?: string
   skill: SkillsCard_FragmentFragment
   extended?: boolean
+  // Land player skills show a longer cast time in game (casting bar)
+  isPlayerSkill?: boolean
 }
 
-export function SkillCard({title = "Skill", skill, extended}: SkillCardProps) {
+export function SkillCard({
+  title = "Skill",
+  skill,
+  extended,
+  isPlayerSkill = false,
+}: SkillCardProps) {
   const extendedSection = (
     <>
       <DetailsCardItem
@@ -44,7 +51,14 @@ export function SkillCard({title = "Skill", skill, extended}: SkillCardProps) {
       />
       <DetailsCardItem
         label="Cast Time"
-        value={<span>{formatSeconds(skill.cast_time)}</span>}
+        value={
+          <span>
+            {formatCastTime(
+              skill.cast_time,
+              isPlayerSkill && skill.required_level_sea === 0,
+            )}
+          </span>
+        }
       />
       <DetailsCardItem
         label="Cooldown"

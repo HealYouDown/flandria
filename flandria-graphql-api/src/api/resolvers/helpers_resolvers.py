@@ -51,7 +51,7 @@ def resolve_produced_by(
 
 def resolve_needed_for(
     *, info: strawberry.Info, item_code: str
-) -> list[types.Recipe | types.Production]:
+) -> list[types.Recipe | types.Production | types.NpcExchangeItem]:
     nks = _get_nks(info)
 
     recipe_query = (
@@ -68,13 +68,27 @@ def resolve_needed_for(
     )
     production_query = apply_join_options(production_query, models.Production, nks)
 
+    exchange_query = sa.select(models.NpcExchangeItem).where(
+        models.NpcExchangeItem.index.in_(
+            sa.select(models.NpcExchangeMaterial.exchange_index).where(
+                models.NpcExchangeMaterial.item_code == item_code
+            )
+        )
+    )
+    exchange_query = apply_join_options(exchange_query, models.NpcExchangeItem, nks)
+
     with Session() as session:
         recipes = session.scalars(recipe_query).all()
         productions = session.scalars(production_query).all()
+        exchanges = session.scalars(exchange_query).all()
 
         return [
             *[coerce_orm_to_strawberry(r, types.Recipe, nks) for r in recipes],
             *[coerce_orm_to_strawberry(r, types.Production, nks) for r in productions],
+            *[
+                coerce_orm_to_strawberry(r, types.NpcExchangeItem, nks)
+                for r in exchanges
+            ],
         ]
 
 

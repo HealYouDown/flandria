@@ -77,7 +77,7 @@ export const moreLinks: NavListLink[] = [
     description: "All lively residents of Florensia.",
   },
   {
-    title: "Gilles de Rais Towers",
+    title: "The Spire",
     href: "/database/tower",
     description: "A 100-floor dungeon packed with monsters and treasure.",
   },

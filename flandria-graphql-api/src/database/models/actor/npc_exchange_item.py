@@ -87,6 +87,12 @@ class NpcExchangeItem(Base):
         uselist=False,
         viewonly=True,
     )
+    npc = orm.relationship(
+        "Npc",
+        foreign_keys=[npc_code],
+        uselist=False,
+        viewonly=True,
+    )
     materials = orm.relationship(
         "NpcExchangeMaterial",
         uselist=True,

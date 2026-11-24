@@ -11,8 +11,29 @@ import {
 } from "@/components/ui/card"
 
 graphql(`
-  fragment NeededFor on RecipeProduction {
+  fragment NeededFor on NeededFor {
+    __typename
     ...ProducedBy
+    ... on NpcExchangeItem {
+      gelt
+      item {
+        code
+        name
+        icon
+        grade
+        duration
+      }
+      npc {
+        code
+        name
+      }
+      materials {
+        quantity
+        item {
+          name
+        }
+      }
+    }
   }
 `)
 
@@ -69,6 +90,38 @@ export function NeededForCard({consumers}: NeededForCardProps) {
                     <GridItem.Name duration={result_item.duration}>
                       {result_item.name}
                     </GridItem.Name>
+                  </GridItem.Details>
+                </GridItem.NonLinkItem>
+              </CardContentLinkListItem>
+            )
+          } else if (producer.__typename === "NpcExchangeItem") {
+            const {item, npc} = producer
+            const costs = producer.materials.map(
+              (m) => `${m.quantity.toLocaleString()}x ${m.item.name}`,
+            )
+            if (producer.gelt > 0) {
+              costs.push(`${producer.gelt.toLocaleString()} Gelt`)
+            }
+            return (
+              <CardContentLinkListItem
+                key={`exchange-consumers-${i}`}
+                to="/database/npc/$code"
+                params={{code: npc.code}}
+              >
+                <GridItem.NonLinkItem>
+                  <GridItem.Icon
+                    size="medium"
+                    variant="no-hover"
+                    iconName={item.icon}
+                    itemGrade={item.grade}
+                  />
+                  <GridItem.Details>
+                    <GridItem.Name duration={item.duration}>
+                      {item.name}
+                    </GridItem.Name>
+                    <GridItem.Subs
+                      subs={[`Exchange at ${npc.name}`, costs.join(", ")]}
+                    />
                   </GridItem.Details>
                 </GridItem.NonLinkItem>
               </CardContentLinkListItem>

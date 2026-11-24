@@ -68,12 +68,12 @@ function RouteComponent() {
               href: "/database",
             },
             {
-              label: "Gilles de Rais Towers",
+              label: "The Spire",
               href: "/database/tower",
             },
           ]}
         />
-        <PageTitle title={"Gilles de Rais Towers"} />
+        <PageTitle title={"The Spire"} />
       </PageHeader>
       <div className="grid grid-cols-12 gap-y-2 lg:mx-4">
         {items.map((towerFloor, i) => (
