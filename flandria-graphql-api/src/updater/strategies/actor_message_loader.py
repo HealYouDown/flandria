@@ -36,7 +36,7 @@ def actor_message(
     for row in data.client_data:
         # row:
         # {
-        #     "대사코드": "obchat000",
+        #     "DialogueCode": "obchat000",
         #     "Idle0": "obchpld00",
         #     "Idle1": "obchpld01",
         #     "Attack0": "obchpld01",
@@ -50,7 +50,7 @@ def actor_message(
         #     "ObjRegen0": "obchpld02",
         #     "ObjRegen1": "obchpld03",
         # }
-        code = row["대사코드"]
+        code = row["DialogueCode"]
         for trigger_key, trigger in trigger_keys:
             message_code = cast(str, row[trigger_key])
             try:

@@ -21,26 +21,26 @@ class ArmorMixin(
         sa.Integer,
         nullable=False,
         doc="Land level required to use the weapon",
-        info=ColumnInfo(key="육상LV"),
+        info=ColumnInfo(key="LevelLand"),
     )
 
     level_sea = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Land sea required to use the weapon",
-        info=ColumnInfo(key="해상LV"),
+        info=ColumnInfo(key="LevelSea"),
     )
 
     physical_defense = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Physical defense of armor piece",
-        info=ColumnInfo(key="물방력"),
+        info=ColumnInfo(key="PhysicalDefense"),
     )
 
     magical_defense = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Magical defense of armor piece",
-        info=ColumnInfo(key="마항력"),
+        info=ColumnInfo(key="MagicDefense"),
     )

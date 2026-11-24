@@ -33,16 +33,16 @@ class ColumnInfo(dict):
 
     @classmethod
     def code(cls) -> Self:
-        return cls(key="코드")
+        return cls(key="Code")
 
     @classmethod
     def name(cls) -> Self:
         return cls(key="__name")
 
     @classmethod
-    def icon(cls, icon_key: str = "아이콘") -> Self:
+    def icon(cls, icon_key: str = "Icon") -> Self:
         return cls(key="__icon", icon_key=icon_key)
 
     @classmethod
-    def description(cls, description_key: str = "코드") -> Self:
+    def description(cls, description_key: str = "Code") -> Self:
         return cls(key="__description", description_key=description_key)

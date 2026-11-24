@@ -58,7 +58,6 @@ class ActorMixinFilter:
     ship_guns_count: Optional[NumberFilter] = strawberry.UNSET
     ship_guns_speed: Optional[NumberFilter] = strawberry.UNSET
     ship_attack_range: Optional[NumberFilter] = strawberry.UNSET
-    attack_cast_time: Optional[NumberFilter] = strawberry.UNSET
     attack_cooldown: Optional[NumberFilter] = strawberry.UNSET
     despawn_delay_time: Optional[NumberFilter] = strawberry.UNSET
     attack_vision_range: Optional[NumberFilter] = strawberry.UNSET
@@ -322,6 +321,8 @@ class QuestScrollFilter(BaseMixinFilter, RowIDMixinFilter):
 class MonsterFilter(
     ActorMixinFilter, RowIDMixinFilter, ActorModelMixinFilter, FlorensiaModelMixinFilter
 ):
+    cc_immune: Optional[BooleanFilter] = strawberry.UNSET
+    slow_immune: Optional[BooleanFilter] = strawberry.UNSET
     skill_1_code: Optional[StringFilter] = strawberry.UNSET
     skill_1_chance: Optional[NumberFilter] = strawberry.UNSET
     skill_2_code: Optional[StringFilter] = strawberry.UNSET
@@ -340,6 +341,29 @@ class NpcFilter(
     positions: Optional["NpcPositionFilter"] = strawberry.UNSET
     quests: Optional["QuestFilter"] = strawberry.UNSET
     store_items: Optional["NpcStoreItemFilter"] = strawberry.UNSET
+    exchange_items: Optional["NpcExchangeItemFilter"] = strawberry.UNSET
+
+
+@strawberry.input
+class NpcExchangeItemFilter:
+    index: Optional[NumberFilter] = strawberry.UNSET
+    section_name: Optional[StringFilter] = strawberry.UNSET
+    page_name: Optional[StringFilter] = strawberry.UNSET
+    npc_code: Optional[StringFilter] = strawberry.UNSET
+    item_code: Optional[StringFilter] = strawberry.UNSET
+    quantity: Optional[NumberFilter] = strawberry.UNSET
+    gelt: Optional[NumberFilter] = strawberry.UNSET
+    item: Optional["ItemListFilter"] = strawberry.UNSET
+    materials: Optional["NpcExchangeMaterialFilter"] = strawberry.UNSET
+
+
+@strawberry.input
+class NpcExchangeMaterialFilter:
+    index: Optional[NumberFilter] = strawberry.UNSET
+    exchange_index: Optional[NumberFilter] = strawberry.UNSET
+    item_code: Optional[StringFilter] = strawberry.UNSET
+    quantity: Optional[NumberFilter] = strawberry.UNSET
+    item: Optional["ItemListFilter"] = strawberry.UNSET
 
 
 @strawberry.input
@@ -372,7 +396,11 @@ class DropFilter:
     quantity: Optional[NumberFilter] = strawberry.UNSET
     section_id: Optional[NumberFilter] = strawberry.UNSET
     section_probability: Optional[NumberFilter] = strawberry.UNSET
+    section_guaranteed: Optional[BooleanFilter] = strawberry.UNSET
     item_probability: Optional[NumberFilter] = strawberry.UNSET
+    distribution: Optional[EnumFilter[enums.DropDistribution]] = strawberry.UNSET
+    max_per_player: Optional[NumberFilter] = strawberry.UNSET
+    bypass_level: Optional[BooleanFilter] = strawberry.UNSET
     monster_code: Optional[StringFilter] = strawberry.UNSET
     item_code: Optional[StringFilter] = strawberry.UNSET
     monster: Optional["MonsterFilter"] = strawberry.UNSET
@@ -863,6 +891,20 @@ class UpgradeRuleFilter(EffectMixinFilter):
 @strawberry.input
 class SealBreakHelpFilter(BaseMixinFilter, RowIDMixinFilter):
     description: Optional[StringFilter] = strawberry.UNSET
+
+
+@strawberry.input
+class SealExtendFilter(BaseMixinFilter, RowIDMixinFilter):
+    description: Optional[StringFilter] = strawberry.UNSET
+    is_random: Optional[BooleanFilter] = strawberry.UNSET
+    seal_count: Optional[NumberFilter] = strawberry.UNSET
+    min_seals: Optional[NumberFilter] = strawberry.UNSET
+    max_seals: Optional[NumberFilter] = strawberry.UNSET
+    for_armor: Optional[BooleanFilter] = strawberry.UNSET
+    for_weapons: Optional[BooleanFilter] = strawberry.UNSET
+    for_accessories: Optional[BooleanFilter] = strawberry.UNSET
+    min_item_level: Optional[NumberFilter] = strawberry.UNSET
+    max_item_level: Optional[NumberFilter] = strawberry.UNSET
 
 
 @strawberry.input

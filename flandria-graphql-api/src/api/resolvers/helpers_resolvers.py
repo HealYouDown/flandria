@@ -112,10 +112,20 @@ def resolve_available_as_quest_reward(
 
 def resolve_sold_by_npc(*, info: strawberry.Info, item_code: str) -> list[types.Npc]:
     nks = _get_nks(info)
-    query = (
-        sa.select(models.Npc)
-        .join(models.Npc.store_items)
-        .where(models.NpcStoreItem.item_code == item_code)
+    # NPCs that either sell the item or offer it in exchange for materials
+    query = sa.select(models.Npc).where(
+        sa.or_(
+            models.Npc.code.in_(
+                sa.select(models.NpcStoreItem.npc_code).where(
+                    models.NpcStoreItem.item_code == item_code
+                )
+            ),
+            models.Npc.code.in_(
+                sa.select(models.NpcExchangeItem.npc_code).where(
+                    models.NpcExchangeItem.item_code == item_code
+                )
+            ),
+        )
     )
     query = apply_join_options(query, models.Npc, nks)
 

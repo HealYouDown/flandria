@@ -6,6 +6,7 @@ from .actor.monster_position import MonsterPosition
 from .actor.monster_skill import MonsterSkill
 from .actor.npc import Npc
 from .actor.npc_position import NpcPosition
+from .actor.npc_exchange_item import NpcExchangeItem, NpcExchangeMaterial
 from .actor.npc_store_item import NpcStoreItem
 from .armor.coat import Coat
 from .armor.gauntlet import Gauntlet
@@ -45,6 +46,7 @@ from .quest.quest_item import QuestItem
 from .quest.quest_scroll import QuestScroll
 from .random_box import RandomBox, RandomBoxReward
 from .seals.seal_break_help import SealBreakHelp
+from .seals.seal_extend import SealExtend
 from .ship.ship_anchor import ShipAnchor
 from .ship.ship_body import ShipBody
 from .ship.ship_figure import ShipFigure
@@ -84,6 +86,8 @@ __all__ = [
     # Actors
     "Monster",
     "Npc",
+    "NpcExchangeItem",
+    "NpcExchangeMaterial",
     "NpcStoreItem",
     "ActorMessage",
     "MonsterSkill",
@@ -151,6 +155,7 @@ __all__ = [
     "UpgradeRule",
     # Seals
     "SealBreakHelp",
+    "SealExtend",
     # Uncategorized tables
     "ItemList",
     # "FusionHelp",

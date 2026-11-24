@@ -15,58 +15,58 @@ if TYPE_CHECKING:
 Reference:
 ----------
 {
-    "코드": "ruoh0100",
-    "이름": "한손검 LV1 근공 0 강화LV0",
-    "업그레이드레벨": 0,
-    "효과코드0": 6,
-    "연산자0": "+",
-    "효과값0": 0.0,
-    "효과코드1": 7,
-    "연산자1": "+",
-    "효과값1": 0.0,
-    "효과코드2": -1,
-    "연산자2": "+",
-    " 효과값2": 0.0,
-    "효과코드3": -1,
-    "연산자3": "+",
-    "효과값3": 0.0,
-    "강화소모gelt": 0,
+    "Code": "ruoh0100",
+    "InternalName": "한손검 LV1 근공 0 강화LV0",
+    "UpgradeLevel": 0,
+    "Effect0Code": 6,
+    "Effect0Operator": "+",
+    "Effect0Value": 0.0,
+    "Effect1Code": 7,
+    "Effect1Operator": "+",
+    "Effect1Value": 0.0,
+    "Effect2Code": -1,
+    "Effect2Operator": "+",
+    "Effect2Value": 0.0,
+    "Effect3Code": -1,
+    "Effect3Operator": "+",
+    "Effect3Value": 0.0,
+    "UpgradeCost": 0,
 },
 {
-    "코드": "ruoh0101",
-    "이름": "한손검 LV1 근공 0 강화LV1",
-    "업그레이드레벨": 1,
-    "효과코드0": 6,
-    "연산자0": "+",
-    "효과값0": 1.0,
-    "효과코드1": 7,
-    "연산자1": "+",
-    "효과값1": 1.0,
-    "효과코드2": -1,
-    "연산자2": "+",
-    "효과값2": 0.0,
-    "효과코드3": -1,
-    "연산자3": "+",
-    "효과값3": 0.0,
-    "강화소모gelt": 0,
+    "Code": "ruoh0101",
+    "InternalName": "한손검 LV1 근공 0 강화LV1",
+    "UpgradeLevel": 1,
+    "Effect0Code": 6,
+    "Effect0Operator": "+",
+    "Effect0Value": 1.0,
+    "Effect1Code": 7,
+    "Effect1Operator": "+",
+    "Effect1Value": 1.0,
+    "Effect2Code": -1,
+    "Effect2Operator": "+",
+    "Effect2Value": 0.0,
+    "Effect3Code": -1,
+    "Effect3Operator": "+",
+    "Effect3Value": 0.0,
+    "UpgradeCost": 0,
 },
 {
-    "코드": "ruoh0102",
-    "이름": "한손검 LV1 근공 0 강화LV2",
-    "업그레이드레벨": 2,
-    "효과코드0": 6,
-    "연산자0": "+",
-    "효과값0": 2.0,
-    "효과코드1": 7,
-    "연산자1": "+",
-    "효과값1": 2.0,
-    "효과코드2": -1,
-    "연산자2": "+",
-    " 효과값2": 0.0,
-    "효과코드3": -1,
-    "연산자3": "+",
-    "효과값3": 0.0,
-    "강화소모gelt": 0,
+    "Code": "ruoh0102",
+    "InternalName": "한손검 LV1 근공 0 강화LV2",
+    "UpgradeLevel": 2,
+    "Effect0Code": 6,
+    "Effect0Operator": "+",
+    "Effect0Value": 2.0,
+    "Effect1Code": 7,
+    "Effect1Operator": "+",
+    "Effect1Value": 2.0,
+    "Effect2Code": -1,
+    "Effect2Operator": "+",
+    "Effect2Value": 0.0,
+    "Effect3Code": -1,
+    "Effect3Operator": "+",
+    "Effect3Value": 0.0,
+    "UpgradeCost": 0,
 },
 ...
 """
@@ -85,12 +85,12 @@ def upgrade_rule(
 
     for rules in batched(data.server_data, 16):
         # used so that we can query all upgrade rules for a specific item
-        base_code = cast(str, rules[0]["코드"])
+        base_code = cast(str, rules[0]["Code"])
 
         for row in rules:
-            upgrade_rule_code = cast(str, row["코드"])
-            level = row["업그레이드레벨"]
-            cost = row["강화소모gelt"]
+            upgrade_rule_code = cast(str, row["Code"])
+            level = row["UpgradeLevel"]
+            cost = row["UpgradeCost"]
 
             objects.append(
                 {

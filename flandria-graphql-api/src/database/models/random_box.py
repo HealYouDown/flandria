@@ -66,7 +66,7 @@ class RandomBox(Base, BaseMixin):
         nullable=False,
         doc="Land level required to open the randombox",
         info=ColumnInfo(
-            key="육상LV",
+            key="LevelLand",
             transforms=[lambda v: value_if_not_equal(v, -1, 1)],
         ),
     )
@@ -75,7 +75,7 @@ class RandomBox(Base, BaseMixin):
         nullable=False,
         doc="Sea level required to open the randombox",
         info=ColumnInfo(
-            key="해상LV",
+            key="LevelSea",
             transforms=[lambda v: value_if_not_equal(v, -1, 1)],
         ),
     )

@@ -22,7 +22,7 @@ class Pet(Base, BaseMixin):
         nullable=False,
         doc="Courage value the pet starts with",
         info=ColumnInfo(
-            key="용기",
+            key="Courage",
             transforms=[lambda v: value_if_not_equal(v, -1, 0)],
         ),
     )
@@ -31,7 +31,7 @@ class Pet(Base, BaseMixin):
         nullable=False,
         doc="Patience value the pet starts with",
         info=ColumnInfo(
-            key="인내",
+            key="Patience",
             transforms=[lambda v: value_if_not_equal(v, -1, 0)],
         ),
     )
@@ -40,7 +40,7 @@ class Pet(Base, BaseMixin):
         nullable=False,
         doc="Wisdom value the pet starts with",
         info=ColumnInfo(
-            key="인내",
+            key="Patience",
             transforms=[lambda v: value_if_not_equal(v, -1, 0)],
         ),
     )
@@ -49,7 +49,7 @@ class Pet(Base, BaseMixin):
         nullable=False,
         doc="Whether the pet needs pocketwatches",
         info=ColumnInfo(
-            key="펫봉인타임",
+            key="PetSealTime",
             transforms=[lambda v: v == -1],
         ),
     )

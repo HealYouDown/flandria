@@ -84,6 +84,7 @@ to_evaluate = [
     ("upgrade_crystal", "UpgradeCrystal"),
     # Seals
     ("seal_break_help_item", "SealBreakHelp"),
+    ("seal_extend_item", "SealExtend"),
     # Others
     # ("fusion_help_item", "FusionHelp"),
     ("map", "Map"),

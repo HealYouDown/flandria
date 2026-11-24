@@ -26,8 +26,18 @@ graphql(`
   }
 `)
 
+export type NPCStoreEntry = Pick<
+  NpcStoreItemlist_FragmentFragment,
+  "section_name" | "page_name" | "item"
+> & {
+  // e.g. the exchange cost
+  subs?: string[]
+}
+
 type NPCStoreCardProps = {
-  storeItems: NpcStoreItemlist_FragmentFragment[]
+  storeItems: NPCStoreEntry[]
+  title?: string
+  hideIfEmpty?: boolean
 }
 
 type Section = {
@@ -37,10 +47,16 @@ type Section = {
 
 type Page = {
   label: string
-  items: CardItemlistItem[]
+  entries: NPCStoreEntry[]
 }
 
-export function NPCStoreCard({storeItems}: NPCStoreCardProps) {
+export function NPCStoreCard({
+  storeItems,
+  title = "Shop",
+  hideIfEmpty = false,
+}: NPCStoreCardProps) {
+  if (hideIfEmpty && storeItems.length === 0) return null
+
   let body = (
     <CardContent>
       <p>No items sold.</p>
@@ -56,10 +72,10 @@ export function NPCStoreCard({storeItems}: NPCStoreCardProps) {
 
     let page = section.pages.find((p) => p.label === current.page_name)
     if (!page) {
-      page = {label: current.page_name, items: []}
+      page = {label: current.page_name, entries: []}
       section.pages.push(page)
     }
-    page.items.push(current.item)
+    page.entries.push(current)
 
     return sections
   }, [])
@@ -87,8 +103,12 @@ export function NPCStoreCard({storeItems}: NPCStoreCardProps) {
                     >
                       <AccordionTrigger>{page.label}</AccordionTrigger>
                       <AccordionContent className="pb-0">
-                        {page.items.map((item) => (
-                          <CardItemlistItem key={item.code} item={item} />
+                        {page.entries.map((entry, idx) => (
+                          <CardItemlistItem
+                            key={idx}
+                            item={entry.item}
+                            additionalSubs={entry.subs}
+                          />
                         ))}
                       </AccordionContent>
                     </AccordionItem>
@@ -105,7 +125,7 @@ export function NPCStoreCard({storeItems}: NPCStoreCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Shop</CardTitle>
+        <CardTitle>{title}</CardTitle>
       </CardHeader>
       {body}
     </Card>

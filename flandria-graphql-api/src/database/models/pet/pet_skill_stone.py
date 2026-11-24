@@ -22,7 +22,7 @@ class PetSkillStone(Base, BaseMixin):
         nullable=False,
         index=True,
         doc="Skill code",
-        info=ColumnInfo(key="대상코드"),
+        info=ColumnInfo(key="TargetCode"),
     )
     skill = orm.relationship(
         "PetSkill",

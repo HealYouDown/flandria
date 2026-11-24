@@ -24,29 +24,29 @@ if TYPE_CHECKING:
 
 def get_effects(row: dict, tablename: str, ref_code: str) -> list[dict]:
     if tablename.startswith("ship"):
-        code_key = "효과코드_{i}"
+        code_key = "Effect{i}Code"
         operator_key = None
-        value_key = "효과값_{i}"
+        value_key = "Effect{i}Value"
         range_ = (1, 6)
     elif tablename in {"monster_skill", "player_skill", "pet_skill"}:
-        code_key = "지속코드{i}"
-        operator_key = "지속수치연산자{i}"
-        value_key = "지속값{i}"
+        code_key = "ActiveEffect{i}Code"
+        operator_key = "ActiveEffect{i}Operator"
+        value_key = "ActiveEffect{i}Value"
         range_ = (1, 5)
     elif tablename == "upgrade_rule":
-        code_key = "효과코드{i}"
-        operator_key = "연산자{i}"
-        value_key = "효과값{i}"
+        code_key = "Effect{i}Code"
+        operator_key = "Effect{i}Operator"
+        value_key = "Effect{i}Value"
         range_ = (0, 4)
     elif tablename == "item_set":
-        code_key = "효과코드_{i}"
-        operator_key = "수치연산자_{i}"
-        value_key = "효과값_{i}"
+        code_key = "Effect{i}Code"
+        operator_key = "Effect{i}Operator"
+        value_key = "Effect{i}Value"
         range_ = (1, 13)
     else:
-        code_key = "효과코드_{i}"
-        operator_key = "수치연산자_{i}"
-        value_key = "효과값_{i}"
+        code_key = "Effect{i}Code"
+        operator_key = "Effect{i}Operator"
+        value_key = "Effect{i}Value"
         range_ = (1, 6)
 
     effects = []
@@ -83,7 +83,7 @@ def get_effects(row: dict, tablename: str, ref_code: str) -> list[dict]:
 def get_required_skills(row: dict, skill_code: str) -> list[dict]:
     required_skills = []
 
-    key = "필요스킬코드{i}"
+    key = "RequiredSkillCode{i}"
     for i in range(1, 6):
         required_skill_code = row[key.format(i=i)]
         if required_skill_code != "*":
@@ -103,9 +103,9 @@ def get_required_skills(row: dict, skill_code: str) -> list[dict]:
 
 def get_class_land(row: dict, tablename: str) -> dict[str, bool]:
     key = (
-        "사용직업1"
+        "RequiredLandClass"
         if tablename in {"pet_skill", "monster_skill", "player_skill"}
-        else "사용직업"
+        else "Class"
     )
     value: str | None = row[key]
     if value is None:
@@ -135,9 +135,9 @@ def get_class_land(row: dict, tablename: str) -> dict[str, bool]:
 
 def get_class_sea(row: dict, tablename: str) -> dict[str, bool]:
     key = (
-        "사용직업2"
+        "RequiredSeaClass"
         if tablename in {"pet_skill", "monster_skill", "player_skill"}
-        else "클래스"
+        else "ClassCode"
     )
     value: str | None = row[key]
     if value is None:
@@ -161,7 +161,7 @@ def get_model_info(pk: str, data: "FileData") -> dict:
         logger.warning(f"No model reference found for item {pk!r}")
         return {}
 
-    return {"model_name": client_row["모델명"]}
+    return {"model_name": client_row["ModelCode"]}
 
 
 def get_extra_equipment_model_info(pk: str, data: "FileData") -> dict:
@@ -187,8 +187,8 @@ def get_extra_equipment_model_info(pk: str, data: "FileData") -> dict:
         return (r, g, b)
 
     return {
-        "model_name": client_row["모델명"],
-        "model_variant": _parse_variant(client_row["그라운드아이템"]),
+        "model_name": client_row["ModelCode"],
+        "model_variant": _parse_variant(client_row["GroundModelCode"]),
     }
 
 
@@ -200,8 +200,8 @@ def get_actor_model_info(pk: str, data: "FileData") -> dict:
         return {}
 
     return {
-        "model_name": client_row["모델명"],
-        "model_scale": client_row["스케일"] / 100,
+        "model_name": client_row["ModelCode"],
+        "model_scale": client_row["Scale"] / 100,
     }
 
 

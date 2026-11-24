@@ -53,13 +53,13 @@ class Recipe(Base, BaseMixin):
         sa.ForeignKey("item_list.code"),
         nullable=False,
         index=True,
-        info=ColumnInfo(key="결과물코드"),
+        info=ColumnInfo(key="ResultItemCode"),
         doc="Result code for the item that is crafted",
     )
     result_quantity = orm.mapped_column(
         sa.Integer,
         nullable=False,
-        info=ColumnInfo(key="결과물수량"),
+        info=ColumnInfo(key="ResultItemQuantity"),
         doc="Quantity of the result item",
     )
     result_item = orm.relationship(

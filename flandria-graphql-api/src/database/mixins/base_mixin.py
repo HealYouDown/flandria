@@ -39,19 +39,19 @@ class BaseMixin(RowIDMixin):
         sa.Boolean,
         nullable=False,
         doc="Whether the item can be traded",
-        info=ColumnInfo(key="교환가능"),
+        info=ColumnInfo(key="IsTradable"),
     )
 
     is_destroyable = orm.mapped_column(
         sa.Boolean,
         nullable=False,
         doc="Whether the item can be destroyed",
-        info=ColumnInfo(key="버림가능"),
+        info=ColumnInfo(key="IsDestroyable"),
     )
 
     @orm.declared_attr
     def is_sellable(cls):
-        info = ColumnInfo(key="매매가능")
+        info = ColumnInfo(key="IsSellableToNPC")
         tablename: str = cls.__tablename__  # type: ignore
         if tablename in {"quest_item"}:
             info = {}
@@ -66,7 +66,7 @@ class BaseMixin(RowIDMixin):
 
     @orm.declared_attr
     def is_storageable(cls):
-        info = ColumnInfo(key="보관가능")
+        info = ColumnInfo(key="IsStorageable")
         tablename: str = cls.__tablename__  # type: ignore
 
         if tablename in {"quest_item"}:
@@ -83,14 +83,13 @@ class BaseMixin(RowIDMixin):
     @orm.declared_attr
     def grade(cls):
         info = ColumnInfo(
-            key="가치",
+            key="Rarity",
             transforms=[lambda v: ItemGrade(v)],
         )
 
         # Some tables do not have a grade value, so they default to 1
         tablename: str = cls.__tablename__  # type: ignore
-        if tablename in {
-            "ship_shell",
+        if tablename.startswith("ship_") or tablename in {
             "bullet",
             "consumable",
             "fishing_bait",
@@ -106,6 +105,7 @@ class BaseMixin(RowIDMixin):
             "upgrade_help",
             "upgrade_crystal",
             "seal_break_help",
+            "seal_extend",
         }:
             info = {}
 
@@ -120,11 +120,11 @@ class BaseMixin(RowIDMixin):
     @orm.declared_attr
     def duration(cls):
         info = ColumnInfo(
-            key="기간제타임",
+            key="Duration",
             transforms=[lambda v: value_if_not_equal(v, -1)],
         )
         tablename: str = cls.__tablename__  # type: ignore
-        if tablename in {"essence", "random_box"}:
+        if tablename in {"essence", "random_box", "quest_item"}:
             info = {}
 
         return orm.mapped_column(
@@ -138,13 +138,29 @@ class BaseMixin(RowIDMixin):
     @orm.declared_attr
     def stack_size(cls):
         # Bait, bullets and ship shells have a different name for stack size
-        key = "중복가능수"
+        key = "StackSize"
         tablename: str = cls.__tablename__  # type: ignore
 
         if tablename in {"fishing_bait", "ship_shell", "bullet"}:
-            key = "최대중복개수"
+            key = "MaxStackCount"
         # Some tables don't have a stack size, so the default (of 1) is used instead
         elif tablename in {
+            "accessory",
+            "cariad",
+            "coat",
+            "dagger",
+            "dress",
+            "duals",
+            "fishing_rod",
+            "gauntlet",
+            "hat",
+            "one_handed_sword",
+            "pants",
+            "rapier",
+            "rifle",
+            "shield",
+            "shoes",
+            "two_handed_sword",
             "ship_anchor",
             "ship_body",
             "ship_figure",
@@ -174,7 +190,7 @@ class BaseMixin(RowIDMixin):
 
     @orm.declared_attr
     def npc_buy_price(cls):
-        key = "판매가격"
+        key = "NPCBuyPrice"
         tablename: str = cls.__tablename__  # type: ignore
 
         if tablename in {
@@ -189,7 +205,7 @@ class BaseMixin(RowIDMixin):
             "ship_normal_weapon",
             "ship_special_weapon",
         }:
-            key = "기준가격"
+            key = "BasePrice"
         elif tablename == "quest_item":
             key = None
 
@@ -207,5 +223,5 @@ class BaseMixin(RowIDMixin):
         sa.Float,
         nullable=False,
         doc="Price for which you can sell the item to NPCs",
-        info=ColumnInfo(key="처분가격"),
+        info=ColumnInfo(key="NPCSellPrice"),
     )

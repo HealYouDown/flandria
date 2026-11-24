@@ -11,7 +11,7 @@ class ItemSetMixin:
         index=True,
         nullable=True,
         doc="Code of the item set",
-        info=ColumnInfo(key="세트코드"),
+        info=ColumnInfo(key="ItemSetKey"),
     )
 
     @orm.declared_attr

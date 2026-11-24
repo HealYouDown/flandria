@@ -17,35 +17,35 @@ class ShipBaseMixin(BaseMixin, ClassSeaMixin, EffectMixin):
         sa.Integer,
         nullable=False,
         doc="Price to tune this piece in the dock",
-        info=ColumnInfo(key="튜닝가격"),
+        info=ColumnInfo(key="TuningPrice"),
     )
 
     level_sea = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Required level on sea to use the ship piece",
-        info=ColumnInfo(key="해상LV"),
+        info=ColumnInfo(key="LevelSea"),
     )
 
     guns_front = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Number of guns on the front",
-        info=ColumnInfo(key="전포수"),
+        info=ColumnInfo(key="FrontCannonCount"),
     )
 
     guns_side = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Number of guns on the side",
-        info=ColumnInfo(key="측포수"),
+        info=ColumnInfo(key="SideCannonCount"),
     )
 
     crew_size = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Number of possible crew members",
-        info=ColumnInfo(key="필요선원수"),
+        info=ColumnInfo(key="RequiredCrewCount"),
     )
 
     # What the fuck is the difference between physical defense and protection though?
@@ -53,21 +53,21 @@ class ShipBaseMixin(BaseMixin, ClassSeaMixin, EffectMixin):
         sa.Integer,
         nullable=False,
         doc="Physical stat",
-        info=ColumnInfo(key="물방력"),
+        info=ColumnInfo(key="PhysicalDefense"),
     )
 
     protection = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Protection stat",
-        info=ColumnInfo(key="방탄력"),
+        info=ColumnInfo(key="ArmorRating"),
     )
 
     balance = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Balance stat",
-        info=ColumnInfo(key="벨런스"),
+        info=ColumnInfo(key="Balance"),
     )
 
     dp = orm.mapped_column(
@@ -88,82 +88,82 @@ class ShipBaseMixin(BaseMixin, ClassSeaMixin, EffectMixin):
         sa.Integer,
         nullable=False,
         doc="EN usage (weapons only)",
-        info=ColumnInfo(key="EN소모"),
+        info=ColumnInfo(key="ENCost"),
     )
 
     en_recovery = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Amount of EN restored per regeneration tick",
-        info=ColumnInfo(key="EN회복"),
+        info=ColumnInfo(key="ENRecovery"),
     )
 
     acceleration = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Acceleration stat in Florensia units/s",
-        info=ColumnInfo(key="가속력"),
+        info=ColumnInfo(key="Acceleration"),
     )
 
     deceleration = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Deceleration stat in Florensia units/s",
-        info=ColumnInfo(key="정선력"),
+        info=ColumnInfo(key="Deceleration"),
     )
 
     turning_power = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Turning power stat",
-        info=ColumnInfo(key="선회력"),
+        info=ColumnInfo(key="TurnSpeed"),
     )
 
     favorable_wind = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Favorable wind stat",
-        info=ColumnInfo(key="횡범성능"),
+        info=ColumnInfo(key="SquareSailPerformance"),
     )
 
     adverse_wind = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Adverse wind stat",
-        info=ColumnInfo(key="종범성능"),
+        info=ColumnInfo(key="ForeAftSailPerformance"),
     )
 
     physical_damage = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Physical damage (of weapons)",
-        info=ColumnInfo(key="공격력"),
+        info=ColumnInfo(key="Attack"),
     )
 
     weapon_range = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Weapon range in florensia units",
-        info=ColumnInfo(key="최대거리"),
+        info=ColumnInfo(key="MaxRange"),
     )
 
     critical_chance = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Critical chance in % (0-1.0)",
-        info=ColumnInfo(key="크리티컬", transforms=[lambda v: v / 100]),
+        info=ColumnInfo(key="Critical", transforms=[lambda v: v / 100]),
     )
 
     reload_speed = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Reload speed in seconds",
-        info=ColumnInfo(key="장전속도", transforms=[ms_to_seconds]),
+        info=ColumnInfo(key="ReloadSpeed", transforms=[ms_to_seconds]),
     )
 
     hit_range = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Hit range in florensia units",
-        info=ColumnInfo(key="집탄범위"),
+        info=ColumnInfo(key="SpreadRange"),
     )

@@ -9,7 +9,7 @@ class UpgradeRuleMixin:
         sa.String(32),
         nullable=True,
         doc="Code to link to upgrade rule",
-        info=ColumnInfo(key="업그레이드코드"),
+        info=ColumnInfo(key="UpgradeKey"),
     )
 
     @orm.declared_attr

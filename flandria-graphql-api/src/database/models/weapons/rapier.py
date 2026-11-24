@@ -10,6 +10,6 @@ class Rapier(Base, WeaponMixin):
             client_files=["c_KnifeItemRes.bin"],
             string_files=["KnifeItemStr.dat"],
         ),
-        row_filters=[lambda row: row["무기타입"] == "A"],
+        row_filters=[lambda row: row["WeaponType"] == "A"],
         include_in_itemlist=True,
     )

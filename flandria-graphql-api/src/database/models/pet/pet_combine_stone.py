@@ -20,11 +20,11 @@ class PetCombineStone(Base, BaseMixin):
         sa.Integer,
         nullable=False,
         doc="Minimum increment value (0 - 10.000)",
-        info=ColumnInfo(key="성공확률보정"),
+        info=ColumnInfo(key="ChanceModifierValue"),
     )
     max_value = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Maximum increment value (0 - 10.000)",
-        info=ColumnInfo(key="증가최대값"),
+        info=ColumnInfo(key="MaxIncrease"),
     )

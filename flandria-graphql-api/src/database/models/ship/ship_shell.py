@@ -20,17 +20,17 @@ class ShipShell(Base, BaseMixin):
         sa.Integer,
         nullable=False,
         doc="Sea level required to use",
-        info=ColumnInfo(key="제한레벨"),
+        info=ColumnInfo(key="LevelLimit"),
     )
     physical_damage = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Physical damage dealt",
-        info=ColumnInfo(key="물공력"),
+        info=ColumnInfo(key="PhysicalAttack"),
     )
     explosion_range = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Explosion radius in florensia units",
-        info=ColumnInfo(key="폭발반경"),
+        info=ColumnInfo(key="ExplosionRadius"),
     )

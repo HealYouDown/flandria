@@ -10,6 +10,6 @@ class Rifle(Base, WeaponMixin):
             client_files=["c_GunItemRes.bin"],
             string_files=["GunItemStr.dat"],
         ),
-        row_filters=[lambda row: row["무기타입"] == "R"],
+        row_filters=[lambda row: row["WeaponType"] == "R"],
         include_in_itemlist=True,
     )

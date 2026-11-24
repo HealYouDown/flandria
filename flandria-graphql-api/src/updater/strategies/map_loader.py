@@ -111,7 +111,7 @@ def map(
     map_areas: list[dict] = []
 
     for row in data.server_data:
-        code = cast(str, row["코드"])
+        code = cast(str, row["Code"])
 
         try:
             name = data.string_lookup[code][LANGUAGE]

@@ -10,6 +10,6 @@ class OneHandedSword(Base, WeaponMixin):
             client_files=["c_KnifeItemRes.bin"],
             string_files=["KnifeItemStr.dat"],
         ),
-        row_filters=[lambda row: row["무기타입"] == "S"],
+        row_filters=[lambda row: row["WeaponType"] == "S"],
         include_in_itemlist=True,
     )

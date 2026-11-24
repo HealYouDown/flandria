@@ -21,18 +21,18 @@ def item_set(
     data = FileData.from_files(loader_info.files)
 
     item_code_keys: list[tuple[str, ItemSetSlot]] = [
-        ("무기", ItemSetSlot.WEAPON),
-        ("상의", ItemSetSlot.COAT),
-        ("하의", ItemSetSlot.PANTS),
-        ("신발", ItemSetSlot.SHOES),
-        ("장갑", ItemSetSlot.GAUNTLET),
-        ("방패", ItemSetSlot.SHIELD),
-        ("목걸이", ItemSetSlot.NECKLACE),
-        ("귀걸이", ItemSetSlot.EARRING),
-        ("반지1", ItemSetSlot.RING1),
-        ("반지2", ItemSetSlot.RING2),
-        ("옷", ItemSetSlot.DRESS),
-        ("모자", ItemSetSlot.HAT),
+        ("Weapon", ItemSetSlot.WEAPON),
+        ("Coat", ItemSetSlot.COAT),
+        ("Pants", ItemSetSlot.PANTS),
+        ("Shoes", ItemSetSlot.SHOES),
+        ("Gloves", ItemSetSlot.GAUNTLET),
+        ("Shield", ItemSetSlot.SHIELD),
+        ("Necklace", ItemSetSlot.NECKLACE),
+        ("Earring", ItemSetSlot.EARRING),
+        ("Ring1", ItemSetSlot.RING1),
+        ("Ring2", ItemSetSlot.RING2),
+        ("Dress", ItemSetSlot.DRESS),
+        ("Hat", ItemSetSlot.HAT),
     ]
 
     item_sets: list[dict] = []
@@ -40,7 +40,7 @@ def item_set(
     effects: list[dict] = []
 
     for row in data.server_data:
-        set_code = cast(str, row["코드"])
+        set_code = cast(str, row["Code"])
         name = data.string_lookup[set_code][LANGUAGE]
 
         item_sets.append(

@@ -25,7 +25,7 @@ class Essence(Base, BaseMixin, EffectMixin):
             "like all, armor, only weapons ..."
         ),
         info=ColumnInfo(
-            key="장착대상",
+            key="EquipTarget",
             transforms=[lambda v: EssenceEquipType(v)],
         ),
     )
@@ -33,13 +33,13 @@ class Essence(Base, BaseMixin, EffectMixin):
         sa.Integer,
         nullable=False,
         doc="Weapon level required to put the essence on",
-        info=ColumnInfo(key="육상LV"),
+        info=ColumnInfo(key="LevelLand"),
     )
     is_core = orm.mapped_column(
         sa.Boolean,
         nullable=False,
         doc="Whether the essence is for core slots only",
-        info=ColumnInfo(key="AtI타입"),
+        info=ColumnInfo(key="AtIType"),
     )
 
     # TODO: Figure out formular for essence applying cost

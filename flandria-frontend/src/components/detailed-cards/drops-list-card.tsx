@@ -2,6 +2,7 @@ import {formatPercent} from "@/lib/utils"
 
 import {graphql} from "@/gql"
 import {
+  DropDistribution,
   DropsListMoney_FragmentFragment,
   DropsList_FragmentFragment,
 } from "@/gql/graphql"
@@ -24,7 +25,11 @@ graphql(`
     quantity
     section_id
     section_probability
+    section_guaranteed
     item_probability
+    distribution
+    max_per_player
+    bypass_level
     item {
       ...Card_ItemlistItem
     }
@@ -47,6 +52,7 @@ const tablenamePriority = {
   material: 10000,
   upgrade_help: 9950,
   seal_break_help: 9949,
+  seal_extend: 9948,
   pet_skill_stone: 9900,
   random_box: 9800,
   cariad: 1000,
@@ -102,6 +108,23 @@ function sortDrops(a: Drop, b: Drop): number {
   return 1
 }
 
+function dropRuleSubs(drop: Drop): string[] {
+  const subs = []
+  if (drop.distribution === DropDistribution.PerPlayer) {
+    subs.push("Every party member")
+  } else if (drop.distribution === DropDistribution.Shared) {
+    subs.push(
+      drop.max_per_player
+        ? `Split in party (max. ${drop.max_per_player} each)`
+        : "Split in party",
+    )
+  }
+  if (drop.bypass_level) {
+    subs.push("No level restriction")
+  }
+  return subs
+}
+
 interface DropsCardProps {
   money?: Money | null
   drops: Drop[]
@@ -114,13 +137,14 @@ export function DropsListCard({money, drops}: DropsCardProps) {
     </CardContent>
   )
 
-  const sectionIdToLetterMapping = React.useMemo(() => {
-    const uniqueIds = [...new Set(drops.map((drop) => drop.section_id))].sort()
-    const map: Record<number, string> = {}
-    uniqueIds.forEach((id, idx) => {
-      map[id] = String.fromCharCode(65 + idx)
-    })
-    return map
+  // Groups drops by their category, in the order of the drop file
+  const sections = React.useMemo(() => {
+    const map = new Map<number, Drop[]>()
+    for (const drop of [...drops].sort((a, b) => a.section_id - b.section_id)) {
+      if (!map.has(drop.section_id)) map.set(drop.section_id, [])
+      map.get(drop.section_id)!.push(drop)
+    }
+    return [...map.values()].map((sectionDrops) => sectionDrops.sort(sortDrops))
   }, [drops])
 
   if (drops.length > 0 || !!money) {
@@ -146,15 +170,46 @@ export function DropsListCard({money, drops}: DropsCardProps) {
           </CardContentListItem>
         )}
 
-        {drops.sort(sortDrops).map((drop) => {
-          const {quantity, item} = drop
-          const subs = [
-            `Chance: ${formatPercent(drop.section_probability * drop.item_probability)} (${sectionIdToLetterMapping[drop.section_id]})`,
-          ]
-          if (quantity > 1) {
-            subs.push(`Qty. ${quantity}x`)
-          }
-          return <CardItemlistItem item={item} additionalSubs={subs} />
+        {sections.map((sectionDrops, sectionIdx) => {
+          const first = sectionDrops[0]
+          const sectionChance = first.section_guaranteed
+            ? "Always drops all items"
+            : `${formatPercent(first.section_probability)} chance to roll`
+
+          return (
+            <React.Fragment key={first.section_id}>
+              <CardContentListItem className="bg-muted/50 py-1.5">
+                <div className="flex items-baseline justify-between gap-2 text-sm">
+                  <span className="font-semibold tracking-tight">
+                    Category {String.fromCharCode(65 + sectionIdx)}
+                  </span>
+                  <span className="text-xs text-foreground/70">
+                    {sectionChance}
+                  </span>
+                </div>
+              </CardContentListItem>
+              {sectionDrops.map((drop, idx) => {
+                const {quantity, item} = drop
+                const subs = []
+                if (!drop.section_guaranteed) {
+                  subs.push(
+                    `Chance: ${formatPercent(drop.section_probability * drop.item_probability)}`,
+                  )
+                }
+                if (quantity > 1) {
+                  subs.push(`Qty. ${quantity}x`)
+                }
+                subs.push(...dropRuleSubs(drop))
+                return (
+                  <CardItemlistItem
+                    key={`${item.code}-${idx}`}
+                    item={item}
+                    additionalSubs={subs}
+                  />
+                )
+              })}
+            </React.Fragment>
+          )
         })}
       </CardContentScrollList>
     )
@@ -165,11 +220,15 @@ export function DropsListCard({money, drops}: DropsCardProps) {
       <CardHeader>
         <CardTitle>Drops</CardTitle>
         <p className="text-xs leading-tight text-foreground/70">
-          Drops are organized into categories (A-Z). Each category has a chance
-          to be selected. If a category triggers, exactly one item from that
-          category is chosen based on its individual chance.
+          Drops are organized into categories. Each category has a chance to
+          roll. If it does, exactly one item from that category is chosen based
+          on its individual chance. Some categories always drop all of their
+          items.
           <br />
-          The chances shown reflect the final probability.
+          The chances shown per item reflect the final probability. In a party,
+          some items go to every member or are split between them. Only members
+          at most 9 levels below the monster receive them, unless marked with no
+          level restriction.
         </p>
       </CardHeader>
       {body}

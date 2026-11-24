@@ -51,13 +51,13 @@ class Production(Base, RowIDMixin):
         nullable=False,
         primary_key=True,
         doc="Code of the item",
-        info=ColumnInfo(key="코드"),
+        info=ColumnInfo(key="Code"),
     )
     type = orm.mapped_column(
         sa.Enum(SecondJobType),
         nullable=False,
         info=ColumnInfo(
-            key="타입",
+            key="Type",
             transforms=[lambda v: SecondJobType(v)],
         ),
         doc="Second job type",
@@ -65,7 +65,7 @@ class Production(Base, RowIDMixin):
     points_required = orm.mapped_column(
         sa.Integer,
         nullable=False,
-        info=ColumnInfo(key="필요숙련도"),
+        info=ColumnInfo(key="RequiredProficiency"),
         doc="The required points to craft the item",
     )
     result_code = orm.mapped_column(
@@ -73,7 +73,7 @@ class Production(Base, RowIDMixin):
         sa.ForeignKey("item_list.code"),
         index=True,
         nullable=False,
-        info=ColumnInfo(key="결과물코드"),
+        info=ColumnInfo(key="ResultItemCode"),
         doc="Result code for the item that is crafted",
     )
     result_item = orm.relationship(
@@ -86,7 +86,7 @@ class Production(Base, RowIDMixin):
     result_quantity = orm.mapped_column(
         sa.Integer,
         nullable=False,
-        info=ColumnInfo(key="결과물수량"),
+        info=ColumnInfo(key="ResultItemQuantity"),
         doc="Quantity of the result item",
     )
     required_materials = orm.relationship(

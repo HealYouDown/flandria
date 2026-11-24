@@ -43,6 +43,7 @@ to_evaluate = [
     ("all_monsters", "Monster"),
     ("all_npcs", "Npc"),
     ("all_npc_store_items", "NpcStoreItem"),
+    ("all_npc_exchange_items", "NpcExchangeItem"),
     ("all_actor_messages", "ActorMessage"),
     ("all_monster_skills", "MonsterSkill"),
     ("all_drops", "Drop"),
@@ -119,6 +120,7 @@ to_evaluate = [
     ("all_upgrade_rules", "UpgradeRule"),
     # Seals
     ("all_seal_break_help_items", "SealBreakHelp"),
+    ("all_seal_extend_items", "SealExtend"),
     # Others
     ("all_fusion_help_items", "FusionHelp"),
     ("all_player_required_skills", "PlayerRequiredSkill"),

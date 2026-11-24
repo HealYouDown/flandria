@@ -16,7 +16,7 @@ class EquipmentMixin(BaseMixin, ClassLandMixin, EffectMixin, ItemSetMixin):
         nullable=False,
         doc="Required gender for the item",
         info=ColumnInfo(
-            key="사용성별",
+            key="Gender",
             transforms=[lambda v: Gender(v)],
         ),
     )
@@ -24,20 +24,20 @@ class EquipmentMixin(BaseMixin, ClassLandMixin, EffectMixin, ItemSetMixin):
         sa.Integer,
         nullable=False,
         doc="Required level on land",
-        info=ColumnInfo(key="육상LV"),
+        info=ColumnInfo(key="LevelLand"),
     )
     level_sea = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Required level on sea",
-        info=ColumnInfo(key="해상LV"),
+        info=ColumnInfo(key="LevelSea"),
     )
     item_flag = orm.mapped_column(
         sa.Enum(ItemFlag),
         nullable=False,
         doc="Item type flag like Event or Cash",
         info=ColumnInfo(
-            key="타입코드",
+            key="ItemType",
             transforms=[lambda v: ItemFlag(v)],
         ),
     )

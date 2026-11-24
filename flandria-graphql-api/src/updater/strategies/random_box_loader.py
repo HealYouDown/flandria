@@ -172,9 +172,9 @@ def random_box(
             continue
 
         for i in range(0, 61):
-            reward_code = row[f"보상{i}"]
-            quantity = row[f"보상수량{i}"]
-            probability = probability_to_float(cast(int, row[f"보상확률{i}"]))
+            reward_code = row[f"Reward{i}"]
+            quantity = row[f"RewardQuantity{i}"]
+            probability = probability_to_float(cast(int, row[f"RewardChance{i}"]))
 
             # We don't break if there is no reward code, because AHA
             # might have skipped a key (yep, idk)

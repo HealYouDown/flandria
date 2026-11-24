@@ -19,7 +19,7 @@ class ProductionBook(Base, BaseMixin):
         row_filters=[
             # Filters out all essence production books, that weren't actually used
             # in the end.
-            lambda row: not cast(str, row["대상코드"]).startswith("rbessc"),
+            lambda row: not cast(str, row["TargetCode"]).startswith("rbessc"),
         ],
     )
 
@@ -29,7 +29,7 @@ class ProductionBook(Base, BaseMixin):
         nullable=False,
         index=True,
         doc="Code for the production that is learned by using the book.",
-        info=ColumnInfo(key="대상코드"),
+        info=ColumnInfo(key="TargetCode"),
     )
     production = orm.relationship(
         "Production",

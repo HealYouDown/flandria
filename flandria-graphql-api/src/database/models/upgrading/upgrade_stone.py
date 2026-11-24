@@ -64,7 +64,7 @@ class UpgradeStone(Base, BaseMixin):
             string_files=["UpgradeStoneItemStr.dat"],
             description_files=["UpgradeStoneItemDesc.dat"],
         ),
-        row_filters=[lambda row: row["코드"] not in EXCLUDE_CODES],
+        row_filters=[lambda row: row["Code"] not in EXCLUDE_CODES],
         include_in_itemlist=True,
     )
 

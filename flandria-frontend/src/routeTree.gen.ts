@@ -46,6 +46,7 @@ import { Route as DatabaseessenceEssenceImport } from './routes/database/(essenc
 import { Route as DatabaseenhancingUpgradestoneImport } from './routes/database/(enhancing)/upgrade_stone'
 import { Route as DatabaseenhancingUpgradehelpImport } from './routes/database/(enhancing)/upgrade_help'
 import { Route as DatabaseenhancingUpgradecrystalImport } from './routes/database/(enhancing)/upgrade_crystal'
+import { Route as DatabaseenhancingSealextendImport } from './routes/database/(enhancing)/seal_extend'
 import { Route as DatabaseenhancingSealbreakhelpImport } from './routes/database/(enhancing)/seal_break_help'
 import { Route as DatabasecraftingRecipeImport } from './routes/database/(crafting)/recipe'
 import { Route as DatabasecraftingProductionbookImport } from './routes/database/(crafting)/production_book'
@@ -99,6 +100,7 @@ import { Route as DatabaseessenceEssenceCodeImport } from './routes/database/(es
 import { Route as DatabaseenhancingUpgradestoneCodeImport } from './routes/database/(enhancing)/upgrade_stone_.$code'
 import { Route as DatabaseenhancingUpgradehelpCodeImport } from './routes/database/(enhancing)/upgrade_help_.$code'
 import { Route as DatabaseenhancingUpgradecrystalCodeImport } from './routes/database/(enhancing)/upgrade_crystal_.$code'
+import { Route as DatabaseenhancingSealextendCodeImport } from './routes/database/(enhancing)/seal_extend_.$code'
 import { Route as DatabaseenhancingSealbreakhelpCodeImport } from './routes/database/(enhancing)/seal_break_help_.$code'
 import { Route as DatabasecraftingRecipeCodeImport } from './routes/database/(crafting)/recipe_.$code'
 import { Route as DatabasecraftingProductionbookCodeImport } from './routes/database/(crafting)/production_book_.$code'
@@ -318,6 +320,12 @@ const DatabaseenhancingUpgradehelpRoute =
 const DatabaseenhancingUpgradecrystalRoute =
   DatabaseenhancingUpgradecrystalImport.update({
     path: '/database/upgrade_crystal',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DatabaseenhancingSealextendRoute =
+  DatabaseenhancingSealextendImport.update({
+    path: '/database/seal_extend',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -631,6 +639,12 @@ const DatabaseenhancingUpgradehelpCodeRoute =
 const DatabaseenhancingUpgradecrystalCodeRoute =
   DatabaseenhancingUpgradecrystalCodeImport.update({
     path: '/database/upgrade_crystal/$code',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const DatabaseenhancingSealextendCodeRoute =
+  DatabaseenhancingSealextendCodeImport.update({
+    path: '/database/seal_extend/$code',
     getParentRoute: () => rootRoute,
   } as any)
 
@@ -956,6 +970,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DatabaseenhancingSealbreakhelpImport
       parentRoute: typeof rootRoute
     }
+    '/database/(enhancing)/seal_extend': {
+      id: '/database/seal_extend'
+      path: '/database/seal_extend'
+      fullPath: '/database/seal_extend'
+      preLoaderRoute: typeof DatabaseenhancingSealextendImport
+      parentRoute: typeof rootRoute
+    }
     '/database/(enhancing)/upgrade_crystal': {
       id: '/database/upgrade_crystal'
       path: '/database/upgrade_crystal'
@@ -1164,6 +1185,13 @@ declare module '@tanstack/react-router' {
       path: '/database/seal_break_help/$code'
       fullPath: '/database/seal_break_help/$code'
       preLoaderRoute: typeof DatabaseenhancingSealbreakhelpCodeImport
+      parentRoute: typeof rootRoute
+    }
+    '/database/(enhancing)/seal_extend/$code': {
+      id: '/database/seal_extend/$code'
+      path: '/database/seal_extend/$code'
+      fullPath: '/database/seal_extend/$code'
+      preLoaderRoute: typeof DatabaseenhancingSealextendCodeImport
       parentRoute: typeof rootRoute
     }
     '/database/(enhancing)/upgrade_crystal/$code': {
@@ -1681,6 +1709,7 @@ export interface FileRoutesByFullPath {
   '/database/production_book': typeof DatabasecraftingProductionbookRoute
   '/database/recipe': typeof DatabasecraftingRecipeRoute
   '/database/seal_break_help': typeof DatabaseenhancingSealbreakhelpRoute
+  '/database/seal_extend': typeof DatabaseenhancingSealextendRoute
   '/database/upgrade_crystal': typeof DatabaseenhancingUpgradecrystalRoute
   '/database/upgrade_help': typeof DatabaseenhancingUpgradehelpRoute
   '/database/upgrade_stone': typeof DatabaseenhancingUpgradestoneRoute
@@ -1711,6 +1740,7 @@ export interface FileRoutesByFullPath {
   '/database/production_book/$code': typeof DatabasecraftingProductionbookCodeRoute
   '/database/recipe/$code': typeof DatabasecraftingRecipeCodeRoute
   '/database/seal_break_help/$code': typeof DatabaseenhancingSealbreakhelpCodeRoute
+  '/database/seal_extend/$code': typeof DatabaseenhancingSealextendCodeRoute
   '/database/upgrade_crystal/$code': typeof DatabaseenhancingUpgradecrystalCodeRoute
   '/database/upgrade_help/$code': typeof DatabaseenhancingUpgradehelpCodeRoute
   '/database/upgrade_stone/$code': typeof DatabaseenhancingUpgradestoneCodeRoute
@@ -1803,6 +1833,7 @@ export interface FileRoutesByTo {
   '/database/production_book': typeof DatabasecraftingProductionbookRoute
   '/database/recipe': typeof DatabasecraftingRecipeRoute
   '/database/seal_break_help': typeof DatabaseenhancingSealbreakhelpRoute
+  '/database/seal_extend': typeof DatabaseenhancingSealextendRoute
   '/database/upgrade_crystal': typeof DatabaseenhancingUpgradecrystalRoute
   '/database/upgrade_help': typeof DatabaseenhancingUpgradehelpRoute
   '/database/upgrade_stone': typeof DatabaseenhancingUpgradestoneRoute
@@ -1833,6 +1864,7 @@ export interface FileRoutesByTo {
   '/database/production_book/$code': typeof DatabasecraftingProductionbookCodeRoute
   '/database/recipe/$code': typeof DatabasecraftingRecipeCodeRoute
   '/database/seal_break_help/$code': typeof DatabaseenhancingSealbreakhelpCodeRoute
+  '/database/seal_extend/$code': typeof DatabaseenhancingSealextendCodeRoute
   '/database/upgrade_crystal/$code': typeof DatabaseenhancingUpgradecrystalCodeRoute
   '/database/upgrade_help/$code': typeof DatabaseenhancingUpgradehelpCodeRoute
   '/database/upgrade_stone/$code': typeof DatabaseenhancingUpgradestoneCodeRoute
@@ -1926,6 +1958,7 @@ export interface FileRoutesById {
   '/database/production_book': typeof DatabasecraftingProductionbookRoute
   '/database/recipe': typeof DatabasecraftingRecipeRoute
   '/database/seal_break_help': typeof DatabaseenhancingSealbreakhelpRoute
+  '/database/seal_extend': typeof DatabaseenhancingSealextendRoute
   '/database/upgrade_crystal': typeof DatabaseenhancingUpgradecrystalRoute
   '/database/upgrade_help': typeof DatabaseenhancingUpgradehelpRoute
   '/database/upgrade_stone': typeof DatabaseenhancingUpgradestoneRoute
@@ -1956,6 +1989,7 @@ export interface FileRoutesById {
   '/database/production_book/$code': typeof DatabasecraftingProductionbookCodeRoute
   '/database/recipe/$code': typeof DatabasecraftingRecipeCodeRoute
   '/database/seal_break_help/$code': typeof DatabaseenhancingSealbreakhelpCodeRoute
+  '/database/seal_extend/$code': typeof DatabaseenhancingSealextendCodeRoute
   '/database/upgrade_crystal/$code': typeof DatabaseenhancingUpgradecrystalCodeRoute
   '/database/upgrade_help/$code': typeof DatabaseenhancingUpgradehelpCodeRoute
   '/database/upgrade_stone/$code': typeof DatabaseenhancingUpgradestoneCodeRoute
@@ -2050,6 +2084,7 @@ export interface FileRouteTypes {
     | '/database/production_book'
     | '/database/recipe'
     | '/database/seal_break_help'
+    | '/database/seal_extend'
     | '/database/upgrade_crystal'
     | '/database/upgrade_help'
     | '/database/upgrade_stone'
@@ -2080,6 +2115,7 @@ export interface FileRouteTypes {
     | '/database/production_book/$code'
     | '/database/recipe/$code'
     | '/database/seal_break_help/$code'
+    | '/database/seal_extend/$code'
     | '/database/upgrade_crystal/$code'
     | '/database/upgrade_help/$code'
     | '/database/upgrade_stone/$code'
@@ -2171,6 +2207,7 @@ export interface FileRouteTypes {
     | '/database/production_book'
     | '/database/recipe'
     | '/database/seal_break_help'
+    | '/database/seal_extend'
     | '/database/upgrade_crystal'
     | '/database/upgrade_help'
     | '/database/upgrade_stone'
@@ -2201,6 +2238,7 @@ export interface FileRouteTypes {
     | '/database/production_book/$code'
     | '/database/recipe/$code'
     | '/database/seal_break_help/$code'
+    | '/database/seal_extend/$code'
     | '/database/upgrade_crystal/$code'
     | '/database/upgrade_help/$code'
     | '/database/upgrade_stone/$code'
@@ -2292,6 +2330,7 @@ export interface FileRouteTypes {
     | '/database/production_book'
     | '/database/recipe'
     | '/database/seal_break_help'
+    | '/database/seal_extend'
     | '/database/upgrade_crystal'
     | '/database/upgrade_help'
     | '/database/upgrade_stone'
@@ -2322,6 +2361,7 @@ export interface FileRouteTypes {
     | '/database/production_book/$code'
     | '/database/recipe/$code'
     | '/database/seal_break_help/$code'
+    | '/database/seal_extend/$code'
     | '/database/upgrade_crystal/$code'
     | '/database/upgrade_help/$code'
     | '/database/upgrade_stone/$code'
@@ -2415,6 +2455,7 @@ export interface RootRouteChildren {
   DatabasecraftingProductionbookRoute: typeof DatabasecraftingProductionbookRoute
   DatabasecraftingRecipeRoute: typeof DatabasecraftingRecipeRoute
   DatabaseenhancingSealbreakhelpRoute: typeof DatabaseenhancingSealbreakhelpRoute
+  DatabaseenhancingSealextendRoute: typeof DatabaseenhancingSealextendRoute
   DatabaseenhancingUpgradecrystalRoute: typeof DatabaseenhancingUpgradecrystalRoute
   DatabaseenhancingUpgradehelpRoute: typeof DatabaseenhancingUpgradehelpRoute
   DatabaseenhancingUpgradestoneRoute: typeof DatabaseenhancingUpgradestoneRoute
@@ -2445,6 +2486,7 @@ export interface RootRouteChildren {
   DatabasecraftingProductionbookCodeRoute: typeof DatabasecraftingProductionbookCodeRoute
   DatabasecraftingRecipeCodeRoute: typeof DatabasecraftingRecipeCodeRoute
   DatabaseenhancingSealbreakhelpCodeRoute: typeof DatabaseenhancingSealbreakhelpCodeRoute
+  DatabaseenhancingSealextendCodeRoute: typeof DatabaseenhancingSealextendCodeRoute
   DatabaseenhancingUpgradecrystalCodeRoute: typeof DatabaseenhancingUpgradecrystalCodeRoute
   DatabaseenhancingUpgradehelpCodeRoute: typeof DatabaseenhancingUpgradehelpCodeRoute
   DatabaseenhancingUpgradestoneCodeRoute: typeof DatabaseenhancingUpgradestoneCodeRoute
@@ -2537,6 +2579,7 @@ const rootRouteChildren: RootRouteChildren = {
   DatabasecraftingProductionbookRoute: DatabasecraftingProductionbookRoute,
   DatabasecraftingRecipeRoute: DatabasecraftingRecipeRoute,
   DatabaseenhancingSealbreakhelpRoute: DatabaseenhancingSealbreakhelpRoute,
+  DatabaseenhancingSealextendRoute: DatabaseenhancingSealextendRoute,
   DatabaseenhancingUpgradecrystalRoute: DatabaseenhancingUpgradecrystalRoute,
   DatabaseenhancingUpgradehelpRoute: DatabaseenhancingUpgradehelpRoute,
   DatabaseenhancingUpgradestoneRoute: DatabaseenhancingUpgradestoneRoute,
@@ -2569,6 +2612,7 @@ const rootRouteChildren: RootRouteChildren = {
   DatabasecraftingRecipeCodeRoute: DatabasecraftingRecipeCodeRoute,
   DatabaseenhancingSealbreakhelpCodeRoute:
     DatabaseenhancingSealbreakhelpCodeRoute,
+  DatabaseenhancingSealextendCodeRoute: DatabaseenhancingSealextendCodeRoute,
   DatabaseenhancingUpgradecrystalCodeRoute:
     DatabaseenhancingUpgradecrystalCodeRoute,
   DatabaseenhancingUpgradehelpCodeRoute: DatabaseenhancingUpgradehelpCodeRoute,
@@ -2703,6 +2747,7 @@ export const routeTree = rootRoute
         "/database/production_book",
         "/database/recipe",
         "/database/seal_break_help",
+        "/database/seal_extend",
         "/database/upgrade_crystal",
         "/database/upgrade_help",
         "/database/upgrade_stone",
@@ -2733,6 +2778,7 @@ export const routeTree = rootRoute
         "/database/production_book/$code",
         "/database/recipe/$code",
         "/database/seal_break_help/$code",
+        "/database/seal_extend/$code",
         "/database/upgrade_crystal/$code",
         "/database/upgrade_help/$code",
         "/database/upgrade_stone/$code",
@@ -2862,6 +2908,9 @@ export const routeTree = rootRoute
     "/database/seal_break_help": {
       "filePath": "database/(enhancing)/seal_break_help.tsx"
     },
+    "/database/seal_extend": {
+      "filePath": "database/(enhancing)/seal_extend.tsx"
+    },
     "/database/upgrade_crystal": {
       "filePath": "database/(enhancing)/upgrade_crystal.tsx"
     },
@@ -2951,6 +3000,9 @@ export const routeTree = rootRoute
     },
     "/database/seal_break_help/$code": {
       "filePath": "database/(enhancing)/seal_break_help_.$code.tsx"
+    },
+    "/database/seal_extend/$code": {
+      "filePath": "database/(enhancing)/seal_extend_.$code.tsx"
     },
     "/database/upgrade_crystal/$code": {
       "filePath": "database/(enhancing)/upgrade_crystal_.$code.tsx"

@@ -10,6 +10,6 @@ class Duals(Base, WeaponMixin):
             client_files=["c_GunItemRes.bin"],
             string_files=["GunItemStr.dat"],
         ),
-        row_filters=[lambda row: row["무기타입"] == "P"],
+        row_filters=[lambda row: row["WeaponType"] == "P"],
         include_in_itemlist=True,
     )

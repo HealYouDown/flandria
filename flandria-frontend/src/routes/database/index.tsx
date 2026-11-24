@@ -218,6 +218,7 @@ const EnhancingSection = (
     </CardHeader>
     <CardContentList>
       <ListItem to="/database/seal_break_help">Seal Break Items</ListItem>
+      <ListItem to="/database/seal_extend">Seal Extend Items</ListItem>
       <ListItem to="/database/upgrade_help">Upgrade Help Item</ListItem>
       <ListItem to="/database/upgrade_crystal">Upgrade Crystals</ListItem>
       <ListItem to="/database/upgrade_stone">Upgrade Stone</ListItem>

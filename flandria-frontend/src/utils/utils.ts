@@ -32,6 +32,7 @@ export function getLinkFromTablename(tablename: string) {
     quest_scroll: "/database/quest_scroll/$code",
     ship_shell: "/database/ship_shell/$code",
     seal_break_help: "/database/seal_break_help/$code",
+    seal_extend: "/database/seal_extend/$code",
     fishing_rod: "/database/fishing_rod/$code",
     ship_special_weapon: "/database/ship_special_weapon/$code",
     accessory: "/database/accessory/$code",

@@ -24,7 +24,7 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         sa.String(32),
         nullable=False,
         doc="Base Skill Code",
-        info=ColumnInfo(key="원형코드"),
+        info=ColumnInfo(key="OriginalSkillCode"),
     )
 
     name = orm.mapped_column(
@@ -38,26 +38,26 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         sa.String(16),
         nullable=False,
         doc="Icon of the skill",
-        info=ColumnInfo.icon("아이콘코드"),
+        info=ColumnInfo.icon("IconCode"),
     )
 
     required_level_land = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Required level on land",
-        info=ColumnInfo(key="습득가능레벨_육전"),
+        info=ColumnInfo(key="RequiredLandLevel"),
     )
 
     required_level_sea = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Required level on sea",
-        info=ColumnInfo(key="습득가능레벨_해전"),
+        info=ColumnInfo(key="RequiredSeaLevel"),
     )
 
     @orm.declared_attr
     def description(cls):
-        info = ColumnInfo.description("코드")
+        info = ColumnInfo.description("Code")
 
         return orm.mapped_column(
             sa.Text,
@@ -70,98 +70,98 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         sa.Integer,
         nullable=False,
         doc="Level of the skill (e.g. player skills have level 0-15)",
-        info=ColumnInfo(key="레벨"),
+        info=ColumnInfo(key="SkillLevel"),
     )
 
     skill_max_level = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Max level for the skill",
-        info=ColumnInfo(key="마스터레벨"),
+        info=ColumnInfo(key="MaxSkillLevel"),
     )
 
     mana_cost = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Mana cost to use the skill",
-        info=ColumnInfo(key="소모ACT"),
+        info=ColumnInfo(key="MPCost"),
     )
 
     accuracy = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Accuracy, but not sure how its used.",
-        info=ColumnInfo(key="명중률"),
+        info=ColumnInfo(key="HitRate"),
     )
 
     hit_correction = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Same as accuracy",
-        info=ColumnInfo(key="명중보정"),
+        info=ColumnInfo(key="HitCorrection"),
     )
 
     cooldown = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Cooldown in seconds",
-        info=ColumnInfo(key="쿨타임밀초", transforms=[ms_to_seconds]),
+        info=ColumnInfo(key="Cooldown", transforms=[ms_to_seconds]),
     )
 
     cast_time = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Cast time in seconds",
-        info=ColumnInfo(key="캐스팅시간밀초", transforms=[ms_to_seconds]),
+        info=ColumnInfo(key="CastTime", transforms=[ms_to_seconds]),
     )
 
     cast_distance = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Max cast distance in Florensia units",
-        info=ColumnInfo(key="시전유효최대거리"),
+        info=ColumnInfo(key="MaxCastRange"),
     )
 
     dash_distance = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="??",
-        info=ColumnInfo(key="데쉬거리"),
+        info=ColumnInfo(key="DashDistance"),
     )
 
     push_distance = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="??",
-        info=ColumnInfo(key="푸쉬거리"),
+        info=ColumnInfo(key="PushDistance"),
     )
 
     effect_range = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Range in which skills affect actors in Florensia units",
-        info=ColumnInfo(key="푸쉬거리"),
+        info=ColumnInfo(key="PushDistance"),
     )
 
     effect_angle = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Effect angle for skills. (0 means 360° only if effect range is not None.)",
-        info=ColumnInfo(key="영향각도"),
+        info=ColumnInfo(key="EffectAngle"),
     )
 
     is_persistent = orm.mapped_column(
         sa.Boolean,
         nullable=False,
         doc="Whether (de-)buff stays after death",
-        info=ColumnInfo(key="지속사망후유지"),
+        info=ColumnInfo(key="EffectsLastAfterDeath"),
     )
 
     duration = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Duration for (de-)buffs in seconds",
-        info=ColumnInfo(key="적용시간밀리초", transforms=[ms_to_seconds]),
+        info=ColumnInfo(key="ActiveEffectDuration", transforms=[ms_to_seconds]),
     )
 
     toggle_tick_time = orm.mapped_column(
@@ -169,7 +169,7 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         nullable=True,
         doc=("How often toggle skills (like PoM) trigger in seconds"),
         info=ColumnInfo(
-            key="토글주기밀리초",
+            key="ToggleTickTime",
             transforms=[lambda v: ms_to_seconds(v) if v != 0 else None],
         ),
     )
@@ -179,7 +179,7 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         nullable=True,
         doc="Toggle operator (+, -, *)",
         info=ColumnInfo(
-            key="토글지속소모량연산자",
+            key="ToggleOperator",
             transforms=[lambda v: value_if_not_equal(v, "#")],
         ),
     )
@@ -189,7 +189,7 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         nullable=True,
         doc="HP value that is used per toggle tick",
         info=ColumnInfo(
-            key="토글지속필요HP",
+            key="ToggleHPCost",
             transforms=[lambda v: value_if_not_equal(v, 0)],
         ),
     )
@@ -199,7 +199,7 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         nullable=True,
         doc="MP value that is used per toggle tick",
         info=ColumnInfo(
-            key="토글지속필요MP",
+            key="ToggleMPCost",
             transforms=[lambda v: value_if_not_equal(v, 0)],
         ),
     )
@@ -209,7 +209,7 @@ class SkillMixin(EffectMixin, ClassSeaMixin, ClassLandMixin):
         sa.String(32),
         nullable=False,
         doc="A key list of weapons that can use this skill.",
-        info=ColumnInfo(key="사용가능무기타입"),
+        info=ColumnInfo(key="WeaponType"),
     )
 
     # TODO: Additional skill data (damage?)

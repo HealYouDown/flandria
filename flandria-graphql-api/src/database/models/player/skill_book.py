@@ -22,7 +22,7 @@ class SkillBook(Base, BaseMixin):
         index=True,
         nullable=False,
         doc="Player skill code",
-        info=ColumnInfo(key="대상코드"),
+        info=ColumnInfo(key="TargetCode"),
     )
     skill = orm.relationship(
         "PlayerSkill",

@@ -25,56 +25,56 @@ class WeaponMixin(
         sa.Integer,
         nullable=False,
         doc="Land level required to use the weapon",
-        info=ColumnInfo(key="육상LV"),
+        info=ColumnInfo(key="LevelLand"),
     )
 
     level_sea = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Land sea required to use the weapon",
-        info=ColumnInfo(key="해상LV"),
+        info=ColumnInfo(key="LevelSea"),
     )
 
     minimum_physical_damage = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Minimum physical damage of the weapon",
-        info=ColumnInfo(key="최소물공력"),
+        info=ColumnInfo(key="MinPhysicalAttack"),
     )
 
     maximum_physical_damage = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Maximum physical damage of the weapon",
-        info=ColumnInfo(key="최대물공력"),
+        info=ColumnInfo(key="MaxPhysicalAttack"),
     )
 
     minimum_magical_damage = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Minimum magical damage of the weapon",
-        info=ColumnInfo(key="최소마공력"),
+        info=ColumnInfo(key="MinMagicAttack"),
     )
 
     maximum_magical_damage = orm.mapped_column(
         sa.Integer,
         nullable=False,
         doc="Maximum magical damage of the weapon",
-        info=ColumnInfo(key="최대마공력"),
+        info=ColumnInfo(key="MaxMagicAttack"),
     )
 
     attack_speed = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Attack speed of the weapon in seconds",
-        info=ColumnInfo(key="물공쿨타임밀초", transforms=[ms_to_seconds]),
+        info=ColumnInfo(key="AttackSpeed", transforms=[ms_to_seconds]),
     )
 
     attack_range = orm.mapped_column(
         sa.Float,
         nullable=False,
         doc="Attack range of the weapon in meters",
-        info=ColumnInfo(key="물공최대거리"),
+        info=ColumnInfo(key="MaxAttackDistance"),
     )
 
     item_flag = orm.mapped_column(
@@ -82,7 +82,7 @@ class WeaponMixin(
         nullable=False,
         doc="Item flag type like 'Event' or 'Cash'",
         info=ColumnInfo(
-            key="타입코드",
+            key="ItemType",
             transforms=[
                 lambda v: ItemFlag(v),
             ],

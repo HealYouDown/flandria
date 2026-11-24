@@ -78,7 +78,7 @@ class FileData:
         # client data acts as server data if no server data is given, so we don't need
         # to transform it. (it doesn't have a code key)
         if self.server_data:
-            self.client_lookup = self._transform_to_o1(self.client_data, key="코드")
+            self.client_lookup = self._transform_to_o1(self.client_data, key="Code")
 
         self.string_lookup = self._transform_to_o1(self.string_data, key="Code")
         self.description_lookup = self._transform_to_o1(

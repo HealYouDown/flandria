@@ -196,7 +196,6 @@ interface ActorMixin implements RowIDMixin & ActorModelMixin & FlorensiaModelMix
   ship_guns_count: Int!
   ship_guns_speed: Float!
   ship_attack_range: Float!
-  attack_cast_time: Float!
   attack_cooldown: Float!
   despawn_delay_time: Float!
   attack_vision_range: Float!
@@ -963,11 +962,27 @@ type Drop {
   quantity: Int!
   section_id: Int!
   section_probability: Float!
+  section_guaranteed: Boolean!
   item_probability: Float!
+  distribution: DropDistribution!
+  max_per_player: Int
+  bypass_level: Boolean!
   monster_code: String!
   item_code: String!
   monster: Monster!
   item: ItemList!
+}
+
+enum DropDistribution {
+  DEFAULT
+  PER_PLAYER
+  SHARED
+}
+
+input DropDistributionEnumFilter @oneOf {
+  eq: DropDistribution
+  ne: DropDistribution
+  in: [DropDistribution!]
 }
 
 input DropFilter {
@@ -975,7 +990,11 @@ input DropFilter {
   quantity: NumberFilter
   section_id: NumberFilter
   section_probability: NumberFilter
+  section_guaranteed: BooleanFilter
   item_probability: NumberFilter
+  distribution: DropDistributionEnumFilter
+  max_per_player: NumberFilter
+  bypass_level: BooleanFilter
   monster_code: StringFilter
   item_code: StringFilter
   monster: MonsterFilter
@@ -995,7 +1014,10 @@ input DropSort @oneOf {
   quantity: SortDirection
   section_id: SortDirection
   section_probability: SortDirection
+  section_guaranteed: SortDirection
   item_probability: SortDirection
+  max_per_player: SortDirection
+  bypass_level: SortDirection
   monster_code: SortDirection
   item_code: SortDirection
 }
@@ -1320,6 +1342,30 @@ enum EffectCode {
   MAX_HP_MODIFY
   MAX_MP_MODIFY
   ROOT
+  TAME_LEVEL_BONUS
+  TAME_WHITE_LIMIT
+  TAME_MAX_GRADE
+  PET_TAMED_STAT_RATE
+  MOVE_SPD_MODIFY
+  MELEE_MAX_ATTK_MODIFY
+  MELEE_MIN_ATTK_MODIFY
+  RANGE_MAX_ATTK_MODIFY
+  RANGE_MIN_ATTK_MODIFY
+  MAGIC_MAX_ATTK_MODIFY
+  MAGIC_MIN_ATTK_MODIFY
+  PH_DEFC_MODIFY
+  MAGIC_DEFC_MODIFY
+  MELEE_HIT_MODIFY
+  RANGE_HIT_MODIFY
+  MAGIC_HIT_MODIFY
+  MELEE_DST_MODIFY
+  RANGE_DST_MODIFY
+  MELEE_CRI_RATE_MODIFY
+  RANGE_CRI_RATE_MODIFY
+  MAGIC_CRI_RATE_MODIFY
+  ALL_HIT_MODIFY
+  CC_IMMUNE
+  SLOW_IMMUNE
 }
 
 input EffectCodeEnumFilter @oneOf {
@@ -2472,7 +2518,6 @@ type Monster implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaMod
   ship_guns_count: Int!
   ship_guns_speed: Float!
   ship_attack_range: Float!
-  attack_cast_time: Float!
   attack_cooldown: Float!
   despawn_delay_time: Float!
   attack_vision_range: Float!
@@ -2490,6 +2535,8 @@ type Monster implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaMod
   holy_resistance: Int!
   dark_resistance: Int!
   messages: [ActorMessage!]!
+  cc_immune: Boolean!
+  slow_immune: Boolean!
   skill_1_code: String
   skill_1_chance: Float!
   skill_2_code: String
@@ -2530,7 +2577,6 @@ input MonsterFilter {
   ship_guns_count: NumberFilter
   ship_guns_speed: NumberFilter
   ship_attack_range: NumberFilter
-  attack_cast_time: NumberFilter
   attack_cooldown: NumberFilter
   despawn_delay_time: NumberFilter
   attack_vision_range: NumberFilter
@@ -2552,6 +2598,8 @@ input MonsterFilter {
   model_scale: NumberFilter
   model_name: StringFilter
   models: Available3DModelFilter
+  cc_immune: BooleanFilter
+  slow_immune: BooleanFilter
   skill_1_code: StringFilter
   skill_1_chance: NumberFilter
   skill_2_code: StringFilter
@@ -2809,7 +2857,6 @@ input MonsterSort @oneOf {
   ship_guns_count: SortDirection
   ship_guns_speed: SortDirection
   ship_attack_range: SortDirection
-  attack_cast_time: SortDirection
   attack_cooldown: SortDirection
   despawn_delay_time: SortDirection
   attack_vision_range: SortDirection
@@ -2829,6 +2876,8 @@ input MonsterSort @oneOf {
   row_id: SortDirection
   model_scale: SortDirection
   model_name: SortDirection
+  cc_immune: SortDirection
+  slow_immune: SortDirection
   skill_1_code: SortDirection
   skill_1_chance: SortDirection
   skill_2_code: SortDirection
@@ -2868,7 +2917,6 @@ type Npc implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaModelMi
   ship_guns_count: Int!
   ship_guns_speed: Float!
   ship_attack_range: Float!
-  attack_cast_time: Float!
   attack_cooldown: Float!
   despawn_delay_time: Float!
   attack_vision_range: Float!
@@ -2889,6 +2937,65 @@ type Npc implements ActorMixin & RowIDMixin & ActorModelMixin & FlorensiaModelMi
   positions: [NpcPosition!]!
   quests: [Quest!]!
   store_items: [NpcStoreItem!]!
+  exchange_items: [NpcExchangeItem!]!
+}
+
+type NpcExchangeItem {
+  index: Int!
+  section_name: String!
+  page_name: String!
+  npc_code: String!
+  item_code: String!
+  quantity: Int!
+  gelt: Int!
+  item: ItemList!
+  materials: [NpcExchangeMaterial!]!
+}
+
+input NpcExchangeItemFilter {
+  index: NumberFilter
+  section_name: StringFilter
+  page_name: StringFilter
+  npc_code: StringFilter
+  item_code: StringFilter
+  quantity: NumberFilter
+  gelt: NumberFilter
+  item: ItemListFilter
+  materials: NpcExchangeMaterialFilter
+}
+
+type NpcExchangeItemPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [NpcExchangeItem!]!
+}
+
+input NpcExchangeItemSort @oneOf {
+  index: SortDirection
+  section_name: SortDirection
+  page_name: SortDirection
+  npc_code: SortDirection
+  item_code: SortDirection
+  quantity: SortDirection
+  gelt: SortDirection
+}
+
+type NpcExchangeMaterial {
+  index: Int!
+  exchange_index: Int!
+  item_code: String!
+  quantity: Int!
+  item: ItemList!
+}
+
+input NpcExchangeMaterialFilter {
+  index: NumberFilter
+  exchange_index: NumberFilter
+  item_code: StringFilter
+  quantity: NumberFilter
+  item: ItemListFilter
 }
 
 input NpcFilter {
@@ -2920,7 +3027,6 @@ input NpcFilter {
   ship_guns_count: NumberFilter
   ship_guns_speed: NumberFilter
   ship_attack_range: NumberFilter
-  attack_cast_time: NumberFilter
   attack_cooldown: NumberFilter
   despawn_delay_time: NumberFilter
   attack_vision_range: NumberFilter
@@ -2945,6 +3051,7 @@ input NpcFilter {
   positions: NpcPositionFilter
   quests: QuestFilter
   store_items: NpcStoreItemFilter
+  exchange_items: NpcExchangeItemFilter
 }
 
 type NpcPageInfo {
@@ -3022,7 +3129,6 @@ input NpcSort @oneOf {
   ship_guns_count: SortDirection
   ship_guns_speed: SortDirection
   ship_attack_range: SortDirection
-  attack_cast_time: SortDirection
   attack_cooldown: SortDirection
   despawn_delay_time: SortDirection
   attack_vision_range: SortDirection
@@ -4093,6 +4199,7 @@ type Query {
   upgrade_stone(code: String!): UpgradeStone
   upgrade_crystal(code: String!): UpgradeCrystal
   seal_break_help_item(code: String!): SealBreakHelp
+  seal_extend_item(code: String!): SealExtend
   map(code: String!): Map
   bullet(code: String!): Bullet
   consumable(code: String!): Consumable
@@ -4101,6 +4208,7 @@ type Query {
   all_monsters(offset: Int! = 0, limit: Int! = 50, filter: MonsterFilter, order_by: [MonsterSort!]): MonsterPageInfo!
   all_npcs(offset: Int! = 0, limit: Int! = 50, filter: NpcFilter, order_by: [NpcSort!]): NpcPageInfo!
   all_npc_store_items(offset: Int! = 0, limit: Int! = 50, filter: NpcStoreItemFilter, order_by: [NpcStoreItemSort!]): NpcStoreItemPageInfo!
+  all_npc_exchange_items(offset: Int! = 0, limit: Int! = 50, filter: NpcExchangeItemFilter, order_by: [NpcExchangeItemSort!]): NpcExchangeItemPageInfo!
   all_actor_messages(offset: Int! = 0, limit: Int! = 50, filter: ActorMessageFilter, order_by: [ActorMessageSort!]): ActorMessagePageInfo!
   all_monster_skills(offset: Int! = 0, limit: Int! = 50, filter: MonsterSkillFilter, order_by: [MonsterSkillSort!]): MonsterSkillPageInfo!
   all_drops(offset: Int! = 0, limit: Int! = 50, filter: DropFilter, order_by: [DropSort!]): DropPageInfo!
@@ -4164,6 +4272,7 @@ type Query {
   all_upgrade_crystals(offset: Int! = 0, limit: Int! = 50, filter: UpgradeCrystalFilter, order_by: [UpgradeCrystalSort!]): UpgradeCrystalPageInfo!
   all_upgrade_rules(offset: Int! = 0, limit: Int! = 50, filter: UpgradeRuleFilter, order_by: [UpgradeRuleSort!]): UpgradeRulePageInfo!
   all_seal_break_help_items(offset: Int! = 0, limit: Int! = 50, filter: SealBreakHelpFilter, order_by: [SealBreakHelpSort!]): SealBreakHelpPageInfo!
+  all_seal_extend_items(offset: Int! = 0, limit: Int! = 50, filter: SealExtendFilter, order_by: [SealExtendSort!]): SealExtendPageInfo!
   all_fusion_help_items(offset: Int! = 0, limit: Int! = 50, filter: FusionHelpFilter, order_by: [FusionHelpSort!]): FusionHelpPageInfo!
   all_player_required_skills(offset: Int! = 0, limit: Int! = 50, filter: PlayerRequiredSkillFilter, order_by: [PlayerRequiredSkillSort!]): PlayerRequiredSkillPageInfo!
   all_effects(offset: Int! = 0, limit: Int! = 50, filter: EffectFilter, order_by: [EffectSort!]): EffectPageInfo!
@@ -5120,6 +5229,91 @@ input SealBreakHelpSort @oneOf {
   npc_buy_price: SortDirection
   row_id: SortDirection
   description: SortDirection
+}
+
+type SealExtend implements BaseMixin & RowIDMixin {
+  row_id: Int!
+  code: String!
+  name: String!
+  icon: String!
+  is_tradable: Boolean!
+  is_destroyable: Boolean!
+  npc_sell_price: Float!
+  is_sellable: Boolean!
+  is_storageable: Boolean!
+  grade: ItemGrade!
+  duration: Int
+  stack_size: Int!
+  npc_buy_price: Float!
+  description: String
+  is_random: Boolean!
+  seal_count: Int!
+  min_seals: Int!
+  max_seals: Int!
+  for_armor: Boolean!
+  for_weapons: Boolean!
+  for_accessories: Boolean!
+  min_item_level: Int!
+  max_item_level: Int!
+}
+
+input SealExtendFilter {
+  code: StringFilter
+  name: StringFilter
+  icon: StringFilter
+  is_tradable: BooleanFilter
+  is_destroyable: BooleanFilter
+  npc_sell_price: NumberFilter
+  is_sellable: BooleanFilter
+  is_storageable: BooleanFilter
+  grade: ItemGradeEnumFilter
+  duration: NumberFilter
+  stack_size: NumberFilter
+  npc_buy_price: NumberFilter
+  row_id: NumberFilter
+  description: StringFilter
+  is_random: BooleanFilter
+  seal_count: NumberFilter
+  min_seals: NumberFilter
+  max_seals: NumberFilter
+  for_armor: BooleanFilter
+  for_weapons: BooleanFilter
+  for_accessories: BooleanFilter
+  min_item_level: NumberFilter
+  max_item_level: NumberFilter
+}
+
+type SealExtendPageInfo {
+  offset: Int!
+  limit: Int!
+  count: Int!
+  total_count: Int!
+  items: [SealExtend!]!
+}
+
+input SealExtendSort @oneOf {
+  code: SortDirection
+  name: SortDirection
+  icon: SortDirection
+  is_tradable: SortDirection
+  is_destroyable: SortDirection
+  npc_sell_price: SortDirection
+  is_sellable: SortDirection
+  is_storageable: SortDirection
+  duration: SortDirection
+  stack_size: SortDirection
+  npc_buy_price: SortDirection
+  row_id: SortDirection
+  description: SortDirection
+  is_random: SortDirection
+  seal_count: SortDirection
+  min_seals: SortDirection
+  max_seals: SortDirection
+  for_armor: SortDirection
+  for_weapons: SortDirection
+  for_accessories: SortDirection
+  min_item_level: SortDirection
+  max_item_level: SortDirection
 }
 
 enum SecondJobType {

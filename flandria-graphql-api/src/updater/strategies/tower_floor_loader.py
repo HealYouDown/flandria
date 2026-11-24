@@ -24,8 +24,8 @@ def tower_floor(
         pk, obj = map_row_to_model(model_cls, row, data)
 
         for i in range(1, 11):
-            monster_code = row[f"몬스터KEY_{i}"]
-            amount = row[f"몬스터갯수_{i}"]
+            monster_code = row[f"MonsterKey{i}"]
+            amount = row[f"MonsterCount{i}"]
 
             if monster_code is not None:
                 tower_floor_monsters.append(

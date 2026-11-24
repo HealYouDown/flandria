@@ -2,7 +2,7 @@ from .actor_message_loader import actor_message
 from .default_loader import default
 from .item_set_loader import item_set
 from .map_loader import map
-from .npc_store_item_loader import npc_store_item
+from .npc_store_item_loader import npc_exchange_item, npc_store_item
 from .player_skill_loader import player_skill
 from .production_loader import production
 from .quest_loader import quest
@@ -16,6 +16,7 @@ __all__ = [
     "default",
     "item_set",
     "map",
+    "npc_exchange_item",
     "npc_store_item",
     "player_skill",
     "production",

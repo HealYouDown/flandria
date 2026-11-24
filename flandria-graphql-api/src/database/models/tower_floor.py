@@ -55,7 +55,7 @@ class TowerFloor(Base):
         nullable=False,
         doc="Tower floor, 0-indexed",
         info=ColumnInfo(
-            key="코드",
+            key="Code",
             # step00001 -> int("00001") -> 1
             transforms=[lambda v: int(v[4:])],
         ),
@@ -64,7 +64,7 @@ class TowerFloor(Base):
         sa.Integer,
         nullable=False,
         doc="Available time to clear the floor (in seconds)",
-        info=ColumnInfo(key="시간"),
+        info=ColumnInfo(key="TimeLimit"),
     )
     monsters = orm.relationship(
         "TowerFloorMonster",

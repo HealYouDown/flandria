@@ -4,6 +4,7 @@ from typing import cast
 from loguru import logger
 from lxml import etree
 
+from src.core.enums import DropDistribution
 from src.updater.transforms import probability_to_float
 
 
@@ -39,23 +40,37 @@ def parse_dropfile(path: str, monster_code: str):
                 "max": int(float(cast(str, element.get("MaxMoney")))),
                 "probability": get_item_probability(element),
             }
-        else:  # WearItems, AccessoryItems, StuffItems, EventItems
+        else:  # WearItems, AccessoryItems, Materials, BossItems1, ... (any name)
             assert "MainProbability" in element.attrib
+
+            # In a guaranteed section every item drops, probabilities are ignored
+            guaranteed = element.get("Guaranteed", "0") != "0"
 
             for child in element:
                 assert "ItemCode" in child.attrib and "Amount" in child.attrib
 
                 item_code = cast(str, child.get("ItemCode"))
+                max_per_player = int(child.get("MaxPerPlayer", "0"))
                 drops.append(
                     {
                         "monster_code": monster_code,
                         "item_code": item_code,
                         "quantity": int(cast(str, child.get("Amount"))),
                         "section_id": section_counter,
-                        "section_probability": probability_to_float(
+                        "section_guaranteed": guaranteed,
+                        "section_probability": 1.0
+                        if guaranteed
+                        else probability_to_float(
                             int(cast(str, element.get("MainProbability")))
                         ),
-                        "item_probability": get_item_probability(child),
+                        "item_probability": 1.0
+                        if guaranteed
+                        else get_item_probability(child),
+                        "distribution": DropDistribution(
+                            int(child.get("Distribution", "0"))
+                        ),
+                        "max_per_player": max_per_player or None,
+                        "bypass_level": child.get("BypassLevel", "0") != "0",
                     }
                 )
 

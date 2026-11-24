@@ -208,7 +208,6 @@ class ActorMixin(RowIDMixin, ActorModelMixin):
     ship_guns_count: int
     ship_guns_speed: float
     ship_attack_range: float
-    attack_cast_time: float
     attack_cooldown: float
     despawn_delay_time: float
     attack_vision_range: float
@@ -328,6 +327,8 @@ class QuestScroll(BaseMixin):
 
 @strawberry.type
 class Monster(ActorMixin):
+    cc_immune: bool
+    slow_immune: bool
     skill_1_code: Optional[str]
     skill_1_chance: float
     skill_2_code: Optional[str]
@@ -344,6 +345,29 @@ class Npc(ActorMixin):
     positions: list["NpcPosition"]
     quests: list["Quest"]
     store_items: list["NpcStoreItem"]
+    exchange_items: list["NpcExchangeItem"]
+
+
+@strawberry.type
+class NpcExchangeItem:
+    index: int
+    section_name: str
+    page_name: str
+    npc_code: str
+    item_code: str
+    quantity: int
+    gelt: int
+    item: "ItemList"
+    materials: list["NpcExchangeMaterial"]
+
+
+@strawberry.type
+class NpcExchangeMaterial:
+    index: int
+    exchange_index: int
+    item_code: str
+    quantity: int
+    item: "ItemList"
 
 
 @strawberry.type
@@ -374,7 +398,11 @@ class Drop:
     quantity: int
     section_id: int
     section_probability: float
+    section_guaranteed: bool
     item_probability: float
+    distribution: enums.DropDistribution
+    max_per_player: Optional[int]
+    bypass_level: bool
     monster_code: str
     item_code: str
     monster: "Monster"
@@ -660,6 +688,20 @@ class UpgradeRule(EffectMixin):
 @strawberry.type
 class SealBreakHelp(BaseMixin):
     description: str
+
+
+@strawberry.type
+class SealExtend(BaseMixin):
+    description: Optional[str]
+    is_random: bool
+    seal_count: int
+    min_seals: int
+    max_seals: int
+    for_armor: bool
+    for_weapons: bool
+    for_accessories: bool
+    min_item_level: int
+    max_item_level: int
 
 
 @strawberry.type

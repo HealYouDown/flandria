@@ -21,5 +21,5 @@ class RidingPet(Base, BaseMixin):
         sa.Text,
         nullable=False,
         doc="Description for the riding pet",
-        info=ColumnInfo.description("스킬코드"),
+        info=ColumnInfo.description("SkillCode"),
     )

@@ -1,6 +1,7 @@
 from .accessory_type import AccessoryType
 from .actor_grade import ActorGrade
 from .base_class_type import BaseClassType
+from .drop_distribution import DropDistribution
 from .effect_code import EffectCode
 from .essence_equip_type import EssenceEquipType
 from .gender import Gender
@@ -25,6 +26,7 @@ __all__ = [
     "ItemFlag",
     "ItemSetSlot",
     "BaseClassType",
+    "DropDistribution",
     "Model3DClass",
     "Model3DGender",
 ]

@@ -24,8 +24,8 @@ def recipe(
         pk, obj = map_row_to_model(model_cls, row, data)
 
         for i in range(1, 7):
-            material_code = row[f"재료{i}"]
-            quantity = row[f"필요량{i}"]
+            material_code = row[f"Material{i}Code"]
+            quantity = row[f"Material{i}Quantity"]
 
             if material_code is not None:
                 required_materials.append(

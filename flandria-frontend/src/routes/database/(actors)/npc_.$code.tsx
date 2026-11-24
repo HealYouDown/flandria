@@ -44,6 +44,22 @@ const npcDetailedDocument = graphql(`
       store_items {
         ...NPCStoreItemlist_Fragment
       }
+
+      exchange_items {
+        section_name
+        page_name
+        quantity
+        gelt
+        item {
+          ...Card_ItemlistItem
+        }
+        materials {
+          quantity
+          item {
+            name
+          }
+        }
+      }
     }
 
     # less data queried instead of asking for map data on each positions edge
@@ -100,6 +116,22 @@ function RouteComponent() {
     [npc],
   )
 
+  const exchangeEntries = useMemo(
+    () =>
+      npc.exchange_items.map((exchange) => {
+        const costs = exchange.materials.map(
+          (m) => `${m.quantity.toLocaleString()}x ${m.item.name}`,
+        )
+        if (exchange.gelt > 0) {
+          costs.push(`${exchange.gelt.toLocaleString()} Gelt`)
+        }
+        const subs = [`Cost: ${costs.join(", ")}`]
+        if (exchange.quantity > 1) subs.push(`Qty. ${exchange.quantity}x`)
+        return {...exchange, subs}
+      }),
+    [npc],
+  )
+
   return (
     <>
       <PageHeader>
@@ -136,6 +168,11 @@ function RouteComponent() {
         </div>
         <div>
           <NPCStoreCard storeItems={npc.store_items} />
+          <NPCStoreCard
+            storeItems={exchangeEntries}
+            title="Exchange"
+            hideIfEmpty
+          />
         </div>
         <div>
           <QuestsListCard quests={quests.items} />

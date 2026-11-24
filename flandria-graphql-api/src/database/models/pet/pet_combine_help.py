@@ -21,7 +21,7 @@ class PetCombineHelp(Base, BaseMixin):
         nullable=False,
         doc="Value of the pet combine help item in percent",
         info=ColumnInfo(
-            key="성공확률보정",
+            key="ChanceModifierValue",
             transforms=[lambda v: v / 100],
         ),
     )

@@ -44,3 +44,9 @@ class Npc(Base, ActorMixin):
         viewonly=True,
         uselist=True,
     )
+
+    exchange_items = orm.relationship(
+        "NpcExchangeItem",
+        viewonly=True,
+        uselist=True,
+    )

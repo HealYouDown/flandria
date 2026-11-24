@@ -54,7 +54,6 @@ class ActorMixinSort:
     ship_guns_count: Optional[SortDirection] = strawberry.UNSET
     ship_guns_speed: Optional[SortDirection] = strawberry.UNSET
     ship_attack_range: Optional[SortDirection] = strawberry.UNSET
-    attack_cast_time: Optional[SortDirection] = strawberry.UNSET
     attack_cooldown: Optional[SortDirection] = strawberry.UNSET
     despawn_delay_time: Optional[SortDirection] = strawberry.UNSET
     attack_vision_range: Optional[SortDirection] = strawberry.UNSET
@@ -291,6 +290,8 @@ class QuestScrollSort(BaseMixinSort, RowIDMixinSort):
 class MonsterSort(
     ActorMixinSort, RowIDMixinSort, ActorModelMixinSort, FlorensiaModelMixinSort
 ):
+    cc_immune: Optional[SortDirection] = strawberry.UNSET
+    slow_immune: Optional[SortDirection] = strawberry.UNSET
     skill_1_code: Optional[SortDirection] = strawberry.UNSET
     skill_1_chance: Optional[SortDirection] = strawberry.UNSET
     skill_2_code: Optional[SortDirection] = strawberry.UNSET
@@ -301,6 +302,25 @@ class MonsterSort(
 class NpcSort(
     ActorMixinSort, RowIDMixinSort, ActorModelMixinSort, FlorensiaModelMixinSort
 ): ...
+
+
+@strawberry.input(one_of=True)
+class NpcExchangeItemSort:
+    index: Optional[SortDirection] = strawberry.UNSET
+    section_name: Optional[SortDirection] = strawberry.UNSET
+    page_name: Optional[SortDirection] = strawberry.UNSET
+    npc_code: Optional[SortDirection] = strawberry.UNSET
+    item_code: Optional[SortDirection] = strawberry.UNSET
+    quantity: Optional[SortDirection] = strawberry.UNSET
+    gelt: Optional[SortDirection] = strawberry.UNSET
+
+
+@strawberry.input(one_of=True)
+class NpcExchangeMaterialSort:
+    index: Optional[SortDirection] = strawberry.UNSET
+    exchange_index: Optional[SortDirection] = strawberry.UNSET
+    item_code: Optional[SortDirection] = strawberry.UNSET
+    quantity: Optional[SortDirection] = strawberry.UNSET
 
 
 @strawberry.input(one_of=True)
@@ -331,7 +351,10 @@ class DropSort:
     quantity: Optional[SortDirection] = strawberry.UNSET
     section_id: Optional[SortDirection] = strawberry.UNSET
     section_probability: Optional[SortDirection] = strawberry.UNSET
+    section_guaranteed: Optional[SortDirection] = strawberry.UNSET
     item_probability: Optional[SortDirection] = strawberry.UNSET
+    max_per_player: Optional[SortDirection] = strawberry.UNSET
+    bypass_level: Optional[SortDirection] = strawberry.UNSET
     monster_code: Optional[SortDirection] = strawberry.UNSET
     item_code: Optional[SortDirection] = strawberry.UNSET
 
@@ -762,6 +785,20 @@ class UpgradeRuleSort(EffectMixinSort):
 @strawberry.input(one_of=True)
 class SealBreakHelpSort(BaseMixinSort, RowIDMixinSort):
     description: Optional[SortDirection] = strawberry.UNSET
+
+
+@strawberry.input(one_of=True)
+class SealExtendSort(BaseMixinSort, RowIDMixinSort):
+    description: Optional[SortDirection] = strawberry.UNSET
+    is_random: Optional[SortDirection] = strawberry.UNSET
+    seal_count: Optional[SortDirection] = strawberry.UNSET
+    min_seals: Optional[SortDirection] = strawberry.UNSET
+    max_seals: Optional[SortDirection] = strawberry.UNSET
+    for_armor: Optional[SortDirection] = strawberry.UNSET
+    for_weapons: Optional[SortDirection] = strawberry.UNSET
+    for_accessories: Optional[SortDirection] = strawberry.UNSET
+    min_item_level: Optional[SortDirection] = strawberry.UNSET
+    max_item_level: Optional[SortDirection] = strawberry.UNSET
 
 
 @strawberry.input(one_of=True)

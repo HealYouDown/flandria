@@ -16,6 +16,19 @@ class Monster(Base, ActorMixin):
         )
     )
 
+    cc_immune = orm.mapped_column(
+        sa.Boolean,
+        nullable=False,
+        doc="Immune to crowd control effects",
+        info=ColumnInfo(key="CCImmune"),
+    )
+    slow_immune = orm.mapped_column(
+        sa.Boolean,
+        nullable=False,
+        doc="Immune to movement and attack speed debuffs",
+        info=ColumnInfo(key="SlowImmune"),
+    )
+
     # TODO: n:m for skills
     skill_1_code = orm.mapped_column(
         sa.String,
@@ -23,7 +36,7 @@ class Monster(Base, ActorMixin):
         index=True,
         nullable=True,
         doc="Code for skill object #1",
-        info=ColumnInfo(key="부가Action1코드"),
+        info=ColumnInfo(key="SkillCode1"),
     )
 
     skill_1_chance = orm.mapped_column(
@@ -31,7 +44,7 @@ class Monster(Base, ActorMixin):
         nullable=False,
         doc="Chance to use skill #1",
         info=ColumnInfo(
-            key="부가Action1선택율",
+            key="SkillChance1",
             transforms=[probability_to_float],
         ),
     )
@@ -51,7 +64,7 @@ class Monster(Base, ActorMixin):
         index=True,
         nullable=True,
         doc="Code for skill object #2",
-        info=ColumnInfo(key="부가Action2코드"),
+        info=ColumnInfo(key="SkillCode2"),
     )
 
     skill_2_chance = orm.mapped_column(
@@ -59,7 +72,7 @@ class Monster(Base, ActorMixin):
         nullable=False,
         doc="Chance to use skill #2",
         info=ColumnInfo(
-            key="부가Action2선택율",
+            key="SkillChance2",
             transforms=[probability_to_float],
         ),
     )

@@ -32,5 +32,5 @@ class FishingRod(Base, WeaponMixin):
             string_files=["FishingItemStr.dat"],
         ),
         include_in_itemlist=True,
-        row_filters=[lambda row: row["코드"] not in EXCLUDE_CODES],
+        row_filters=[lambda row: row["Code"] not in EXCLUDE_CODES],
     )

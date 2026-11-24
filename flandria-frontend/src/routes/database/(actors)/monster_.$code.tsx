@@ -50,6 +50,8 @@ const monsterDetailedDocument = graphql(`
       attack_range
       experience
       is_tameable
+      cc_immune
+      slow_immune
       attack_vision_range
       nearby_attack_vision_range
 
@@ -194,6 +196,16 @@ function RouteComponent() {
         description:
           "Whether the Monster can be tamed using the skill Temptation",
         value: booleanToDisplayString(monster.is_tameable),
+      },
+      {
+        label: "CC Immune",
+        description: "Immune to crowd control effects",
+        value: booleanToDisplayString(monster.cc_immune),
+      },
+      {
+        label: "Slow Immune",
+        description: "Immune to movement and attack speed debuffs",
+        value: booleanToDisplayString(monster.slow_immune),
       },
       {
         label: "Vision Range",

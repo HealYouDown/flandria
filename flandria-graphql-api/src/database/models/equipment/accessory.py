@@ -1,7 +1,7 @@
 import sqlalchemy as sa
 import sqlalchemy.orm as orm
 
-from src.core.enums import AccessoryType
+from src.core.enums import AccessoryType, Gender
 from src.database.base import Base
 from src.database.mixins import EquipmentMixin
 from src.updater.schema import ColumnInfo, LoaderInfo
@@ -17,12 +17,20 @@ class Accessory(Base, EquipmentMixin):
         include_in_itemlist=True,
     )
 
+    # Accessories have no gender column (anymore), they were always genderless
+    gender = orm.mapped_column(
+        sa.Enum(Gender),
+        nullable=False,
+        doc="Required gender for the item",
+        default=Gender.GENDERLESS,
+    )
+
     accessory_type = orm.mapped_column(
         sa.Enum(AccessoryType),
         nullable=False,
         doc="Type of the accessory (e.g. Ring, Necklace or Earrings)",
         info=ColumnInfo(
-            key="구분코드",
+            key="ClassificationCode",
             transforms=[lambda v: AccessoryType(v)],
         ),
     )
